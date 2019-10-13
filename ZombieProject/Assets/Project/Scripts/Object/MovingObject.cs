@@ -29,16 +29,16 @@ public abstract class MovingObject : MonoBehaviour
 
     public void Walk()
     {
-        m_Controller.WalkAction();
+        m_Controller.PlayAction("Walk");
     }
 
     public void RayHit()
     {
-        m_Controller.RayHitAction();
+        m_Controller.PlayAction("RayHit");
     }
 
     public void CollisionHit()
     {
-        m_Controller.CollisionAction();
+        m_Controller.PlayAction("CollisionHit");
     }
 }

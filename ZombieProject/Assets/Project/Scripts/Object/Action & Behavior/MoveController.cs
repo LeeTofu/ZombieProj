@@ -13,23 +13,37 @@ public class MoveController : MonoBehaviour
     // Action을 table에 저장하기용. 
     private Dictionary<string, ObjectAction> m_ActionTable = new Dictionary<string, ObjectAction>();
 
-    public void InsertActionToTable(ObjectAction _action)
+    private Queue<ObjectAction> m_ActionQueue = new Queue<ObjectAction>();
+
+    virtual public void Initialize(MovingObject _Character)
+    {
+        m_Chracter = _Character;
+
+        InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>(), false, true);
+    }
+
+    public void InsertActionToTable(ObjectAction _action, bool _isOneShot, bool _isPreemptive)
     {
         // Data 
         if (m_ActionTable.ContainsKey((_action.GetType()).Name)) return;
 
-        _action.Initialize(m_Chracter);
+        if (m_CurrentAction == null) m_CurrentAction = _action;
+
+        _action.Initialize(m_Chracter, _action.GetType().Name, _isOneShot, _isPreemptive);
         m_ActionTable.Add(_action.GetType().Name, _action);
 
         return;
     }
 
-    public void InsertActionToTable(string _actionName, ObjectAction _action)
+    public void InsertActionToTable(string _actionName, ObjectAction _action, bool _isOneShot, bool _isPreemptive)
     {
         // Data 
         if (m_ActionTable.ContainsKey(_actionName)) return;
 
-        _action.Initialize(m_Chracter);
+        if (m_CurrentAction == null) m_CurrentAction = _action;
+
+
+        _action.Initialize(m_Chracter, _actionName, _isOneShot, _isPreemptive);
         m_ActionTable.Add(_actionName, _action);
 
         return;
@@ -50,63 +64,35 @@ public class MoveController : MonoBehaviour
         return m_ActionTable[_name];
     }
 
-    virtual public void Initialize(MovingObject _Character)
-    {
-        m_Chracter = _Character;
-
-
-
-    }
 
     private void Update()
     {
         if (m_CurrentAction == null) return;
+        if (!m_CurrentAction.m_isActive) return;
+        if (m_CurrentAction.m_isFinish) return;
+        if (m_CurrentAction.m_isOneShotPlay) return;
 
         m_CurrentAction.PlayAction();
     }
 
-    public void WalkAction()
+    public void PlayAction(string _actionName)
     {
-        ObjectAction action = FindActionFromTable("Walk");
+        if (m_CurrentAction.m_ActionName == (_actionName)) return;
+        if (!m_CurrentAction.m_isCanPreemptive && !m_CurrentAction.m_isFinish) return;
+
+        ObjectAction action = FindActionFromTable(_actionName);
 
         if (action != null)
         {
-            m_CurrentAction = action;
-            action.PlayAction();
-        }
-        else
-        {
-            Debug.Log("can't Find a Walk Action");
-        }
-    }
+            if (!action.m_isActive) return;
 
-    // RayHit후 행동 처리
-    public void RayHitAction()
-    {
-        ObjectAction action = FindActionFromTable("RayHit");
-        if(action != null)
-        {
+            m_CurrentAction.StopAction();
             m_CurrentAction = action;
             action.PlayAction();
         }
         else
         {
-            Debug.Log("can't Find a RayHit Action");
-        }
-    }
-
-    // 실제 충돌 행동의 행동 처리
-    public void CollisionAction()
-    {
-        ObjectAction action = FindActionFromTable("CollisionHit");
-        if (action != null)
-        {
-            m_CurrentAction = action;
-            action.PlayAction();
-        }
-        else
-        {
-            Debug.Log("can't Find a Collision Action");
+            Debug.Log("can't Find a _actionName Action");
         }
     }
 

@@ -9,18 +9,13 @@ public class EnemyManager : Singleton<EnemyManager>
     // Start is called before the first frame update
     void Start()
     {
-        if(GameMaster.Instance.m_Test)
-        {
-            Debug.Log("Test");
-        }
-
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
         m_ZombieFactory.Initialize();
 
         Invoke("CreateZombie" ,1.0f);
     }
 
-    void CreateZombie()
+    public void CreateZombie()
     {
         m_ZombieFactory.CreateZombie();
     }

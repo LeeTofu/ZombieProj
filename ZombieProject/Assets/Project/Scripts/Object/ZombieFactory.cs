@@ -20,6 +20,7 @@ public class ZombieFactory : MonoBehaviour
         m_ZombieModelPrefabs = Resources.LoadAll<GameObject>("Zombies/Models/Normal");
 
         m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
+        m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
         if (m_MovingObejctPrefabs)
         {

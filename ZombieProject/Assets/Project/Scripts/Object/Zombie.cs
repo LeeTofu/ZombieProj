@@ -20,8 +20,14 @@ public class Zombie : MovingObject
         _Model.transform.localRotation = Quaternion.identity;
 
         m_Controller.Initialize(this);
-        m_Controller.InsertActionToTable("Walk", gameObject.AddComponent<Walk_ObjectAction>());
-        m_Controller.WalkAction();
+        m_Controller.InsertActionToTable("Walk", gameObject.AddComponent<Walk_ObjectAction>(), false, true);
+        m_Controller.InsertActionToTable("Attack", gameObject.AddComponent<Attack_ObjectAction>(), true, false);
 
+        Invoke("WalkTest" ,5.0f);
+    }
+
+    void WalkTest()
+    {
+        m_Controller.PlayAction("Walk");
     }
 }

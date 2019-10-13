@@ -22,15 +22,11 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     go = new GameObject(typeof(T).Name);
                     instance = go.AddComponent<T>();
-
-                    SetUp();
-
                     return instance;
                 }
                 else
                 {
                     instance = go.AddComponent<T>();
-                    SetUp();
                     return instance;
                 }
             }
@@ -38,26 +34,21 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected void Awake()
     {
+        if (Initialize())
+        {
+            Debug.Log(typeof(T).Name + "Load Success");
+        }
+        else
+        {
+            Debug.Log(typeof(T).Name + "Load Fail");
+            return;
+        }
+
         DontDestroyOnLoad(gameObject);
     }
 
-    abstract protected void Initialize();
-
-    private static bool SetUp()
-    {
-        if (instance == null)
-        {
-            Debug.Log(typeof(T).Name + "Load Fail");
-            return false;
-        }
-
-        Debug.Log(typeof(T).Name + "Load Success");
-
-
-        return true;
-    }
-
+    abstract public bool Initialize();
 
 }

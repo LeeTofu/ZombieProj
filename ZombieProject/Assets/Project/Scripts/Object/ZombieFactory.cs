@@ -21,7 +21,6 @@ public class ZombieFactory : MonoBehaviour
 
         m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
 
-
         if (m_MovingObejctPrefabs)
         {
             Debug.Log("m_MovingObejctPrefabs Load Success");
@@ -31,23 +30,7 @@ public class ZombieFactory : MonoBehaviour
         {
             Debug.Log("m_ZombieModelPrefabs Load Success");
         }
-
-        StartCoroutine(C_CreateZombie());
     }
-
-    IEnumerator C_CreateZombie()
-    {
-        while (m_ListZombies.Count < 5)
-        {
-           CreateZombie();
-
-            if(CreateZombie() != null)
-                Debug.Log("Zombie Create Success");
-
-            yield return new WaitForSeconds(3.0f);
-        }
-    }
-
 
     public MovingObject CreateZombie()
     {
@@ -60,6 +43,8 @@ public class ZombieFactory : MonoBehaviour
         newZombie.Initialize(zombieModel, null);
 
         m_ListZombies.Add(newZombie);
+
+        Debug.Log("Zombie Create Success");
 
         return newZombie;
     }

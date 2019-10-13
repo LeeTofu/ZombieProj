@@ -17,12 +17,19 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
         m_ZombieFactory.Initialize();
 
-        Initialize();
+        Invoke("CreateZombie" ,1.0f);
     }
 
-    protected override void Initialize()
+    void CreateZombie()
+    {
+        m_ZombieFactory.CreateZombie();
+    }
+
+    public override bool Initialize()
     {
         
-        return;
+        return true;
     }
+
+    
 }

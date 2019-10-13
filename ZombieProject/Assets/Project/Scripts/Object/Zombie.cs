@@ -12,7 +12,6 @@ public class Zombie : MovingObject
 
         if (m_Controller == null)
         {
-            Debug.Log("Not have Move cotroller");
             m_Controller = gameObject.AddComponent<MoveController>();
         }
 

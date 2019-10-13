@@ -5,13 +5,16 @@ using UnityEngine;
 public class GameMaster : Singleton<GameMaster>
 {
     public GameMaster m_Test;
-    private void Start()
+    private void Awake()
     {
-        
-
+        base.Awake();
     }
-    protected override void Initialize()
+    public override bool Initialize()
     {
-        throw new System.NotImplementedException();
+        EnemyManager.Instance.Initialize();
+        PlayerManager.Instance.Initialize();
+
+
+        return true;
     }
 }

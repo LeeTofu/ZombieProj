@@ -21,8 +21,8 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_Player;
     }
 
-    protected override void Initialize()
+    public override bool Initialize()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 }

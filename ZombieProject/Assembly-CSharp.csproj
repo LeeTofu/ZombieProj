@@ -65,10 +65,10 @@
   <ItemGroup>
     <Compile Include="Assets\Project\Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Project\Scripts\GameMaster.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\MoveController.cs" />
+    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\MoveController.cs" />
+    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\Walk_ObjectAction.cs" />
     <Compile Include="Assets\Project\Scripts\Object\MovingObject.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\ObjectAction.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Walk_ObjectAction.cs" />
     <Compile Include="Assets\Project\Scripts\Object\Zombie.cs" />
     <Compile Include="Assets\Project\Scripts\Object\ZombieFactory.cs" />
     <Compile Include="Assets\Project\Scripts\PlayerManager.cs" />

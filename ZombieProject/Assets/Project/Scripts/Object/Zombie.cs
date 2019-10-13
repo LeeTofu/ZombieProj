@@ -20,7 +20,9 @@ public class Zombie : MovingObject
         _Model.transform.localPosition = Vector3.zero;
         _Model.transform.localRotation = Quaternion.identity;
 
-        m_Controller.Initialize(this, gameObject.AddComponent<Walk_ObjectAction>());
+        m_Controller.Initialize(this);
+        m_Controller.InsertActionToTable("Walk", gameObject.AddComponent<Walk_ObjectAction>());
+        m_Controller.WalkAction();
 
     }
 }

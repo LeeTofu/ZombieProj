@@ -27,6 +27,11 @@ public abstract class MovingObject : MonoBehaviour
 
     public abstract void Initialize(GameObject _model, MoveController _Controller);
 
+    public void Walk()
+    {
+        m_Controller.WalkAction();
+    }
+
     public void RayHit()
     {
         m_Controller.RayHitAction();

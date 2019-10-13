@@ -41,6 +41,9 @@ public class ZombieFactory : MonoBehaviour
         {
            CreateZombie();
 
+            if(CreateZombie() != null)
+                Debug.Log("Zombie Create Success");
+
             yield return new WaitForSeconds(3.0f);
         }
     }

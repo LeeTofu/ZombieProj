@@ -18,7 +18,19 @@ public class MoveController : MonoBehaviour
         // Data 
         if (m_ActionTable.ContainsKey((_action.GetType()).Name)) return;
 
+        _action.Initialize(m_Chracter);
         m_ActionTable.Add(_action.GetType().Name, _action);
+
+        return;
+    }
+
+    public void InsertActionToTable(string _actionName, ObjectAction _action)
+    {
+        // Data 
+        if (m_ActionTable.ContainsKey(_actionName)) return;
+
+        _action.Initialize(m_Chracter);
+        m_ActionTable.Add(_actionName, _action);
 
         return;
     }
@@ -38,12 +50,11 @@ public class MoveController : MonoBehaviour
         return m_ActionTable[_name];
     }
 
-    virtual public void Initialize(MovingObject _Character , ObjectAction _action)
+    virtual public void Initialize(MovingObject _Character)
     {
         m_Chracter = _Character;
 
-        _action.Initialize(m_Chracter);
-        m_CurrentAction = _action;
+
 
     }
 
@@ -54,12 +65,28 @@ public class MoveController : MonoBehaviour
         m_CurrentAction.PlayAction();
     }
 
+    public void WalkAction()
+    {
+        ObjectAction action = FindActionFromTable("Walk");
+
+        if (action != null)
+        {
+            m_CurrentAction = action;
+            action.PlayAction();
+        }
+        else
+        {
+            Debug.Log("can't Find a Walk Action");
+        }
+    }
+
     // RayHit후 행동 처리
     public void RayHitAction()
     {
         ObjectAction action = FindActionFromTable("RayHit");
         if(action != null)
         {
+            m_CurrentAction = action;
             action.PlayAction();
         }
         else
@@ -74,6 +101,7 @@ public class MoveController : MonoBehaviour
         ObjectAction action = FindActionFromTable("CollisionHit");
         if (action != null)
         {
+            m_CurrentAction = action;
             action.PlayAction();
         }
         else

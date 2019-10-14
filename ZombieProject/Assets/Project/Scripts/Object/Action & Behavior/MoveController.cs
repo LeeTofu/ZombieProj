@@ -8,34 +8,34 @@ public class MoveController : MonoBehaviour
     private MovingObject m_Chracter;
 
     // 현재 실행중인 액션 
-    private ObjectAction m_CurrentAction;
+    private ActionNode m_CurrentAction;
 
     // Action을 table에 저장하기용. 
-    private Dictionary<string, ObjectAction> m_ActionTable = new Dictionary<string, ObjectAction>();
+    private Dictionary<string, ActionNode> m_ActionTable = new Dictionary<string, ActionNode>();
 
-    private Queue<ObjectAction> m_ActionQueue = new Queue<ObjectAction>();
+    private Queue<ActionNode> m_ActionQueue = new Queue<ActionNode>();
 
     virtual public void Initialize(MovingObject _Character)
     {
         m_Chracter = _Character;
 
-        InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>(), false, true);
+        InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>());
     }
 
-    public void InsertActionToTable(ObjectAction _action, bool _isOneShot, bool _isPreemptive)
+    public void InsertActionToTable(ActionNode _action)
     {
         // Data 
         if (m_ActionTable.ContainsKey((_action.GetType()).Name)) return;
 
         if (m_CurrentAction == null) m_CurrentAction = _action;
 
-        _action.Initialize(m_Chracter, _action.GetType().Name, _isOneShot, _isPreemptive);
+        _action.Initialize(m_Chracter, _action.GetType().Name);
         m_ActionTable.Add(_action.GetType().Name, _action);
 
         return;
     }
 
-    public void InsertActionToTable(string _actionName, ObjectAction _action, bool _isOneShot, bool _isPreemptive)
+    public void InsertActionToTable(string _actionName, ActionNode _action)
     {
         // Data 
         if (m_ActionTable.ContainsKey(_actionName)) return;
@@ -43,7 +43,7 @@ public class MoveController : MonoBehaviour
         if (m_CurrentAction == null) m_CurrentAction = _action;
 
 
-        _action.Initialize(m_Chracter, _actionName, _isOneShot, _isPreemptive);
+        _action.Initialize(m_Chracter, _actionName);
         m_ActionTable.Add(_actionName, _action);
 
         return;
@@ -54,46 +54,31 @@ public class MoveController : MonoBehaviour
         return m_ActionTable.ContainsKey(_name);
     }
 
-    public bool IsHaveActionFromTable(ObjectAction _action)
+    public bool IsHaveActionFromTable(ActionNode _action)
     {
         return m_ActionTable.ContainsKey((_action.GetType()).Name);
     }
 
-    public ObjectAction FindActionFromTable(string _name)
+    public ActionNode FindActionFromTable(string _name)
     {
         return m_ActionTable[_name];
     }
 
+    public void PlayAction(string _actionName)
+    {
+        if (!m_ActionTable.ContainsKey(_actionName)) return;
+
+        if (m_CurrentAction != null)
+            m_CurrentAction.OnEnd();
+
+        m_CurrentAction = m_ActionTable[_actionName];
+    }
 
     private void Update()
     {
         if (m_CurrentAction == null) return;
-        if (!m_CurrentAction.m_isActive) return;
-        if (m_CurrentAction.m_isFinish) return;
-        if (m_CurrentAction.m_isOneShotPlay) return;
 
-        m_CurrentAction.PlayAction();
-    }
-
-    public void PlayAction(string _actionName)
-    {
-        if (m_CurrentAction.m_ActionName == (_actionName)) return;
-        if (!m_CurrentAction.m_isCanPreemptive && !m_CurrentAction.m_isFinish) return;
-
-        ObjectAction action = FindActionFromTable(_actionName);
-
-        if (action != null)
-        {
-            if (!action.m_isActive) return;
-
-            m_CurrentAction.StopAction();
-            m_CurrentAction = action;
-            action.PlayAction();
-        }
-        else
-        {
-            Debug.Log("can't Find a _actionName Action");
-        }
+        m_CurrentAction.OnUpdate();
     }
 
 }

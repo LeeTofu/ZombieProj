@@ -20,14 +20,33 @@ public class Zombie : MovingObject
         _Model.transform.localRotation = Quaternion.identity;
 
         m_Controller.Initialize(this);
-        m_Controller.InsertActionToTable("Walk", gameObject.AddComponent<Walk_ObjectAction>(), false, true);
-        m_Controller.InsertActionToTable("Attack", gameObject.AddComponent<Attack_ObjectAction>(), true, false);
 
-        Invoke("WalkTest" ,5.0f);
+
+        // Test //
+        SequencerNode seqNode = gameObject.AddComponent<SequencerNode>();
+
+        Walk_ObjectAction walk = gameObject.AddComponent<Walk_ObjectAction>();
+        walk.Initialize(this, "Attack");
+        walk.m_DestinationPosition = GameObject.Find("Destination").transform.position;
+
+        Idle_ObjectAction idle = gameObject.AddComponent<Idle_ObjectAction>();
+        idle.Initialize(this, "Idle");
+        idle.m_AttackTime = 3.0f;
+
+        Attack_ObjectAction attack = gameObject.AddComponent<Attack_ObjectAction>();
+        attack.Initialize(this, "Attack");
+        attack.m_AttackTime = 3.0f;
+
+        seqNode.InsertAction(walk);
+        seqNode.InsertAction(idle);
+        seqNode.InsertAction(attack);
+
+        string newActionName = walk.m_ActionName + idle.m_ActionName + attack.m_ActionName;
+        m_Controller.InsertActionToTable(walk.m_ActionName + idle.m_ActionName + attack.m_ActionName, seqNode);
+        m_Controller.PlayAction(newActionName);
+
     }
 
-    void WalkTest()
-    {
-        m_Controller.PlayAction("Walk");
-    }
+
+
 }

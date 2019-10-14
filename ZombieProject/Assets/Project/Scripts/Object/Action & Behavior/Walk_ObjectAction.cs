@@ -2,18 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Walk_ObjectAction : ObjectAction
+public class Walk_ObjectAction : ActionNode
 {
-    override public void PlayAction()
-    {
-        Debug.Log("zombie Walk");
-        m_isFinish = false;
-        m_Animation.Play("Walk");
-        m_Character.transform.Translate(Vector3.forward * Time.deltaTime * 0.4f, Space.World);
-    }
+    public Vector3 m_DestinationPosition;
+    private float m_DeltaTime = 0.0f;
 
-    override public void StopAction()
+ 
+
+    public override bool OnUpdate()
     {
-        m_isFinish = true;
+        if (!m_isActive) return true;
+        if ((m_DestinationPosition - (transform.position)).magnitude < 0.1f)
+        {
+            transform.position = m_DestinationPosition;
+            Debug.Log("end Walk");
+
+            m_isActive = false;
+            return true;
+        }
+
+        transform.LookAt(m_DestinationPosition);
+        transform.position +=  ( (m_DestinationPosition - transform.position).normalized * Time.deltaTime * 0.25f );
+
+      //  transform.rotation = Quaternion.LookRotation((m_DestinationPosition - transform.position));
+        
+        m_Animation.Play("Walk");
+
+        return false;
     }
 }

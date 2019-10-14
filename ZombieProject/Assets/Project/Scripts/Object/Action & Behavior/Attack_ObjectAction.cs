@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle_ObjectAction : ActionNode
+public class Attack_ObjectAction : ActionNode
 {
     public float m_AttackTime;
     private float m_CurTime = 0.0f;
@@ -11,18 +11,16 @@ public class Idle_ObjectAction : ActionNode
     public override bool OnUpdate()
     {
         if (!m_isActive) return true;
-        Debug.Log("Idle");
+        Debug.Log("Attack");
         m_CurTime += Time.deltaTime;
 
-        m_Animation.Play("Idle1");
+        m_Animation.Play("Attack");
 
         if (m_CurTime > m_AttackTime)
         {
             m_isActive = false;
             return true;
         }
-
         return false;
     }
-
 }

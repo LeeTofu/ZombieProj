@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectAction : MonoBehaviour
+public class ActionNode : MonoBehaviour
 {
     public string m_ActionName { get; private set; }
-    public bool m_isOneShotPlay { get; private set; }
-    public bool m_isActive { get; private set; } // Action을 쓸 수 있는가 true = 사용가능, false = 불가능
-    public bool m_isFinish { get; protected set; } // Action이 끝났는가? true = 끝, false = 아직 안끝남.
-    public bool m_isCanPreemptive { get; private set; } // Action이 끝나지도 않았는데 뺏어서 실행 가능?
+    public bool m_isActive { get; protected set; } // Action을 쓸 수 있는가 true = 사용가능, false = 불가능
 
     public delegate void FunctionPointer();
 
@@ -18,27 +15,28 @@ public class ObjectAction : MonoBehaviour
     private FunctionPointer m_playAction;
     private FunctionPointer m_stopAction;
 
-    public void SetActive(bool _active)
+    virtual public bool OnUpdate()
     {
-        m_isActive = _active;
-    }
-
-    virtual public void PlayAction()
-    {
+        return true;
         // 오버라이드해서 행동 구현 //
     }
 
-    virtual public void StopAction()
+    virtual public bool OnStart()
     {
+        return true;
         // 오버라이드해서 행동 구현 //
     }
 
-    public void Initialize(MovingObject _character, string  _action, bool _isOneShot, bool _isPreemptive)
+    virtual public bool OnEnd()
+    {
+        return true;
+        // 오버라이드해서 행동 구현 //
+    }
+
+    public void Initialize(MovingObject _character, string  _action)
     {
         m_isActive = true;
         m_ActionName = _action;
-        m_isOneShotPlay = _isOneShot;
-        m_isCanPreemptive = _isPreemptive;
         m_Character = _character;
         m_Animation = m_Character.GetComponentInChildren<Animator>();
 
@@ -48,10 +46,57 @@ public class ObjectAction : MonoBehaviour
         }
     }
 
-    public virtual bool CheckFinishCondition()
+    public virtual bool CheckStartCondition()
+    { return true; }
+
+    public virtual bool CheckUpdateCondition()
+    { return true; }
+
+    public virtual bool CheckStopCondition()
+    { return true; }
+
+}
+
+public abstract class CompositeActionNode : ActionNode
+{
+    protected CompositeActionNode m_CurrentUpdateAction;
+    protected List<ActionNode> m_ActionList = new List<ActionNode>();
+
+    public void InsertAction(ActionNode _action)
     {
+        m_ActionList.Add(_action);
+    }
+}
+
+public class SelectorNode : CompositeActionNode
+{
+    public override bool OnUpdate()
+    {
+        for (int i = 0; i < m_ActionList.Count; i++ )
+        {
+            if (m_ActionList[i].OnUpdate())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+public class SequencerNode : CompositeActionNode
+{
+    public override bool OnUpdate()
+    {
+        for (int i = 0; i < m_ActionList.Count; i++)
+        {
+            if (!m_ActionList[i].OnUpdate())
+            {
+                return false;
+            }
+        }
+
         return true;
     }
-
 }
 

@@ -5,8 +5,6 @@ using UnityEngine;
 public class Walk_ObjectAction : ActionNode
 {
     public Vector3 m_DestinationPosition;
-    private float m_DeltaTime = 0.0f;
-
  
 
     public override bool OnUpdate()

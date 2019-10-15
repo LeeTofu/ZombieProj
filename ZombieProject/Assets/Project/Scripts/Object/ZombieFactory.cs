@@ -16,8 +16,8 @@ public class ZombieFactory : MonoBehaviour
 
     public void Initialize()
     {
-        m_MovingObejctPrefabs = Resources.Load<GameObject>("Zombies/Zombie");
-        m_ZombieModelPrefabs = Resources.LoadAll<GameObject>("Zombies/Models/Normal");
+        m_MovingObejctPrefabs = Resources.Load<GameObject>("Prefabs/Zombies/Zombie");
+        m_ZombieModelPrefabs = Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal");
 
         m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
         m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
@@ -37,8 +37,15 @@ public class ZombieFactory : MonoBehaviour
     {
         // 풀링 필요.. 걍 지금은 대충 생성
 
-        GameObject zombieModel = Instantiate(m_ZombieModelPrefabs[Random.Range(0, m_ZombieModelPrefabs.Length)], m_ZombieCreateZone.transform.position, Quaternion.identity);
-        GameObject zombieGameObject = Instantiate(m_MovingObejctPrefabs, m_ZombieCreateZone.transform.position, Quaternion.identity);
+        GameObject zombieModel = Instantiate(
+            m_ZombieModelPrefabs[Random.Range(0, m_ZombieModelPrefabs.Length)], 
+            m_ZombieCreateZone.transform.position, 
+            Quaternion.identity);
+
+        GameObject zombieGameObject = Instantiate(
+            m_MovingObejctPrefabs, 
+            m_ZombieCreateZone.transform.position + Vector3.forward * Random.Range(-5.5f, 5.5f), 
+            Quaternion.identity);
 
         MovingObject newZombie = zombieGameObject.GetComponent<MovingObject>();
         newZombie.Initialize(zombieModel, null);

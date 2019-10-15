@@ -66,6 +66,16 @@ public abstract class CompositeActionNode : ActionNode
     {
         m_ActionList.Add(_action);
     }
+
+    public override bool OnEnd()
+    {
+        for (int i = 0; i < m_ActionList.Count; i++)
+        {
+            m_ActionList[i].OnEnd();
+        }
+
+        return true;
+    }
 }
 
 public class SelectorNode : CompositeActionNode
@@ -82,6 +92,7 @@ public class SelectorNode : CompositeActionNode
 
         return false;
     }
+
 }
 
 public class SequencerNode : CompositeActionNode
@@ -95,7 +106,6 @@ public class SequencerNode : CompositeActionNode
                 return false;
             }
         }
-
         return true;
     }
 }

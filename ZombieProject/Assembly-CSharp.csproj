@@ -76,6 +76,7 @@
     <Compile Include="Assets\Project\Scripts\Object\ZombieFactory.cs" />
     <Compile Include="Assets\Project\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Project\Scripts\Singleton.cs" />
+    <Compile Include="Assets\Project\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Project\Scripts\StageMain.cs" />
     <Compile Include="Assets\Shop\RPG Character Animation Pack\Code\CameraController.cs" />
     <Compile Include="Assets\Shop\RPG Character Animation Pack\Code\GUIControls.cs" />
@@ -100,9 +101,20 @@
     <Compile Include="Assets\Shop\RPG Character Animation Pack\SuperCharacterController\Code\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\Shop\RPG Character Animation Pack\SuperCharacterController\Code\SuperCharacterController\Math3d.cs" />
     <None Include="Assets\Shop\PolygonZombies\Shaders\POLYGON_Zombies.shader" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Platform.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Real Time Stategy (RTS) Medieval.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Fighting.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Shop\PolygonBattleRoyale\Shader\DamageZone.shader" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\8bit and Retro.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Real Time Stategy (RTS) Sci-Fi.txt" />
     <None Include="Assets\Shop\PolygonCity\Change_Log.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\version_history.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Puzzle.txt" />
     <None Include="Assets\Shop\RPG Character Animation Pack\SuperCharacterController\Code\SuperCharacterController\README.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\Physics.txt" />
+    <None Include="Assets\Shop\Universal Sound FX\#Game Genre References\First Person Shooter (FPS).txt" />
+    <None Include="Assets\Shop\ZombieHorrorPackageFree\Note.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/UnityProject/FinalZombieProject/ZombieProject/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

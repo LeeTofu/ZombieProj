@@ -13,10 +13,15 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieFactory.Initialize();
 
         Invoke("CreateZombie" ,1.0f);
+        Invoke("CreateZombie", 1.5f);
+        Invoke("CreateZombie", 3.0f);
+        Invoke("CreateZombie", 2.50f);
+        Invoke("CreateZombie", 3.75f);
     }
 
     public void CreateZombie()
     {
+       
         m_ZombieFactory.CreateZombie();
     }
 

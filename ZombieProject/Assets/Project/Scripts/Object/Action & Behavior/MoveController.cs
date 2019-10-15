@@ -71,6 +71,7 @@ public class MoveController : MonoBehaviour
         if (m_CurrentAction != null)
             m_CurrentAction.OnEnd();
 
+        Debug.Log(_actionName + "실행");
         m_CurrentAction = m_ActionTable[_actionName];
     }
 

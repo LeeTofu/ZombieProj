@@ -34,7 +34,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    protected void Awake()
+    public void CreateManager()
     {
         if (Initialize())
         {
@@ -47,6 +47,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
     }
 
     abstract public bool Initialize();

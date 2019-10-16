@@ -16,15 +16,31 @@ public enum OBEJCT_SORT
     ZOMBIE_OBJECT // 좀비들 오브젝트
 }
 
+public struct STAT
+{
+    public float MoveSpeed;
+    public float RotSpeed;
+    
+    public float Attack;
+    public float Def;
+
+    public float Cur_HP;
+    public float Max_HP;
+}
+
 public abstract class MovingObject : MonoBehaviour
 {
     private GameObject m_Model;
 
+    public STAT m_Stat;
     public OBEJCT_SORT m_Sort;
 
     [SerializeField]
     protected MoveController m_Controller;
 
     public abstract void Initialize(GameObject _model, MoveController _Controller);
-
+    public virtual void SetStat(STAT _stat)
+    {
+        m_Stat = _stat;
+    }
 }

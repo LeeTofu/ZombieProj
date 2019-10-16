@@ -6,11 +6,16 @@ public class GameMaster : Singleton<GameMaster>
 {
     public GameMaster m_Test;
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
     public override bool Initialize()
     {
-        EnemyManager.Instance.Initialize();
-        PlayerManager.Instance.Initialize();
-        SoundManager.Instance.Initialize();
+        EnemyManager.Instance.CreateManager();
+        PlayerManager.Instance.CreateManager();
+        SoundManager.Instance.CreateManager();
 
         return true;
     }

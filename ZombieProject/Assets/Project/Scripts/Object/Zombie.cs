@@ -15,13 +15,7 @@ public class Zombie : MovingObject
             m_Controller = gameObject.AddComponent<MoveController>();
         }
 
-        _Model.transform.SetParent(transform);
-        _Model.transform.localPosition = Vector3.zero;
-        _Model.transform.localRotation = Quaternion.identity;
-
         m_Controller.Initialize(this);
-
-
         // Test //
         SequencerNode seqNode = gameObject.AddComponent<SequencerNode>();
 
@@ -46,6 +40,7 @@ public class Zombie : MovingObject
         m_Controller.PlayAction(newActionName);
 
     }
+
 
 
 

@@ -63,20 +63,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Project\Scripts\BehaviorManager.cs" />
-    <Compile Include="Assets\Project\Scripts\EnemyManager.cs" />
-    <Compile Include="Assets\Project\Scripts\GameMaster.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\Attack_ObjectAction.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\Idle_ObjectAction.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\MoveController.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\ObjectAction.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\Action &amp; Behavior\Walk_ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Action &amp; Behavior\Attack_ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Action &amp; Behavior\Idle_ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Action &amp; Behavior\MoveController.cs" />
+    <Compile Include="Assets\Project\Scripts\Action &amp; Behavior\ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Action &amp; Behavior\Walk_ObjectAction.cs" />
+    <Compile Include="Assets\Project\Scripts\Factory\ObjectFactory.cs" />
+    <Compile Include="Assets\Project\Scripts\Factory\PlayerFactory.cs" />
+    <Compile Include="Assets\Project\Scripts\Factory\ZombieFactory.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\BehaviorManager.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\EnemyManager.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\GameMaster.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\PlayerManager.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\Singleton.cs" />
+    <Compile Include="Assets\Project\Scripts\Manager\SoundManager.cs" />
     <Compile Include="Assets\Project\Scripts\Object\MovingObject.cs" />
+    <Compile Include="Assets\Project\Scripts\Object\Player.cs" />
     <Compile Include="Assets\Project\Scripts\Object\Zombie.cs" />
-    <Compile Include="Assets\Project\Scripts\Object\ZombieFactory.cs" />
-    <Compile Include="Assets\Project\Scripts\PlayerManager.cs" />
-    <Compile Include="Assets\Project\Scripts\Singleton.cs" />
-    <Compile Include="Assets\Project\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Project\Scripts\StageMain.cs" />
     <Compile Include="Assets\Shop\RPG Character Animation Pack\Code\CameraController.cs" />
     <Compile Include="Assets\Shop\RPG Character Animation Pack\Code\GUIControls.cs" />

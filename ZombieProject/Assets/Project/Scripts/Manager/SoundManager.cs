@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SOUND_BG_LOOP
+{
+    MAIN,
+    BATTLE1,
+    BATTLE2,
+    BATTLE3
+}
+
 public class SoundManager : Singleton<SoundManager>
 {
+
+    SOUND_BG_LOOP m_CurrentSound;
+
     public Dictionary<string, AudioClip> m_BGAudioClipTable = new Dictionary<string, AudioClip>();
     private AudioSource m_BGMAudio;
 
@@ -23,24 +34,21 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         m_BGMAudio.loop = true;
-        PlayRandomBGM();
+        PlayBGM(SOUND_BG_LOOP.BATTLE1);
 
         return true;
     }
 
-    public void PlayRandomBGM()
+    public void PlayBGM(SOUND_BG_LOOP _BG)
     {
         m_BGMAudio.Stop();
 
-        AudioClip audio =  m_BGAudioClipTable["BG" + (Random.Range(0, m_BGAudioClipTable.Count)).ToString()];
+        int random = (Random.Range(0, m_BGAudioClipTable.Count));
+        AudioClip audio =  m_BGAudioClipTable[_BG.ToString()];
+
+        m_CurrentSound = _BG;
         m_BGMAudio.clip = audio;
         m_BGMAudio.Play();
     }
 
-    public void PlayBGM(AudioClip _bgm)
-    {
-        m_BGMAudio.Stop();
-        m_BGMAudio.clip = _bgm;
-        m_BGMAudio.Play();
-    }
 }

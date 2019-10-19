@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 2757092029828313073}
   - component: {fileID: 1598376068316309240}
   m_Layer: 5
-  m_Name: MainUI
+  m_Name: LoginUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,4 +470,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0c93b7753abdf4d8fe582f594cc82b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Scene: 0
+  m_Scene: 4

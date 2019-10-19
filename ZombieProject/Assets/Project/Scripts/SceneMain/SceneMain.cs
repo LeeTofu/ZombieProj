@@ -7,7 +7,6 @@ using UnityEngine;
 // 그 외는 안씀
 public abstract class SceneMain : MonoBehaviour
 {
-    [SerializeField]
     public GAME_SCENE m_Scene;
     public abstract bool InitializeScene();
     public abstract bool DeleteScene();

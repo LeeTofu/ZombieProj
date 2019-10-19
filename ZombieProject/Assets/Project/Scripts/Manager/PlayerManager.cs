@@ -32,6 +32,9 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public MovingObject CreatePlayer(Vector3 _pos, Quaternion _quat)
     {
+        if (m_PlayerCreateZone != null)
+            m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
+
         // 설정 //
         m_Player = m_PlayerFactory.CreateObject(_pos, _quat);
         return m_Player;

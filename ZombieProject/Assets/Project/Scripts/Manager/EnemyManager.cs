@@ -31,6 +31,15 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
+    public void CreateZombie()
+    {
+        if (m_ZombieFactory)
+        {
+            MovingObject newZombie = m_ZombieFactory.CreateObject(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
+            m_ListZombies.Add(newZombie);
+        }
+    }
+
     public override bool Initialize()
     {
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();

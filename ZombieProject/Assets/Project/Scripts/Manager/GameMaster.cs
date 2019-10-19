@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum GAME_SCENE
 {
+    NONE,
     MAIN,
     LOADING,
     SELECT_STAGE,

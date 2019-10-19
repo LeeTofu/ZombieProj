@@ -47,12 +47,13 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+
+
     public void LoadUI(GAME_SCENE _scene)
     {
-        
         if (!m_GameUITable.ContainsKey(_scene))
         {
-            Debug.Log("부를 Scene의 UI가 Table에 없는데?");
+            Debug.Log("부를 Scene의 UI가 Table에 없는데?" + _scene.ToString());
             return;
         }
 

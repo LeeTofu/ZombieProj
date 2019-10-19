@@ -18,7 +18,7 @@ public class SceneMaster : Singleton<SceneMaster>
 
     public override bool Initialize()
     {
-        m_CurrentScene = GAME_SCENE.MAIN;
+        
         GameObject[] go = Resources.LoadAll<GameObject>("Prefabs/SceneMain");
 
         for (int i = 0; i < go.Length; i++)
@@ -33,7 +33,7 @@ public class SceneMaster : Singleton<SceneMaster>
 
             if (m_SceneInitializer.ContainsKey(sceneMain.m_Scene))
             {
-                Debug.LogWarning("중복된 씬이 들어갔다. 확인");
+                Debug.LogWarning("중복된 씬이 들어갔다. 확인" + sceneMain.m_Scene.ToString());
                 continue;
             }
 
@@ -44,15 +44,21 @@ public class SceneMaster : Singleton<SceneMaster>
             m_SceneInitializer.Add(sceneMain.m_Scene, newGo);
         }
 
-        if(m_CurrentScene == GAME_SCENE.MAIN)
+        GAME_SCENE scene = GAME_SCENE.NONE;
+        bool success = System.Enum.TryParse<GAME_SCENE>(SceneManager.GetActiveScene().name, out scene);
+        if(!success)
         {
-            m_CurSceneMain = m_SceneInitializer[GAME_SCENE.MAIN];
-            m_CurSceneMain.SetActive(true);
-            SceneMain main = m_CurSceneMain.GetComponent<SceneMain>();
-
-            main.InitializeScene();
+            Debug.Log("현재 Scene 없다는데? fail");
+            return false;
         }
 
+        m_CurrentScene = scene;
+        m_CurSceneMain = m_SceneInitializer[scene];
+        m_CurSceneMain.SetActive(true);
+        SceneMain main = m_CurSceneMain.GetComponent<SceneMain>();
+
+        main.InitializeScene();
+     
         return true;
     }
 
@@ -102,12 +108,12 @@ public class SceneMaster : Singleton<SceneMaster>
                 op.allowSceneActivation = true;
 
                 GameObject go = m_SceneInitializer[m_NextScene];
+
                 go.SetActive(true);
                 go.GetComponent<SceneMain>().InitializeScene();
+
                 UIManager.Instance.LoadUI(m_NextScene);
                 m_CurSceneMain = go;
-
-
             }
 
             yield return null;

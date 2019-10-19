@@ -5,9 +5,11 @@ using UnityEngine;
 public enum SOUND_BG_LOOP
 {
     MAIN,
+    SHOP,
     BATTLE1,
     BATTLE2,
-    BATTLE3
+    BATTLE3,
+    BATTLE4
 }
 
 public class SoundManager : Singleton<SoundManager>
@@ -34,9 +36,14 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         m_BGMAudio.loop = true;
-        PlayBGM(SOUND_BG_LOOP.BATTLE1);
+      //  PlayBGM(SOUND_BG_LOOP.BATTLE1);
 
         return true;
+    }
+
+    public void StopCurrentBGM()
+    {
+        m_BGMAudio.Stop();
     }
 
     public void PlayBGM(SOUND_BG_LOOP _BG)
@@ -45,6 +52,12 @@ public class SoundManager : Singleton<SoundManager>
 
         int random = (Random.Range(0, m_BGAudioClipTable.Count));
         AudioClip audio =  m_BGAudioClipTable[_BG.ToString()];
+
+        if(!audio)
+        {
+            Debug.LogError("그런 브금 없는데?");
+            return;
+        }
 
         m_CurrentSound = _BG;
         m_BGMAudio.clip = audio;

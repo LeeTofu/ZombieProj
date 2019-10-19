@@ -22,10 +22,13 @@ public class EnemyManager : Singleton<EnemyManager>
             m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
     }
 
-    public void CreateZombie()
+    public void CreateZombie(Vector3 _pos, Quaternion _quat)
     {
-        MovingObject newZombie = m_ZombieFactory.CreateObject(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
-        m_ListZombies.Add(newZombie);
+        if(m_ZombieFactory )
+        {
+            MovingObject newZombie = m_ZombieFactory.CreateObject(_pos, _quat);
+            m_ListZombies.Add(newZombie);
+        }
     }
 
     public override bool Initialize()

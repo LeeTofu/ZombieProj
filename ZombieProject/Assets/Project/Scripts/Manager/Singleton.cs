@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     static private T instance = null;
+    bool m_isInitialized = false;
 
     static public T Instance
     {
@@ -36,6 +37,8 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public void CreateManager()
     {
+        if (m_isInitialized) return;
+
         if (Initialize())
         {
             Debug.Log(typeof(T).Name + "Load Success");
@@ -45,6 +48,8 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             Debug.Log(typeof(T).Name + "Load Fail");
             return;
         }
+
+        m_isInitialized = true;
 
         DontDestroyOnLoad(gameObject);
 

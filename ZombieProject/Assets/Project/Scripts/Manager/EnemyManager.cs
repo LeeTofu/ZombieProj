@@ -17,13 +17,9 @@ public class EnemyManager : Singleton<EnemyManager>
     void Start()
     {
         m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
-        m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
-        Invoke("CreateZombie" ,1.0f);
-        Invoke("CreateZombie", 1.5f);
-        Invoke("CreateZombie", 3.0f);
-        Invoke("CreateZombie", 2.50f);
-        Invoke("CreateZombie", 3.75f);
+        if(m_ZombieCreateZone != null)
+            m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
     }
 
     public void CreateZombie()

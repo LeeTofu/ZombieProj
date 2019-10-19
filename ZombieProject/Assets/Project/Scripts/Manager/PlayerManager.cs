@@ -23,9 +23,10 @@ public class PlayerManager : Singleton<PlayerManager>
     void Start()
     {
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
-        m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
-        CreatePlayer(m_PlayerCreateZone.transform.position, m_PlayerCreateZone.transform.rotation);
+        if(m_PlayerCreateZone != null)
+            m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
+
     }
 
 

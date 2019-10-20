@@ -9,10 +9,6 @@ public class BattleSceneMain : SceneMain
 
     public IEnumerator Start()
     {
-
-        UIManager.Instance.LoadUI(m_Scene);
-        SoundManager.Instance.PlayBGM(SOUND_BG_LOOP.BATTLE2);
-
         yield return new WaitForSeconds(1.0f);
 
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");

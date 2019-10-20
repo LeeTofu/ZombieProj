@@ -38,11 +38,15 @@ public class UIManager : Singleton<UIManager>
             if (m_GameUITable[i].activeSelf != _active)
             {
                 if (_active == false)
+                {
                     m_GameUITable[i].GetComponent<BaseUI>().DeleteUI();
+                    m_GameUITable[i].SetActive(_active);
+                }
                 else if (_active == true)
+                {
+                    m_GameUITable[i].SetActive(_active);
                     m_GameUITable[i].GetComponent<BaseUI>().InitializeUI();
-
-                m_GameUITable[i].SetActive(_active);
+                }
             }
         }
     }
@@ -53,7 +57,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (!m_GameUITable.ContainsKey(_scene))
         {
-            Debug.Log("부를 Scene의 UI가 Table에 없는데?" + _scene.ToString());
+            Debug.Log("불러올 Scene의 UI가 Table에 없는데? UI 오브젝트를 테이블에 넣으셈 : " + _scene.ToString());
             return;
         }
 
@@ -70,7 +74,7 @@ public class UIManager : Singleton<UIManager>
 
         if(ui == null)
         {
-            Debug.Log("테이블에 가져온 게임오브젝트에 GameUI 스크립트가 없는대?");
+            Debug.Log("테이블에 가져온 게임오브젝트에 BaseUI 부모를 가진 스크립트가 없는대?");
             return;
         }
 

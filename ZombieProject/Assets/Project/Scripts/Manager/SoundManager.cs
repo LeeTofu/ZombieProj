@@ -46,6 +46,32 @@ public class SoundManager : Singleton<SoundManager>
         m_BGMAudio.Stop();
     }
 
+    public void PlayBGM(GAME_SCENE _scene)
+    {
+        switch (_scene)
+        {
+            case GAME_SCENE.IN_GAME:
+                PlayBGM(SOUND_BG_LOOP.BATTLE2);
+                break;
+            case GAME_SCENE.LOGIN:
+                PlayBGM(SOUND_BG_LOOP.MAIN);
+                break;
+            case GAME_SCENE.MAIN:
+                PlayBGM(SOUND_BG_LOOP.BATTLE1);
+                break;
+            case GAME_SCENE.SELECT_STAGE:
+                PlayBGM(SOUND_BG_LOOP.BATTLE1);
+                break;
+            case GAME_SCENE.SHOP:
+                PlayBGM(SOUND_BG_LOOP.SHOP);
+                break;
+             default:
+                StopCurrentBGM();
+                break;
+        }
+    }
+
+
     public void PlayBGM(SOUND_BG_LOOP _BG)
     {
         m_BGMAudio.Stop();

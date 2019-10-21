@@ -15,4 +15,9 @@ public class SelectSceneMain : SceneMain
     {
         return true;
     }
+
+    private void Update()
+    {
+       
+    }
 }

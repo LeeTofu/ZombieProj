@@ -5,12 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
+
 public class SceneMaster : Singleton<SceneMaster>
 {
     public GAME_SCENE m_NextScene { get; private set; }
     public GAME_SCENE m_CurrentScene { get; private set; }
 
     GameObject m_CurSceneMain;
+
+    bool m_isLoadingInitialize = false;
 
     // Scene을 Init 하고 Delete 할 때 쓰는 오브젝트를 모은 Table
     private Dictionary<GAME_SCENE, GameObject> m_SceneInitializerTable
@@ -73,8 +76,6 @@ public class SceneMaster : Singleton<SceneMaster>
 
     }
 
-
-
     public void LoadSceneStart()
     {
         if (m_CurSceneMain != null)
@@ -83,7 +84,7 @@ public class SceneMaster : Singleton<SceneMaster>
             m_CurSceneMain.SetActive(false);
         }
 
-        SoundManager.Instance.StopCurrentBGM();
+        
 
         // 로딩씬에 있는 로딩 로더만 쓰는 함수임. 딴데 쓰지마셈.
         StartCoroutine(Loading());
@@ -119,20 +120,27 @@ public class SceneMaster : Singleton<SceneMaster>
             {
                 op.allowSceneActivation = true;
 
-                GameObject go = m_SceneInitializerTable[m_NextScene];
+                if (!m_isLoadingInitialize)
+                {
+                    m_isLoadingInitialize = true;
 
-                go.SetActive(true);
-                go.GetComponent<SceneMain>().InitializeScene();
+                    GameObject go = m_SceneInitializerTable[m_NextScene];
 
-                m_CurSceneMain = go;
+                    go.SetActive(true);
+                    go.GetComponent<SceneMain>().InitializeScene();
+
+                    m_CurSceneMain = go;
+
+                    UIManager.Instance.LoadUI(m_NextScene);
+                    SoundManager.Instance.PlayBGM(m_NextScene);
+                }
             }
 
             yield return null;
         }
 
-        UIManager.Instance.LoadUI(m_NextScene);
-        SoundManager.Instance.PlayBGM(m_NextScene);
 
+        m_isLoadingInitialize = false;
         m_CurrentScene = m_NextScene;
     }
 }

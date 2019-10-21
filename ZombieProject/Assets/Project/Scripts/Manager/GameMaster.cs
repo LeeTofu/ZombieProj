@@ -15,6 +15,19 @@ public enum GAME_SCENE
 
 }
 
+
+public enum GAME_STAGE
+{
+    NONE,
+    STAGE_1,
+    STAGE_2,
+    STAGE_3,
+    STAGE_4,
+    STAGE_5,
+    END
+
+}
+
 public class GameMaster : Singleton<GameMaster>
 {
     private void Awake()

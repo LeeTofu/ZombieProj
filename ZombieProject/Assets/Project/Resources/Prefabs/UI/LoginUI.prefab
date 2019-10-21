@@ -65,8 +65,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press to start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1598376068316309240}
+      - m_Target: {fileID: 453169443047102768}
         m_MethodName: PressStartButton
         m_Mode: 1
         m_Arguments:
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 2757092029828313079}
   - component: {fileID: 2757092029828313072}
   - component: {fileID: 2757092029828313073}
-  - component: {fileID: 1598376068316309240}
+  - component: {fileID: 453169443047102768}
   m_Layer: 5
   m_Name: LoginUI
   m_TagString: Untagged
@@ -458,7 +458,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1598376068316309240
+--- !u!114 &453169443047102768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2757092029828313074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b0c93b7753abdf4d8fe582f594cc82b, type: 3}
+  m_Script: {fileID: 11500000, guid: e59d1d97b19cf0b40a82d6a80932cc11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Scene: 4

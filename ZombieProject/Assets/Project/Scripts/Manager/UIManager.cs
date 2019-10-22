@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-    BaseUI m_CurrentUI;
+    public BaseUI m_CurrentUI { get; private set; }
     private Dictionary<GAME_SCENE, GameObject> m_GameUITable = new Dictionary<GAME_SCENE, GameObject>();
 
     public override bool Initialize()

@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class BattleSceneMain : SceneMain
 {
-    GameObject m_PlayerCreateZone;
-    GameObject m_ZombieCreateZone;
+
+    private BattleMapCreator m_BattleMapCreator;
+
+    Transform m_PlayerCreateZone;
+    Transform m_ZombieCreateZone;
 
     public IEnumerator Start()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.5f);
 
-        m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
 
-        if (m_PlayerCreateZone != null)
-            m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
-
-        PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.transform.position, m_PlayerCreateZone.transform.rotation);
-
-        m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
-        EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
+        PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
+        EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.position, m_ZombieCreateZone.rotation);
     }
 
     public override bool DeleteScene()
@@ -29,7 +26,27 @@ public class BattleSceneMain : SceneMain
 
     public override bool InitializeScene()
     {
+
+        if (m_BattleMapCreator == null)
+            m_BattleMapCreator = gameObject.AddComponent<BattleMapCreator>();
+
+        // 어떤 스테이지에 어떤 맵을 가져올 것인가를 결정하는 '데이터매니저' 만들것...
+
+        m_BattleMapCreator.CreateMap(SceneMaster.Instance.m_CurrentGameStage, E_MAP.CITY1);
+
+        m_PlayerCreateZone = m_BattleMapCreator.m_PlayerCreateZone;
+
+        if (m_PlayerCreateZone != null)
+            m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
+
+        m_ZombieCreateZone = m_BattleMapCreator.ZombieCreateZones;
+
+        if (m_ZombieCreateZone != null)
+            m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
+
+
         Debug.Log("Battle init 불러옴");
         return true;
     }
+
 }

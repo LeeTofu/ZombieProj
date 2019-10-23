@@ -37,7 +37,14 @@ public class MainUI : BaseUI
 
     public override void DeleteUI()
     {
+        m_Title.gameObject.SetActive(false);
 
+        for (int i = 0; i < m_Buttons.Length; i++)
+        {
+            m_Buttons[i].gameObject.SetActive(false);
+        }
+
+        m_stageSelectUI.gameObject.SetActive(false);
     }
 
     public void PressStartButton()
@@ -49,7 +56,6 @@ public class MainUI : BaseUI
             m_Buttons[i].gameObject.SetActive(false);
         }
 
-        Debug.Log("누름");
         if (!m_stageSelectUI.gameObject.activeSelf)
         {
             m_stageSelectUI.gameObject.SetActive(true);

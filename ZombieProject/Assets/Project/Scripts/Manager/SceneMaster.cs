@@ -8,9 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneMaster : Singleton<SceneMaster>
 {
+    public GAME_STAGE m_CurrentGameStage { get; private set; }
+
     public GAME_SCENE m_NextScene { get; private set; }
     public GAME_SCENE m_CurrentScene { get; private set; }
 
+    public GameObject m_CurrentBattleMap { get; private set; }
     GameObject m_CurSceneMain;
 
     bool m_isLoadingInitialize = false;
@@ -36,7 +39,7 @@ public class SceneMaster : Singleton<SceneMaster>
 
             if (m_SceneInitializerTable.ContainsKey(sceneMain.m_Scene))
             {
-                Debug.LogWarning("중복된 씬이 들어갔다. 확인" + sceneMain.m_Scene.ToString());
+                Debug.LogWarning("중복된 씬이 들어갔다. Prefabs/SceneMain에서 확인 : " + sceneMain.m_Scene.ToString());
                 continue;
             }
 
@@ -47,7 +50,8 @@ public class SceneMaster : Singleton<SceneMaster>
             m_SceneInitializerTable.Add(sceneMain.m_Scene, newGo);
         }
 
-
+        m_CurrentBattleMap = null;
+        m_CurrentGameStage = GAME_STAGE.NONE;
         StartSceneInitialize();
      
         return true;
@@ -69,11 +73,34 @@ public class SceneMaster : Singleton<SceneMaster>
         m_CurSceneMain.SetActive(true);
         SceneMain main = m_CurSceneMain.GetComponent<SceneMain>();
 
+        if(m_CurrentScene == GAME_SCENE.IN_GAME)
+        {
+            m_CurrentGameStage = main.m_Stage;
+            Debug.Log("InGame Scene이라 stage ; " + m_CurrentGameStage.ToString() + "불러옴" );
+        }
+
         UIManager.Instance.LoadUI(m_CurrentScene);
         SoundManager.Instance.PlayBGM(m_CurrentScene);
 
         main.InitializeScene();
 
+    }
+
+    public void SetBattleMap(GameObject _obj)
+    {
+        DestoryCurrentBattleMap();
+        m_CurrentBattleMap = _obj;
+        _obj.transform.SetParent(transform);
+    }
+
+    private void DestoryCurrentBattleMap()
+    {
+        if (m_CurrentBattleMap != null)
+        {
+            m_CurrentBattleMap.transform.SetParent(null);
+            Destroy(m_CurrentBattleMap);
+            m_CurrentBattleMap = null;
+        }
     }
 
     public void LoadSceneStart()
@@ -84,17 +111,39 @@ public class SceneMaster : Singleton<SceneMaster>
             m_CurSceneMain.SetActive(false);
         }
 
-        
-
         // 로딩씬에 있는 로딩 로더만 쓰는 함수임. 딴데 쓰지마셈.
         StartCoroutine(Loading());
     }
 
+    // 일반 씬 불러올때 사용
     public void LoadScene(GAME_SCENE _SceneLoad)
     {
+        if(_SceneLoad == GAME_SCENE.IN_GAME || _SceneLoad == GAME_SCENE.NONE || _SceneLoad == GAME_SCENE.END)
+        {
+            Debug.LogError("LoadScene 함수로 배틀씬 부를 수 없음. LoadBattleScene 함수로 부르세요");
+            return;
+        }
+
+        m_CurrentGameStage = GAME_STAGE.NONE;
         m_NextScene = _SceneLoad;
         SceneManager.LoadScene("LOADING");
     }
+
+    // 인 게임 씬 불러올 때 사용
+    public void LoadBattleScene(GAME_STAGE _stage)
+    {
+        if (_stage == GAME_STAGE.NONE || _stage == GAME_STAGE.END)
+        {
+            Debug.LogError("LoadBattleScene 함수로 NONE, END 파라미터 못씀");
+            return;
+        }
+
+        m_NextScene = GAME_SCENE.IN_GAME;
+        m_CurrentGameStage = _stage;
+        SceneManager.LoadScene("LOADING");
+    }
+
+   
 
     private IEnumerator Loading()
     {
@@ -118,22 +167,30 @@ public class SceneMaster : Singleton<SceneMaster>
 
             if (op.progress >= 0.9f)
             {
-                op.allowSceneActivation = true;
+              //  op.allowSceneActivation = true;
 
                 if (!m_isLoadingInitialize)
                 {
                     m_isLoadingInitialize = true;
-
+                    DestoryCurrentBattleMap();
                     GameObject go = m_SceneInitializerTable[m_NextScene];
 
                     go.SetActive(true);
-                    go.GetComponent<SceneMain>().InitializeScene();
-
+                   
+                    while (!go.GetComponent<SceneMain>().InitializeScene())
+                    {
+                        yield return null;
+                    }
+                    
                     m_CurSceneMain = go;
 
                     UIManager.Instance.LoadUI(m_NextScene);
                     SoundManager.Instance.PlayBGM(m_NextScene);
                 }
+
+               
+                    op.allowSceneActivation = true;
+
             }
 
             yield return null;

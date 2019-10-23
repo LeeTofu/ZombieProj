@@ -10,7 +10,10 @@ public class Attack_ObjectAction : ActionNode
 
     public override bool OnUpdate()
     {
-        if (!m_isActive) return true;
+        if (!m_isActive)
+        {
+            return true;
+        }
         Debug.Log("Attack");
         m_CurTime += Time.deltaTime;
 

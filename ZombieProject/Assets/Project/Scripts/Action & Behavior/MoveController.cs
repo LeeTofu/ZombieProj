@@ -10,18 +10,21 @@ public class MoveController : MonoBehaviour
     // 현재 실행중인 액션 
     private ActionNode m_CurrentAction;
 
-    // Action을 table에 저장하기용. 
+    // Action을 table에 저장하기용. -> BehaviorManager로 이동
+    /*
     private Dictionary<string, ActionNode> m_ActionTable = new Dictionary<string, ActionNode>();
 
     private Queue<ActionNode> m_ActionQueue = new Queue<ActionNode>();
+    */
 
     virtual public void Initialize(MovingObject _Character)
     {
         m_Chracter = _Character;
 
-        InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>());
+        //InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>());
     }
 
+    /*
     public void InsertActionToTable(ActionNode _action)
     {
         // Data 
@@ -74,6 +77,7 @@ public class MoveController : MonoBehaviour
         Debug.Log(_actionName + "실행");
         m_CurrentAction = m_ActionTable[_actionName];
     }
+    */
 
     private void Update()
     {

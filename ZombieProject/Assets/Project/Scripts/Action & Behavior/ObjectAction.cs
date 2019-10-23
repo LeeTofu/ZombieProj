@@ -109,4 +109,3 @@ public class SequencerNode : CompositeActionNode
         return true;
     }
 }
-

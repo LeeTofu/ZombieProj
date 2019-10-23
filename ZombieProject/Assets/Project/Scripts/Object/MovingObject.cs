@@ -22,6 +22,7 @@ public struct STAT
     public float RotSpeed;
     
     public float Attack;
+    public float Range;
     public float Def;
 
     public float Cur_HP;

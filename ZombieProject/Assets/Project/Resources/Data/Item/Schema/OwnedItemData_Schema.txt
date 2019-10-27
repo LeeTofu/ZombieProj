@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Root>
+<text>
+  <UniqueItemID></UniqueItemID>
+  <ItemID></ItemID>
+</text>
+<text>
+  <UniqueItemID></UniqueItemID>
+  <ItemID></ItemID>
+</text>
+</Root>

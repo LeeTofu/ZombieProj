@@ -30,7 +30,10 @@ public class BattleMapCreator : MonoBehaviour
         SceneMaster.Instance.SetBattleMap(bg);
 
         if (!bg)
+        {
             Debug.LogError(_Stage.ToString() + "의 " + _map.ToString() + " 맵을 만들다가 실패함. ");
+            return false;
+        }
 
         bg.transform.position = Vector3.zero;
         bg.transform.rotation = Quaternion.identity;

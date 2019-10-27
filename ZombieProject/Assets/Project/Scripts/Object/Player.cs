@@ -8,19 +8,12 @@ public class Player : MovingObject
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
+        m_AIContoller = gameObject.AddComponent<PlayerMoveController>();
+        
+
         return;
     }
 
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

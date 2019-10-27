@@ -11,6 +11,7 @@ public enum GAME_SCENE
     LOGIN, // 로그인 씬
     SHOP, // 샵
     IN_GAME, // 인게임 씬 (인게임은 GAME_STAGE로 세부항목 설정해야함.)
+    ZombieTestScene, // 테스트씬
     END
 
 }
@@ -51,6 +52,7 @@ public class GameMaster : Singleton<GameMaster>
         UIManager.Instance.CreateManager();
         SoundManager.Instance.CreateManager();
         SceneMaster.Instance.CreateManager();
+        ItemManager.Instance.CreateManager();
         
 
         return true;

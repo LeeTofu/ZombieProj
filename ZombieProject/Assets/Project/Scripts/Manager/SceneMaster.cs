@@ -9,10 +9,8 @@ using UnityEngine.SceneManagement;
 public class SceneMaster : Singleton<SceneMaster>
 {
     public GAME_STAGE m_CurrentGameStage { get; private set; }
-
     public GAME_SCENE m_NextScene { get; private set; }
     public GAME_SCENE m_CurrentScene { get; private set; }
-
     public GameObject m_CurrentBattleMap { get; private set; }
     GameObject m_CurSceneMain;
 
@@ -69,20 +67,24 @@ public class SceneMaster : Singleton<SceneMaster>
         }
 
         m_CurrentScene = scene;
-        m_CurSceneMain = m_SceneInitializerTable[scene];
-        m_CurSceneMain.SetActive(true);
-        SceneMain main = m_CurSceneMain.GetComponent<SceneMain>();
 
-        if(m_CurrentScene == GAME_SCENE.IN_GAME)
-        {
-            m_CurrentGameStage = main.m_Stage;
-            Debug.Log("InGame Scene이라 stage ; " + m_CurrentGameStage.ToString() + "불러옴" );
-        }
 
-        UIManager.Instance.LoadUI(m_CurrentScene);
-        SoundManager.Instance.PlayBGM(m_CurrentScene);
+            m_CurSceneMain = m_SceneInitializerTable[scene];
 
-        main.InitializeScene();
+            m_CurSceneMain.SetActive(true);
+            SceneMain main = m_CurSceneMain.GetComponent<SceneMain>();
+
+            if (m_CurrentScene == GAME_SCENE.IN_GAME)
+            {
+                m_CurrentGameStage = main.m_Stage;
+                Debug.Log("InGame Scene이라 stage ; " + m_CurrentGameStage.ToString() + "불러옴");
+            }
+
+            UIManager.Instance.LoadUI(m_CurrentScene);
+            SoundManager.Instance.PlayBGM(m_CurrentScene);
+
+            main.InitializeScene();
+        
 
     }
 
@@ -147,10 +149,8 @@ public class SceneMaster : Singleton<SceneMaster>
 
     private IEnumerator Loading()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(m_NextScene.ToString());
+        AsyncOperation op = SceneManager.LoadSceneAsync(m_NextScene.ToString(), LoadSceneMode.Single);
         op.allowSceneActivation = false;
-
-        UIManager.Instance.AllUISetActive(false);
 
         if ( !m_SceneInitializerTable.ContainsKey(m_NextScene))
         {
@@ -167,10 +167,12 @@ public class SceneMaster : Singleton<SceneMaster>
 
             if (op.progress >= 0.9f)
             {
-              //  op.allowSceneActivation = true;
+                yield return new WaitForSeconds(1.0f);
 
+                op.allowSceneActivation = true;
                 if (!m_isLoadingInitialize)
                 {
+                    UIManager.Instance.AllUISetActive(false);
                     m_isLoadingInitialize = true;
                     DestoryCurrentBattleMap();
                     GameObject go = m_SceneInitializerTable[m_NextScene];
@@ -184,18 +186,16 @@ public class SceneMaster : Singleton<SceneMaster>
                     
                     m_CurSceneMain = go;
 
+                    ItemManager.Instance.LoadItemData();
                     UIManager.Instance.LoadUI(m_NextScene);
                     SoundManager.Instance.PlayBGM(m_NextScene);
                 }
 
-               
-                    op.allowSceneActivation = true;
-
+                yield return null;
             }
 
             yield return null;
         }
-
 
         m_isLoadingInitialize = false;
         m_CurrentScene = m_NextScene;

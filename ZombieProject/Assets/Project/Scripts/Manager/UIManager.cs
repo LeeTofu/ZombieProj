@@ -63,6 +63,7 @@ public class UIManager : Singleton<UIManager>
 
         if (m_CurrentUI != null)
         {
+
             if (_scene == m_CurrentUI.m_Scene)
                  return;
 
@@ -79,6 +80,7 @@ public class UIManager : Singleton<UIManager>
         }
 
         ui.gameObject.SetActive(true);
+        Debug.Log("액티브됬는데?");
         ui.InitializeUI();
 
         m_CurrentUI = ui;

@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum MAIN_ITEM_SORT
+{
+    NONE = 0,
+    EQUIPMENT, // 장비
+    QUICK, // 일회용
+    ETC, // 기타 아이템
+    END
+
+}
+
 public enum ITEM_SORT
 {
     NONE = 0,
@@ -29,7 +40,7 @@ public enum ITEM_SLOT_SORT
     FOURTH
 }
 
-public class ItemStat
+public struct ItemStat
 {
     public int m_ItemID;
 
@@ -50,22 +61,31 @@ public class ItemStat
     public bool m_isAccumulate;
 }
 
-public class Item : MonoBehaviour
+public class Item
 {
     int MAX_LEVEL = 10;
-    ItemStat m_ItemStat;
+    public ItemStat m_ItemStat { get; private set; }
 
-    public int m_CurrentEXP;
-    public int m_MaxEXP;
-    public int m_Lv;
-
-    public int m_OwnedItemID { get; private set; }
+    public int m_CurrentEXP { get; private set; }
+    public int m_MaxEXP { get; private set; }
+    public int m_Lv { get; private set; }
+    public bool m_isEquiped { get; set; }
+    public int m_UniqueItemID { get; private set; }
 
     public ITEM_SLOT_SORT m_ItemSlotType { get; private set; }
 
-    private void Initialized( ItemStat _stat)
+    public Item(int _ownedID, int _LV, int _curEXP, ItemStat _stat) 
     {
+        m_UniqueItemID = _ownedID;
+        m_Lv = _LV;
+        m_CurrentEXP = _curEXP;
         m_ItemStat = _stat;
+    }
+
+
+    public void EquipItem()
+    {
+        m_isEquiped = true;
     }
 
 

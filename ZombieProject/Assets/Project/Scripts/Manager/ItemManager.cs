@@ -23,7 +23,7 @@ public class ItemManager : Singleton<ItemManager>
 
     public void LoadItemData()
     {
-        TextAsset txtAsset = (TextAsset)Resources.Load("Data/ItemData");
+        TextAsset txtAsset = (TextAsset)Resources.Load("Data/Item/ItemData");
         XmlDocument xmlDoc = new XmlDocument();
         Debug.Log(txtAsset.text);
         xmlDoc.LoadXml(txtAsset.text);
@@ -31,7 +31,7 @@ public class ItemManager : Singleton<ItemManager>
         XmlNodeList all_nodes = xmlDoc.SelectNodes("root/Item");
         foreach (XmlNode node in all_nodes)
         {
-            ItemStat itemStat = new ItemStat();
+            ItemStat itemStat;
             itemStat.m_ItemID = int.Parse(node.SelectSingleNode("ItemID").InnerText );
 
             itemStat.m_ItemName = node.SelectSingleNode("ItemName").InnerText;
@@ -46,19 +46,24 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_AttackPoint = float.Parse(node.SelectSingleNode("Attack").InnerText);
             itemStat.m_ArmorPoint = float.Parse(node.SelectSingleNode("Armor").InnerText);
             itemStat.m_AttackSpeed = float.Parse(node.SelectSingleNode("AttackSpeed").InnerText);
+            itemStat.m_HealthPoint = float.Parse(node.SelectSingleNode("HP").InnerText);
 
             itemStat.m_isAccumulate = bool.Parse(node.SelectSingleNode("isAccumulate").InnerText);
-
-
+            
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
         }
     }
 
     public ItemStat GetItemStat(int _ItemID)
     {
-        if (!m_ItemTable.ContainsKey(_ItemID)) return null;
+        ItemStat stat;
+        if(!m_ItemTable.TryGetValue(_ItemID, out stat))
+        {
+            Debug.LogError("그런 아이템 없다... 아이템 아디 : " + _ItemID);
+            stat.m_ItemID = -1;
+        }
 
-        return m_ItemTable[_ItemID];
+        return stat;
     }
 
 

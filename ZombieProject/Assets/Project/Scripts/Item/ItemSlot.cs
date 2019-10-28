@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
 {
-    public ItemStat m_ItemStat { private set; get; }
+    GameObject m_ModelObjet;
+    Image m_IconImage;
 
-    public void Initialize(ItemStat _stat)
+    public Item m_Item { private set; get; }
+
+    public void SetItem(Item _item)
     {
-        m_ItemStat = _stat;
+    }
 
+    public void DetachItem()
+    {
 
     }
 

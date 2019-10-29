@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<text>
+		<uniqueID>3213</uniqueID>
+		<ItemID>1</ItemID>
+		<isEquiped>false</isEquiped>
+		<Level>1</Level>
+		<SlotSort>NONE</SlotSort>
+		<CurrentEXP>11</CurrentEXP>
+	</text>
+	<text>
+		<uniqueID>32134</uniqueID>
+		<ItemID>1</ItemID>
+		<isEquiped>true</isEquiped>
+		<Level>2</Level>
+		<SlotSort>MAIN</SlotSort>
+		<CurrentEXP>0</CurrentEXP>
+	</text>
+</Root>

@@ -8,6 +8,7 @@
   <ItemSort></ItemSort>
   <HP></HP>
   <Attack></Attack>
+  <Armor></Armor>
   <MovePoint></MovePoint>
   <HPRegenerate></HPRegenerate>
   <Range></Range>
@@ -22,6 +23,7 @@
   <ItemSort></ItemSort>
   <HP></HP>
   <Attack></Attack>
+  <Armor></Armor>
   <MovePoint></MovePoint>
   <HPRegenerate></HPRegenerate>
   <Range></Range>

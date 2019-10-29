@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Root>
+<text>
+  <uniqueID></uniqueID>
+  <ItemID></ItemID>
+  <isEquiped></isEquiped>
+  <Level></Level>
+  <SlotSort></SlotSort>
+  <CurrentEXP></CurrentEXP>
+</text>
+<text>
+  <uniqueID></uniqueID>
+  <ItemID></ItemID>
+  <isEquiped></isEquiped>
+  <Level></Level>
+  <SlotSort></SlotSort>
+  <CurrentEXP></CurrentEXP>
+</text>
+</Root>

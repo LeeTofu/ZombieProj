@@ -44,6 +44,9 @@ public class BattleSceneMain : SceneMain
         if (m_ZombieCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
+        ItemManager.Instance.DebuggingLogItem(1);
+        ItemManager.Instance.DebuggingLogItem(2);
+        ItemManager.Instance.DebuggingLogItem(3);
 
         Debug.Log("Battle init 불러옴");
         return true;

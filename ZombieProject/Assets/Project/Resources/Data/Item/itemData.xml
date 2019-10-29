@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Item>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<text>
 		<ItemID>1</ItemID>
 		<ItemName>Gun</ItemName>
 		<IconName>Gun</IconName>
@@ -8,13 +8,14 @@
 		<ItemSort>RIFLE</ItemSort>
 		<HP>0</HP>
 		<Attack>1</Attack>
+		<Armor>0</Armor>
 		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
 		<Range>5</Range>
-		<isAccumulate>0</isAccumulate>
+		<isAccumulate>false</isAccumulate>
 		<AttackSpeed>5</AttackSpeed>
-	</Item>
-	<Item>
+	</text>
+	<text>
 		<ItemID>2</ItemID>
 		<ItemName>ChainSaw</ItemName>
 		<IconName>ChainSaw</IconName>
@@ -22,13 +23,14 @@
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>
 		<Attack>2</Attack>
+		<Armor>0</Armor>
 		<MovePoint>1</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
 		<Range>1</Range>
-		<isAccumulate>0</isAccumulate>
+		<isAccumulate>FALSE</isAccumulate>
 		<AttackSpeed>10</AttackSpeed>
-	</Item>
-	<Item>
+	</text>
+	<text>
 		<ItemID>3</ItemID>
 		<ItemName>Bat</ItemName>
 		<IconName>Bat</IconName>
@@ -36,10 +38,11 @@
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>
 		<Attack>1</Attack>
+		<Armor>0</Armor>
 		<MovePoint>2</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
 		<Range>1</Range>
-		<isAccumulate>0</isAccumulate>
+		<isAccumulate>false</isAccumulate>
 		<AttackSpeed>12</AttackSpeed>
-	</Item>
-</root>
+	</text>
+</Root>

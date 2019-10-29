@@ -186,9 +186,8 @@ public class SceneMaster : Singleton<SceneMaster>
                     
                     m_CurSceneMain = go;
 
-                    ItemManager.Instance.LoadItemData();
-                    UIManager.Instance.LoadUI(m_NextScene);
-                    SoundManager.Instance.PlayBGM(m_NextScene);
+                    
+                    
                 }
 
                 yield return null;
@@ -196,6 +195,9 @@ public class SceneMaster : Singleton<SceneMaster>
 
             yield return null;
         }
+
+        UIManager.Instance.LoadUI(m_NextScene);
+        SoundManager.Instance.PlayBGM(m_NextScene);
 
         m_isLoadingInitialize = false;
         m_CurrentScene = m_NextScene;

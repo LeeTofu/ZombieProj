@@ -28,7 +28,7 @@ public class ItemManager : Singleton<ItemManager>
         Debug.Log(txtAsset.text);
         xmlDoc.LoadXml(txtAsset.text);
 
-        XmlNodeList all_nodes = xmlDoc.SelectNodes("root/Item");
+        XmlNodeList all_nodes = xmlDoc.SelectNodes("Root/text");
         foreach (XmlNode node in all_nodes)
         {
             ItemStat itemStat;
@@ -38,7 +38,12 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_IconTexrureID =node.SelectSingleNode("IconName").InnerText;
             itemStat.m_ModelString = node.SelectSingleNode("ModelName").InnerText;
 
-            itemStat.m_Sort = (ITEM_SORT)int.Parse(node.SelectSingleNode("ItemSort").InnerText) ;
+            bool success = System.Enum.TryParse<ITEM_SORT>(node.SelectSingleNode("ItemSort").InnerText, out itemStat.m_Sort);
+            if (!success)
+            {
+                Debug.LogError("Item Parse Fail ItemType 확인할 것 : " + itemStat.m_Sort);
+                continue;
+            }
 
             itemStat.m_MoveSpeed = float.Parse(node.SelectSingleNode("MovePoint").InnerText);
             itemStat.m_Range = float.Parse(node.SelectSingleNode("Range").InnerText);
@@ -51,7 +56,32 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_isAccumulate = bool.Parse(node.SelectSingleNode("isAccumulate").InnerText);
             
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
+            Debug.Log(itemStat.m_ItemID);
         }
+    }
+
+    public void DebuggingLogItem(int _itemID)
+    {
+        if (m_ItemTable.ContainsKey(_itemID) == false)
+        {
+            Debug.LogError("그런 아이템 없습니다.");
+            return;
+        }
+
+        ItemStat stat = m_ItemTable[_itemID];
+        Debug.Log("Armor : " + stat.m_ArmorPoint);
+        Debug.Log("Attack : " + stat.m_AttackPoint);
+        Debug.Log("AttackSpeed : " + stat.m_AttackSpeed);
+        Debug.Log("HP : " + stat.m_HealthPoint);
+        Debug.Log("HPRegenrate : " + stat.m_HPGenerator);
+        Debug.Log("IconTexture : " + stat.m_IconTexrureID);
+        Debug.Log("Acc : " + stat.m_isAccumulate);
+        Debug.Log("ItemID : " + stat.m_ItemID);
+        Debug.Log("ItemName: " + stat.m_ItemName);
+        Debug.Log("ModelString : " + stat.m_ModelString);
+        Debug.Log("MoveSpeed : " + stat.m_MoveSpeed);
+        Debug.Log("Range : " + stat.m_Range);
+        Debug.Log("Sort : " + stat.m_Sort);
     }
 
     public ItemStat GetItemStat(int _ItemID)

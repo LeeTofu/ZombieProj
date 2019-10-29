@@ -44,10 +44,10 @@ public class InvenManager : Singleton<InvenManager>
     void GetItemInvenFromXML()
     {
         TextAsset playerInvenList = (TextAsset)Resources.Load("Data/Inventory/PlayerInventoryList");
-        TextAsset ownedItem = (TextAsset)Resources.Load("Data/Inventory/OwnedItemData");
+        //TextAsset ownedItem = (TextAsset)Resources.Load("Data/Inventory/OwnedItemData");
         XmlDocument xmlDoc = new XmlDocument();
         //Debug.Log(txtAsset.text);
-        xmlDoc.LoadXml(ownedItem.text);
+        xmlDoc.LoadXml(playerInvenList.text);
 
         XmlNodeList all_nodes = xmlDoc.SelectNodes("root/Item");
 

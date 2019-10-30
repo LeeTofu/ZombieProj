@@ -48,6 +48,8 @@ public class BattleSceneMain : SceneMain
         ItemManager.Instance.DebuggingLogItem(2);
         ItemManager.Instance.DebuggingLogItem(3);
 
+        InvenManager.Instance.GetItemInvenFromXML();
+
         Debug.Log("Battle init 불러옴");
         return true;
     }

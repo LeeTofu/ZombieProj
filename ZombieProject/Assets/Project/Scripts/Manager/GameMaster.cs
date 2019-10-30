@@ -53,6 +53,7 @@ public class GameMaster : Singleton<GameMaster>
         SoundManager.Instance.CreateManager();
         SceneMaster.Instance.CreateManager();
         ItemManager.Instance.CreateManager();
+        InvenManager.Instance.CreateManager();
         
 
         return true;

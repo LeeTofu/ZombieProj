@@ -45,6 +45,7 @@ public class PlayerFactory : ObjectFactory
         if(!newPlayer)
         {
             Debug.Log("Player Load Fail");
+            return null;
         }
 
         newPlayer.Initialize(playerModel, null);

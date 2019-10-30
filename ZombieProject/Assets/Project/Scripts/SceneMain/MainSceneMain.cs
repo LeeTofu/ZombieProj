@@ -11,6 +11,7 @@ public class MainSceneMain : SceneMain
 
     public override bool InitializeScene()
     {
+        ItemManager.Instance.LoadItemData();
         return true;
     }
 }

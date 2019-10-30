@@ -34,10 +34,12 @@ public enum ITEM_SORT
 
 public enum ITEM_SLOT_SORT
 {
+    NONE,
     MAIN,
     SECOND,
     THIRD,
-    FOURTH
+    FOURTH,
+    END
 }
 
 public struct ItemStat

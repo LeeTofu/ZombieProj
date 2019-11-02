@@ -51,7 +51,10 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-
+    public GameObject GetUIObject(GAME_SCENE _scene)
+    {
+        return m_GameUITable[_scene];
+    }
 
     public void LoadUI(GAME_SCENE _scene)
     {

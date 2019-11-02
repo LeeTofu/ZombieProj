@@ -5,29 +5,37 @@ using System.Xml;
 
 public class InvenManager : Singleton<InvenManager>
 {
+    public ShopSceneMain m_Main { private set; get; }
+    public ShopUI m_UI { private set; get; }
+
     GameObject m_ItemSlotPrefab;
     public MovingObject m_Player { get; private set; }
     public MAIN_ITEM_SORT m_CurSelectedInventoryTab { get; private set; }
 
-    Dictionary<MAIN_ITEM_SORT, int> m_ItenSlotCount = new Dictionary<MAIN_ITEM_SORT, int>();
-    Dictionary<MAIN_ITEM_SORT, List<ItemSlot>> m_ItemInventorySlot = new Dictionary<MAIN_ITEM_SORT, List<ItemSlot>>();
+    // 인벤 슬롯에 있는 아이템 갯수
+    public Dictionary<MAIN_ITEM_SORT, int> m_ItemSlotCount = new Dictionary<MAIN_ITEM_SORT, int>();
+
+    public Dictionary<MAIN_ITEM_SORT, List<ItemSlot>> m_ItemInventorySlot = new Dictionary<MAIN_ITEM_SORT, List<ItemSlot>>();
     Dictionary<int, Item> m_ItemInventory = new Dictionary<int, Item>();
 
     // 게임내 장착된 아이템 
     Dictionary<ITEM_SLOT_SORT, Item> m_EquipedItemSlots = new Dictionary<ITEM_SLOT_SORT, Item>();
 
-    public const int MAX_INVEN_SLOT = 50;
+    public const int MAX_INVEN_SLOT = 40;
+
+    public const int MAX_INVEN_ROW = 20;
+    public const int MAX_INVEN_COL = 2;
+
 
     public override bool Initialize()
     {
-        
         m_ItemSlotPrefab = Resources.Load<GameObject>("Prefabs/ItemUI/ItemSlotUI");
-             
-        m_ItenSlotCount.Clear();
 
-        m_ItenSlotCount.Add(MAIN_ITEM_SORT.EQUIPMENT, 0);
-        m_ItenSlotCount.Add(MAIN_ITEM_SORT.QUICK, 0);
-        m_ItenSlotCount.Add(MAIN_ITEM_SORT.ETC, 0);
+        m_ItemSlotCount.Clear();
+
+        m_ItemSlotCount.Add(MAIN_ITEM_SORT.EQUIPMENT, 0);
+        m_ItemSlotCount.Add(MAIN_ITEM_SORT.QUICK, 0);
+        m_ItemSlotCount.Add(MAIN_ITEM_SORT.ETC, 0);
 
         m_ItemInventorySlot.Clear();
 
@@ -53,15 +61,40 @@ public class InvenManager : Singleton<InvenManager>
                 m_ItemInventorySlot[MAIN_ITEM_SORT.QUICK].Add(slot);
         }
 
+        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.SHOP).GetComponent<ShopUI>();
+        m_Main = SceneMaster.Instance.GetGameMain(GAME_SCENE.SHOP) as ShopSceneMain;
+
         m_EquipedItemSlots.Clear();
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.MAIN, null);
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.SECOND, null);
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.THIRD, null);
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.FOURTH, null);
 
-        m_CurSelectedInventoryTab = MAIN_ITEM_SORT.NONE;
-        SetInventoryTab(MAIN_ITEM_SORT.EQUIPMENT);
+        m_CurSelectedInventoryTab = MAIN_ITEM_SORT.END;
+        InitializeInventoryTab(MAIN_ITEM_SORT.NONE);
 
+        if (!m_UI)
+        {
+            Debug.LogError("Shop UI Object Error");
+            return false;
+        }
+
+        for (
+            MAIN_ITEM_SORT e = MAIN_ITEM_SORT.EQUIPMENT;
+            e < MAIN_ITEM_SORT.END; 
+            e++)
+        {
+            for (int r = 0; r < MAX_INVEN_ROW; r++)
+            {
+                for (int c = 0; c < MAX_INVEN_COL; c++)
+                {
+                    ItemSlot slot = m_ItemInventorySlot[e][r * MAX_INVEN_COL + c];
+
+                    slot.transform.SetParent(m_UI.gameObject.transform.Find("SlotInven"));
+                    slot.transform.localPosition = c * new Vector3(ItemSlot.WIDTH, 0, 0) - r * new Vector3(0, ItemSlot.HEIGHT, 0);
+                }
+            }
+        }
         return true;
     }
 
@@ -88,7 +121,7 @@ public class InvenManager : Singleton<InvenManager>
     }
 
     // 서버에 대응
-    public void GetItemInvenFromXML()
+    public void LoadItemInvenFromXML()
     {
         TextAsset playerInvenList = (TextAsset)Resources.Load("Data/Inventory/PlayerInventoryList");
         //TextAsset ownedItem = (TextAsset)Resources.Load("Data/Inventory/OwnedItemData");
@@ -133,25 +166,45 @@ public class InvenManager : Singleton<InvenManager>
         }
     }
 
-    public void SetInventoryTab(MAIN_ITEM_SORT _tab)
-    { 
-        if (_tab == m_CurSelectedInventoryTab) return;
+    public void InitializeInventoryTab(MAIN_ITEM_SORT _sort)
+    {
+        if (_sort == m_CurSelectedInventoryTab) return;
 
-        if (m_CurSelectedInventoryTab != MAIN_ITEM_SORT.NONE)
+        if (_sort != MAIN_ITEM_SORT.NONE)
         {
-            foreach (ItemSlot slot in m_ItemInventorySlot[m_CurSelectedInventoryTab])
+            for(MAIN_ITEM_SORT i = MAIN_ITEM_SORT.EQUIPMENT; i < MAIN_ITEM_SORT.END; i++)
             {
-                slot.gameObject.SetActive(false);
+                if (i == _sort)
+                {
+                    foreach (ItemSlot slot in m_ItemInventorySlot[i])
+                    {
+                        slot.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    foreach (ItemSlot slot in m_ItemInventorySlot[i])
+                    {
+                        slot.gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+        else if (_sort == MAIN_ITEM_SORT.NONE)
+        {
+            for (MAIN_ITEM_SORT i = MAIN_ITEM_SORT.EQUIPMENT; i < MAIN_ITEM_SORT.END; i++)
+            {
+                foreach (ItemSlot slot in m_ItemInventorySlot[i])
+                {
+                    slot.gameObject.SetActive(false);
+                }
             }
         }
 
-        m_CurSelectedInventoryTab = _tab;
-
-        foreach (ItemSlot slot in m_ItemInventorySlot[m_CurSelectedInventoryTab])
-        {
-            slot.gameObject.SetActive(true);
-        }
+        m_CurSelectedInventoryTab = _sort;
     }
+    
+
 
     private MAIN_ITEM_SORT ConvertSortToMainSort(ITEM_SORT _sort)
     {
@@ -184,7 +237,6 @@ public class InvenManager : Singleton<InvenManager>
 
     public bool DeleteItemFromInventory(Item _item)
     {
-       
         if (!m_ItemInventory.ContainsKey(_item.m_UniqueItemID))
         {
             Debug.LogError("그런 아이템은 인벤에 없는데? _item ID  : " + _item.m_UniqueItemID);
@@ -193,7 +245,7 @@ public class InvenManager : Singleton<InvenManager>
 
         MAIN_ITEM_SORT mainItemSort = ConvertSortToMainSort(_item.m_ItemStat.m_Sort);
 
-        if (m_ItenSlotCount[mainItemSort] <= 0)
+        if (m_ItemSlotCount[mainItemSort] <= 0)
         {
             Debug.LogError("지울게 없는데 지운다?");
             return false;
@@ -204,20 +256,20 @@ public class InvenManager : Singleton<InvenManager>
            ItemSlot slot = m_ItemInventorySlot[mainItemSort][i];
 
            if ( slot.m_Item.m_UniqueItemID == _item.m_UniqueItemID)
-            {
+           {
                Item deleteItem = null;
                
                 m_ItemInventory.Remove(slot.m_Item.m_UniqueItemID);
-                slot.DetachItem();
+                slot.SetItem(null);
                 m_ItemInventorySlot[mainItemSort][i] = null;
 
                 // 파괴 슬롯?
 
                 break;
-            }
+           }
         }
 
-        m_ItenSlotCount[mainItemSort]--;
+        m_ItemSlotCount[mainItemSort]--;
 
         return true;
     }
@@ -229,7 +281,6 @@ public class InvenManager : Singleton<InvenManager>
             Debug.LogError("이미 존재하는 item 입니다 _item ID  : " + _item.m_UniqueItemID);
             return false;
         }
-
 
         MAIN_ITEM_SORT mainItemSort = ConvertSortToMainSort(_item.m_ItemStat.m_Sort);
 
@@ -244,7 +295,7 @@ public class InvenManager : Singleton<InvenManager>
         m_ItemInventory.Add(_item.m_UniqueItemID, _item);
         slot.SetItem(_item);
 
-        m_ItenSlotCount[mainItemSort]++;
+        m_ItemSlotCount[mainItemSort]++;
 
         return true;
 
@@ -252,7 +303,7 @@ public class InvenManager : Singleton<InvenManager>
 
     public bool CheckCurrentInvenTabFull(MAIN_ITEM_SORT _itemSort)
     {
-        return m_ItenSlotCount[_itemSort] >= MAX_INVEN_SLOT ? true : false;
+        return m_ItemSlotCount[_itemSort] >= MAX_INVEN_SLOT ? true : false;
     }
     public void CheckCurrentInvenTabFull()
     {
@@ -265,7 +316,7 @@ public class InvenManager : Singleton<InvenManager>
 
         for(int i = 0; i < m_ItemInventorySlot.Count; i++)
         {
-           if( m_ItemInventorySlot[_itemSort][i] == null)
+           if( m_ItemInventorySlot[_itemSort][i].m_Item == null)
             {
                 return m_ItemInventorySlot[_itemSort][i];
             }
@@ -289,7 +340,8 @@ public class InvenManager : Singleton<InvenManager>
 
     public void EquipItem(Item _item, ITEM_SLOT_SORT _slotSort)
     {
-        DetachItem(_slotSort);
+        if(isEquipedItemSlot(_slotSort))
+            DetachItem(_slotSort);
        
         m_EquipedItemSlots[_slotSort] = _item;
         _item.m_isEquiped = true;
@@ -301,7 +353,7 @@ public class InvenManager : Singleton<InvenManager>
 
         if (item == null)
         {
-            Debug.Log("그런 아이템은 인벤에 없어");
+            Debug.LogError("그런 아이템은 인벤에 없어");
             return;
         }
 

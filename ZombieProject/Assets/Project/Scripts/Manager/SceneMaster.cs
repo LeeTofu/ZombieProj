@@ -88,6 +88,18 @@ public class SceneMaster : Singleton<SceneMaster>
 
     }
 
+    public SceneMain GetGameMain(GAME_SCENE _scene)
+    {
+        GameObject main;
+        if(m_SceneInitializerTable.TryGetValue(_scene, out main))
+        {
+            return main.GetComponent<SceneMain>();
+        }
+
+        return null;
+    }
+
+
     public void SetBattleMap(GameObject _obj)
     {
         DestoryCurrentBattleMap();
@@ -185,9 +197,6 @@ public class SceneMaster : Singleton<SceneMaster>
                     }
                     
                     m_CurSceneMain = go;
-
-                    
-                    
                 }
 
                 yield return null;

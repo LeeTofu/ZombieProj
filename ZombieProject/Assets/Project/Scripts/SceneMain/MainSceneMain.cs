@@ -12,6 +12,7 @@ public class MainSceneMain : SceneMain
     public override bool InitializeScene()
     {
         ItemManager.Instance.LoadItemData();
+        InvenManager.Instance.LoadItemInvenFromXML();
         return true;
     }
 }

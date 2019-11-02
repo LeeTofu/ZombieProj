@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-
     [SerializeField]
     private GameObject m_PlayerHeadModelPrefabs;
 
@@ -28,7 +27,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if(m_PlayerCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
-
     }
 
 

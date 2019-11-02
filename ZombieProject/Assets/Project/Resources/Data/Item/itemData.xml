@@ -3,7 +3,7 @@
 	<text>
 		<ItemID>1</ItemID>
 		<ItemName>Gun</ItemName>
-		<IconName>Gun</IconName>
+		<IconName>Weapon_icon_01</IconName>
 		<ModelName>Gun</ModelName>
 		<ItemSort>RIFLE</ItemSort>
 		<HP>0</HP>
@@ -12,13 +12,13 @@
 		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
 		<Range>5</Range>
-		<isAccumulate>false</isAccumulate>
+		<isAccumulate>FALSE</isAccumulate>
 		<AttackSpeed>5</AttackSpeed>
 	</text>
 	<text>
 		<ItemID>2</ItemID>
 		<ItemName>ChainSaw</ItemName>
-		<IconName>ChainSaw</IconName>
+		<IconName>Weapon_icon_03</IconName>
 		<ModelName>ChainSaw</ModelName>
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>
@@ -33,7 +33,7 @@
 	<text>
 		<ItemID>3</ItemID>
 		<ItemName>Bat</ItemName>
-		<IconName>Bat</IconName>
+		<IconName>Weapon_icon_05</IconName>
 		<ModelName>Bat</ModelName>
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>

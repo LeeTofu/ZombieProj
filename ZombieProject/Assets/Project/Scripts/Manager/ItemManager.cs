@@ -15,8 +15,8 @@ public class ItemManager : Singleton<ItemManager>
 
     public override bool Initialize()
     {
-        // Item data를 파싱 받아서 저장해야함.
-        // 서버도 
+       // Item data를 파싱 받아서 저장해야함.
+       // 서버도 
        // LoadXML(m_xmlFileName);
         return true;
     }

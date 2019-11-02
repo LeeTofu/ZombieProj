@@ -47,6 +47,8 @@ public class GameMaster : Singleton<GameMaster>
 
     public override bool Initialize()
     {
+        TextureManager.Instance.CreateManager();
+
         EnemyManager.Instance.CreateManager();
         PlayerManager.Instance.CreateManager();
         UIManager.Instance.CreateManager();

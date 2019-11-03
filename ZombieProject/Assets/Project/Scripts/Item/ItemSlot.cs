@@ -15,6 +15,8 @@ public class ItemSlot : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI m_Equiped;
 
+    Sprite m_NullImage;
+
     [SerializeField]
     Image m_IconImage;
 
@@ -25,6 +27,11 @@ public class ItemSlot : MonoBehaviour
     TextMeshProUGUI m_ItemLv;
 
     public Item m_Item { private set; get; }
+
+    public void Awake()
+    {
+        m_NullImage = m_IconImage.sprite;
+    }
 
 
     public void SetItem(Item _item)
@@ -45,7 +52,7 @@ public class ItemSlot : MonoBehaviour
         else
         {
             if (m_IconImage)
-                m_IconImage.sprite = null;
+                m_IconImage.sprite = m_NullImage;
 
             m_ItemName.text = "";
             m_ItemLv.text = "";
@@ -55,15 +62,20 @@ public class ItemSlot : MonoBehaviour
 
     }
 
-    public void SelectSlot()
+    public void ClickSelectItem()
     {
+        if (m_Item == null) return;
+
         InvenManager.Instance.m_Main.SelectItem(this);
+    }
+
+    public void SelectItem()
+    {
         m_SelectedLine.gameObject.SetActive(true);
     }
 
     public void UnSelectSlot()
     {
-        InvenManager.Instance.m_Main.UnSelectItem(this);
         m_SelectedLine.gameObject.SetActive(false);
     }
 

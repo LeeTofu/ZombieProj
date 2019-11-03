@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShopSceneMain : SceneMain
 {
 
-    ItemSlot m_SelectedSlot;
+    public ItemSlot m_SelectedSlot { get; private set; }
     public override bool InitializeScene()
     {
         return true;
@@ -17,15 +17,19 @@ public class ShopSceneMain : SceneMain
 
     public void SelectItem(ItemSlot _slot)
     {
-        if (m_SelectedSlot)
+        if(m_SelectedSlot)
+        {
             m_SelectedSlot.UnSelectSlot();
 
+            if(_slot == m_SelectedSlot)
+            {
+                m_SelectedSlot = null;
+                return;
+            }
+        }
+
         m_SelectedSlot = _slot;
+        m_SelectedSlot.SelectItem();
+        
     }
-
-    public void UnSelectItem(ItemSlot _slot)
-    {
-        m_SelectedSlot = null;
-    }
-
 }

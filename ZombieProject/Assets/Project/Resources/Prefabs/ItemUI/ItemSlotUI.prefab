@@ -507,7 +507,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4261274794674026983}
-        m_MethodName: SelectSlot
+        m_MethodName: ClickSelectItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

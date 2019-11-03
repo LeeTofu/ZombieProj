@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
+using UnityEngine.UI;
 
 public class InvenManager : Singleton<InvenManager>
 {
@@ -89,9 +90,8 @@ public class InvenManager : Singleton<InvenManager>
                 for (int c = 0; c < MAX_INVEN_COL; c++)
                 {
                     ItemSlot slot = m_ItemInventorySlot[e][r * MAX_INVEN_COL + c];
+                    m_UI.InsertToScroll(slot,c,r);
 
-                    slot.transform.SetParent(m_UI.gameObject.transform.Find("SlotInven"));
-                    slot.transform.localPosition = c * new Vector3(ItemSlot.WIDTH, 0, 0) - r * new Vector3(0, ItemSlot.HEIGHT, 0);
                 }
             }
         }

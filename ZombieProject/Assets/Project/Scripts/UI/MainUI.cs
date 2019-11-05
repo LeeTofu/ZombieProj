@@ -68,6 +68,11 @@ public class MainUI : BaseUI
         SceneMaster.Instance.LoadScene(GAME_SCENE.SHOP);
     }
 
+    public void PressInventoryButton()
+    {
+        SceneMaster.Instance.LoadScene(GAME_SCENE.INVENTORY);
+    }
+
     public void PressExitButton()
     {
       //  SceneMaster.Instance.LoadScene(GAME_SCENE.IN_GAME);

@@ -10,6 +10,7 @@ public enum GAME_SCENE
     SELECT_STAGE, // 셀렉트 스테이지 씬
     LOGIN, // 로그인 씬
     SHOP, // 샵
+    INVENTORY, // 인벤
     IN_GAME, // 인게임 씬 (인게임은 GAME_STAGE로 세부항목 설정해야함.)
     ZombieTestScene, // 테스트씬
     END

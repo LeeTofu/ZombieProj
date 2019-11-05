@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InvenManager : Singleton<InvenManager>
 {
     public ShopSceneMain m_Main { private set; get; }
-    public ShopUI m_UI { private set; get; }
+    public InventoryUI m_UI { private set; get; }
 
     GameObject m_ItemSlotPrefab;
     public MovingObject m_Player { get; private set; }
@@ -22,9 +22,9 @@ public class InvenManager : Singleton<InvenManager>
     // 게임내 장착된 아이템 
     Dictionary<ITEM_SLOT_SORT, Item> m_EquipedItemSlots = new Dictionary<ITEM_SLOT_SORT, Item>();
 
-    public const int MAX_INVEN_SLOT = 40;
+    public const int MAX_INVEN_SLOT = 30;
 
-    public const int MAX_INVEN_ROW = 20;
+    public const int MAX_INVEN_ROW = 15;
     public const int MAX_INVEN_COL = 2;
 
 
@@ -62,7 +62,7 @@ public class InvenManager : Singleton<InvenManager>
                 m_ItemInventorySlot[MAIN_ITEM_SORT.QUICK].Add(slot);
         }
 
-        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.SHOP).GetComponent<ShopUI>();
+        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.INVENTORY).GetComponent<InventoryUI>();
         m_Main = SceneMaster.Instance.GetGameMain(GAME_SCENE.SHOP) as ShopSceneMain;
 
         m_EquipedItemSlots.Clear();

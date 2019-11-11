@@ -179,7 +179,7 @@ public class SceneMaster : Singleton<SceneMaster>
 
             if (op.progress >= 0.9f)
             {
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(0.1f);
 
                 op.allowSceneActivation = true;
                 if (!m_isLoadingInitialize)

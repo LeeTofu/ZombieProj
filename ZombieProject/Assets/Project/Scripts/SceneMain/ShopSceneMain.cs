@@ -15,21 +15,23 @@ public class ShopSceneMain : SceneMain
         return true;
     }
 
-    public void SelectItem(ItemSlot _slot)
+    public bool SelectItem(ItemSlot _slot)
     {
-        if(m_SelectedSlot)
+        if (m_SelectedSlot)
         {
             m_SelectedSlot.UnSelectSlot();
 
-            if(_slot == m_SelectedSlot)
+            if (_slot == m_SelectedSlot)
             {
                 m_SelectedSlot = null;
-                return;
+                return false;
             }
         }
 
         m_SelectedSlot = _slot;
         m_SelectedSlot.SelectItem();
+
+        return true;
         
     }
 }

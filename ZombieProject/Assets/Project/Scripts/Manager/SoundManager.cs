@@ -87,6 +87,7 @@ public class SoundManager : Singleton<SoundManager>
                 break;
             case GAME_SCENE.LOGIN:
             case GAME_SCENE.MAIN:
+            case GAME_SCENE.INVENTORY:
                 PlayBGM(SOUND_BG_LOOP.MAIN);
                 break;
             case GAME_SCENE.SELECT_STAGE:

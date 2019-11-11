@@ -7,6 +7,8 @@ public class ItemManager : Singleton<ItemManager>
 {
     Dictionary<int, ItemStat> m_ItemTable = new Dictionary<int, ItemStat>();
 
+    public bool m_isParsingCompelete = false;
+
     const string m_xmlFileName = "itemData";
     public int[] MaxEXP =
     {
@@ -15,14 +17,16 @@ public class ItemManager : Singleton<ItemManager>
 
     public override bool Initialize()
     {
-       // Item data를 파싱 받아서 저장해야함.
-       // 서버도 
-       // LoadXML(m_xmlFileName);
+        // Item data를 파싱 받아서 저장해야함.
+        // 서버도 
+        LoadItemData();
         return true;
     }
 
     public void LoadItemData()
     {
+        if (m_isParsingCompelete) return;
+
         TextAsset txtAsset = (TextAsset)Resources.Load("Data/Item/ItemData");
         XmlDocument xmlDoc = new XmlDocument();
         Debug.Log(txtAsset.text);
@@ -57,7 +61,10 @@ public class ItemManager : Singleton<ItemManager>
             
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
             Debug.Log(itemStat.m_ItemID);
+
+           
         }
+        m_isParsingCompelete = true;
     }
 
     public void DebuggingLogItem(int _itemID)

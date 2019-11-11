@@ -43,6 +43,7 @@ public enum ITEM_SLOT_SORT
     SECOND, // 세컨더리 무기
     THIRD, // 헬스팩이나 1회용 아이템
     FOURTH, // 헬스팩이나 1회용 아이템
+    FIFTH, // 방어구류
     END
 }
 
@@ -79,14 +80,16 @@ public class Item
     public int m_UniqueItemID { get; private set; } // 아이템 고유 아이디
     public int m_Count { get; private set; } // 중첩된 아이템 갯수
 
-    public ITEM_SLOT_SORT m_ItemSlotType { get; private set; }
+    public ITEM_SLOT_SORT m_ItemSlotType { get; set; } // 이 아이템이 장착되었다면 
+    //어느 부위에 장착이 되었는지.
 
-    public Item(int _ownedID, int _LV, int _curEXP, ItemStat _stat) 
+    public Item(int _ownedID, int _LV, int _curEXP, ITEM_SLOT_SORT _sort, ItemStat _stat) 
     {
         m_UniqueItemID = _ownedID;
         m_Lv = _LV;
         m_CurrentEXP = _curEXP;
         m_ItemStat = _stat;
+        m_ItemSlotType = _sort;
     }
 
 

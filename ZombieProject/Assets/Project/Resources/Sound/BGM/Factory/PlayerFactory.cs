@@ -40,7 +40,7 @@ public class PlayerFactory : ObjectFactory
         playerModel.transform.localPosition = Vector3.zero;
         playerModel.transform.localRotation = Quaternion.identity;
 
-        Player newPlayer = m_MovingObejctPrefabs.GetComponent<Player>();
+        Player newPlayer = playerGameObject.GetComponent<Player>();
 
         if(!newPlayer)
         {

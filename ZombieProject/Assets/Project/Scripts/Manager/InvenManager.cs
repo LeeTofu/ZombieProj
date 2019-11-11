@@ -95,6 +95,8 @@ public class InvenManager : Singleton<InvenManager>
                 }
             }
         }
+
+        LoadItemInvenFromXML();
         return true;
     }
 
@@ -145,6 +147,7 @@ public class InvenManager : Singleton<InvenManager>
             int Lv = int.Parse(node.SelectSingleNode("Level").InnerText);
             int uniqueID = int.Parse(node.SelectSingleNode("uniqueID").InnerText);
             int itemID = int.Parse(node.SelectSingleNode("ItemID").InnerText);
+       //     int slotSort = int.Parse(node.SelectSingleNode("SlotSort").InnerText);
 
             bool isEquiped = bool.Parse(node.SelectSingleNode("isEquiped").InnerText);
            
@@ -154,13 +157,15 @@ public class InvenManager : Singleton<InvenManager>
 
             if (stat.m_ItemID != -1)
             {
-                item = new Item(uniqueID, Lv, currentEXP, stat);
+                item = new Item(uniqueID, Lv, currentEXP, slotSort, stat);
                 bool result = InsertItemToInventory(item);
 
                 if (result)
                 {
-                    if (isEquiped && slotSort != ITEM_SLOT_SORT.NONE) 
-                        EquipItem(uniqueID, slotSort);
+                    if (isEquiped && slotSort != ITEM_SLOT_SORT.NONE)
+                    {
+                        EquipItem(uniqueID, slotSort, null);
+                    }
                 }
             }
         }
@@ -203,10 +208,9 @@ public class InvenManager : Singleton<InvenManager>
 
         m_CurSelectedInventoryTab = _sort;
     }
-    
 
 
-    private MAIN_ITEM_SORT ConvertSortToMainSort(ITEM_SORT _sort)
+    public MAIN_ITEM_SORT ConvertSortToMainSort(ITEM_SORT _sort)
     {
         MAIN_ITEM_SORT sort = MAIN_ITEM_SORT.NONE;
 
@@ -232,6 +236,46 @@ public class InvenManager : Singleton<InvenManager>
         }
 
         return sort;
+    }
+
+    public MAIN_ITEM_SORT ConvertSortToMainSort(ITEM_SLOT_SORT _sort)
+    {
+        MAIN_ITEM_SORT sort = MAIN_ITEM_SORT.NONE;
+
+        switch (_sort)
+        {
+            case ITEM_SLOT_SORT.MAIN:
+            case ITEM_SLOT_SORT.SECOND:
+                sort = MAIN_ITEM_SORT.EQUIPMENT;
+                break;
+            case ITEM_SLOT_SORT.THIRD:
+                sort = MAIN_ITEM_SORT.QUICK;
+                break;
+            case ITEM_SLOT_SORT.FOURTH:
+                sort = MAIN_ITEM_SORT.ETC;
+                break;
+        }
+
+        return sort;
+    }
+
+    public ItemSlot GetItemSlot(MAIN_ITEM_SORT _slotType, int _uniqueItemID)
+    {
+       List<ItemSlot> listItem =  m_ItemInventorySlot[_slotType];
+
+        if (m_ItemSlotCount[_slotType] == 0)
+            return null;
+
+        for(int i = 0; i < m_ItemInventorySlot[_slotType].Count; i++)
+        {
+            if (listItem[i] == null) continue;
+
+            if(_uniqueItemID == listItem[i].m_Item.m_UniqueItemID)
+            {
+                return listItem[i];
+            }
+        }
+        return null;
     }
 
 
@@ -338,40 +382,76 @@ public class InvenManager : Singleton<InvenManager>
         return item;
     }
 
-    public void EquipItem(Item _item, ITEM_SLOT_SORT _slotSort)
-    {
-        if(isEquipedItemSlot(_slotSort))
-            DetachItem(_slotSort);
-       
-        m_EquipedItemSlots[_slotSort] = _item;
-        _item.m_isEquiped = true;
-    }
 
-    public void EquipItem(int _itemUniqueID, ITEM_SLOT_SORT _slotSort)
+
+
+    public bool EquipItem(int _itemUniqueID, ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
+      
         Item item = GetItemFromInven(_itemUniqueID);
 
         if (item == null)
         {
             Debug.LogError("그런 아이템은 인벤에 없어");
-            return;
+            return false;
         }
 
-        EquipItem(item, _slotSort);
+        if (isEquipedItemSlot(_slotSort))
+            DetachItem(_slotSort, _EquipmentSlot);
+
+        m_EquipedItemSlots[_slotSort] = item;
+        item.m_isEquiped = true;
+        item.m_ItemSlotType = _slotSort;
+
+        if (m_Main.m_SelectedSlot)
+        m_Main.m_SelectedSlot.EquipItem();
+
+        if(_EquipmentSlot)
+        {
+            _EquipmentSlot.SetItem(item);
+        }
+
+        return true;
+
+    }
+
+    public Item GetEquipedItemSlot(ITEM_SLOT_SORT _slot)
+    {
+        return m_EquipedItemSlots[_slot];
     }
 
 
-    public Item DetachItem(ITEM_SLOT_SORT _slotSort)
+    public Item DetachItem(ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
+      //  if (_slotSort == ITEM_SLOT_SORT.NONE || _slotSort == ITEM_SLOT_SORT.END) return null;
+
         Item preEquipItem = null;
 
+        Debug.Log("여기는 와애ㅑ지");
         if (isEquipedItemSlot(_slotSort))
         {
             preEquipItem = m_EquipedItemSlots[_slotSort];
             preEquipItem.m_isEquiped = false;
 
+            if (_EquipmentSlot)
+            {
+                _EquipmentSlot.SetItem(null);
+            }
+
             if (m_ItemInventory.ContainsKey(preEquipItem.m_UniqueItemID))
             {
+                Item item = GetEquipedItemSlot(_slotSort);
+
+                if (item != null)
+                {
+                    Debug.Log("들오나");
+                    //  m_ItemEquipmentSlot[(int)_slotType].SetItem(null);
+                    MAIN_ITEM_SORT sort = ConvertSortToMainSort(_slotSort);
+                    ItemSlot itemSlot = GetItemSlot(sort, item.m_UniqueItemID);
+
+                    itemSlot.DetachItem();
+                }
+
                 m_ItemInventory[preEquipItem.m_UniqueItemID].m_isEquiped = false;
             }
             else

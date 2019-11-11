@@ -10,7 +10,10 @@ public class ItemSlot : MonoBehaviour
     public const float HEIGHT = 100;
 
     [SerializeField]
-    Image m_SelectedLine;
+    Image m_SelectedLineImage;
+
+    //[SerializeField]
+   // Image EquipItemItmage;
 
     [SerializeField]
     TextMeshProUGUI m_Equiped;
@@ -65,38 +68,42 @@ public class ItemSlot : MonoBehaviour
     public void ClickSelectItem()
     {
         if (m_Item == null) return;
-
-        InvenManager.Instance.m_Main.SelectItem(this);
+        if(InvenManager.Instance.m_Main.SelectItem(this))
+            InvenManager.Instance.m_UI.OpenItemInfoUI(this);
+        else
+            InvenManager.Instance.m_UI.CloseItemInfoUI();
     }
 
     public void SelectItem()
     {
-        m_SelectedLine.gameObject.SetActive(true);
+        m_SelectedLineImage.gameObject.SetActive(true);
     }
 
     public void UnSelectSlot()
     {
-        m_SelectedLine.gameObject.SetActive(false);
+        m_SelectedLineImage.gameObject.SetActive(false);
     }
 
     public void EquipItem()
     {
         if (m_Item == null) return;
-        if (m_Item.m_isEquiped) return;
+       // if (m_Item.m_isEquiped) return;
 
         m_IconImage.color = Color.gray;
         m_Equiped.gameObject.SetActive(true);
-        InvenManager.Instance.EquipItem(m_Item.m_UniqueItemID, ITEM_SLOT_SORT.MAIN);
+
+        Debug.Log("들옴~~~");
+      //  InvenManager.Instance.EquipItem(m_Item.m_UniqueItemID, ITEM_SLOT_SORT.MAIN);
     }
 
     public void DetachItem()
     {
         if (m_Item == null) return;
-        if (!m_Item.m_isEquiped) return;
+        //if (!m_Item.m_isEquiped) return;
 
         m_IconImage.color = Color.white;
         m_Equiped.gameObject.SetActive(false);
-        InvenManager.Instance.DetachItem( m_Item.m_ItemSlotType);
+      //  InvenManager.Instance.DetachItem( m_Item.m_ItemSlotType);
     }
 
 

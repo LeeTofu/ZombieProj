@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce780dc195e80564bb2bd534df15a1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SelectedLine: {fileID: 4386619567901986200}
+  m_SelectedLineImage: {fileID: 4386619567901986200}
   m_Equiped: {fileID: 3114498745375240807}
   m_IconImage: {fileID: 5166148576313484892}
   m_ItemName: {fileID: 2636497395124196041}

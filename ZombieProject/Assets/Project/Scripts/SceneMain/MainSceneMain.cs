@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainSceneMain : SceneMain
 {
+
+
     public override bool DeleteScene()
     {
         return true;
@@ -11,8 +13,7 @@ public class MainSceneMain : SceneMain
 
     public override bool InitializeScene()
     {
-        ItemManager.Instance.LoadItemData();
-        InvenManager.Instance.LoadItemInvenFromXML();
+     //   InvenManager.Instance.LoadItemInvenFromXML();
         return true;
     }
 }

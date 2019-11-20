@@ -17,7 +17,6 @@ public class InventoryUI: BaseUI
 
     Vector2 m_RectSize;
 
-    
     public ItemSlot[] m_ItemEquipmentSlot;
 
     public ItemInfoUI m_ItemInfoUI { private set; get; }
@@ -48,6 +47,7 @@ public class InventoryUI: BaseUI
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.SECOND, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.SECOND - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.THIRD, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.THIRD - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.FOURTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FOURTH - 1)]);
+        SetEuqipmentItemSlot(ITEM_SLOT_SORT.FIFTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FIFTH - 1)]);
     }
 
     void SetEuqipmentItemSlot(ITEM_SLOT_SORT _slotType, ItemSlot _EquipmentSlot)
@@ -101,7 +101,9 @@ public class InventoryUI: BaseUI
         switch(sort)
         {
             case MAIN_ITEM_SORT.EQUIPMENT:
-                EquipItem(ITEM_SLOT_SORT.MAIN);
+                if(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort == ITEM_SORT.ARMOR)
+                    EquipItem(ITEM_SLOT_SORT.FIFTH);
+               else EquipItem(ITEM_SLOT_SORT.MAIN);
                 break;
             case MAIN_ITEM_SORT.ETC:
                 EquipItem(ITEM_SLOT_SORT.FOURTH);
@@ -139,7 +141,9 @@ public class InventoryUI: BaseUI
 
         InvenManager.Instance.EquipItem(
           InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_UniqueItemID,
-          _slotType, m_ItemEquipmentSlot[(int)_slotType]);
+          _slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
+
+       // SetEuqipmentItemSlot(_slotType, m_ItemEquipmentSlot[(int)(_slotType) - 1]);
     }
 
     public void DetachItem(ITEM_SLOT_SORT _slotType)
@@ -156,8 +160,10 @@ public class InventoryUI: BaseUI
         }
 
         Debug.Log("들어가기 시작");
-        // m_ItemEquipmentSlot[(int)_slotType].SetItem(null);
-        InvenManager.Instance.DetachItem(_slotType, m_ItemEquipmentSlot[(int)_slotType]);
+       //  m_ItemEquipmentSlot[(int)_slotType].SetItem(null);
+        InvenManager.Instance.DetachItem(_slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
+
+        SetEuqipmentItemSlot(_slotType, m_ItemEquipmentSlot[(int)(_slotType) - 1]);
     }
 
     public override void DeleteUI()
@@ -171,13 +177,13 @@ public class InventoryUI: BaseUI
 
         if (mainSort != MAIN_ITEM_SORT.EQUIPMENT)
         {
-            m_SecondEquipButton.enabled = true;
+            m_SecondEquipButton.gameObject.SetActive(false);
             m_SecondEquipButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.gray;
 
         }
         else
         {
-            m_SecondEquipButton.enabled = false;
+            m_SecondEquipButton.gameObject.SetActive(true);
             m_SecondEquipButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.green;
         }
 

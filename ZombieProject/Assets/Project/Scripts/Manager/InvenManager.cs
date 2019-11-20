@@ -70,6 +70,7 @@ public class InvenManager : Singleton<InvenManager>
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.SECOND, null);
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.THIRD, null);
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.FOURTH, null);
+        m_EquipedItemSlots.Add(ITEM_SLOT_SORT.FIFTH, null);
 
         m_CurSelectedInventoryTab = MAIN_ITEM_SORT.END;
         InitializeInventoryTab(MAIN_ITEM_SORT.NONE);
@@ -254,6 +255,9 @@ public class InvenManager : Singleton<InvenManager>
             case ITEM_SLOT_SORT.FOURTH:
                 sort = MAIN_ITEM_SORT.ETC;
                 break;
+            case ITEM_SLOT_SORT.FIFTH:
+                sort = MAIN_ITEM_SORT.EQUIPMENT;
+                break;
         }
 
         return sort;
@@ -382,9 +386,6 @@ public class InvenManager : Singleton<InvenManager>
         return item;
     }
 
-
-
-
     public bool EquipItem(int _itemUniqueID, ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
       
@@ -397,14 +398,22 @@ public class InvenManager : Singleton<InvenManager>
         }
 
         if (isEquipedItemSlot(_slotSort))
-            DetachItem(_slotSort, _EquipmentSlot);
+        {
+           DetachItem(_slotSort, _EquipmentSlot);
+        }
+         if(item.m_isEquiped)
+        {
+           DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
+        }
+
+     //   if(item.m_isEquiped == true)
 
         m_EquipedItemSlots[_slotSort] = item;
         item.m_isEquiped = true;
         item.m_ItemSlotType = _slotSort;
 
         if (m_Main.m_SelectedSlot)
-        m_Main.m_SelectedSlot.EquipItem();
+            m_Main.m_SelectedSlot.EquipItem();
 
         if(_EquipmentSlot)
         {

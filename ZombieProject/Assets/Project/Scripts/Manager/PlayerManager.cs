@@ -1,10 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
+using UnityEngine.UI;
 
 
 public class PlayerManager : Singleton<PlayerManager>
 {
+    public struct PlayerInfo
+    {
+        public int PlayerID;
+        public int Lv;
+        public int Money;
+        public int Parts;
+        public int exp;
+        public string playerName;
+    }
+
+
+
+
     [SerializeField]
     private GameObject m_PlayerHeadModelPrefabs;
 
@@ -20,6 +35,35 @@ public class PlayerManager : Singleton<PlayerManager>
 
     [HideInInspector]
     public GameObject m_PlayerCreateZone;
+
+    public PlayerInfo m_PlayerInfo;
+
+
+    public void LoadPlayerInfo()
+    {
+        TextAsset playerInvenList = (TextAsset)Resources.Load("Data/Player/PlayerInfo");
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(playerInvenList.text);
+
+        XmlNodeList all_nodes = xmlDoc.SelectNodes("Root/text");
+
+        foreach (XmlNode node in all_nodes)
+        {
+            int playerID = int.Parse(node.SelectSingleNode("PlayerID").InnerText);
+            int Lv = int.Parse(node.SelectSingleNode("Level").InnerText);
+            int Money = int.Parse(node.SelectSingleNode("Money").InnerText);
+            int Parts = int.Parse(node.SelectSingleNode("Parts").InnerText);
+            int exp = int.Parse(node.SelectSingleNode("Exp").InnerText);
+            string playerName = node.SelectSingleNode("PlayerName").InnerText;
+
+            m_PlayerInfo.PlayerID = playerID;
+            m_PlayerInfo.Lv = Lv;
+            m_PlayerInfo.Money = Money;
+            m_PlayerInfo.Parts = Parts;
+            m_PlayerInfo.exp = exp;
+            m_PlayerInfo.playerName = playerName;
+        }
+    }
 
     void Start()
     {
@@ -42,8 +86,13 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public override bool Initialize()
     {
+        LoadPlayerInfo();
+
         m_PlayerFactory = gameObject.AddComponent<PlayerFactory>();
         m_PlayerFactory.Initialize();
+
+        
+
         return true;
     }
 }

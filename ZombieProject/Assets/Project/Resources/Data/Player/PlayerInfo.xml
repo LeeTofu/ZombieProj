@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<text>
+		<PlayerID>123</PlayerID>
+		<Level>3</Level>
+		<Money>1123</Money>
+		<Parts>545</Parts>
+		<Exp>3233</Exp>
+		<PlayerName>GodKiller</PlayerName>
+	</text>
+	<text>
+		<PlayerID>112</PlayerID>
+		<Level>5</Level>
+		<Money>4343</Money>
+		<Parts>1233</Parts>
+		<Exp>5454</Exp>
+		<PlayerName>ZombieKiller</PlayerName>
+	</text>
+</Root>

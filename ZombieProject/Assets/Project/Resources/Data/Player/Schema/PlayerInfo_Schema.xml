@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Root>
+<text>
+  <PlayerID></PlayerID>
+  <Level></Level>
+  <Money></Money>
+  <Parts></Parts>
+  <Exp></Exp>
+  <PlayerName></PlayerName>
+</text>
+<text>
+  <PlayerID></PlayerID>
+  <Level></Level>
+  <Money></Money>
+  <Parts></Parts>
+  <Exp></Exp>
+  <PlayerName></PlayerName>
+</text>
+</Root>

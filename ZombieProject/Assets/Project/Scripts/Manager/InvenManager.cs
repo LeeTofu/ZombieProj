@@ -401,11 +401,10 @@ public class InvenManager : Singleton<InvenManager>
         {
            DetachItem(_slotSort, _EquipmentSlot);
         }
-         if(item.m_isEquiped)
+        if(item.m_isEquiped)
         {
            DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
         }
-
      //   if(item.m_isEquiped == true)
 
         m_EquipedItemSlots[_slotSort] = item;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryUI: BaseUI
 {
@@ -21,7 +22,19 @@ public class InventoryUI: BaseUI
 
     public ItemInfoUI m_ItemInfoUI { private set; get; }
 
-  //  public ItemSlot m_SelectedItemSlot { private set; get; }
+    [SerializeField]
+    TextMeshProUGUI m_Money;
+
+    [SerializeField]
+    TextMeshProUGUI m_Parts;
+
+    [SerializeField]
+    TextMeshProUGUI PlayerLevel;
+
+    [SerializeField]
+    TextMeshProUGUI PlayerName;
+
+    //  public ItemSlot m_SelectedItemSlot { private set; get; }
 
     private void Awake()
     {
@@ -41,6 +54,11 @@ public class InventoryUI: BaseUI
 
     public override void InitializeUI()
     {
+        m_Money.text = PlayerManager.Instance.m_PlayerInfo.Money.ToString();
+        m_Parts.text = PlayerManager.Instance.m_PlayerInfo.Parts.ToString();
+        PlayerName.text = PlayerManager.Instance.m_PlayerInfo.playerName;
+        PlayerLevel.text = "Lv " +PlayerManager.Instance.m_PlayerInfo.Lv.ToString();
+
         SortItemslot(MAIN_ITEM_SORT.EQUIPMENT);
 
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.MAIN, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.MAIN - 1)]);

@@ -50,6 +50,7 @@ public class GameMaster : Singleton<GameMaster>
     {
         TextureManager.Instance.CreateManager();
 
+        LoginManager.Instance.CreateManager();
         EnemyManager.Instance.CreateManager();
         PlayerManager.Instance.CreateManager();
         UIManager.Instance.CreateManager();

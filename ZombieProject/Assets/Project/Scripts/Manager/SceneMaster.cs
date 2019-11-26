@@ -166,7 +166,7 @@ public class SceneMaster : Singleton<SceneMaster>
 
         if ( !m_SceneInitializerTable.ContainsKey(m_NextScene))
         {
-            Debug.LogError("Resources/Prefabs/SceneMain에 Scene Initialize 만들어 오세요. 일단 메인으로 감");
+            Debug.LogError("Resources/Prefabs/SceneMain에 Scene Initialize 만들어 오세요. 일단 메인으로 감" + m_NextScene);
             LoadScene(GAME_SCENE.MAIN);
             yield break;
         }

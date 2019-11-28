@@ -33,7 +33,7 @@ public class LoginUI : BaseUI
 
     public void JoinToTheFireBase()
     {
-        LoginManager.Instance.JointToFireBase(m_IDInput.text, m_PWInput.text);
+       // LoginManager.Instance.JointToFireBase(m_IDInput.text, m_PWInput.text);
     }
 
 

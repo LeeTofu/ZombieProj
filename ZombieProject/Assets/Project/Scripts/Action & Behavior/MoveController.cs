@@ -62,8 +62,22 @@ public class MoveController : MonoBehaviour
 
     }
     public void Attack(Vector3 _FirePosition, Vector3 _AttackDir)
-    { 
+    {
+        m_Character.transform.rotation = Quaternion.LookRotation(_AttackDir, Vector3.up);
+        Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[ITEM_SLOT_SORT.MAIN];
 
+        if (currentEquipedItem.m_ItemStat.m_isRayAttack)
+        {
+            GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + currentEquipedItem.m_ItemStat.m_BulletString));
+            Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+
+            if (newBullet)
+                newBullet.FireBullet(m_FirePos.transform.position + Vector3.up * 0.1f, m_Character.transform.forward, currentEquipedItem.m_ItemStat.m_BulletSpeed);
+        }
+        else
+        {
+            Debug.Log("dsd");
+        }
     }
 
 

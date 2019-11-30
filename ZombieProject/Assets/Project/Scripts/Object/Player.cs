@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Player : MovingObject
 {
-    MoveController m_Controller;
+    MoveController m_AIContoller;
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-        m_Controller = gameObject.AddComponent<MoveController>();
-        m_Controller.Initialized(this);
+        m_AIContoller = gameObject.AddComponent<PlayerMoveController>();
+        
 
         return;
     }

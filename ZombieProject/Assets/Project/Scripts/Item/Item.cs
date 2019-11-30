@@ -67,13 +67,14 @@ public struct ItemStat
 
     public bool m_isAccumulate; // 중첩이 되나 1,2,3...
 
-    public bool m_isRayAttack; // 공격템인데 Ray 공격으로 하나?
     public float m_BulletSpeed; // 공격템인데 Bullet의 공속은?
     public string m_BulletString; // 공격템인데 Bullet의 string;
 }
 
 public class Item
 {
+    public System.Action<Vector3, Vector3, MovingObject> m_AttackMethod;
+       
     int MAX_LEVEL = 10;
     public ItemStat m_ItemStat { get; private set; } // 아이템 능력치
 
@@ -96,10 +97,21 @@ public class Item
         m_ItemSlotType = _sort;
     }
 
+    public void SetAttackAction(System.Action<Vector3, Vector3, MovingObject> _action)
+    {
+        m_AttackMethod = _action;
+    }
 
     public void EquipItem()
     {
         m_isEquiped = true;
+    }
+
+    public void Attack(Vector3 _pos, Vector3 _dir, MovingObject _itemMaster)
+    {
+        if (m_AttackMethod == null) return;
+
+        m_AttackMethod(_pos, _dir, _itemMaster);
     }
 
 

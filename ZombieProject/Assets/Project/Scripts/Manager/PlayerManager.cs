@@ -26,7 +26,7 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField]
     private GameObject m_PlayerBodyModelPrefabs;
 
-    public static MovingObject m_Player;
+    public MovingObject m_Player;
 
     // 플레이어를 도울 용병등등... 드론..? 용병?
     public List<MovingObject> m_PlayableObject = new List<MovingObject>();

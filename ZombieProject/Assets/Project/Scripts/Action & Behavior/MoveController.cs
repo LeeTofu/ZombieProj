@@ -8,7 +8,7 @@ public class MoveController : MonoBehaviour
     private MovingObject m_Chracter;
 
     // 현재 실행중인 액션 
-    private ActionNode m_CurrentAction;
+    private BehaviorNode m_CurrentBehavior;
 
     // Action을 table에 저장하기용. -> BehaviorManager로 이동
     /*
@@ -81,9 +81,9 @@ public class MoveController : MonoBehaviour
 
     private void Update()
     {
-        if (m_CurrentAction == null) return;
+        if (m_CurrentBehavior == null) return;
 
-        m_CurrentAction.OnUpdate();
+        m_CurrentBehavior.Tick();
     }
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BehaviorManger : Singleton<BehaviorManger>
 {
-    private Dictionary<string, ActionNode> m_ActionTable = new Dictionary<string, ActionNode>();
+    private Dictionary<string, BehaviorNode> m_BehaviorTable = new Dictionary<string, BehaviorNode>();
 
     // Start is called before the first frame update
     void Start()
@@ -12,18 +12,18 @@ public class BehaviorManger : Singleton<BehaviorManger>
 
     }
 
-    public void AddActionNode(string key, ActionNode head)
+    public void AddActionNode(string key, BehaviorNode head)
     {
-        if (m_ActionTable.ContainsKey(key)) return;
+        if (m_BehaviorTable.ContainsKey(key)) return;
 
-        m_ActionTable.Add(key, head);
+        m_BehaviorTable.Add(key, head);
     }
 
-    public ActionNode GetNode(string key)
+    public BehaviorNode GetNode(string key)
     {
-        if(m_ActionTable.ContainsKey(key))
+        if(m_BehaviorTable.ContainsKey(key))
         {
-            return m_ActionTable[key];
+            return m_BehaviorTable[key];
         }
 
         return null;

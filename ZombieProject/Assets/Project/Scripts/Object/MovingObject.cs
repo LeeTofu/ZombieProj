@@ -35,6 +35,7 @@ public abstract class MovingObject : MonoBehaviour
 
     public STAT m_Stat;
     public OBEJCT_SORT m_Sort;
+    public Animator m_Animator;
 
     [SerializeField]
     protected MoveController m_Controller;

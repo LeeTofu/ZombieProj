@@ -78,7 +78,7 @@ public class MoveController : MonoBehaviour
 
             m_Ray = cam.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
 
-            if (Physics.Raycast(m_Ray, out m_RayCastHit, 50.0f, 1 << LayerMask.NameToLayer("Ground")))
+            if (Physics.Raycast(m_Ray, out m_RayCastHit, 50.0f, 2 << LayerMask.NameToLayer("Ground")))
             {
                 Vector3 hitPoint = m_RayCastHit.point;
                 hitPoint.y = m_Character.transform.position.y;

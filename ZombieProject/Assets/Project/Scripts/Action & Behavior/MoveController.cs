@@ -76,6 +76,7 @@ public class MoveController : MonoBehaviour
 }
         else
         {
+            Debug.Log("dsd");
         }
     }
 

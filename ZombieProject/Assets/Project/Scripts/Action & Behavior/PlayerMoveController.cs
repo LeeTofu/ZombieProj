@@ -2,12 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveController : MoveController
+public class PlayerMoveController : MonoBehaviour
 {
-  
-
-
-
-
 
 }

@@ -58,6 +58,10 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_HealthPoint = float.Parse(node.SelectSingleNode("HP").InnerText);
 
             itemStat.m_isAccumulate = bool.Parse(node.SelectSingleNode("isAccumulate").InnerText);
+
+            itemStat.m_isRayAttack = true;
+            itemStat.m_BulletSpeed = 20.0f;
+            itemStat.m_BulletString = "TestBullet";
             
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
             Debug.Log(itemStat.m_ItemID);

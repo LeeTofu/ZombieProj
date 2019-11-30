@@ -66,6 +66,11 @@ public struct ItemStat
     public float m_AttackSpeed; //공속
 
     public bool m_isAccumulate; // 중첩이 되나 1,2,3...
+
+    public bool m_isRayAttack; // 공격템인데 Ray 공격으로 하나?
+    public float m_BulletSpeed; // 공격템인데 Bullet의 공속은?
+    public string m_BulletString; // 공격템인데 Bullet의 string;
+
 }
 
 public class Item

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 387007101338328461}
   - component: {fileID: 387007101338328459}
   - component: {fileID: 387007101338328460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 387007101377825267}
   - component: {fileID: 387007101377825265}
   - component: {fileID: 387007101377825266}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 387007101432616249}
   - component: {fileID: 387007101432616247}
   - component: {fileID: 387007101432616248}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1342,7 +1342,7 @@ GameObject:
   - component: {fileID: 387007101536315014}
   - component: {fileID: 387007101536315012}
   - component: {fileID: 387007101536315013}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1738,7 +1738,7 @@ GameObject:
   - component: {fileID: 387007101585139210}
   - component: {fileID: 387007101585139208}
   - component: {fileID: 387007101585139209}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2363,7 +2363,7 @@ GameObject:
   - component: {fileID: 387007101623670556}
   - component: {fileID: 387007101623670554}
   - component: {fileID: 387007101623670555}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_T_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2519,7 +2519,7 @@ GameObject:
   - component: {fileID: 387007101663654276}
   - component: {fileID: 387007101663654274}
   - component: {fileID: 387007101663654275}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3457,7 +3457,7 @@ GameObject:
   - component: {fileID: 387007101787459887}
   - component: {fileID: 387007101787459885}
   - component: {fileID: 387007101787459886}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3694,7 +3694,7 @@ GameObject:
   - component: {fileID: 387007101838623274}
   - component: {fileID: 387007101838623272}
   - component: {fileID: 387007101838623273}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3772,7 +3772,7 @@ GameObject:
   - component: {fileID: 387007101843606601}
   - component: {fileID: 387007101843606599}
   - component: {fileID: 387007101843606600}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4085,7 +4085,7 @@ GameObject:
   - component: {fileID: 387007101917172795}
   - component: {fileID: 387007101917172793}
   - component: {fileID: 387007101917172794}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4100,7 +4100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387007101917172796}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -26.494768, y: -36.01493, z: -10.381144}
+  m_LocalPosition: {x: -26.41, y: -36.01493, z: -10.381144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 387007103003253632}
@@ -4244,7 +4244,7 @@ GameObject:
   - component: {fileID: 387007101967418826}
   - component: {fileID: 387007101967418824}
   - component: {fileID: 387007101967418825}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5271,7 +5271,7 @@ GameObject:
   - component: {fileID: 387007102058063131}
   - component: {fileID: 387007102058063129}
   - component: {fileID: 387007102058063130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5349,7 +5349,7 @@ GameObject:
   - component: {fileID: 387007102063476671}
   - component: {fileID: 387007102063476669}
   - component: {fileID: 387007102063476670}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5583,7 +5583,7 @@ GameObject:
   - component: {fileID: 387007102089814138}
   - component: {fileID: 387007102089814136}
   - component: {fileID: 387007102089814137}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6207,7 +6207,7 @@ GameObject:
   - component: {fileID: 387007102155728587}
   - component: {fileID: 387007102155728585}
   - component: {fileID: 387007102155728586}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7931,7 +7931,7 @@ GameObject:
   - component: {fileID: 387007102355660692}
   - component: {fileID: 387007102355660690}
   - component: {fileID: 387007102355660691}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_02_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8247,7 +8247,7 @@ GameObject:
   - component: {fileID: 387007102383084241}
   - component: {fileID: 387007102383084239}
   - component: {fileID: 387007102383084240}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8718,7 +8718,7 @@ GameObject:
   - component: {fileID: 387007102435425793}
   - component: {fileID: 387007102435426303}
   - component: {fileID: 387007102435425792}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9032,7 +9032,7 @@ GameObject:
   - component: {fileID: 387007102457230516}
   - component: {fileID: 387007102457230514}
   - component: {fileID: 387007102457230515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9110,7 +9110,7 @@ GameObject:
   - component: {fileID: 387007102466559925}
   - component: {fileID: 387007102466559923}
   - component: {fileID: 387007102466559924}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9425,7 +9425,7 @@ GameObject:
   - component: {fileID: 387007102512493954}
   - component: {fileID: 387007102512493952}
   - component: {fileID: 387007102512493953}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9741,7 +9741,7 @@ GameObject:
   - component: {fileID: 387007102531272146}
   - component: {fileID: 387007102531272144}
   - component: {fileID: 387007102531272145}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9897,7 +9897,7 @@ GameObject:
   - component: {fileID: 387007102539161240}
   - component: {fileID: 387007102539161238}
   - component: {fileID: 387007102539161239}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9977,7 +9977,7 @@ GameObject:
   - component: {fileID: 387007102560511305}
   - component: {fileID: 387007102560511303}
   - component: {fileID: 387007102560511304}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10055,7 +10055,7 @@ GameObject:
   - component: {fileID: 387007102564367726}
   - component: {fileID: 387007102564367724}
   - component: {fileID: 387007102564367725}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10680,7 +10680,7 @@ GameObject:
   - component: {fileID: 387007102644002054}
   - component: {fileID: 387007102644002052}
   - component: {fileID: 387007102644002053}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_T_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11464,7 +11464,7 @@ GameObject:
   - component: {fileID: 387007102721847920}
   - component: {fileID: 387007102721847918}
   - component: {fileID: 387007102721847919}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_T_01_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12245,7 +12245,7 @@ GameObject:
   - component: {fileID: 387007102857168654}
   - component: {fileID: 387007102857168652}
   - component: {fileID: 387007102857168653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_02_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12323,7 +12323,7 @@ GameObject:
   - component: {fileID: 387007102862104175}
   - component: {fileID: 387007102862104173}
   - component: {fileID: 387007102862104174}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12870,7 +12870,7 @@ GameObject:
   - component: {fileID: 387007102914497807}
   - component: {fileID: 387007102914497805}
   - component: {fileID: 387007102914497806}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13183,7 +13183,7 @@ GameObject:
   - component: {fileID: 387007102975489596}
   - component: {fileID: 387007102975489594}
   - component: {fileID: 387007102975489595}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13421,7 +13421,7 @@ GameObject:
   - component: {fileID: 387007103003253632}
   - component: {fileID: 387007103003253630}
   - component: {fileID: 387007103003253631}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13889,7 +13889,7 @@ GameObject:
   - component: {fileID: 387007103057477482}
   - component: {fileID: 387007103057477480}
   - component: {fileID: 387007103057477481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13969,7 +13969,7 @@ GameObject:
   - component: {fileID: 387007103061313798}
   - component: {fileID: 387007103061313796}
   - component: {fileID: 387007103061313797}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_01_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14671,7 +14671,7 @@ GameObject:
   - component: {fileID: 387007103188420674}
   - component: {fileID: 387007103188420672}
   - component: {fileID: 387007103188420673}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15220,7 +15220,7 @@ GameObject:
   - component: {fileID: 387007103242585259}
   - component: {fileID: 387007103242585257}
   - component: {fileID: 387007103242585258}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15300,7 +15300,7 @@ GameObject:
   - component: {fileID: 387007103246747426}
   - component: {fileID: 387007103246747424}
   - component: {fileID: 387007103246747425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15458,7 +15458,7 @@ GameObject:
   - component: {fileID: 387007103273645616}
   - component: {fileID: 387007103273645614}
   - component: {fileID: 387007103273645615}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_Damaged_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15536,7 +15536,7 @@ GameObject:
   - component: {fileID: 387007103286465379}
   - component: {fileID: 387007103286465377}
   - component: {fileID: 387007103286465378}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16005,7 +16005,7 @@ GameObject:
   - component: {fileID: 387007103343532888}
   - component: {fileID: 387007103343532886}
   - component: {fileID: 387007103343532887}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16317,7 +16317,7 @@ GameObject:
   - component: {fileID: 387007103372756679}
   - component: {fileID: 387007103372756677}
   - component: {fileID: 387007103372756678}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Env_Road_Straight_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

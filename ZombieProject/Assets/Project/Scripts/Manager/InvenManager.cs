@@ -159,6 +159,9 @@ public class InvenManager : Singleton<InvenManager>
             if (stat.m_ItemID != -1)
             {
                 item = new Item(uniqueID, Lv, currentEXP, slotSort, stat);
+
+                ActionTypeManager.Instance.SetItemActionType(item);
+
                 bool result = InsertItemToInventory(item);
 
                 if (result)

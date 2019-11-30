@@ -38,7 +38,6 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         transform.Translate(m_CurDirection * Time.deltaTime * m_Speed);
     }
 }

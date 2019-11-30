@@ -56,6 +56,7 @@ public class GameMaster : Singleton<GameMaster>
         UIManager.Instance.CreateManager();
         SoundManager.Instance.CreateManager();
         SceneMaster.Instance.CreateManager();
+        ActionTypeManager.Instance.CreateManager();
         ItemManager.Instance.CreateManager();
         InvenManager.Instance.CreateManager();
         

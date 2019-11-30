@@ -42,8 +42,6 @@ public class MoveController : MonoBehaviour
     {
         Camera cam = Camera.main;
 
-        Debug.Log("ss");
-
         Vector3 point = new Vector3();
         Vector2 mousePos = new Vector2();
         mousePos = Input.mousePosition;
@@ -54,44 +52,38 @@ public class MoveController : MonoBehaviour
         {
             Vector3 hitPoint = m_RayCastHit.point;
             hitPoint.y = m_Character.transform.position.y;
-            Attack(m_RayCastHit.point, (hitPoint - m_Character.transform.position).normalized);
 
+            Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[ITEM_SLOT_SORT.MAIN];
 
-        }
-
-
-    }
-    public void Attack(Vector3 _FirePosition, Vector3 _AttackDir)
-    {
-        m_Character.transform.rotation = Quaternion.LookRotation(_AttackDir, Vector3.up);
-        Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[ITEM_SLOT_SORT.MAIN];
-
-        if (currentEquipedItem.m_ItemStat.m_isRayAttack)
-        {
-            Camera cam = Camera.main;
-
-            Debug.Log("ss");
-
-            Vector3 point = new Vector3();
-            Vector2 mousePos = new Vector2();
-            mousePos = Input.mousePosition;
-
-            m_Ray = cam.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            if (Physics.Raycast(m_Ray, out m_RayCastHit, 50.0f, 3 << LayerMask.NameToLayer("Ground")))
+            if(currentEquipedItem != null)
             {
-                Vector3 hitPoint = m_RayCastHit.point;
-                hitPoint.y = m_Character.transform.position.y;
-                Attack(m_RayCastHit.point, (hitPoint - m_Character.transform.position).normalized);
-
-
+                currentEquipedItem.Attack(
+                    m_FirePos.transform.position + Vector3.up * 0.1f, 
+                    (hitPoint - m_Character.transform.position).normalized,
+                    m_Character);
             }
-        }
-        else
-        {
-            Debug.Log("dsd");
+
         }
     }
+
+    //public void Attack(Vector3 _FirePosition, Vector3 _AttackDir)
+    //{
+    //    m_Character.transform.rotation = Quaternion.LookRotation(_AttackDir, Vector3.up);
+    //    Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[ITEM_SLOT_SORT.MAIN];
+
+    //    if (!currentEquipedItem.m_ItemStat.m_isRayAttack)
+    //    {
+    //        GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + currentEquipedItem.m_ItemStat.m_BulletString));
+    //        Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+
+    //        if (newBullet)
+    //            newBullet.FireBullet(m_FirePos.transform.position + Vector3.up * 0.1f, m_Character.transform.forward, currentEquipedItem.m_ItemStat.m_BulletSpeed);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("dsd");
+    //    }
+    //}
 
 
 

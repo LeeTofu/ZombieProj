@@ -37,9 +37,6 @@ public abstract class MovingObject : MonoBehaviour
     public OBEJCT_SORT m_Sort;
     public Animator m_Animator;
 
-    [SerializeField]
-    protected MoveController m_Controller;
-
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public virtual void SetStat(STAT _stat)
     {

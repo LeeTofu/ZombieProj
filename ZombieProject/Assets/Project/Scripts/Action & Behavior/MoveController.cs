@@ -5,85 +5,80 @@ using UnityEngine;
 public class MoveController : MonoBehaviour
 {
     // 제어할 캐릭터가 뭔지
-    private MovingObject m_Chracter;
+    private MovingObject m_Character;
 
-    // 현재 실행중인 액션 
-    private BehaviorNode m_CurrentBehavior;
+    Ray m_Ray = new Ray();
+    RaycastHit m_RayCastHit = new RaycastHit();
+    GameObject m_FirePos;
 
-    // Action을 table에 저장하기용. -> BehaviorManager로 이동
-    /*
-    private Dictionary<string, ActionNode> m_ActionTable = new Dictionary<string, ActionNode>();
-
-    private Queue<ActionNode> m_ActionQueue = new Queue<ActionNode>();
-    */
 
     virtual public void Initialize(MovingObject _Character)
     {
-        m_Chracter = _Character;
-
-        //InsertActionToTable("Idle", gameObject.AddComponent<Idle_ObjectAction>());
+        m_Character = _Character;
+        m_FirePos = m_Character.gameObject;
     }
-
-    /*
-    public void InsertActionToTable(ActionNode _action)
-    {
-        // Data 
-        if (m_ActionTable.ContainsKey((_action.GetType()).Name)) return;
-
-        if (m_CurrentAction == null) m_CurrentAction = _action;
-
-        _action.Initialize(m_Chracter, _action.GetType().Name);
-        m_ActionTable.Add(_action.GetType().Name, _action);
-
-        return;
-    }
-
-    public void InsertActionToTable(string _actionName, ActionNode _action)
-    {
-        // Data 
-        if (m_ActionTable.ContainsKey(_actionName)) return;
-
-        if (m_CurrentAction == null) m_CurrentAction = _action;
-
-
-        _action.Initialize(m_Chracter, _actionName);
-        m_ActionTable.Add(_actionName, _action);
-
-        return;
-    }
-
-    public bool IsHaveActionFromTable(string _name)
-    {
-        return m_ActionTable.ContainsKey(_name);
-    }
-
-    public bool IsHaveActionFromTable(ActionNode _action)
-    {
-        return m_ActionTable.ContainsKey((_action.GetType()).Name);
-    }
-
-    public ActionNode FindActionFromTable(string _name)
-    {
-        return m_ActionTable[_name];
-    }
-
-    public void PlayAction(string _actionName)
-    {
-        if (!m_ActionTable.ContainsKey(_actionName)) return;
-
-        if (m_CurrentAction != null)
-            m_CurrentAction.OnEnd();
-
-        Debug.Log(_actionName + "실행");
-        m_CurrentAction = m_ActionTable[_actionName];
-    }
-    */
 
     private void Update()
     {
-        if (m_CurrentBehavior == null) return;
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonUp(0))
+        {
+            InputAttack();
+        }
+#elif UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
 
-        m_CurrentBehavior.Tick();
+           Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Ended)
+            {
+                InputAttack();
+            }
+        }
+#endif
     }
+
+    void InputAttack()
+    {
+        Camera cam = Camera.main;
+
+        Debug.Log("ss");
+
+        Vector3 point = new Vector3();
+        Vector2 mousePos = new Vector2();
+        mousePos = Input.mousePosition;
+
+        m_Ray = cam.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
+
+        if (Physics.Raycast(m_Ray, out m_RayCastHit, 50.0f, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            Vector3 hitPoint = m_RayCastHit.point;
+            hitPoint.y = m_Character.transform.position.y;
+            Attack(m_RayCastHit.point, (hitPoint - m_Character.transform.position).normalized);
+
+
+        }
+
+
+    }
+    public void Attack(Vector3 _FirePosition, Vector3 _AttackDir)
+    { 
+        m_Character.transform.rotation = Quaternion.LookRotation(_AttackDir, Vector3.up);
+        Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[ITEM_SLOT_SORT.MAIN];
+
+        if(currentEquipedItem.m_ItemStat.m_isRayAttack)
+        {
+            GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + currentEquipedItem.m_ItemStat.m_BulletString));
+            Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+            
+            if(newBullet)
+                newBullet.FireBullet(m_FirePos.transform.position + Vector3.up * 0.1f, m_Character.transform.forward, currentEquipedItem.m_ItemStat.m_BulletSpeed);
+}
+        else
+        {
+        }
+    }
+
+
 
 }

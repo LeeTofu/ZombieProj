@@ -20,7 +20,7 @@ public class InvenManager : Singleton<InvenManager>
     Dictionary<int, Item> m_ItemInventory = new Dictionary<int, Item>();
 
     // 게임내 장착된 아이템 
-    Dictionary<ITEM_SLOT_SORT, Item> m_EquipedItemSlots = new Dictionary<ITEM_SLOT_SORT, Item>();
+    public Dictionary<ITEM_SLOT_SORT, Item> m_EquipedItemSlots = new Dictionary<ITEM_SLOT_SORT, Item>();
 
     public const int MAX_INVEN_SLOT = 30;
 

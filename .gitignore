@@ -2,3 +2,10 @@
 Library/
 Temp/
 obj/
+Firebase/
+GooglePlayGames/
+PlayServiceResolver/
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+*.sln
+.vs/

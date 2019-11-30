@@ -17,7 +17,6 @@ public class ZombieWalkCondition : DecoratorNode
             return NODE_STATE.SUCCESS;
         }
 
-
         Debug.Log("WalkCondFail");
         return NODE_STATE.FAIL;
     }
@@ -25,7 +24,6 @@ public class ZombieWalkCondition : DecoratorNode
 
 public class ZombieWalkAction : ActionNode
 {
-
     public override NODE_STATE Tick()
     {
         if (m_totalActionTime == 0f)
@@ -51,7 +49,6 @@ public class ZombieWalkAction : ActionNode
                 return NODE_STATE.RUNNING;
             }
         }
-
 
         m_nowActionTime = 0f;
         Debug.Log("Walk out");

@@ -12,7 +12,7 @@ public class BehaviorManger : Singleton<BehaviorManger>
 
     }
 
-    public void AddActionNode(string key, BehaviorNode head)
+    public void AddBehaviorNode(string key, BehaviorNode head)
     {
         if (m_BehaviorTable.ContainsKey(key)) return;
 

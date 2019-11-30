@@ -16,7 +16,6 @@ public class ZombieAttackCondition : DecoratorNode
             return NODE_STATE.SUCCESS;
         }
 
-
         Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
@@ -24,7 +23,6 @@ public class ZombieAttackCondition : DecoratorNode
 
 public class ZombieAttackAction : ActionNode
 {
-
     public override NODE_STATE Tick()
     {
         if(m_totalActionTime == 0f)
@@ -34,7 +32,6 @@ public class ZombieAttackAction : ActionNode
             m_totalActionTime = myAnimatorClip[0].clip.length;
         }
         
-
         //플레이 부분
         if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
@@ -51,7 +48,6 @@ public class ZombieAttackAction : ActionNode
                 return NODE_STATE.RUNNING;
             }
         }
-
 
         m_nowActionTime = 0f;
         Debug.Log("Attack out");

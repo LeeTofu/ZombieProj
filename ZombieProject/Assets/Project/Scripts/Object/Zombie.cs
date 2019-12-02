@@ -10,31 +10,37 @@ public class Zombie : MovingObject
 
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
+        m_Model = _Model;
+
         if(m_Animator == null)
         {
             m_Animator = gameObject.GetComponent<Animator>();
         }
 
         // Test //
-        SelectorNode sel = new SelectorNode();
+        m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");
+        if(m_zombieBehavior == null)
+        {
+            SelectorNode sel = new SelectorNode();
 
-        SequenceNode seqAtk = new SequenceNode();
-        seqAtk.InsertAction(new ZombieAttackCondition());
-        seqAtk.InsertAction(new ZombieAttackAction());
+            SequenceNode seqAtk = new SequenceNode();
+            seqAtk.InsertAction(new ZombieAttackCondition());
+            seqAtk.InsertAction(new ZombieAttackAction());
 
-        sel.InsertAction(seqAtk);
+            sel.InsertAction(seqAtk);
 
-        SequenceNode seqWalk = new SequenceNode();
-        seqWalk.InsertAction(new ZombieWalkCondition());
-        seqWalk.InsertAction(new ZombieWalkAction());
+            SequenceNode seqWalk = new SequenceNode();
+            seqWalk.InsertAction(new ZombieWalkCondition());
+            seqWalk.InsertAction(new ZombieWalkAction());
 
-        sel.InsertAction(seqWalk);
+            sel.InsertAction(seqWalk);
 
-        sel.InsertAction(new ZombieIdleAction());
+            sel.InsertAction(new ZombieIdleAction());
 
-        BehaviorManger.Instance.AddBehaviorNode("TestZombieNode", sel);
+            BehaviorManger.Instance.AddBehaviorNode("NormalZombieNode", sel);
 
-        m_zombieBehavior = sel;
+            m_zombieBehavior = sel;
+        }
     }
 
     private void Update()

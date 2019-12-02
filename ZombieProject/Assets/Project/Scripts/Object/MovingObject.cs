@@ -31,7 +31,7 @@ public struct STAT
 
 public abstract class MovingObject : MonoBehaviour
 {
-    private GameObject m_Model;
+    protected GameObject m_Model;
 
     public STAT m_Stat;
     public OBEJCT_SORT m_Sort;

@@ -35,8 +35,11 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                     GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
                     Bullet newBullet = newBulletObj.GetComponent<Bullet>();
 
-                     if (newBullet)
-                         newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                    if (newBullet)
+                    {
+                        newBullet.Initialize(null, null);
+                        newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                    }
                     
                 };
                 break;
@@ -48,8 +51,11 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                      GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
                      Bullet newBullet = newBulletObj.GetComponent<Bullet>();
 
-                     if (newBullet)
-                         newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                    if (newBullet)
+                    {
+                        newBullet.Initialize(null, null);
+                        newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                    }
                 };
                 break;
         }

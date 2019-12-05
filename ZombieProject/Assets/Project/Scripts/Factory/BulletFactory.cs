@@ -4,7 +4,7 @@ using UnityEngine;
 
 //Zombie 생성하는 객체
 
-public class ZombieFactory : ObjectFactory
+public class BulletFactory : ObjectFactory
 {
     private GameObject[] m_ZombieModelPrefabs = new GameObject[4];
     GameObject m_MovingObejctPrefabs;

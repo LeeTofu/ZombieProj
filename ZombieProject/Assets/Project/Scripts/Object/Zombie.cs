@@ -8,14 +8,17 @@ public class Zombie : MovingObject
 
     // Start is called before the first frame update
 
+     
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
+        if(_Model != null)
         m_Model = _Model;
 
         if(m_Animator == null)
         {
             m_Animator = gameObject.GetComponent<Animator>();
         }
+
 
         // Test //
         m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");

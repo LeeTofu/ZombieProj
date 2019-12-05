@@ -89,7 +89,7 @@ public class PlayerManager : Singleton<PlayerManager>
         LoadPlayerInfo();
 
         m_PlayerFactory = gameObject.AddComponent<PlayerFactory>();
-        m_PlayerFactory.Initialize();
+        m_PlayerFactory.Initialize(2);
 
         
 

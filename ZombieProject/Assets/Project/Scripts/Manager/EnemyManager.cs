@@ -43,7 +43,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public override bool Initialize()
     {
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
-        m_ZombieFactory.Initialize();
+        m_ZombieFactory.Initialize(10);
 
         return true;
     }

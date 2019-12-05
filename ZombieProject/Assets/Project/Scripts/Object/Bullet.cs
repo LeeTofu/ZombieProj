@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MovingObject
 {
+    [SerializeField]
+    private ParticleSystem m_HitEffect;
+
     public Vector3 m_CurVelocity { get; private set; }
     public Vector3 m_CurDirection { get; private set; }
 
@@ -15,6 +18,33 @@ public class Bullet : MonoBehaviour
     TrailRenderer m_TrailRenderer;
 
     public bool m_isArc { get; private set; }
+
+    public override void Initialize(GameObject _model, MoveController _Controller)
+    {
+        AddCollisionCondtion(CollisionCondition);
+        AddCollisionFunction(CollisionEvent);
+    }
+
+    void CollisionEvent(GameObject _object)
+    {
+        Debug.Log("Zombie Check");
+        MovingObject zombie = _object.GetComponent<MovingObject>();
+        zombie.SetRigidBodyState(true);
+        zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
+
+        gameObject.SetActive(false);
+
+    }
+
+    bool CollisionCondition(GameObject _defender)
+    {
+        if (_defender.GetComponent<MovingObject>() == null) return false;
+        if (_defender.tag != "Zombie") return false;
+
+        return true;
+    }
+
+
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, float _speed)
     {

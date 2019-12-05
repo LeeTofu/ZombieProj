@@ -114,37 +114,4 @@ public class Item
         m_AttackMethod(_pos, _dir, _itemMaster);
     }
 
-
-    //// 인챈트는 서버에서 이루어져야 하는 작업...
-    //public void ItemEnchant(int _exp)
-    //{
-    //    if (m_Lv == MAX_LEVEL) return;
-
-    //    int PlusExp = _exp;
-
-    //    while (PlusExp > 0)
-    //    {
-    //        if (m_CurrentEXP + PlusExp >= ItemManager.Instance.MaxEXP[m_Lv])
-    //        {
-    //            int curPlusExp =  (ItemManager.Instance.MaxEXP[m_Lv] - m_CurrentEXP);
-    //            PlusExp -= curPlusExp;
-    //            PlusItemLevel(1);
-    //        }
-
-    //        // Item의 최대 증가값 가져온다고 가정.
-    //    }
-
-    //    // exp 올라가는 연출 및 
-    //    // DataBase 연동해서 아이템의 레벨을 올릴 것.
-    //}
-
-    //public void PlusItemLevel(int _Level)
-    //{
-    //    if (m_Lv == MAX_LEVEL) return;
-
-    //    m_Lv += _Level;
-    //    m_CurrentEXP = 0;
-    //    m_MaxEXP = ItemManager.Instance.MaxEXP[m_Lv]; // DB에서 아이템의 최대값 연산 한 뒤에 가져와야
-    //}
-
 }

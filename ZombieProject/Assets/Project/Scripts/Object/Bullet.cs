@@ -32,7 +32,7 @@ public class Bullet : MovingObject
         zombie.SetRigidBodyState(true);
         zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
 
-        gameObject.SetActive(false);
+        pushToMemory();
 
     }
 
@@ -63,6 +63,9 @@ public class Bullet : MovingObject
         m_TrailRenderer.time = 0.25f;
 
         m_isArc = false;
+
+        Invoke("pushToMemory", 1.5f);
+
     }
 
     // Update is called once per frame

@@ -18,7 +18,7 @@ public abstract class ObjectFactory : MonoBehaviour
     {
         MovingObject newObject = null;
         // 풀링 필요.. 걍 지금은 대충 생성
-        if (m_ListSleepingMovingObject.Count < m_MaxCount && !m_Initialize)
+        if (m_ListSleepingMovingObject.Count > 0 && m_Initialize)
         {
             newObject = PopObject(_pos, _quat);
         }

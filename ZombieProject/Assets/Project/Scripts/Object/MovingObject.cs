@@ -59,11 +59,14 @@ public abstract class MovingObject : MonoBehaviour
 
     public void pushToMemory()
     {
+        if (!gameObject.activeSelf) return;
         if(m_Factory == null)
         {
             Debug.LogError(gameObject.name + " Factory 없습니다.");
             return;
         }
+
+        gameObject.SetActive(false);
         m_Factory.PushObject(this);
     }
 

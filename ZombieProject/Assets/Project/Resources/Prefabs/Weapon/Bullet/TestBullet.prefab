@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465750109445818195}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Sort: 0
   m_Animator: {fileID: 0}
+  m_HitEffect: {fileID: 0}
   m_TrailRenderer: {fileID: 0}
 --- !u!96 &3456772759987329102
 TrailRenderer:

@@ -16,8 +16,12 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
 {
     Dictionary<ATTACK_TYPE, System.Action<Vector3, Vector3, MovingObject>> m_ActionTypeTable;
 
+    BulletFactory m_BulletFactory;
+
     public override bool Initialize()
     {
+        m_BulletFactory = gameObject.AddComponent<BulletFactory>();
+        m_BulletFactory.Initialize(30);
         return true;
     }
 
@@ -29,15 +33,15 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
             case ITEM_SORT.LAUNCHER:
                 _item.m_AttackMethod = (pos, dir, character) =>
                 {
-
                     character.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
 
-                    GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
-                    Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+                    MovingObject newBulletObj = m_BulletFactory.CreateObject(pos, Quaternion.identity);
+
+
+                    Bullet newBullet = newBulletObj as Bullet;
 
                     if (newBullet)
                     {
-                        newBullet.Initialize(null, null);
                         newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
                     }
                     

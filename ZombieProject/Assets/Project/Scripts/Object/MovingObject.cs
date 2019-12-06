@@ -57,7 +57,7 @@ public abstract class MovingObject : MonoBehaviour
         m_Stat = _stat;
     }
 
-    protected void OnDisable()
+    public void pushToMemory()
     {
         if(m_Factory == null)
         {
@@ -99,7 +99,7 @@ public abstract class MovingObject : MonoBehaviour
 
     protected void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Check");
+        if (m_CollisionAction == null) return;
 
         if (m_CheckCollisionCondition == null)
             m_CollisionAction(collision.gameObject);
@@ -109,7 +109,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Check");
+        if (m_CollisionAction == null) return;
+
         if (m_CheckCollisionCondition == null)
             m_CollisionAction(other.gameObject);
         else if (m_CheckCollisionCondition(other.gameObject))

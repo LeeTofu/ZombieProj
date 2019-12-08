@@ -27,12 +27,14 @@ public class BattleItemSlotButton : MonoBehaviour
 
     public void ButtonClick()
     {
+        if (!InvenManager.Instance.m_EquipedItemSlots.ContainsKey(m_slotType)) return;
+
         Item currentEquipedItem = InvenManager.Instance.m_EquipedItemSlots[m_slotType];
 
         if (currentEquipedItem != null)
         {
             currentEquipedItem.Attack(
-                PlayerManager.Instance.m_Player.transform.position,
+                PlayerManager.Instance.m_Player.transform.position + Vector3.up * 0.3f,
                PlayerManager.Instance.m_Player.transform.forward,
                 PlayerManager.Instance.m_Player);
         }

@@ -23,7 +23,7 @@ public class MoveController : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0))
         {
-            InputAttack();
+         //   InputAttack();
         }
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)

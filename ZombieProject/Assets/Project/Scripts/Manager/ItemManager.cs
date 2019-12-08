@@ -106,7 +106,6 @@ public class ItemManager : Singleton<ItemManager>
         return stat;
     }
 
-
     public void ItemEnchant(Item _item, int _exp)
     {
       // _item.ItemEnchant(_exp);

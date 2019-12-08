@@ -36,6 +36,10 @@ public class ItemSlot : MonoBehaviour
         m_NullImage = m_IconImage.sprite;
     }
 
+    public Sprite GetItemTexture()
+    {
+        return m_IconImage.sprite;
+    }
 
     public void SetItem(Item _item)
     {

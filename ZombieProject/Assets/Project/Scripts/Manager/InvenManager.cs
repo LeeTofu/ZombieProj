@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class InvenManager : Singleton<InvenManager>
 {
-    public ShopSceneMain m_Main { private set; get; }
+    public InventorySceneMain m_Main { private set; get; }
     public InventoryUI m_UI { private set; get; }
 
     GameObject m_ItemSlotPrefab;
@@ -63,7 +63,7 @@ public class InvenManager : Singleton<InvenManager>
         }
 
         m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.INVENTORY).GetComponent<InventoryUI>();
-        m_Main = SceneMaster.Instance.GetGameMain(GAME_SCENE.SHOP) as ShopSceneMain;
+        m_Main = SceneMaster.Instance.GetGameMain(GAME_SCENE.INVENTORY) as InventorySceneMain;
 
         m_EquipedItemSlots.Clear();
         m_EquipedItemSlots.Add(ITEM_SLOT_SORT.MAIN, null);
@@ -414,7 +414,7 @@ public class InvenManager : Singleton<InvenManager>
         item.m_isEquiped = true;
         item.m_ItemSlotType = _slotSort;
 
-        if (m_Main.m_SelectedSlot)
+        if (m_Main != null && m_Main.m_SelectedSlot)
             m_Main.m_SelectedSlot.EquipItem();
 
         if(_EquipmentSlot)

@@ -7,6 +7,7 @@ public abstract class BaseUI : MonoBehaviour
 
     public GAME_SCENE m_Scene;
 
+   
     protected void OKClick()
     {
 
@@ -22,6 +23,7 @@ public abstract class BaseUI : MonoBehaviour
     {
         iTween.MoveTo(_go, _ToPos, 1.0f);
     }
+
 
     public abstract void InitializeUI();
 

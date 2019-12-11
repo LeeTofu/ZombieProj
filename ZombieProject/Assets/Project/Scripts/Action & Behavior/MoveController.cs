@@ -11,6 +11,8 @@ public class MoveController : MonoBehaviour
     RaycastHit m_RayCastHit = new RaycastHit();
     GameObject m_FirePos;
 
+    [SerializeField]
+    private InputContoller m_InputContoller;
 
     virtual public void Initialize(MovingObject _Character)
     {
@@ -18,8 +20,14 @@ public class MoveController : MonoBehaviour
         m_FirePos = m_Character.gameObject;
     }
 
+    private void OnEnable()
+    {
+        if (GameObject.Find("InputContoller") != null) m_InputContoller = GameObject.Find("InputContoller").GetComponent<InputContoller>();
+    }
+
     private void Update()
     {
+        if (m_InputContoller != null) InputMove();
 #if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0))
         {
@@ -64,5 +72,21 @@ public class MoveController : MonoBehaviour
             }
 
         }
+    }
+
+    void InputMove()
+    {
+
+        Vector3 vec3 = m_InputContoller.GetDirectionVec3();
+        if (vec3.x != 0 && vec3.y != 0)
+        {
+            //m_Character.m_Animator.Play("Walk");
+            Camera cam = Camera.main;
+            vec3 = cam.transform.InverseTransformVector(new Vector3(vec3.x, 0, vec3.y));
+
+            transform.rotation = Quaternion.LookRotation(new Vector3(vec3.x, 0, vec3.y));
+            transform.position += transform.forward * Time.deltaTime * m_InputContoller.GetLength() / 20f;
+        }
+
     }
 }

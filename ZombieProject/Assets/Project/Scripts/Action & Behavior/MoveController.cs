@@ -78,14 +78,17 @@ public class MoveController : MonoBehaviour
     {
 
         Vector3 vec3 = m_InputContoller.GetDirectionVec3();
-        if (vec3.x != 0 && vec3.y != 0)
+        if (vec3.x != 0 && vec3.y != 0 && m_InputContoller.GetisHit())
         {
             //m_Character.m_Animator.Play("Walk");
             Camera cam = Camera.main;
             vec3 = cam.transform.InverseTransformVector(new Vector3(vec3.x, 0, vec3.y));
 
             transform.rotation = Quaternion.LookRotation(new Vector3(vec3.x, 0, vec3.y));
-            transform.position += transform.forward * Time.deltaTime * m_InputContoller.GetLength() / 20f;
+            float length = m_InputContoller.GetLength();
+            float limitlength = m_InputContoller.GetLimitedLength();
+            if (length >= limitlength) length = limitlength;
+            transform.position += transform.forward * Time.deltaTime * length / 10f;
         }
 
     }

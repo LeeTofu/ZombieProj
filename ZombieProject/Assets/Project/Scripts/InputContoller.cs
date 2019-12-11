@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
 
 public class InputContoller : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class InputContoller : MonoBehaviour
     private Canvas m_canvas;
     private GraphicRaycaster m_gr;
     private PointerEventData m_ped;
-    private float m_length = 100f;
+    private float m_lengthlimit = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +38,7 @@ public class InputContoller : MonoBehaviour
     {
 
 #if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0)) m_isHit = !m_isHit;
         MoveDrag(Input.mousePosition);
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)
@@ -89,24 +89,37 @@ public class InputContoller : MonoBehaviour
     public float GetLength()
     {
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
-        return Vector3.Magnitude(mousePosition - m_position);
+        float length = Vector3.Magnitude(mousePosition - m_position);
+        return length;
     }
 
-    void OnMouseDrag()
+    public float GetLimitedLength()
+    {
+        return m_lengthlimit;
+    }
+
+    private void OnMouseDrag()
     {
         m_isHit = true;
-        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+        Vector3 mousePosition = GetMousePosition();
 
         //Vector3 objPosition = Camera.main.ScreenToViewportPoint(mousePosition);
         float length = Vector3.Magnitude(mousePosition - m_position);
 
-        if (length < m_length) transform.position = mousePosition;
-        else m_isHit = false;
+        if (length <= m_lengthlimit) transform.position = mousePosition;
+        else transform.position = m_position + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
+        //else m_isHit = false;
+       
+    }
+
+    public Vector3 GetMousePosition()
+    {
+        return new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
     }
 
     public Vector3 GetDirectionVec3()
     {
-        return -(transform.position - m_position);
+        return -(GetMousePosition() - m_position);
     }
 
     private void MoveDrag(Vector3 position)
@@ -126,13 +139,14 @@ public class InputContoller : MonoBehaviour
                     Debug.Log("hit");
                     OnMouseDrag();
                 }
-                else
-                {
-                    if(!m_isHit) transform.position = m_position;
-                    m_isHit = false;
-                }
             }
         }
+        else if (m_isHit && GetLength() >= m_lengthlimit)
+        {
+            Debug.Log("계속 드래그");
+            transform.position = m_position + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
+        }
+        else if (!m_isHit) transform.position = m_position;
     }
 
     public bool GetisHit()

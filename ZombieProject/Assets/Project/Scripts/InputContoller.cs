@@ -38,7 +38,7 @@ public class InputContoller : MonoBehaviour
     {
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0)) m_isHit = !m_isHit;
+        if (Input.GetMouseButtonDown(0) && m_isHit) m_isHit = false;
         MoveDrag(Input.mousePosition);
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)

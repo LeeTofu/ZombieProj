@@ -92,4 +92,10 @@ public class MoveController : MonoBehaviour
         }
 
     }
+
+    public InputContoller GetInputContoller()
+    {
+        return m_InputContoller;
+    }
+
 }

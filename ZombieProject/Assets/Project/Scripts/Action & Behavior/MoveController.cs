@@ -23,6 +23,7 @@ public class MoveController : MonoBehaviour
     private void OnEnable()
     {
         if (GameObject.Find("InputContoller") != null) m_InputContoller = GameObject.Find("InputContoller").GetComponent<InputContoller>();
+        m_Character.m_Animator.applyRootMotion = false;
     }
 
     private void Update()
@@ -89,6 +90,7 @@ public class MoveController : MonoBehaviour
             float limitlength = m_InputContoller.GetLimitedLength();
             if (length >= limitlength) length = limitlength;
             transform.position += transform.forward * Time.deltaTime * length / 10f;
+            //transform.position += m_Character.m_Animator.deltaPosition;
         }
 
     }

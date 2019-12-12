@@ -23,7 +23,7 @@ public class MoveController : MonoBehaviour
     private void OnEnable()
     {
         if (GameObject.Find("InputContoller") != null) m_InputContoller = GameObject.Find("InputContoller").GetComponent<InputContoller>();
-        m_Character.m_Animator.applyRootMotion = false;
+        if (m_Character != null) m_Character.m_Animator.applyRootMotion = false;
     }
 
     private void Update()

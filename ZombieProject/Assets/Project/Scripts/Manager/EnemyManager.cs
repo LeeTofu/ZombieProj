@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
+
 
 public class EnemyManager : Singleton<EnemyManager>
 {
     private List<MovingObject> m_ListZombies = new List<MovingObject>();
     private List<MovingObject> m_ListEliteZombies = new List<MovingObject>();
     private List<MovingObject> m_ListBossZombies = new List<MovingObject>();
+
+    private Dictionary<int, STAT> m_NormalZombieStatTable = new Dictionary<int, STAT>();
+    private Dictionary<int, STAT> m_NamedZombieStatTable = new Dictionary<int, STAT>();
+    private Dictionary<int, STAT> m_BossZombieStatTable = new Dictionary<int, STAT>();
 
     private ObjectFactory m_ZombieFactory;
 
@@ -45,7 +51,13 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
         m_ZombieFactory.Initialize(10);
 
+
         return true;
+    }
+
+    void LoadXML()
+    {
+        
     }
 
     

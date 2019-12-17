@@ -35,6 +35,9 @@ public class ItemManager : Singleton<ItemManager>
         XmlNodeList all_nodes = xmlDoc.SelectNodes("Root/text");
         foreach (XmlNode node in all_nodes)
         {
+            Debug.LogError(node.ChildNodes.Item(0).Name + " " + node.ChildNodes.Count);
+
+
             ItemStat itemStat;
             itemStat.m_ItemID = int.Parse(node.SelectSingleNode("ItemID").InnerText );
 

@@ -16,17 +16,88 @@ public enum OBEJCT_SORT
     ZOMBIE_OBJECT // 좀비들 오브젝트
 }
 
-public struct STAT
+public class STAT
 {
-    public float MoveSpeed;
-    public float RotSpeed;
-    
-    public float Attack;
-    public float Range;
-    public float Def;
+    private float moveSpeed;
+    private float rotSpeed;
 
-    public float Cur_HP;
-    public float Max_HP;
+    private float attack;
+    private float range;
+    private float def;
+
+    private float curHP;
+    private float maxHP;
+
+    System.Action OnPropertyChange;
+
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set
+        {
+            moveSpeed = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float RotSpeed
+    {
+        get => rotSpeed;
+        set
+        {
+            rotSpeed = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float Attack
+    {
+        get => attack;
+        set
+        {
+            attack = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float Range
+    {
+        get => range;
+        set
+        {
+            range = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float Defend
+    {
+        get => def;
+        set
+        {
+            def = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float CurHP
+    {
+        get => curHP;
+        set
+        {
+            curHP = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+    public float MaxHP
+    {
+        get => maxHP;
+        set
+        {
+            maxHP = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+
+    public void AddPropertyChangeAction(System.Action _action)
+    {
+        OnPropertyChange += _action;
+    }
 }
 
 
@@ -73,7 +144,6 @@ public abstract class MovingObject : MonoBehaviour
 
     protected void Awake()
     {
-
         m_RigidBody = GetComponent<Rigidbody>();
         if(m_RigidBody == null)
             m_RigidBody = gameObject.AddComponent<Rigidbody>();

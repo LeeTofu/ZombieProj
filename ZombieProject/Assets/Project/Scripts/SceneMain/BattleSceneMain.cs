@@ -14,7 +14,6 @@ public class BattleSceneMain : SceneMain
     {
         yield return new WaitForSeconds(2.5f);
 
-
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.position, m_ZombieCreateZone.rotation);
     }
@@ -44,9 +43,7 @@ public class BattleSceneMain : SceneMain
         if (m_ZombieCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
-        ItemManager.Instance.DebuggingLogItem(1);
-        ItemManager.Instance.DebuggingLogItem(2);
-        ItemManager.Instance.DebuggingLogItem(3);
+
 
 
         Debug.Log("Battle init 불러옴");

@@ -33,7 +33,6 @@ public class Bullet : MovingObject
         zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
 
         pushToMemory();
-
     }
 
     bool CollisionCondition(GameObject _defender)
@@ -43,8 +42,6 @@ public class Bullet : MovingObject
 
         return true;
     }
-
-
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, float _speed)
     {
@@ -56,16 +53,16 @@ public class Bullet : MovingObject
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();
 
+
+
         m_TrailRenderer.enabled = true;
         m_TrailRenderer.startWidth = 0.18f;
         m_TrailRenderer.endWidth = 0.05f;
-
         m_TrailRenderer.time = 0.25f;
 
         m_isArc = false;
 
         Invoke("pushToMemory", 1.5f);
-
     }
 
     // Update is called once per frame

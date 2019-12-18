@@ -17,7 +17,8 @@ public class PlayerManager : Singleton<PlayerManager>
         public string playerName;
     }
 
-
+    public Item m_MainItem;
+    public Item m_SecondaryItem;
 
 
     [SerializeField]
@@ -81,6 +82,12 @@ public class PlayerManager : Singleton<PlayerManager>
 
         // 설정 //
         m_Player = m_PlayerFactory.CreateObject(_pos, _quat);
+
+        m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
+        m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
+
+        m_Player.SetWeapon(m_MainItem == null ? m_SecondaryItem : m_MainItem);
+
         return m_Player;
     }
 
@@ -90,8 +97,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
         m_PlayerFactory = gameObject.AddComponent<PlayerFactory>();
         m_PlayerFactory.Initialize(2);
-
-        
 
         return true;
     }

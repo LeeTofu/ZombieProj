@@ -105,8 +105,7 @@ public delegate bool CheckCollisionCondition(GameObject _collider);
 
 public abstract class MovingObject : MonoBehaviour
 {
-    private ObjectFactory m_Factory ;
-
+    private ObjectFactory m_Factory;
     protected Rigidbody m_RigidBody;
     protected CapsuleCollider m_CapsuleCollider;
     
@@ -115,6 +114,12 @@ public abstract class MovingObject : MonoBehaviour
     public STAT m_Stat;
     public OBEJCT_SORT m_Sort;
     public Animator m_Animator;
+    public ItemObject m_CurrentItemObject;
+
+    // 오른팔
+    protected Transform m_PropR;
+    // 왼팔
+    protected Transform m_PropL;
 
     System.Action<GameObject> m_CollisionAction;
 
@@ -151,6 +156,7 @@ public abstract class MovingObject : MonoBehaviour
         m_CapsuleCollider = gameObject.GetComponent<CapsuleCollider>();
         if (m_CapsuleCollider == null)
             m_CapsuleCollider = gameObject.AddComponent<CapsuleCollider>();
+
 
         SetRigidBodyState(false);
         StopRigidbody();
@@ -189,7 +195,25 @@ public abstract class MovingObject : MonoBehaviour
         else if (m_CheckCollisionCondition(other.gameObject))
             m_CollisionAction(other.gameObject);
     }
-   // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+
+    public void SetWeapon(Item _item, bool _isRightHand = true)
+    {
+        if(m_CurrentItemObject != null)
+        {
+            m_CurrentItemObject.gameObject.SetActive(false);
+        }
+        if (_item == null) return;
+
+        GameObject itemObject = ItemManager.Instance.CreateItemObject(_item);
+
+        itemObject.transform.SetParent(transform);
+        itemObject.transform.localPosition = Vector3.zero;
+        itemObject.transform.localRotation = Quaternion.identity;
+
+        m_CurrentItemObject = itemObject.GetComponent<ItemObject>();
+
+    }
 
     void AddBuff(Buff _buff)
     {

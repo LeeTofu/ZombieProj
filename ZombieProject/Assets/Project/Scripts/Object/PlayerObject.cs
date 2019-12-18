@@ -12,9 +12,9 @@ public class PlayerObject : MovingObject
         m_Controller.Initialize(this);
 
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
-
         return;
     }
+
 
     private void Update()
     {

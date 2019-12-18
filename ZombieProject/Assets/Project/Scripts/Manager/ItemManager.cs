@@ -9,6 +9,7 @@ public class ItemManager : Singleton<ItemManager>
 
     public bool m_isParsingCompelete = false;
 
+    const string m_WeaponModelPath = "Prefabs/Weapon/Model/";
     const string m_xmlFileName = "itemData";
     public int[] MaxEXP =
     {
@@ -35,9 +36,6 @@ public class ItemManager : Singleton<ItemManager>
         XmlNodeList all_nodes = xmlDoc.SelectNodes("Root/text");
         foreach (XmlNode node in all_nodes)
         {
-            Debug.LogError(node.ChildNodes.Item(0).Name + " " + node.ChildNodes.Count);
-
-
             ItemStat itemStat;
             itemStat.m_ItemID = int.Parse(node.SelectSingleNode("ItemID").InnerText );
 
@@ -95,6 +93,20 @@ public class ItemManager : Singleton<ItemManager>
         Debug.Log("MoveSpeed : " + stat.m_MoveSpeed);
         Debug.Log("Range : " + stat.m_Range);
         Debug.Log("Sort : " + stat.m_Sort);
+    }
+
+    public GameObject CreateItemObject(Item _item)
+    {
+        GameObject newObj = new GameObject("Waepon");
+
+        GameObject newItemModel = Instantiate(Resources.Load<GameObject>(m_WeaponModelPath + _item.m_ItemStat.m_ModelString));
+        newItemModel.transform.SetParent(newObj.transform);
+        newItemModel.transform.localPosition = Vector3.zero;
+        newItemModel.transform.localRotation = Quaternion.identity;
+
+        newObj.AddComponent<ItemObject>();
+
+        return newObj;
     }
 
     public ItemStat GetItemStat(int _ItemID)

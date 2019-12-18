@@ -15,7 +15,6 @@ public class InvenManager : Singleton<InvenManager>
 
     // 인벤 슬롯에 있는 아이템 갯수
     public Dictionary<MAIN_ITEM_SORT, int> m_ItemSlotCount = new Dictionary<MAIN_ITEM_SORT, int>();
-
     public Dictionary<MAIN_ITEM_SORT, List<ItemSlot>> m_ItemInventorySlot = new Dictionary<MAIN_ITEM_SORT, List<ItemSlot>>();
     Dictionary<int, Item> m_ItemInventory = new Dictionary<int, Item>();
 

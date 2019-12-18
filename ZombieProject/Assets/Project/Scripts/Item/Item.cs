@@ -73,7 +73,7 @@ public struct ItemStat
 
 public class Item
 {
-    public System.Action<Vector3, Vector3, MovingObject> m_AttackMethod;
+    public System.Action<Vector3, Vector3, MovingObject> m_AttackMethod { private set; get; }
        
     int MAX_LEVEL = 10;
     public ItemStat m_ItemStat { get; private set; } // 아이템 능력치
@@ -86,8 +86,7 @@ public class Item
     public int m_Count { get; private set; } // 중첩된 아이템 갯수
 
     public ITEM_SLOT_SORT m_ItemSlotType { get; set; } // 이 아이템이 장착되었다면 
-    //어느 부위에 장착이 되었는지.
-
+                                                       //어느 부위에 장착이 되었는지.
     public Item(int _ownedID, int _LV, int _curEXP, ITEM_SLOT_SORT _sort, ItemStat _stat) 
     {
         m_UniqueItemID = _ownedID;
@@ -113,5 +112,4 @@ public class Item
 
         m_AttackMethod(_pos, _dir, _itemMaster);
     }
-
 }

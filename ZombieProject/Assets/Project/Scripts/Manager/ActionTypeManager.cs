@@ -31,36 +31,33 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
         {
             case ITEM_SORT.RIFLE:
             case ITEM_SORT.LAUNCHER:
-                _item.m_AttackMethod = (pos, dir, character) =>
+                _item.SetAttackAction((pos, dir, character) =>
                 {
                     character.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
 
                     MovingObject newBulletObj = m_BulletFactory.CreateObject(pos, Quaternion.identity);
-
-
                     Bullet newBullet = newBulletObj as Bullet;
 
                     if (newBullet)
                     {
-                        newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                       newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
                     }
-                    
-                };
+                });
                 break;
             case ITEM_SORT.SNIPER:
-                _item.m_AttackMethod = (pos, dir, character) =>
+                _item.SetAttackAction((pos, dir, character) =>
                 {
                     character.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
 
-                     GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
-                     Bullet newBullet = newBulletObj.GetComponent<Bullet>();
+                    GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
+                    Bullet newBullet = newBulletObj.GetComponent<Bullet>();
 
                     if (newBullet)
                     {
-                        newBullet.Initialize(null, null);
-                        newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
+                         newBullet.Initialize(null, null);
+                         newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
                     }
-                };
+                });
                 break;
         }
 

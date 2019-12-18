@@ -4,7 +4,7 @@
 		<ItemID>1</ItemID>
 		<ItemName>Gun</ItemName>
 		<IconName>Weapon_icon_01</IconName>
-		<ModelName>Gun</ModelName>
+		<ModelName>Rifle_01</ModelName>
 		<ItemSort>RIFLE</ItemSort>
 		<HP>0</HP>
 		<Attack>1</Attack>
@@ -19,7 +19,7 @@
 		<ItemID>2</ItemID>
 		<ItemName>ChainSaw</ItemName>
 		<IconName>Weapon_icon_03</IconName>
-		<ModelName>ChainSaw</ModelName>
+		<ModelName>Rifle_02</ModelName>
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>
 		<Attack>2</Attack>
@@ -34,7 +34,7 @@
 		<ItemID>3</ItemID>
 		<ItemName>Bat</ItemName>
 		<IconName>Weapon_icon_05</IconName>
-		<ModelName>Bat</ModelName>
+		<ModelName>Rifle_02</ModelName>
 		<ItemSort>MELEE</ItemSort>
 		<HP>0</HP>
 		<Attack>1</Attack>

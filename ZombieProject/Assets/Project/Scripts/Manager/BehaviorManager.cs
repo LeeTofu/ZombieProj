@@ -21,10 +21,9 @@ public class BehaviorManger : Singleton<BehaviorManger>
 
     public BehaviorNode GetNode(string key)
     {
+        
         if(m_BehaviorTable.ContainsKey(key))
-        {
             return m_BehaviorTable[key];
-        }
 
         return null;
     }

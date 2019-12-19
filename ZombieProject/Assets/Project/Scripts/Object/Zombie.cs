@@ -11,18 +11,17 @@ public class Zombie : MovingObject
      
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
-        if(_Model != null)
-        m_Model = _Model;
+        if(_Model != null) m_Model = _Model;
 
-        if(m_Animator == null)
+        if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
+
+
+        if (BehaviorManger.Instance.GetNode("NormalZombieNode") != null)
         {
-            m_Animator = gameObject.GetComponent<Animator>();
+            m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");
+            Debug.Log("notNull");
         }
-
-
-        // Test //
-        m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");
-        if(m_zombieBehavior == null)
+        else
         {
             SelectorNode sel = new SelectorNode();
 
@@ -43,12 +42,52 @@ public class Zombie : MovingObject
             BehaviorManger.Instance.AddBehaviorNode("NormalZombieNode", sel);
 
             m_zombieBehavior = sel;
+
+            Debug.Log("Null");
         }
+
+
+        m_zombieBehavior.SetChildCharacter(this);
+        // Test //
+
     }
 
     private void Update()
     {
-        if (m_zombieBehavior == null) return;
+        if (m_zombieBehavior == null)
+        {
+            if (BehaviorManger.Instance.GetNode("NormalZombieNode") != null)
+            {
+                m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");
+            }
+            else
+            {
+                SelectorNode sel = new SelectorNode();
+
+                SequenceNode seqAtk = new SequenceNode();
+                ZombieAttackCondition zombieAC = new ZombieAttackCondition();
+                ZombieAttackAction zombieAA = new ZombieAttackAction();
+                seqAtk.InsertAction(zombieAC);
+                seqAtk.InsertAction(zombieAA);
+                sel.InsertAction(seqAtk);
+
+                SequenceNode seqWalk = new SequenceNode();
+                ZombieWalkCondition zombieWC = new ZombieWalkCondition();
+                ZombieWalkAction zombieWA = new ZombieWalkAction();
+                seqWalk.InsertAction(zombieWC);
+                seqWalk.InsertAction(zombieWA);
+                sel.InsertAction(seqWalk);
+
+                ZombieIdleAction zombieIA = new ZombieIdleAction();
+                sel.InsertAction(zombieIA);
+
+                BehaviorManger.Instance.AddBehaviorNode("NormalZombieNode", sel);
+
+                m_zombieBehavior = sel;
+            }
+
+            m_zombieBehavior.SetChildCharacter(this);
+        }
 
         m_zombieBehavior.Tick();
     }

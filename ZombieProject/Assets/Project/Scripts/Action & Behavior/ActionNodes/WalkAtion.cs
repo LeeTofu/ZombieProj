@@ -9,8 +9,6 @@ public class ZombieWalkCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        Debug.Log(PlayerManager.Instance.m_Player.gameObject.transform.position);
-
         if (distance < 10f && distance > 1.5f)
         {
             Debug.Log("WalkCondSuccess");

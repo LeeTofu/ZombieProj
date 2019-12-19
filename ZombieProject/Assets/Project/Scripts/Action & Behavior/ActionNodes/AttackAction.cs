@@ -8,8 +8,6 @@ public class ZombieAttackCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        Debug.Log(PlayerManager.Instance.m_Player.gameObject.transform.position);
-
         if (distance <= 1.5f)
         {
             Debug.Log("AttackCondSuccess");
@@ -35,7 +33,7 @@ public class ZombieAttackAction : ActionNode
         //플레이 부분
         if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            m_Character.m_Animator.Play("Attack");
+            m_Character.m_Animator.Play("Attack", 0, 0f);
             Debug.Log("AttackStart");
             return NODE_STATE.RUNNING;
         }

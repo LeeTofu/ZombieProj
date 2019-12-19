@@ -13,14 +13,16 @@ public abstract class BehaviorNode : MonoBehaviour
 {
     public string m_NodeName { get; private set; }
     protected NODE_STATE m_NodeState { get; set; }
-    protected MovingObject m_Character { get; set; }
+    //protected MovingObject m_Character { get; set; }
+
+    protected MovingObject m_Character;
 
     virtual public NODE_STATE Tick()
     {
         return NODE_STATE.SUCCESS;
     }
 
-    public void SetCharacter(MovingObject _character)
+    virtual public void SetChildCharacter(MovingObject _character)
     {
         m_Character = _character;
     }
@@ -34,6 +36,14 @@ public abstract class CompositeNode : BehaviorNode
     public void InsertAction(BehaviorNode _behaviorNode)
     {
         m_NodeList.Add(_behaviorNode);
+    }
+
+    public override void SetChildCharacter(MovingObject _character)
+    {
+        for (int i = 0; i < m_NodeList.Count; i++)
+        {
+            m_NodeList[i].SetChildCharacter(_character);
+        }
     }
 }
 
@@ -58,6 +68,7 @@ public class SelectorNode : CompositeNode
         m_NodeState = NODE_STATE.FAIL;
         return m_NodeState;
     }
+
 }
 
 public class SequenceNode : CompositeNode
@@ -97,4 +108,9 @@ public abstract class ActionNode : BehaviorNode
     //protected FunctionPointer m_playAction;
     protected float m_totalActionTime = 0f;
     protected float m_nowActionTime = 0f;
+
+    public override void SetChildCharacter(MovingObject _character)
+    {
+        m_Character = _character;
+    }
 }

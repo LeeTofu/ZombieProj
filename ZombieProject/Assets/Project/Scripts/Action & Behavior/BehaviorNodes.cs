@@ -9,7 +9,7 @@ public enum NODE_STATE
     RUNNING
 }
 
-public abstract class BehaviorNode : MonoBehaviour
+public abstract class BehaviorNode
 {
     public string m_NodeName { get; private set; }
     protected NODE_STATE m_NodeState { get; set; }

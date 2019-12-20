@@ -40,7 +40,7 @@ public class Zombie : MovingObject
 
             m_zombieBehavior = sel;
         }
-        m_zombieBehavior.SetChildCharacter(this);
+        m_zombieBehavior.Initialize(this);
    }
 
     private void Update()
@@ -72,7 +72,7 @@ public class Zombie : MovingObject
                 m_zombieBehavior = sel;
             }
 
-            m_zombieBehavior.SetChildCharacter(this);
+            m_zombieBehavior.Initialize(this);
         }
 
         m_zombieBehavior.Tick();

@@ -21,6 +21,11 @@ public class ZombieAttackCondition : DecoratorNode
 
 public class ZombieAttackAction : ActionNode
 {
+    public override void Initialize(MovingObject _character)
+    {
+        m_Character = _character;
+    }
+
     public override NODE_STATE Tick()
     {
         if(m_totalActionTime == 0f)
@@ -33,7 +38,7 @@ public class ZombieAttackAction : ActionNode
         //플레이 부분
         if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            m_Character.m_Animator.Play("Attack", 0, 0f);
+            m_Character.m_Animator.Play("Attack");
             Debug.Log("AttackStart");
             return NODE_STATE.RUNNING;
         }

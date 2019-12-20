@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ZombieIdleAction : ActionNode
 {
+    public override void Initialize(MovingObject _character)
+    {
+        m_Character = _character;
+    }
     public override NODE_STATE Tick()
     {
         //플레이 부분

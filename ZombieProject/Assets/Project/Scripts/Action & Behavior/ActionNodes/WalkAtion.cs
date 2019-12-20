@@ -22,6 +22,11 @@ public class ZombieWalkCondition : DecoratorNode
 
 public class ZombieWalkAction : ActionNode
 {
+    public override void Initialize(MovingObject _character)
+    {
+        m_Character = _character;
+    }
+
     public override NODE_STATE Tick()
     {
         if (m_totalActionTime == 0f)

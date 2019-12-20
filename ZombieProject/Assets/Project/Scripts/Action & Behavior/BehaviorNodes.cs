@@ -17,14 +17,14 @@ public abstract class BehaviorNode
 
     protected MovingObject m_Character;
 
+    virtual public void Initialize(MovingObject _character)
+    {
+        m_Character = _character;
+    }
+
     virtual public NODE_STATE Tick()
     {
         return NODE_STATE.SUCCESS;
-    }
-
-    virtual public void SetChildCharacter(MovingObject _character)
-    {
-        m_Character = _character;
     }
 }
 
@@ -38,11 +38,11 @@ public abstract class CompositeNode : BehaviorNode
         m_NodeList.Add(_behaviorNode);
     }
 
-    public override void SetChildCharacter(MovingObject _character)
+    public override void Initialize(MovingObject _character)
     {
         for (int i = 0; i < m_NodeList.Count; i++)
         {
-            m_NodeList[i].SetChildCharacter(_character);
+            m_NodeList[i].Initialize(_character);
         }
     }
 }
@@ -109,8 +109,4 @@ public abstract class ActionNode : BehaviorNode
     protected float m_totalActionTime = 0f;
     protected float m_nowActionTime = 0f;
 
-    public override void SetChildCharacter(MovingObject _character)
-    {
-        m_Character = _character;
-    }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
+
 public class BattleItemSlotButton : MonoBehaviour
 {
     float m_CoolTime = 0.0f;
@@ -27,13 +30,19 @@ public class BattleItemSlotButton : MonoBehaviour
         m_ItemIcon.color = Color.white;
     }
 
+    
+
+
     public void ButtonClick()
     {
         if (m_UseMethod == null) return;
 
+        Vector3 forward = PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.forward;
+        forward.y = 0.0f;
+
         m_UseMethod(
-            PlayerManager.Instance.m_Player.m_CurrentItemObject.m_FireTransform.position,
-            PlayerManager.Instance.m_Player.m_CurrentItemObject.m_FireTransform.forward,
+            PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
+            forward,
             PlayerManager.Instance.m_Player);
     }
 

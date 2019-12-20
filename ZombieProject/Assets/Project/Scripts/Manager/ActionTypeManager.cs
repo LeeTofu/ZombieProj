@@ -28,7 +28,7 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
     public void SetItemActionType(Item _item)
     {
        switch(_item.m_ItemStat.m_Sort)
-        {
+       {
             case ITEM_SORT.RIFLE:
             case ITEM_SORT.LAUNCHER:
                 _item.SetAttackAction((pos, dir, character) =>
@@ -59,7 +59,7 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                     }
                 });
                 break;
-        }
+       }
 
 
 

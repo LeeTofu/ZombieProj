@@ -11,11 +11,13 @@ public class Bullet : MovingObject
     public Vector3 m_CurDirection { get; private set; }
 
     public float m_Speed { get; private set; }
-
     public bool m_isFire { get; private set; }
 
     [SerializeField]
     TrailRenderer m_TrailRenderer;
+
+    [SerializeField]
+    GameObject m_PointLight;
 
     public bool m_isArc { get; private set; }
 
@@ -53,12 +55,12 @@ public class Bullet : MovingObject
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();
 
-
-
         m_TrailRenderer.enabled = true;
         m_TrailRenderer.startWidth = 0.18f;
         m_TrailRenderer.endWidth = 0.05f;
         m_TrailRenderer.time = 0.25f;
+
+        m_PointLight.SetActive(true);
 
         m_isArc = false;
 

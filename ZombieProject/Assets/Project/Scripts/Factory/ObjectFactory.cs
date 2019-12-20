@@ -20,7 +20,7 @@ public abstract class ObjectFactory : MonoBehaviour
         // 풀링 필요.. 걍 지금은 대충 생성
         if (m_ListSleepingMovingObject.Count > 0 && m_Initialize)
         {
-            newObject = PopObject(_pos, _quat);
+            newObject = PopObjectFromPooling(_pos, _quat);
         }
 
         if (newObject != null)
@@ -49,13 +49,13 @@ public abstract class ObjectFactory : MonoBehaviour
         newObject.Initialize(Model, null);
         newObject.SetFactory(this);
 
-        PushObject(newObject);
+        PushObjectToPooling(newObject);
 
         return newObject;
     }
 
 
-   
+   // 처음에만 실행시켜주세요.
    protected void CreateObjectPool()
     {
         if (m_ListSleepingMovingObject.Count >= m_MaxCount) return;
@@ -69,12 +69,16 @@ public abstract class ObjectFactory : MonoBehaviour
         m_Initialize = true;
     }
 
-    public void PushObject(MovingObject _object)
+
+    // 다 쓰고 풀링에 넣어줌.
+    public void PushObjectToPooling(MovingObject _object)
     {
         m_ListSleepingMovingObject.Enqueue(_object);
     }
 
-    public MovingObject PopObject(Vector3 _pos, Quaternion _quat)
+
+    // 풀링에서 오브젝트를 꺼내서 쓴다.
+    public MovingObject PopObjectFromPooling(Vector3 _pos, Quaternion _quat)
     {
         Debug.Log("Zombie ReCreate");
 

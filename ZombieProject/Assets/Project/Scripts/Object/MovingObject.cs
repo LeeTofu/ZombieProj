@@ -114,7 +114,7 @@ public abstract class MovingObject : MonoBehaviour
     public STAT m_Stat;
     public OBEJCT_SORT m_Sort;
     public Animator m_Animator;
-    public ItemObject m_CurrentItemObject;
+    public ItemObject m_CurrentEquipedItem;
 
     // 오른팔
     protected Transform m_PropR;
@@ -133,6 +133,21 @@ public abstract class MovingObject : MonoBehaviour
         m_Stat = _stat;
     }
 
+
+    Transform FindChildObject(GameObject _baseObject, string _str)
+    {
+        Transform[] objects = _baseObject.GetComponentsInChildren<Transform>();
+        foreach (Transform obj in objects)
+        {
+            if (obj.name == _str)
+                return obj;
+        }
+
+        return null;
+    }
+
+    // Factory에서 만들어진 MovingObject는 자동으로 오브젝트 풀링해서 쓴당.
+    // 오브젝트 다 쓰고 나면 pushToMemory 필수로 실행해주세요.
     public void pushToMemory()
     {
         if (!gameObject.activeSelf) return;
@@ -143,7 +158,7 @@ public abstract class MovingObject : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-        m_Factory.PushObject(this);
+        m_Factory.PushObjectToPooling(this);
     }
 
 
@@ -165,6 +180,7 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
+    // 충돌 이벤트에 함수 등록해서 쓰는거임.
     public void AddCollisionCondtion(CheckCollisionCondition _collisionCondition)
     {
         m_CheckCollisionCondition += _collisionCondition;
@@ -176,6 +192,7 @@ public abstract class MovingObject : MonoBehaviour
         m_CollisionAction += _collisionAction;
     }
 
+    
     protected void OnCollisionEnter(Collision collision)
     {
         if (m_CollisionAction == null) return;
@@ -197,24 +214,31 @@ public abstract class MovingObject : MonoBehaviour
     }
     // --------------------------------------------------------------------
 
+      // 무빙오브젝트의 무기를 셋팅하는 함수임.
     public void SetWeapon(Item _item, bool _isRightHand = true)
     {
-        if(m_CurrentItemObject != null)
+        if(m_CurrentEquipedItem != null)
         {
-            m_CurrentItemObject.gameObject.SetActive(false);
+            m_CurrentEquipedItem.gameObject.SetActive(false);
         }
         if (_item == null) return;
 
         GameObject itemObject = ItemManager.Instance.CreateItemObject(_item);
 
-        itemObject.transform.SetParent(transform);
-        itemObject.transform.localPosition = Vector3.zero;
-        itemObject.transform.localRotation = Quaternion.identity;
+        if (itemObject == null) return;
 
-        m_CurrentItemObject = itemObject.GetComponent<ItemObject>();
+        Transform PropR = FindChildObject(gameObject, "Hand_R");
+
+        itemObject.transform.SetParent(PropR);
+        itemObject.transform.localPosition = new Vector3(15f, 2.4f, -3.6f);
+        itemObject.transform.localRotation = Quaternion.Euler(-4.336f, 90.0f, -106f);
+        itemObject.transform.localScale = new Vector3(75, 75, 75);
+
+        m_CurrentEquipedItem = itemObject.GetComponent<ItemObject>();
 
     }
 
+    // ============= 버프는 영래 당담 ===================
     void AddBuff(Buff _buff)
     {
         if (!_buff) return;
@@ -239,7 +263,6 @@ public abstract class MovingObject : MonoBehaviour
 
     }
 
-
     public void AddForce(Vector3 _velocity, Vector3 _angularVelocity )
     {
         m_RigidBody.velocity = _velocity;
@@ -251,6 +274,7 @@ public abstract class MovingObject : MonoBehaviour
         AddForce(Vector3.zero, Vector3.zero);
     }
 
+    // 팩토리 설정
     public void SetFactory(ObjectFactory _factory)
     {
         m_Factory = _factory;

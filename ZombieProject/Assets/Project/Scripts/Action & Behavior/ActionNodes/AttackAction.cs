@@ -8,7 +8,7 @@ public class ZombieAttackCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        if (distance <= 1.5f)
+        if (distance <= 1.4f)
         {
             Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;

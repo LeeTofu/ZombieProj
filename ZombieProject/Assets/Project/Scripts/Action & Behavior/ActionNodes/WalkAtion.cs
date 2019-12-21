@@ -28,7 +28,7 @@ public class ZombieWalkAction : ActionNode
 
         RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
         for (int i = 0; i < ac.animationClips.Length; i++)
-            if (ac.animationClips[i].name == "Zombie_Walk_F_1_Full_Loop_IPC")
+            if (ac.animationClips[i].name == "Walk")
                 m_totalActionTime = ac.animationClips[i].length;
     }
 
@@ -44,9 +44,7 @@ public class ZombieWalkAction : ActionNode
         else
         {
             m_nowActionTime += Time.deltaTime;
-            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
-            m_Character.gameObject.transform.position += m_Character.transform.forward * 0.5f * Time.deltaTime;
-            if (m_nowActionTime < m_totalActionTime)
+            if(m_nowActionTime < m_totalActionTime)
             {
                 Debug.Log("Walking");
                 return NODE_STATE.RUNNING;

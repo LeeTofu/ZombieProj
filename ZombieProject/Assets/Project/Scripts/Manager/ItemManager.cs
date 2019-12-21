@@ -106,6 +106,7 @@ public class ItemManager : Singleton<ItemManager>
         newItemModel.transform.localRotation = Quaternion.identity;
 
         newObj.AddComponent<ItemObject>();
+        newObj.AddComponent<AudioSource>();
 
         return newObj;
     }

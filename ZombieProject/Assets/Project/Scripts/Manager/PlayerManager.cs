@@ -74,11 +74,11 @@ public class PlayerManager : Singleton<PlayerManager>
         // 설정 //
         m_Player = m_PlayerFactory.CreateObject(_pos, _quat);
 
-        //m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
-        //m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
+        m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
+        m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
 
-        //m_Player.SetWeapon(m_MainItem == null ? m_SecondaryItem : m_MainItem);
-
+        m_Player.SetWeapon(m_MainItem == null ? m_SecondaryItem : m_MainItem);
+        
         return m_Player;
     }
 

@@ -235,6 +235,7 @@ public abstract class MovingObject : MonoBehaviour
         itemObject.transform.localScale = new Vector3(75, 75, 75);
 
         m_CurrentEquipedItem = itemObject.GetComponent<ItemObject>();
+        m_CurrentEquipedItem.Init(_item);
 
     }
 

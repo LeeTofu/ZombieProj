@@ -15,13 +15,17 @@ public enum ATTACK_TYPE
 public class ActionTypeManager : Singleton<ActionTypeManager>
 {
     Dictionary<ATTACK_TYPE, System.Action<Vector3, Vector3, MovingObject>> m_ActionTypeTable;
-
+    public AudioClip[] m_GunSound;
     BulletFactory m_BulletFactory;
+    AudioSource m_Audio;
 
     public override bool Initialize()
     {
         m_BulletFactory = gameObject.AddComponent<BulletFactory>();
         m_BulletFactory.Initialize(30);
+        m_Audio = gameObject.AddComponent<AudioSource>();
+        m_GunSound = Resources.LoadAll<AudioClip>("Sound/WeaponSound");
+
         return true;
     }
 

@@ -19,6 +19,8 @@ public class Bullet : MovingObject
     [SerializeField]
     GameObject m_PointLight;
 
+    public AudioClip[] m_GunSound;
+
     public bool m_isArc { get; private set; }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
@@ -51,6 +53,8 @@ public class Bullet : MovingObject
          m_CurDirection = _dir;
         m_isFire = true;
         m_Speed = _speed;
+
+
 
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();

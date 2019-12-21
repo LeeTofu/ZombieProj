@@ -26,6 +26,7 @@ public class InputContoller : MonoBehaviour
         //m_collider2D = GetComponent<Collider2D>();
 
         //m_canvas = GameObject.Find("BattleUI").GetComponent<Canvas>();
+        this.enabled = false;
         m_canvas = gameObject.GetComponentInParent<Canvas>();
         m_gr = m_canvas.GetComponent<GraphicRaycaster>();
         m_ped = new PointerEventData(null);

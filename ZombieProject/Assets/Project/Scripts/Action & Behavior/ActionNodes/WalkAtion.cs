@@ -34,12 +34,6 @@ public class ZombieWalkAction : ActionNode
 
     public override NODE_STATE Tick()
     {
-        if (!m_Character.gameObject.activeSelf)
-        {
-            Debug.Log("sasdasd");
-            m_Character.gameObject.SetActive(true);
-        }
-
         //플레이 부분
         if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {

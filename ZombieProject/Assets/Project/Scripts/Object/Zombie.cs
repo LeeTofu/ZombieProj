@@ -13,30 +13,7 @@ public class Zombie : MovingObject
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
 
         // Test //
-        if (BehaviorManger.Instance.GetNode("NormalZombieNode") != null)
-        {
-            m_zombieBehavior = BehaviorManger.Instance.GetNode("NormalZombieNode");
-        }
-        else
-        {
-            SelectorNode sel = new SelectorNode();
-
-            SequenceNode seqAtk = new SequenceNode();
-            seqAtk.InsertAction(new ZombieAttackCondition());
-            seqAtk.InsertAction(new ZombieAttackAction());
-            sel.InsertAction(seqAtk);
-
-            SequenceNode seqWalk = new SequenceNode();
-            seqWalk.InsertAction(new ZombieWalkCondition());
-            seqWalk.InsertAction(new ZombieWalkAction());
-            sel.InsertAction(seqWalk);
-
-            sel.InsertAction(new ZombieIdleAction());
-
-            BehaviorManger.Instance.AddBehaviorNode("NormalZombieNode", sel);
-
-            m_zombieBehavior = sel;
-        }
+        m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
    }
 

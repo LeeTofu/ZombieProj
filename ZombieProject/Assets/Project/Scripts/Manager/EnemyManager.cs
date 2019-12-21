@@ -32,12 +32,7 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         if (m_ZombieFactory)
         {
-            MovingObject newZombie;
-
-            if (m_ZombieCreateZone)
-                newZombie = m_ZombieFactory.CreateObject(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
-            else
-                newZombie = m_ZombieFactory.CreateObject(Vector3.zero, Quaternion.identity);
+            MovingObject newZombie = m_ZombieFactory.CreateObject(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
 
             m_ListZombies.Add(newZombie);
         }

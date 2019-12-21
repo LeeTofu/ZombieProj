@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//안쓸확률 99% 살려만둠
 public class BehaviorManger : Singleton<BehaviorManger>
 {
     private Dictionary<string, BehaviorNode> m_BehaviorTable = new Dictionary<string, BehaviorNode>();

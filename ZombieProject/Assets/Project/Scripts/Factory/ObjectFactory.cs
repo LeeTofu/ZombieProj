@@ -48,6 +48,7 @@ public abstract class ObjectFactory : MonoBehaviour
         newObject = newGameObject.GetComponent<MovingObject>();
         newObject.Initialize(Model, null);
         newObject.SetFactory(this);
+        newObject.gameObject.SetActive(true);
 
         PushObjectToPooling(newObject);
 

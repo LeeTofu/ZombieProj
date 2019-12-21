@@ -27,7 +27,7 @@ public class ZombieAttackAction : ActionNode
 
         RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
         for (int i = 0; i < ac.animationClips.Length; i++)
-            if (ac.animationClips[i].name == "Attack")
+            if (ac.animationClips[i].name == "Zombie_Atk_Arms_3_Loop_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
     }
 
@@ -43,6 +43,7 @@ public class ZombieAttackAction : ActionNode
         else
         {
             m_nowActionTime += Time.deltaTime;
+            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
             if (m_nowActionTime < m_totalActionTime)
             {
                 Debug.Log("Attacking");

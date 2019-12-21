@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class ZombieFactory : ObjectFactory
 {
-
     public override void Initialize(int _MaxCount)
     {
         m_MaxCount = _MaxCount;

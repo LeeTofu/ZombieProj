@@ -19,15 +19,6 @@ public class EnemyManager : Singleton<EnemyManager>
     [HideInInspector]
     public GameObject m_ZombieCreateZone;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
-
-        if(m_ZombieCreateZone != null)
-            m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
-    }
-
     public void CreateZombie(Vector3 _pos, Quaternion _quat)
     {
         if(m_ZombieFactory )
@@ -57,6 +48,10 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
         m_ZombieFactory.Initialize(10);
 
+        m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
+
+        if (m_ZombieCreateZone != null)
+            m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
         return true;
     }

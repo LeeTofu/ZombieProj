@@ -25,15 +25,19 @@ public class ZombieWalkAction : ActionNode
     public override void Initialize(MovingObject _character)
     {
         m_Character = _character;
+
+        RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
+        for (int i = 0; i < ac.animationClips.Length; i++)
+            if (ac.animationClips[i].name == "Walk")
+                m_totalActionTime = ac.animationClips[i].length;
     }
 
     public override NODE_STATE Tick()
     {
-        if (m_totalActionTime == 0f)
+        if (!m_Character.gameObject.activeSelf)
         {
-            AnimatorStateInfo animationState = m_Character.m_Animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] myAnimatorClip = m_Character.m_Animator.GetCurrentAnimatorClipInfo(0);
-            m_totalActionTime = myAnimatorClip[0].clip.length;
+            Debug.Log("sasdasd");
+            m_Character.gameObject.SetActive(true);
         }
 
         //플레이 부분

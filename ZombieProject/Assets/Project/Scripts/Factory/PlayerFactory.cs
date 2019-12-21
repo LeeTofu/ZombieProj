@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerFactory : ObjectFactory
 {
-  
-
     public override void Initialize(int _maxCount)
     {
         m_MaxCount = _maxCount;

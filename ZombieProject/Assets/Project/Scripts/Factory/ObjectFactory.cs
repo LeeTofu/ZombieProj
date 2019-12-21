@@ -80,8 +80,6 @@ public abstract class ObjectFactory : MonoBehaviour
     // 풀링에서 오브젝트를 꺼내서 쓴다.
     public MovingObject PopObjectFromPooling(Vector3 _pos, Quaternion _quat)
     {
-        Debug.Log("Zombie ReCreate");
-
         if (m_ListSleepingMovingObject.Count == 0) return null;
 
         MovingObject obj = m_ListSleepingMovingObject.Dequeue();

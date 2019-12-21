@@ -24,17 +24,15 @@ public class ZombieAttackAction : ActionNode
     public override void Initialize(MovingObject _character)
     {
         m_Character = _character;
+
+        RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
+        for (int i = 0; i < ac.animationClips.Length; i++)
+            if (ac.animationClips[i].name == "Attack")
+                m_totalActionTime = ac.animationClips[i].length;
     }
 
     public override NODE_STATE Tick()
     {
-        if(m_totalActionTime == 0f)
-        {
-            AnimatorStateInfo animationState = m_Character.m_Animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] myAnimatorClip = m_Character.m_Animator.GetCurrentAnimatorClipInfo(0);
-            m_totalActionTime = myAnimatorClip[0].clip.length;
-        }
-        
         //플레이 부분
         if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {

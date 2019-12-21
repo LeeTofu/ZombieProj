@@ -39,7 +39,11 @@ public class InputContoller : MonoBehaviour
     {
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0) && m_isHit) m_isHit = false;
+        if (Input.GetMouseButtonDown(0))
+        {
+            transform.position = m_position;
+            m_isHit = false;
+        }
         MoveDrag(Input.mousePosition);
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)
@@ -101,7 +105,6 @@ public class InputContoller : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        m_isHit = true;
         Vector3 mousePosition = GetMousePosition();
 
         //Vector3 objPosition = Camera.main.ScreenToViewportPoint(mousePosition);
@@ -128,8 +131,8 @@ public class InputContoller : MonoBehaviour
         m_ped.position = position;
         List<RaycastResult> results = new List<RaycastResult>();
         m_gr.Raycast(m_ped, results);
-
-        if (results.Count != 0)
+        
+        if (results.Count != 0 && !m_isHit)
         {
             for (int i = 0; i < results.Count; i++)
             {
@@ -138,16 +141,17 @@ public class InputContoller : MonoBehaviour
                 {
                     Debug.Log(results.Count);
                     Debug.Log("hit");
+                    m_isHit = true;
                     OnMouseDrag();
                 }
             }
         }
+        else if (m_isHit) OnMouseDrag();
         else if (m_isHit && GetLength() >= m_lengthlimit)
         {
             Debug.Log("계속 드래그");
             transform.position = m_position + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
         }
-        else if (!m_isHit) transform.position = m_position;
     }
 
     public bool GetisHit()

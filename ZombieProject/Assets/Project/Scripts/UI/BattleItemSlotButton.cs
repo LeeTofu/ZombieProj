@@ -2,82 +2,140 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-
-
+using UnityEngine.EventSystems;
 
 public class BattleItemSlotButton : MonoBehaviour
 {
-    float m_CoolTime = 0.0f;
-
-    public System.Action<Vector3, Vector3, MovingObject> m_UseMethod;
     public ITEM_SLOT_SORT m_slotType { private set; get; }
     public Item m_Item { private set; get; }
+
+    MovingObject m_Character;
+
     [SerializeField]
     Image m_ItemIcon;
 
     [SerializeField]
     Image m_CoolDownImage;
 
-    float m_MaxCoolDown;
+    Button m_Button;
 
-    
-    
+    ItemAction m_ItemAction;
 
-    public void SetItem(Item _item)
+    public void Init(MovingObject _character ,Item _item)
     {
         m_CoolDownImage.fillAmount = 0.0f;
 
         if (_item == null)
         {
-            m_CoolTime = 0.0f;
             m_ItemIcon.color = Color.clear;
             return;
         }
 
-   
+        m_Character = _character;
         m_Item = _item;
-        m_CoolTime = 0.0f;
-        m_MaxCoolDown = _item.m_ItemStat.m_AttackSpeed;
-        m_UseMethod = _item.m_AttackMethod;
         m_slotType = _item.m_ItemSlotType;
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
+
+        GetActionFromManager(m_Item);
+    }
+
+    // ============================================================
+    // 버튼 누르면 액션이 발동 된다.
+    // 그 액션은 아이템 타입에 따라 다르다.
+    // 그러므로 아이템 타입에 따른 액션을 가져오기 위해 ItemManager, ActionTypeManager에서 액션을 가져오도록 한다.
+    // 끝.
+    private void  GetActionFromManager(Item _item)
+    {
+        if (_item == null)
+        {
+            Debug.LogError("item 없는데~ 액션을 넣는다고? ");
+            return;
+        }
+
+        m_ItemAction = GetComponent<ItemAction>();
+
+        if (m_ItemAction == null)
+            m_ItemAction = gameObject.AddComponent<ItemAction>();
+
+        m_ItemAction.Initialized(_item);
+
+        for (BUTTON_ACTION actionType = BUTTON_ACTION.PRESSED; actionType != BUTTON_ACTION.END; actionType++)
+        {
+            ITEM_EVENT_TYPE eventType =  ItemManager.Instance.GetItemActionType(_item);
+            var action = ActionTypeManager.Instance.GetActionType(actionType, eventType);
+
+            if (eventType == ITEM_EVENT_TYPE.END)
+            {
+                Debug.LogError("END라서 액션 못넣음");
+                return;
+            }
+            if (action == null)
+            {
+                Debug.LogError("action null이라 액션 못넣음" + actionType + " , " + eventType);
+                return;
+            }
+
+            m_ItemAction.SetPlayAction(actionType, action);
+        }
     }
 
     private void Update()
     {
-        if(m_Item != null)
-            TickCoolDown();
+        if (m_Item == null) return;
+        if (m_ItemAction == null) return;
+
+        UpdateCoolDown();
+        UpdateAttackSpeed();
     }
 
-    public void ButtonClick()
+    void UpdateCoolDown()
     {
-        if (m_CoolTime > 0.0f) return;
-        if (m_UseMethod == null) return;
-        if (PlayerManager.Instance.m_Player.m_CurrentEquipedItem == null) return;
-
-        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.PlaySound();
-
-        m_UseMethod(
-            PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
-             PlayerManager.Instance.m_Player.transform.forward,
-            PlayerManager.Instance.m_Player);
-
-        m_CoolTime = m_MaxCoolDown;
+        m_ItemAction.TickItemCoolTime();
+        m_CoolDownImage.fillAmount = m_ItemAction.m_CoolTimePercentage;
     }
 
-    void TickCoolDown()
+    void UpdateAttackSpeed()
     {
-        m_CoolTime -= Time.deltaTime;
-
-        if (m_CoolTime < 0.0f) 
-        {
-            m_CoolTime = 0.0f;
-        }
-
-        m_CoolDownImage.fillAmount = m_CoolTime / m_MaxCoolDown;
+        m_ItemAction.TickItemAttackSpeed();
     }
+
+    bool CheckCanActive()
+    {
+        if (InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
+
+        return true;
+    }
+
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (!CheckCanActive()) return;
+
+    //    m_SkillActionPressDown(
+    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
+    //        PlayerManager.Instance.m_Player.transform.forward,
+    //        PlayerManager.Instance.m_Player);
+    //}
+
+    //public void OnDrag(PointerEventData eventData)
+    //{
+    //    if (!CheckCanActive()) return;
+
+    //    m_SkillActionDraged(
+    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
+    //        PlayerManager.Instance.m_Player.transform.forward,
+    //        PlayerManager.Instance.m_Player);
+    //}
+
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    if (!CheckCanActive()) return;
+
+    //    m_SkillActionReleased(
+    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
+    //        PlayerManager.Instance.m_Player.transform.forward,
+    //        PlayerManager.Instance.m_Player);
+    //}
 
 
 }

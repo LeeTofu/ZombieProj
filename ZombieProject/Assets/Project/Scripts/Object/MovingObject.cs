@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using RootMotion.FinalIK;
 
 // 오브젝트 종류
 public enum OBEJCT_SORT
@@ -105,6 +105,8 @@ public delegate bool CheckCollisionCondition(GameObject _collider);
 
 public abstract class MovingObject : MonoBehaviour
 {
+    protected AimIK m_AimIK;
+
     private ObjectFactory m_Factory;
     protected Rigidbody m_RigidBody;
     protected CapsuleCollider m_CapsuleCollider;
@@ -177,10 +179,16 @@ public abstract class MovingObject : MonoBehaviour
         StopRigidbody();
 
         m_CollisionAction += (GameObject obj) => { };
+
+        
+
+
     }
+
 
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
     // 충돌 이벤트에 함수 등록해서 쓰는거임.
+
     public void AddCollisionCondtion(CheckCollisionCondition _collisionCondition)
     {
         m_CheckCollisionCondition += _collisionCondition;
@@ -279,6 +287,14 @@ public abstract class MovingObject : MonoBehaviour
     public void SetFactory(ObjectFactory _factory)
     {
         m_Factory = _factory;
+    }
+
+    public void SetAimIK(GameObject _object)
+    {
+        if (m_AimIK == null)
+            m_AimIK = GetComponentInChildren<AimIK>();
+
+        m_AimIK.solver.target = _object.transform;
     }
 
 

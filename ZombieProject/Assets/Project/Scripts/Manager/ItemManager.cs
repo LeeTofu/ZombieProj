@@ -60,9 +60,12 @@ public class ItemManager : Singleton<ItemManager>
 
             itemStat.m_isAccumulate = bool.Parse(node.SelectSingleNode("isAccumulate").InnerText);
 
-            itemStat.m_BulletSpeed = 40.0f;
+            itemStat.m_BulletSpeed = 50.0f;
             itemStat.m_BulletString = "TestBullet";
 
+            itemStat.m_isHaveCoolTime = false;
+            itemStat.m_CoolTime = 1.0f;
+        
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
             Debug.Log(itemStat.m_ItemID);
 
@@ -123,6 +126,26 @@ public class ItemManager : Singleton<ItemManager>
 
         return stat;
     }
+
+    public ITEM_EVENT_TYPE GetItemActionType(Item _item)
+    {
+        return GetItemActionType(_item.m_ItemStat.m_Sort);
+    }
+
+    public ITEM_EVENT_TYPE GetItemActionType(ITEM_SORT _itemType)
+    {
+        switch (_itemType)
+        {
+            case ITEM_SORT.MACHINE_GUN:
+            case ITEM_SORT.RIFLE:
+                return ITEM_EVENT_TYPE.FIRE_BULLET;
+            case ITEM_SORT.MELEE:
+                return ITEM_EVENT_TYPE.MELEE;
+            default:
+                return ITEM_EVENT_TYPE.END;
+        }
+    }
+
 
     public void ItemEnchant(Item _item, int _exp)
     {

@@ -58,7 +58,7 @@ public class BattleUI : BaseUI
 
                 if (newSlot == null) continue;
 
-                newSlot.SetItem(item);
+                newSlot.Init(PlayerManager.Instance.m_Player, item);
                 m_ItemSlots.Add(i, newSlot);
 
                 newObject.transform.SetParent(transform);
@@ -74,7 +74,7 @@ public class BattleUI : BaseUI
           else
             {
                 var item = InvenManager.Instance.GetEquipedItemSlot(i);
-                 m_ItemSlots[i].SetItem(item);
+                 m_ItemSlots[i].Init(PlayerManager.Instance.m_Player, item);
             }
         }
     }

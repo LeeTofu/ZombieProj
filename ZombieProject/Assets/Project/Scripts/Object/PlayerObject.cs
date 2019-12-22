@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using RootMotion.FinalIK;
 public enum ePLAYER_STATE
 {
     IDLE,
@@ -43,6 +43,8 @@ public class WalkState : PlayerState
     public override void Start()
     {
         m_PlayerObject.m_Animator.Play("Walking");
+        
+
     }
     public override void Update()
     {
@@ -60,8 +62,10 @@ public class PlayerObject : MovingObject
     Dictionary<ePLAYER_STATE, PlayerState> m_StateTable;
     PlayerState m_CurrentState;
 
+
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
+       
         m_Controller = gameObject.AddComponent<MoveController>();
         m_Controller.Initialize(this);
 
@@ -86,6 +90,11 @@ public class PlayerObject : MovingObject
             m_CurrentState.Update();
             if (m_Controller.GetInputContoller().GetisHit()) ChangeState(ePLAYER_STATE.WALKING);
             else if(!m_Controller.GetInputContoller().GetisHit() && !m_StateTable[ePLAYER_STATE.IDLE].Equals(m_CurrentState)) ChangeState(ePLAYER_STATE.IDLE);
+        }
+
+        if(m_AimIK = null)
+        {
+            m_AimIK.solver.Update();
         }
     }
 

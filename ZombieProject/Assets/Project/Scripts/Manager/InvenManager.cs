@@ -126,9 +126,8 @@ public class InvenManager : Singleton<InvenManager>
     public void LoadItemInvenFromXML()
     {
         TextAsset playerInvenList = (TextAsset)Resources.Load("Data/Inventory/PlayerInventoryList");
-        //TextAsset ownedItem = (TextAsset)Resources.Load("Data/Inventory/OwnedItemData");
         XmlDocument xmlDoc = new XmlDocument();
-        //Debug.Log(txtAsset.text);
+
         xmlDoc.LoadXml(playerInvenList.text);
 
         XmlNodeList all_nodes = xmlDoc.SelectNodes("Root/text");
@@ -147,8 +146,6 @@ public class InvenManager : Singleton<InvenManager>
             int Lv = int.Parse(node.SelectSingleNode("Level").InnerText);
             int uniqueID = int.Parse(node.SelectSingleNode("uniqueID").InnerText);
             int itemID = int.Parse(node.SelectSingleNode("ItemID").InnerText);
-       //     int slotSort = int.Parse(node.SelectSingleNode("SlotSort").InnerText);
-
             bool isEquiped = bool.Parse(node.SelectSingleNode("isEquiped").InnerText);
            
             ItemStat stat = ItemManager.Instance.GetItemStat(itemID);
@@ -158,8 +155,7 @@ public class InvenManager : Singleton<InvenManager>
             if (stat.m_ItemID != -1)
             {
                 item = new Item(uniqueID, Lv, currentEXP, slotSort, stat);
-
-                ActionTypeManager.Instance.SetItemActionType(item);
+              //  ActionTypeManager.Instance.SetItemActionType(item);
 
                 bool result = InsertItemToInventory(item);
 

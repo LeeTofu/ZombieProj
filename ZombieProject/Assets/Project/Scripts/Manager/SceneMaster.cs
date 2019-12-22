@@ -157,8 +157,7 @@ public class SceneMaster : Singleton<SceneMaster>
         SceneManager.LoadScene("LOADING");
     }
 
-   
-
+  
     private IEnumerator Loading()
     {
         AsyncOperation op = SceneManager.LoadSceneAsync(m_NextScene.ToString(), LoadSceneMode.Single);
@@ -184,18 +183,22 @@ public class SceneMaster : Singleton<SceneMaster>
                 op.allowSceneActivation = true;
                 if (!m_isLoadingInitialize)
                 {
-                    UIManager.Instance.AllUISetActive(false);
-                    m_isLoadingInitialize = true;
                     DestoryCurrentBattleMap();
+
                     GameObject go = m_SceneInitializerTable[m_NextScene];
 
                     go.SetActive(true);
-                   
                     while (!go.GetComponent<SceneMain>().InitializeScene())
                     {
                         yield return null;
                     }
-                    
+
+                    m_CurSceneMain = go;
+
+                    UIManager.Instance.AllUISetActive(false);
+                    m_isLoadingInitialize = true;
+
+                   
                     m_CurSceneMain = go;
                 }
 

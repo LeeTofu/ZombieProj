@@ -13,8 +13,8 @@ public class ZombieAttackCondition : DecoratorNode
             Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
         }
-
-        Debug.Log("AttackCondFail");
+//
+       // Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
 }

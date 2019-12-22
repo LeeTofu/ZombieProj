@@ -47,8 +47,10 @@ public class MoveController : MonoBehaviour
 
             float length = m_InputContoller.GetLength();
             float limitlength = m_InputContoller.GetLimitedLength();
+            Debug.Log(length);
+            Debug.Log(limitlength);
             if (length >= limitlength) length = limitlength;
-            transform.position += transform.forward * Time.deltaTime * length / 10f;
+            transform.position += transform.forward * Time.deltaTime * length/limitlength * 10f;
 
         }
     }

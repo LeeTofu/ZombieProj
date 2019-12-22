@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InputContoller : MonoBehaviour
+public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    private Camera m_camera;
-    private Collider2D m_collider2D;
-
+    public static Vector2 defaultposition;
     private bool m_isMouseOver;
     private bool m_isMousePushed;
     private bool m_isHit;
@@ -17,7 +15,7 @@ public class InputContoller : MonoBehaviour
     private Canvas m_canvas;
     private GraphicRaycaster m_gr;
     private PointerEventData m_ped;
-    private float m_lengthlimit = 100f;
+    private float m_lengthlimit;
 
     // Start is called before the first frame update
     void Start()
@@ -37,14 +35,18 @@ public class InputContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height)/10f;
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0))
-        {
-            transform.position = m_position;
-            m_isHit = false;
-        }
-        MoveDrag(Input.mousePosition);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    transform.localPosition = Vector3.zero;
+        //    m_position = transform.position;
+        //    m_isHit = false;
+        //}
+        //else if (transform.localPosition == Vector3.zero) m_position = transform.position;
+        //MoveDrag(Input.mousePosition);
+
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)
         {
@@ -63,32 +65,6 @@ public class InputContoller : MonoBehaviour
             //}
         }
 #endif
-
-        //var ray = m_camera.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hit;
-        //Physics.Raycast(ray, out hit);
-
-        //if(hit.collider != null && hit.collider == m_collider2D && m_isMouseOver)
-        //{
-        //    m_isMouseOver = true;
-        //}
-        //else if(hit.collider != m_collider2D && m_isMouseOver)
-        //{
-        //    m_isMouseOver = false;
-        //}
-        //if(m_isMouseOver && Input.GetMouseButtonDown(0))
-        //{
-        //    m_isMousePushed = true;
-        //}
-        //if (m_isMousePushed && Input.GetMouseButton(0))
-        //{
-        //    Debug.Log("Drag");
-        //    OnMouseDrag();
-        //}
-        //if(m_isMousePushed && Input.GetMouseButtonUp(0))
-        //{
-        //    m_isMousePushed = false;
-        //}
 
     }
     public float GetLength()
@@ -159,4 +135,34 @@ public class InputContoller : MonoBehaviour
         return m_isHit;
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        defaultposition = this.transform.position;
+        m_position = defaultposition;
+        m_isHit = true;
+        //throw new System.NotImplementedException();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        this.transform.position = defaultposition;
+        m_isHit = false;
+        //throw new System.NotImplementedException();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (GetLength() < m_lengthlimit)
+        {
+            Vector2 currentPos = Input.mousePosition;
+            this.transform.position = currentPos;
+        }
+        else
+        {
+            transform.position = m_position + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
+        }
+
+        //throw new System.NotImplementedException();
+    }
 }

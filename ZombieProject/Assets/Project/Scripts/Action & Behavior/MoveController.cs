@@ -6,6 +6,7 @@ public class MoveController : MonoBehaviour
 {
     // 제어할 캐릭터가 뭔지
     private MovingObject m_Character;
+    private bool m_IsStop = false;
 
     Ray m_Ray = new Ray();
     RaycastHit m_RayCastHit = new RaycastHit();
@@ -50,11 +51,14 @@ public class MoveController : MonoBehaviour
             Debug.Log(length);
             Debug.Log(limitlength);
             if (length >= limitlength) length = limitlength;
-            transform.position += transform.forward * Time.deltaTime * length/limitlength * 10f;
+            if(!m_IsStop) transform.position += transform.forward * Time.deltaTime * length/limitlength * 10f;
 
         }
     }
-
+    public void SetIsStop(bool _is)
+    {
+        m_IsStop = _is;
+    }
     public InputContoller GetInputContoller()
     {
         return m_InputContoller;

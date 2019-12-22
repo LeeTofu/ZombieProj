@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1741823854410755547}
   m_Layer: 8
   m_Name: WallCollider (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536818440050586019}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -23.049997, y: -35.17, z: 4.69}
+  m_LocalPosition: {x: -23.049997, y: -35.17, z: 6.22}
   m_LocalScale: {x: 2.5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7314525987713764035}
@@ -105,7 +105,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 2.2204466e-16, z: 10.000002}
+  m_Size: {x: 10, y: 3, z: 10.000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &962611973719242921
 GameObject:
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2485603902248381076}
   m_Layer: 0
   m_Name: WallCollider (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962611973719242921}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -33.870003, y: -35.17, z: -1.54}
+  m_LocalPosition: {x: -35.46, y: -35.17, z: -1.54}
   m_LocalScale: {x: 1, y: 1, z: 1.5}
   m_Children: []
   m_Father: {fileID: 7314525987713764035}
@@ -212,7 +212,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10.000002, y: 2.2204466e-16, z: 10}
+  m_Size: {x: 10.000002, y: 3, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3168754842245696466
 GameObject:
@@ -17399,7 +17399,7 @@ GameObject:
   - component: {fileID: 3894310616606834588}
   m_Layer: 8
   m_Name: WallCollider
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17412,7 +17412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3687298439503537684}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -22.909998, y: -35.17, z: -7.33}
+  m_LocalPosition: {x: -22.909998, y: -35.17, z: -8.69}
   m_LocalScale: {x: 2.5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7314525987713764035}
@@ -17489,7 +17489,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 2.2204466e-16, z: 10.000002}
+  m_Size: {x: 10, y: 3, z: 10.000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5725340101380792576
 GameObject:
@@ -17506,7 +17506,7 @@ GameObject:
   - component: {fileID: 4744524116290571830}
   m_Layer: 0
   m_Name: WallCollider (3)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17519,7 +17519,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5725340101380792576}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -13.3, y: -35.17, z: -1.54}
+  m_LocalPosition: {x: -12.1, y: -35.17, z: -1.54}
   m_LocalScale: {x: 1, y: 1, z: 1.5}
   m_Children: []
   m_Father: {fileID: 7314525987713764035}
@@ -17596,7 +17596,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10.000002, y: 2.2204466e-16, z: 10}
+  m_Size: {x: 10.000002, y: 3, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7082658408577776457
 GameObject:

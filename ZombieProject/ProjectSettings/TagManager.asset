@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - Props
+  - Wall
   layers:
   - Default
   - TransparentFX

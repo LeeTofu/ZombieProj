@@ -57,24 +57,30 @@ public struct ItemStat
 
     public ITEM_SORT m_Sort;
 
-    public float m_HealthPoint; // 체력
+    public float m_HealthPoint; // 체력을 증가 시키는 정도
     public float m_AttackPoint; // 공격력
     public float m_ArmorPoint; // 방어력
     public float m_MoveSpeed; // 이동속도를 증가시키나
     public float m_HPGenerator; // 체력을 초당 치유하는가
     public float m_Range; // 거리
-    public float m_AttackSpeed; //공속
+    public float m_AttackSpeed; //공속 (쿨타임.)
+    public float m_CoolTime; // 쿨타임
 
     public bool m_isAccumulate; // 중첩이 되나 1,2,3...
-
-    public float m_BulletSpeed; // 공격템인데 Bullet의 공속은?
+    public bool m_isHaveCoolTime; // 쿨타임을 가진 아이템인가? -> 없다면 그냥 버튼 누르기만 해도 공격함.
+    
+    public float m_BulletSpeed; // 공격템인데 Bullet의 공속은? ()
     public string m_BulletString; // 공격템인데 Bullet의 string;
+
+
+    
+
+
 }
 
 public class Item
 {
-    public System.Action<Vector3, Vector3, MovingObject> m_AttackMethod { private set; get; }
-       
+
     int MAX_LEVEL = 10;
     public ItemStat m_ItemStat { get; private set; } // 아이템 능력치
 
@@ -96,20 +102,9 @@ public class Item
         m_ItemSlotType = _sort;
     }
 
-    public void SetAttackAction(System.Action<Vector3, Vector3, MovingObject> _action)
-    {
-        m_AttackMethod = _action;
-    }
-
     public void EquipItem()
     {
         m_isEquiped = true;
     }
 
-    public void Attack(Vector3 _pos, Vector3 _dir, MovingObject _itemMaster)
-    {
-        if (m_AttackMethod == null) return;
-
-        m_AttackMethod(_pos, _dir, _itemMaster);
-    }
 }

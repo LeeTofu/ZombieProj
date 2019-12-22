@@ -19,6 +19,12 @@ public class EnemyManager : Singleton<EnemyManager>
     [HideInInspector]
     public GameObject m_ZombieCreateZone;
 
+    public MovingObject GetZombie()
+    {
+        return m_ListZombies[0];
+    }
+
+
     public void CreateZombie(Vector3 _pos, Quaternion _quat)
     {
         if(m_ZombieFactory )
@@ -40,8 +46,8 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public override bool Initialize()
     {
-        m_ZombieFactory = gameObject.AddComponent<ZombieFactory>();
-        m_ZombieFactory.Initialize(10);
+        m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
+        m_ZombieFactory.Initialize(10, "Prefabs/Zombies/Zombie", "Prefabs/Zombies/Models/Normal");
 
         m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
 

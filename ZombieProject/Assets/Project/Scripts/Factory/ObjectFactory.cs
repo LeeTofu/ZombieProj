@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObjectFactory : MonoBehaviour
+public class ObjectFactory : MonoBehaviour
 {
     protected GameObject[] m_ModelPrefabs;
     protected GameObject m_MovingObejctPrefabs;
@@ -12,12 +12,29 @@ public abstract class ObjectFactory : MonoBehaviour
     protected int m_MaxCount;
     protected Queue<MovingObject> m_ListSleepingMovingObject = new Queue<MovingObject>();
 
-    abstract public void Initialize(int _maxCount);
+     public void Initialize(int _maxCount, string _prefabPath, string _modelsPath)
+    {
+        m_MaxCount = _maxCount;
+        m_MovingObejctPrefabs = Resources.Load<GameObject>(_prefabPath);
+        m_ModelPrefabs = Resources.LoadAll<GameObject>(_modelsPath);
+
+        if (m_MovingObejctPrefabs)
+        {
+            Debug.Log(" Object Load Success");
+        }
+
+        if (m_ModelPrefabs.Length != 0)
+        {
+            Debug.Log(" Model Load Success");
+        }
+
+        CreateObjectPool();
+    }
 
     public virtual MovingObject CreateObject(Vector3 _pos, Quaternion _quat)
     {
         MovingObject newObject = null;
-        // 풀링 필요.. 걍 지금은 대충 생성
+
         if (m_ListSleepingMovingObject.Count > 0 && m_Initialize)
         {
             newObject = PopObjectFromPooling(_pos, _quat);

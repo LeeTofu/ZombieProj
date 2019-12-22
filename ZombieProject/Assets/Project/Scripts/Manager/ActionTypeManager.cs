@@ -2,72 +2,107 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ATTACK_TYPE
+public enum ITEM_EVENT_TYPE
 {
-    BULLET,
-    BOUNCING_BULLET,
-    ARC_BULLET,
-    RAY,
-    MELEE
+    FIRE_BULLET,
+    MELEE,
+    THROW_ARK,
+    END
+
+
 };
 
 
 public class ActionTypeManager : Singleton<ActionTypeManager>
 {
-    Dictionary<ATTACK_TYPE, System.Action<Vector3, Vector3, MovingObject>> m_ActionTypeTable;
-    public AudioClip[] m_GunSound;
-    BulletFactory m_BulletFactory;
-    AudioSource m_Audio;
+    Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>> m_ButtonPressTable = new Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>>(); // 버튼을 누른채의 상태들을 담은 테이블
+    Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>> m_ButtonReleaseTable = new Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>>(); // 버튼을 풀었을 때의 액션을 담은 테이블
+    Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>> m_ButtonPressDownTable = new Dictionary<ITEM_EVENT_TYPE, System.Action<MovingObject, Item>>(); //버튼 눌렀을 때의 액션을 담은 테이블
+
+    ObjectFactory m_BulletFactory;
 
     public override bool Initialize()
     {
-        m_BulletFactory = gameObject.AddComponent<BulletFactory>();
-        m_BulletFactory.Initialize(30);
-        m_Audio = gameObject.AddComponent<AudioSource>();
-        m_GunSound = Resources.LoadAll<AudioClip>("Sound/WeaponSound");
+        m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
+        m_BulletFactory.Initialize(30, "Prefabs/Weapon/Bullet/TestBullet" ,"Prefabs/Weapon/Bullet/Models");
+
+        for (ITEM_EVENT_TYPE eventType = ITEM_EVENT_TYPE.FIRE_BULLET; eventType != ITEM_EVENT_TYPE.END; eventType++)
+        {
+            switch (eventType)
+            {
+                case ITEM_EVENT_TYPE.FIRE_BULLET:
+                    {
+                        m_ButtonPressTable.Add(eventType, (MovingObject character, Item _item) =>
+                        {
+                            character.transform.rotation = Quaternion.LookRotation(character.transform.forward, Vector3.up);
+
+                            MovingObject newBulletObj = m_BulletFactory.CreateObject(Vector3.zero, Quaternion.identity);
+                            Bullet newBullet = newBulletObj as Bullet;
+
+                            character.SetAimIK(EnemyManager.Instance.GetZombie().gameObject);
+
+
+                            if (newBullet)
+                            {
+                                newBullet.FireBullet(
+                                    character.m_CurrentEquipedItem.m_FireTransform.position,
+                                    character.transform.forward, _item.m_ItemStat.m_BulletSpeed);
+                            };
+                        });
+                    }
+                    break;
+                case ITEM_EVENT_TYPE.THROW_ARK:
+                    {
+                        m_ButtonPressTable.Add(eventType, (MovingObject character, Item _item) =>
+                        {
+                            character.transform.rotation = Quaternion.LookRotation(character.transform.forward, Vector3.up);
+
+                            MovingObject newBulletObj = m_BulletFactory.CreateObject(Vector3.zero, Quaternion.identity);
+                            Bullet newBullet = newBulletObj as Bullet;
+
+                            if (newBullet)
+                            {
+                                newBullet.FireBullet(
+                                    character.m_CurrentEquipedItem.m_FireTransform.position,
+                                    character.transform.forward, _item.m_ItemStat.m_BulletSpeed);
+                            };
+                        });
+                    }
+                    break;
+            }
+        }
+
 
         return true;
     }
 
-    public void SetItemActionType(Item _item)
+    public System.Action<MovingObject, Item> GetActionType(BUTTON_ACTION _action, ITEM_EVENT_TYPE _eventType )
     {
-       switch(_item.m_ItemStat.m_Sort)
-       {
-            case ITEM_SORT.RIFLE:
-            case ITEM_SORT.LAUNCHER:
-                _item.SetAttackAction((pos, dir, character) =>
-                {
-                    character.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        System.Action< MovingObject, Item> action = null;
 
-                    MovingObject newBulletObj = m_BulletFactory.CreateObject(pos, Quaternion.identity);
-                    Bullet newBullet = newBulletObj as Bullet;
+        switch (_action)
+        {
+            case BUTTON_ACTION.PRESSED:
+                if (m_ButtonPressTable.TryGetValue(_eventType, out action))
+                    return action;
+                else return null;
+            case BUTTON_ACTION.PRESS_DOWN:
+                if (m_ButtonPressDownTable.TryGetValue(_eventType, out action))
+                    return action;
+                else return null;
+            case BUTTON_ACTION.RELEASE:
+                if (m_ButtonReleaseTable.TryGetValue(_eventType, out action))
+                    return action;
+                else return null;
+            default:
+                return null;
 
-                    if (newBullet)
-                    {
-                       newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
-                    }
-                });
-                break;
-            case ITEM_SORT.SNIPER:
-                _item.SetAttackAction((pos, dir, character) =>
-                {
-                    character.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
-
-                    GameObject newBulletObj = Instantiate(Resources.Load<GameObject>("Prefabs/Weapon/Bullet/" + _item.m_ItemStat.m_BulletString));
-                    Bullet newBullet = newBulletObj.GetComponent<Bullet>();
-
-                    if (newBullet)
-                    {
-                         newBullet.Initialize(null, null);
-                         newBullet.FireBullet(pos, dir, _item.m_ItemStat.m_BulletSpeed);
-                    }
-                });
-                break;
-       }
-
-
-
-
+        }
+    }
+    
+    public void SetItemActionType()
+    {
+        
     }
 
 

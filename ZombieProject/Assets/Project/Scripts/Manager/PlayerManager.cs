@@ -86,8 +86,8 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         LoadPlayerInfo();
 
-        m_PlayerFactory = gameObject.AddComponent<PlayerFactory>();
-        m_PlayerFactory.Initialize(2);
+        m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
+        m_PlayerFactory.Initialize(2, "Prefabs/Players/Player", "Prefabs/Players/Models/Normal");
 
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
 

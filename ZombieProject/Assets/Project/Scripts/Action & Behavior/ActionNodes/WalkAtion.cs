@@ -15,7 +15,7 @@ public class ZombieWalkCondition : DecoratorNode
             return NODE_STATE.SUCCESS;
         }
 
-        Debug.Log("WalkCondFail");
+        //Debug.Log("WalkCondFail");
         return NODE_STATE.FAIL;
     }
 }

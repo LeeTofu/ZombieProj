@@ -71,12 +71,74 @@ public class PlayerObject : MovingObject
 
         m_CurrentState = m_StateTable[ePLAYER_STATE.IDLE];
 
+        //AddCollisionCondtion(CollisionCondition);
+        //AddCollisionFunction(CollisionEvent);
+
         if (m_Animator == null)
         {
             m_Animator = gameObject.GetComponentInChildren<Animator>();
             m_CurrentState.Start();
         }
         return;
+    }
+
+    //void CollisionEvent(GameObject _object)
+    //{
+    //    m_Controller.SetIsStop(true);
+    //    Vector3 c = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+    //    Ray ray = new Ray(c, this.transform.TransformDirection(Vector3.forward));
+    //    RaycastHit hit;
+    //    if(Physics.Raycast(ray, out hit))
+    //    {
+    //        Vector3 a = c - hit.point;
+    //        Vector3 b = (c + this.transform.up * -1) - hit.point;
+
+    //        Vector3 p = hit.point - c;
+    //        Vector3 pnp = Vector3.Project(p, hit.normal);
+    //        Vector3 dir = (p - pnp) - transform.position;
+    //        dir.y = 0;
+    //        Quaternion rot = Quaternion.LookRotation(dir);
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime);
+    //    }
+    //    transform.position += transform.TransformDirection(Vector3.forward) * Time.deltaTime;
+    //}
+    //bool CollisionCondition(GameObject _object)
+    //{
+    //    if (_object.tag == "Wall") return true;
+    //    return false;
+    //}
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            Vector3 c = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+            Ray ray = new Ray(c, this.transform.TransformDirection(Vector3.forward));
+            Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1.0f))
+            {
+                m_Controller.SetIsStop(true);
+                Debug.DrawRay(hit.point, hit.normal, Color.white);
+                Vector3 p = hit.point - c;
+                Vector3 pnp = Vector3.Project(p, hit.normal);
+                //Debug.DrawRay(hit.point, p - pnp, Color.green);
+                //Vector3 dir = (p - pnp) - transform.position;
+                Vector3 dir = (p - pnp);
+                dir.y = 0;
+                Debug.DrawRay(hit.point, dir, Color.yellow);
+                if(m_Controller.GetInputContoller().GetisHit()) transform.position += dir * Time.deltaTime * 10f;
+            }
+            else m_Controller.SetIsStop(false);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            m_Controller.SetIsStop(false);
+        }
     }
 
     private void Update()

@@ -2,87 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
-public enum ePLAYER_STATE
-{
-    IDLE,
-    WALKING
-}
-
-public abstract class PlayerState
-{
-    public PlayerObject m_PlayerObject;
-    protected PlayerState(PlayerObject playerObject)
-    {
-        m_PlayerObject = playerObject;
-    }
-    public abstract void Start();
-    public abstract void Update();
-    public abstract void End();
-}
-
-public class IdleState : PlayerState
-{
-    public IdleState(PlayerObject playerObject) : base(playerObject) { }
-    public override void Start()
-    {
-        m_PlayerObject.m_Animator.Play("Idle");
-    }
-    public override void Update()
-    {
-
-    }
-    public override void End()
-    {
-        
-    }
-}
-
-public class WalkState : PlayerState
-{
-    public WalkState(PlayerObject playerObject) : base(playerObject) { }
-    public override void Start()
-    {
-        m_PlayerObject.m_Animator.Play("Walking");
-        
-
-    }
-    public override void Update()
-    {
-
-    }
-    public override void End()
-    {
-
-    }
-}
 
 public class PlayerObject : MovingObject
 {
+    public StateController m_StateController { private set; get; }
     MoveController m_Controller;
-    Dictionary<ePLAYER_STATE, PlayerState> m_StateTable;
-    PlayerState m_CurrentState;
+   // Dictionary<E_PLAYABLE_STATE, PlayerState> m_StateTable;
 
+    //public PlayerState m_CurrentState { private set; get; } 
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-       
+        if (m_Animator == null)
+        {
+            m_Animator = gameObject.GetComponentInChildren<Animator>();
+            m_Animator.applyRootMotion = false;
+            //m_CurrentState.Start();
+        }
+
         m_Controller = gameObject.AddComponent<MoveController>();
         m_Controller.Initialize(this);
 
-        m_StateTable = new Dictionary<ePLAYER_STATE, PlayerState>();
-        m_StateTable.Add(ePLAYER_STATE.IDLE, new IdleState(this));
-        m_StateTable.Add(ePLAYER_STATE.WALKING, new WalkState(this));
+        m_StateController = gameObject.AddComponent<StateController>();
+        m_StateController.Initialize(this);
 
-        m_CurrentState = m_StateTable[ePLAYER_STATE.IDLE];
+        
+
+        AddCollisionCondtion(CollisionCondition);
+        AddCollisionFunction(CollisionEvent);
+        AddCollisionExitFunction(CollisionExitEvent);
+
+        //m_StateTable = new Dictionary<E_PLAYABLE_STATE, PlayerState>();
+        //m_StateTable.Add(E_PLAYABLE_STATE.IDLE, new IdleState(this));
+        //m_StateTable.Add(E_PLAYABLE_STATE.WALKING, new WalkState(this));
+        //m_StateTable.Add(E_PLAYABLE_STATE.WALKING, new AttackState(this));
+
+        //m_CurrentState = m_StateTable[E_PLAYABLE_STATE.IDLE];
 
         //AddCollisionCondtion(CollisionCondition);
         //AddCollisionFunction(CollisionEvent);
 
-        if (m_Animator == null)
-        {
-            m_Animator = gameObject.GetComponentInChildren<Animator>();
-            m_CurrentState.Start();
-        }
+
         return;
     }
 
@@ -112,58 +72,110 @@ public class PlayerObject : MovingObject
     //    return false;
     //}
 
-    private void OnTriggerStay(Collider other)
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Wall"))
+    //    {
+    //        Vector3 center = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+    //        Ray ray = new Ray(center, this.transform.TransformDirection(Vector3.forward));
+
+    //        Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+
+    //        RaycastHit hit;
+
+    //        if (Physics.Raycast(ray, out hit, 1.0f))
+    //        {
+    //            m_Controller.SetIsStop(true);
+    //            Debug.DrawRay(hit.point, hit.normal, Color.white);
+
+    //            Vector3 DirectionToHit = hit.point - center;
+
+    //            Vector3 ProjectionResult = Vector3.Project(DirectionToHit, hit.normal);
+
+    //            //Debug.DrawRay(hit.point, p - pnp, Color.green);
+    //            //Vector3 dir = (p - pnp) - transform.position;
+    //            Vector3 dir = (DirectionToHit - ProjectionResult);
+    //            dir.y = 0;
+    //            Debug.DrawRay(hit.point, dir, Color.yellow);
+
+    //            if (BattleUI.m_InputController != null)
+    //            {
+    //                if (BattleUI.m_InputController.m_isHit) 
+    //                    transform.position += dir * Time.deltaTime * 10f;
+    //            }
+    //        }
+    //        else 
+    //            m_Controller.SetIsStop(false);
+    //    }
+    //}
+
+        //벽 충돌
+    void CollisionEvent(GameObject _object)
     {
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            Vector3 c = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
-            Ray ray = new Ray(c, this.transform.TransformDirection(Vector3.forward));
-            Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1.0f))
-            {
-                m_Controller.SetIsStop(true);
-                Debug.DrawRay(hit.point, hit.normal, Color.white);
-                Vector3 p = hit.point - c;
-                Vector3 pnp = Vector3.Project(p, hit.normal);
-                //Debug.DrawRay(hit.point, p - pnp, Color.green);
-                //Vector3 dir = (p - pnp) - transform.position;
-                Vector3 dir = (p - pnp);
-                dir.y = 0;
-                Debug.DrawRay(hit.point, dir, Color.yellow);
-                if(m_Controller.GetInputContoller().GetisHit()) transform.position += dir * Time.deltaTime * 10f;
-            }
-            else m_Controller.SetIsStop(false);
-        }
+        //Vector3 center = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+        //Ray ray = new Ray(center, this.transform.TransformDirection(Vector3.forward));
+
+        //Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+
+        //RaycastHit hit;
+
+        //if (Physics.Raycast(ray, out hit, 1.0f))
+        //{
+        //    //m_Controller.SetIsStop(true);
+        //    Debug.DrawRay(hit.point, hit.normal, Color.white);
+
+        //    Vector3 directionToHit = hit.point - center;
+
+        //    Vector3 ProjectionResult = Vector3.Project(directionToHit, hit.normal);
+        //    Vector3 dir = (directionToHit - ProjectionResult);
+
+        //    dir.y = 0;
+        //    Debug.DrawRay(hit.point, dir, Color.yellow);
+
+        //    if (BattleUI.m_InputController != null)
+        //    {
+        //        if (BattleUI.m_InputController.m_isHit)
+        //            transform.position += dir * Time.deltaTime * 10f;
+        //    }
+        //}
+        //else
+        //{
+        //    //m_Controller.SetIsStop(false);
+        //}
     }
 
-    private void OnTriggerExit(Collider other)
+    bool CollisionCondition(GameObject _defender)
     {
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            m_Controller.SetIsStop(false);
-        }
+         // if (_defender.tag == "Wall") return true;
+            return false;
     }
 
-    private void Update()
+    void CollisionExitEvent(GameObject _collision)
     {
-        if(m_Controller.GetInputContoller() != null)
-        {
-            m_CurrentState.Update();
-            if (m_Controller.GetInputContoller().GetisHit()) ChangeState(ePLAYER_STATE.WALKING);
-            else if(!m_Controller.GetInputContoller().GetisHit() && !m_StateTable[ePLAYER_STATE.IDLE].Equals(m_CurrentState)) ChangeState(ePLAYER_STATE.IDLE);
-        }
-
-        if(m_AimIK = null)
-        {
-            m_AimIK.solver.Update();
-        }
+      //  if (_collision.CompareTag("Wall"))
+      //  {
+            // m_Controller.SetIsStop(false);
+       // }
     }
 
-    public void ChangeState(ePLAYER_STATE _STATE)
-    {
-        m_CurrentState.End();
-        m_CurrentState = m_StateTable[_STATE];
-        m_CurrentState.Start();
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Wall"))
+    //    {
+    //       // m_Controller.SetIsStop(false);
+    //    }
+    //}
+
+    //private void Update()
+    //{
+    //    if(m_Controller.GetInputContoller() != null)
+    //    {
+    //        m_CurrentState.Update();
+    //        if (m_Controller.GetInputContoller().GetisHit()) 
+    //            ChangeState(E_PLAYABLE_STATE.WALKING);
+    //        else if(!m_Controller.GetInputContoller().GetisHit() && !m_StateTable[E_PLAYABLE_STATE.IDLE].Equals(m_CurrentState)) 
+    //            ChangeState(E_PLAYABLE_STATE.IDLE);
+    //    }
+    //}
+
 }

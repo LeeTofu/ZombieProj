@@ -24,6 +24,29 @@ public class EnemyManager : Singleton<EnemyManager>
         return m_ListZombies[0];
     }
 
+    // _pos 에서 가장 가가운 좀비 찾아낸다.
+    public MovingObject GetNearestZombie(Vector3 _pos, float _maxDistance)
+    {
+        float maxLen = 1000000.0f;
+        MovingObject target = null;
+
+        foreach(MovingObject zombie in m_ListZombies)
+        {
+            float sqrlen = (zombie.transform.position - _pos).sqrMagnitude;
+            float len = (zombie.transform.position - _pos).magnitude;
+
+            if (len > _maxDistance) continue;
+
+            if (len < maxLen)
+            {
+                target = zombie;
+                maxLen = len;
+            }
+        }
+
+        return target;
+    }
+
 
     public void CreateZombie(Vector3 _pos, Quaternion _quat)
     {

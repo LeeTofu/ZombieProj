@@ -124,6 +124,7 @@ public abstract class MovingObject : MonoBehaviour
     protected Transform m_PropL;
 
     System.Action<GameObject> m_CollisionAction;
+    System.Action<GameObject> m_CollisionExitAction;
 
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
@@ -180,11 +181,7 @@ public abstract class MovingObject : MonoBehaviour
 
         m_CollisionAction += (GameObject obj) => { };
 
-        
-
-
     }
-
 
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
     // 충돌 이벤트에 함수 등록해서 쓰는거임.
@@ -200,7 +197,18 @@ public abstract class MovingObject : MonoBehaviour
         m_CollisionAction += _collisionAction;
     }
 
-    
+
+    public void AddCollisionExitFunction(System.Action<GameObject> _collisionExitAction)
+    {
+        if (m_CollisionExitAction == null)
+        {
+            m_CollisionExitAction = _collisionExitAction;
+            return;
+        }
+
+        m_CollisionExitAction += _collisionExitAction;
+    }
+
     protected void OnCollisionEnter(Collision collision)
     {
         if (m_CollisionAction == null) return;
@@ -220,9 +228,40 @@ public abstract class MovingObject : MonoBehaviour
         else if (m_CheckCollisionCondition(other.gameObject))
             m_CollisionAction(other.gameObject);
     }
+
+    protected void OnTriggerExit(Collider other)
+    {
+        if (m_CollisionExitAction == null) return;
+
+        m_CollisionExitAction(other.gameObject);
+    }
+
+    protected void OnCollisionExit(Collision collision)
+    {
+        if (m_CollisionExitAction == null) return;
+
+        m_CollisionExitAction(collision.gameObject);
+    }
     // --------------------------------------------------------------------
 
-      // 무빙오브젝트의 무기를 셋팅하는 함수임.
+    public bool CheckForwardWall(Vector3 _forward, out RaycastHit _hit, out Vector3 _center)
+    {
+        _center = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+        Ray ray = new Ray(_center, this.transform.TransformDirection(Vector3.forward));
+
+        Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+
+        if (Physics.Raycast(ray, out _hit, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // 무빙오브젝트의 무기를 셋팅하는 함수임.
     public void SetWeapon(Item _item, bool _isRightHand = true)
     {
         if(m_CurrentEquipedItem != null)
@@ -235,9 +274,13 @@ public abstract class MovingObject : MonoBehaviour
 
         if (itemObject == null) return;
 
-        Transform PropR = FindChildObject(gameObject, "Hand_R");
+        Transform PropHand;
 
-        itemObject.transform.SetParent(PropR);
+        if (_isRightHand)
+            PropHand = FindChildObject(gameObject, "Hand_R");
+        else PropHand = FindChildObject(gameObject, "Hand_L");
+
+        itemObject.transform.SetParent(PropHand);
         itemObject.transform.localPosition = new Vector3(15f, 2.4f, -3.6f);
         itemObject.transform.localRotation = Quaternion.Euler(-4.336f, 90.0f, -106f);
         itemObject.transform.localScale = new Vector3(75, 75, 75);
@@ -291,11 +334,15 @@ public abstract class MovingObject : MonoBehaviour
 
     public void SetAimIK(GameObject _object)
     {
-        if (m_AimIK == null)
-            m_AimIK = GetComponentInChildren<AimIK>();
+      //  if (m_AimIK == null)
+      //     m_AimIK = GetComponentInChildren<AimIK>();
 
-        m_AimIK.solver.target = _object.transform;
+       // m_AimIK.solver.target = _object.transform;
     }
+
+
+
+
 
 
 }

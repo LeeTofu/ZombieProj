@@ -34,6 +34,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private ObjectFactory m_PlayerFactory;
 
+    ObjectFactory m_BulletFactory;
+
     [HideInInspector]
     public GameObject m_PlayerCreateZone;
 
@@ -89,6 +91,9 @@ public class PlayerManager : Singleton<PlayerManager>
         m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
         m_PlayerFactory.Initialize(2, "Prefabs/Players/Player", "Prefabs/Players/Models/Normal");
 
+        m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
+        m_BulletFactory.Initialize(30, "Prefabs/Weapon/Bullet/TestBullet", "Prefabs/Weapon/Bullet/Models");
+
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
 
         if (m_PlayerCreateZone != null)
@@ -96,5 +101,67 @@ public class PlayerManager : Singleton<PlayerManager>
 
         return true;
     }
+
+    public void PlayerAttack(MovingObject _object, Item _item, Vector3 _screenPos)
+    {
+
+    }
+
+    // 해당 터치 위치가 플레이어가 공격할 수 있는 시야각에 있는지 체크하는 함수입니다.
+    public bool CheckCanAttack(Vector3 _inputScreenPosition)
+    {
+        if (m_Player == null) return false;
+
+        Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
+        RaycastHit castHit;
+        if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
+        {
+            Vector3 HitPositon = castHit.point;
+            HitPositon.y = m_Player.transform.position.y;
+            Vector3 HitForward = HitPositon - m_Player.transform.position;
+
+            HitForward = HitForward.normalized;
+
+            if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.8f)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        return false;
+    }
+
+
+    // 화면 터치시 가장 가까운 좀비를 찾아내는 함수입니다.
+    public MovingObject GetTouchNearestEnemy(Vector3 _inputScreenPosition, out Vector3 _hitPoint)
+    {
+        _hitPoint = Vector3.zero;
+
+        if (m_Player == null) return null;
+
+        Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
+        RaycastHit castHit;
+        if (Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            _hitPoint = castHit.point;
+
+            MovingObject zombie = EnemyManager.Instance.GetNearestZombie(_hitPoint, 15.0f);
+
+            if (zombie == null)
+            {
+                Debug.LogError("감지 XX");
+                return null;
+            }
+            else
+            {
+                Debug.LogError("Zombie 감지" + zombie.gameObject.name);
+                return zombie;
+            }
+        }
+
+        return null;
+    }
+
 
 }

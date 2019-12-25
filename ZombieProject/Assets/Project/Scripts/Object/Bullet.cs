@@ -33,10 +33,10 @@ public class Bullet : MovingObject
     {
         Debug.Log("Zombie Check");
         MovingObject zombie = _object.GetComponent<MovingObject>();
-        zombie.SetRigidBodyState(true);
-        zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
+     //   zombie.SetRigidBodyState(true);
+     //   zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
 
-        pushToMemory();
+     //   pushToMemory();
     }
 
     bool CollisionCondition(GameObject _defender)

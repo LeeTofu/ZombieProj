@@ -20,9 +20,12 @@ public class BattleUI : BaseUI
     [SerializeField]
     RectTransform[] m_ItemSlotTransform;
 
+    static public InputContoller m_InputController { private set; get; }
+
     private void Awake()
     {
         m_ItemButtonPrefabs = Resources.Load<GameObject>("Prefabs/ItemUI/BattleItemSlotUI");
+        m_InputController = GetComponentInChildren<InputContoller>();
     }
 
     private void Start()

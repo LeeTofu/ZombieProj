@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Sort: 0
   m_Animator: {fileID: 0}
+  m_CurrentEquipedItem: {fileID: 0}
 --- !u!136 &5026015320785085023
 CapsuleCollider:
   m_ObjectHideFlags: 0

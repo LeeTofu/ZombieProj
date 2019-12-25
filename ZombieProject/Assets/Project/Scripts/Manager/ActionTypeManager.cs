@@ -34,13 +34,23 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                     {
                         m_ButtonPressTable.Add(eventType, (MovingObject character, Item _item) =>
                         {
-                            character.transform.rotation = Quaternion.LookRotation(character.transform.forward, Vector3.up);
-
                             MovingObject newBulletObj = m_BulletFactory.CreateObject(Vector3.zero, Quaternion.identity);
                             Bullet newBullet = newBulletObj as Bullet;
 
-                            character.SetAimIK(EnemyManager.Instance.GetZombie().gameObject);
+                            Vector3 ScreenToWorldPos;
+                            MovingObject enemy = PlayerManager.Instance.GetTouchNearestEnemy(Input.mousePosition, out ScreenToWorldPos);
 
+                            ScreenToWorldPos.y = character.transform.position.y;
+
+                            if(character.m_CurrentEquipedItem != null)
+                                character.m_CurrentEquipedItem.PlaySound();
+                            
+                            if (enemy)
+                                character.transform.rotation = Quaternion.LookRotation((enemy.transform.position - character.transform.position).normalized, Vector3.up);
+                            else
+                            {
+                                character.transform.rotation = Quaternion.LookRotation((ScreenToWorldPos - character.transform.position).normalized, Vector3.up);
+                            }
 
                             if (newBullet)
                             {

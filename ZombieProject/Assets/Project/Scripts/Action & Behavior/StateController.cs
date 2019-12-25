@@ -76,6 +76,7 @@ public class WalkState : PlayerState
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         else
         {
+            BattleUI.m_InputController.CalculateMoveVector();
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
             m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * 3.0f; //* 1.0f;
         }
@@ -98,7 +99,6 @@ public class StateController : MonoBehaviour
     {
         m_eCurrentState = E_PLAYABLE_STATE.NONE;
         m_Character = _object;
-        m_StateTable = new Dictionary<E_PLAYABLE_STATE, PlayerState>();
 
         m_StateTable = new Dictionary<E_PLAYABLE_STATE, PlayerState>();
 

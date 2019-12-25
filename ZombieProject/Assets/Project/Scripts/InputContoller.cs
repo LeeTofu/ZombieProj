@@ -24,10 +24,11 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     // 입력 컨트롤러 배경 반지름.
     static float s_ControllerBGRadius = 10.0f;
 
-    // 현재 캐릭터 이동할 벡터
+    // Drag 한 벡터
     public Vector3 m_DragDirectionVector { private set; get; }
+    // 현재 캐릭터 이동할 벡터
     public Vector3 m_MoveVector { private set; get; }
-    // Start is called before the first frame update
+
     IEnumerator Start()
     {
 
@@ -46,8 +47,6 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             this.enabled = true;
             yield return null;
         }
-
-
     }
 
     // Update is called once per frame
@@ -83,7 +82,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             //}
         }
 #endif
-        CalculateMoveVector();
+        //CalculateMoveVector();
     }
     public float GetCurrentMouseDragLength()
     {
@@ -123,10 +122,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     //    if (m_Character != null) /*m_Character.m_Animator.applyRootMotion = false*/;
     //}
 
-
-
-
-    
+    // 벽 슬라이딩 만드는 함수.
     public bool CheckWallSliding(Vector3 _forward)
     {
         if (m_Character == null) return false;
@@ -155,13 +151,15 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         }
     }
 
-    private void CalculateMoveVector()
+    // 여기서 무브 벡터 만들음.
+    public void CalculateMoveVector()
     {
+        if (m_isHit == false) return;
         if (m_Character == null) return;
         
         Vector3 MoveControllerDir = GetDirectionVec3();
 
-        if (MoveControllerDir.sqrMagnitude > 0.0f && m_isHit)
+        if (MoveControllerDir.sqrMagnitude > 0.0f)
         {
             Camera cam = Camera.main;
             MoveControllerDir = cam.transform.InverseTransformVector(new Vector3(MoveControllerDir.x, 0, MoveControllerDir.y));
@@ -176,12 +174,11 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
             m_DragDirectionVector = new Vector3(MoveControllerDir.x, 0.0f, MoveControllerDir.y).normalized;
            
-           if( CheckWallSliding(m_Character.transform.forward))
+            // 벽에 막혀 슬라이딩 벡터를 만들어야 하나 함수.
+           if( !CheckWallSliding(m_Character.transform.forward))
             {
-
-            }
-            else 
                 m_MoveVector = m_DragDirectionVector;
+            }
         }
     }
 

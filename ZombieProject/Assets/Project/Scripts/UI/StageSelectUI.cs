@@ -36,7 +36,7 @@ public class StageSelectUI : BaseUI
     void SetStageInfo()
     {
         m_StageInfoImage.texture = m_StageTextures[(int)1];
-        m_StageInfoText.text = m_CurretSelectedStage.ToString();
+        m_StageInfoText.text = SceneMaster.Instance.GetSceneName(m_CurretSelectedStage);
     }
 
     public override void DeleteUI()

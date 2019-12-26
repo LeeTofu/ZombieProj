@@ -43,6 +43,9 @@ public class GameMaster : Singleton<GameMaster>
 {
     private void Awake()
     {
+        Debug.Log( "가로 : "  + Screen.width);
+        Screen.SetResolution(1280, (int)(1280 * 9.0f / 16.0f), true);
+
         Initialize();
     }
 
@@ -50,7 +53,7 @@ public class GameMaster : Singleton<GameMaster>
     {
         TextureManager.Instance.CreateManager();
 
-        LoginManager.Instance.CreateManager();
+       // LoginManager.Instance.CreateManager();
         EnemyManager.Instance.CreateManager();
         PlayerManager.Instance.CreateManager();
         UIManager.Instance.CreateManager();

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class BattleItemSlotButton : MonoBehaviour
 {
-    public ITEM_SLOT_SORT m_slotType { private set; get; }
+    public ITEM_SLOT_SORT m_slotType;
     public Item m_Item { private set; get; }
 
     MovingObject m_Character;
@@ -67,12 +67,12 @@ public class BattleItemSlotButton : MonoBehaviour
 
             if (eventType == ITEM_EVENT_TYPE.END)
             {
-                Debug.LogError("END라서 액션 못넣음");
+               // Debug.LogError("END라서 액션 못넣음");
                 return;
             }
             if (action == null)
             {
-                Debug.LogError("action null이라 액션 못넣음" + actionType + " , " + eventType);
+               // Debug.LogError("action null이라 액션 못넣음" + actionType + " , " + eventType);
                 return;
             }
 

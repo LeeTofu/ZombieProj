@@ -146,7 +146,7 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             _hitPoint = castHit.point;
 
-            MovingObject zombie = EnemyManager.Instance.GetNearestZombie(_hitPoint, 15.0f);
+            MovingObject zombie = EnemyManager.Instance.GetNearestZombie(_hitPoint, 1.0f);
 
             if (zombie == null)
             {

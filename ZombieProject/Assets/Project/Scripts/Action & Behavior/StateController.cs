@@ -30,7 +30,7 @@ public class IdleState : PlayerState
     public IdleState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
     public override void Start()
     {
-        Debug.LogError("Idle");
+      //  Debug.LogError("Idle");
         CameraManager.Instance.ResetOffsetPosition();
         m_PlayerObject.m_Animator.Play("Idle");
     }

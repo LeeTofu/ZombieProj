@@ -161,7 +161,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
         if (MoveControllerDir.sqrMagnitude > 0.0f)
         {
-            Camera cam = Camera.main;
+            Camera cam = CameraManager.Instance.m_Camera;
             MoveControllerDir = cam.transform.InverseTransformVector(new Vector3(MoveControllerDir.x, 0, MoveControllerDir.y));
 
             float length = GetCurrentMouseDragLength();

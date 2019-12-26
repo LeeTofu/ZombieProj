@@ -7,12 +7,11 @@ public enum E_MAP
 {
     NONE, // 아무것도 없다
     HOSPITAL, // 병원
-    BUNKER, // 벙커
-    FOREST, //숲
-    CITY1, // 도시2
-    CITY2, // 도시1
+    SEWER, // 하수도
     SUBURB, // 교외
-    CONSTRUCTION_SITE // 공사장
+    CITY1, // 도시2
+    BANK, // 은행
+    BUNKER, // 벙커
 }
 
 

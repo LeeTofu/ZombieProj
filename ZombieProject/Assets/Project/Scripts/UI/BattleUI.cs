@@ -15,16 +15,11 @@ public class BattleUI : BaseUI
 
     Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
 
-    GameObject m_ItemButtonPrefabs;
-
-    [SerializeField]
-    RectTransform[] m_ItemSlotTransform;
 
     static public InputContoller m_InputController { private set; get; }
 
     private void Awake()
     {
-        m_ItemButtonPrefabs = Resources.Load<GameObject>("Prefabs/ItemUI/BattleItemSlotUI");
         m_InputController = GetComponentInChildren<InputContoller>();
     }
 
@@ -49,35 +44,30 @@ public class BattleUI : BaseUI
 
     public override void InitializeUI()
     {
-        for (ITEM_SLOT_SORT i = ITEM_SLOT_SORT.MAIN; i != ITEM_SLOT_SORT.END; i++)
+        BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
+        
+        for (int i = 0; i  < buttons.Length; i++)
         {
-            if (!m_ItemSlots.ContainsKey(i))
+            ITEM_SLOT_SORT type = buttons[i].m_slotType;
+
+            if (type == ITEM_SLOT_SORT.END || type == ITEM_SLOT_SORT.NONE) continue;
+
+            if (!m_ItemSlots.ContainsKey(type))
             {
-                GameObject newObject = Instantiate(m_ItemButtonPrefabs);
+                var item = InvenManager.Instance.GetEquipedItemSlot(type);
 
-                var item = InvenManager.Instance.GetEquipedItemSlot(i);
+                buttons[i].Init(PlayerManager.Instance.m_Player, item);
 
-                BattleItemSlotButton newSlot = newObject.GetComponent<BattleItemSlotButton>();
-
-                if (newSlot == null) continue;
-
-                newSlot.Init(PlayerManager.Instance.m_Player, item);
-                m_ItemSlots.Add(i, newSlot);
-
-                newObject.transform.SetParent(transform);
-
-                if (i != ITEM_SLOT_SORT.MAIN)
+                m_ItemSlots.Add(type, buttons[i]);
+                if (type != ITEM_SLOT_SORT.MAIN)
                 {
-                    m_ItemSlots[i].GetComponent<RectTransform>().localScale *= 0.85f;
+                    m_ItemSlots[type].GetComponent<RectTransform>().localScale *= 0.85f;
                 }
-
-                m_ItemSlots[i].GetComponent<RectTransform>().localPosition = m_ItemSlotTransform[((int)i - 1)].localPosition;
-
             }
           else
             {
-                var item = InvenManager.Instance.GetEquipedItemSlot(i);
-                 m_ItemSlots[i].Init(PlayerManager.Instance.m_Player, item);
+                var item = InvenManager.Instance.GetEquipedItemSlot(type);
+                 m_ItemSlots[type].Init(PlayerManager.Instance.m_Player, item);
             }
         }
     }

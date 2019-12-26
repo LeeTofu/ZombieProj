@@ -157,6 +157,46 @@ public class SceneMaster : Singleton<SceneMaster>
         SceneManager.LoadScene("LOADING");
     }
 
+    public string GetSceneName(GAME_STAGE _gameStage)
+    {
+        switch(_gameStage)
+        {
+            case GAME_STAGE.EVENT_DUNGEON:
+                return "이벤트";
+            case GAME_STAGE.MONEY_DUNGEON:
+                return "폐허가 된 은행";
+            case GAME_STAGE.MUGEN_ZOMBIE:
+                return "무한 좀비";
+            case GAME_STAGE.STAGE_1:
+                return "마을";
+            case GAME_STAGE.STAGE_1_HERO:
+                return "마을 (지옥)";
+            case GAME_STAGE.STAGE_2:
+                return "지하 수도";
+            case GAME_STAGE.STAGE_2_HERO:
+                return "지하 수도 (지옥)";
+            case GAME_STAGE.STAGE_3:
+                return "병원";
+            case GAME_STAGE.STAGE_3_HERO:
+                return "병원 (지옥)";
+            case GAME_STAGE.STAGE_4:
+                return "교외";
+            case GAME_STAGE.STAGE_4_HERO:
+                return "교외 (지옥)";
+            case GAME_STAGE.STAGE_5:
+                return "벙커 내부";
+            case GAME_STAGE.STAGE_5_HERO:
+                return "벙커 내부 (지옥)";
+            case GAME_STAGE.CHALLENGE:
+                return "보스 사냥";
+        }
+
+        return " ";
+
+
+    }
+
+
   
     private IEnumerator Loading()
     {

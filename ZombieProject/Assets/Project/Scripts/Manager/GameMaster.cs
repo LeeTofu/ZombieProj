@@ -59,6 +59,8 @@ public class GameMaster : Singleton<GameMaster>
         ActionTypeManager.Instance.CreateManager();
         ItemManager.Instance.CreateManager();
         InvenManager.Instance.CreateManager();
+
+        CameraManager.Instance.CreateManager();
         
 
         return true;

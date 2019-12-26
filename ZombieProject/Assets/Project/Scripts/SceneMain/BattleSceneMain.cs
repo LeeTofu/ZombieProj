@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BattleSceneMain : SceneMain
 {
-
     private BattleMapCreator m_BattleMapCreator;
 
     Transform m_PlayerCreateZone;
@@ -12,17 +11,29 @@ public class BattleSceneMain : SceneMain
 
     public IEnumerator Start()
     {
-        yield return new WaitForSeconds(2.5f);
+        while (m_PlayerCreateZone == null)
+            yield return null;
+        yield return new WaitForSeconds(0.1f);
 
+        CameraManager.Instance.CameraInitialize(m_PlayerCreateZone.position);
+
+        yield return new WaitForSeconds(3.0f);
+        
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.position, m_ZombieCreateZone.rotation);
+
+        CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
+
     }
+ 
 
     public override bool DeleteScene()
     {
         return true;
     }
 
+    // 이거 로딩중에 실해되는 함수이므로 주의해서 쓰세요.
+    // 맵 로딩 중
     public override bool InitializeScene()
     {
 
@@ -31,7 +42,7 @@ public class BattleSceneMain : SceneMain
 
         // 어떤 스테이지에 어떤 맵을 가져올 것인가를 결정하는 '데이터매니저' 만들것...
 
-        m_BattleMapCreator.CreateMap(SceneMaster.Instance.m_CurrentGameStage, E_MAP.CITY1);
+        m_BattleMapCreator.CreateMap(SceneMaster.Instance.m_CurrentGameStage, E_MAP.BUNKER);
 
         m_PlayerCreateZone = m_BattleMapCreator.m_PlayerCreateZone;
 
@@ -42,8 +53,6 @@ public class BattleSceneMain : SceneMain
 
         if (m_ZombieCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
-
-
 
 
         Debug.Log("Battle init 불러옴");

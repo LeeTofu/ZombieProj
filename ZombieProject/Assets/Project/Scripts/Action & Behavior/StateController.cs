@@ -31,6 +31,7 @@ public class IdleState : PlayerState
     public override void Start()
     {
         Debug.LogError("Idle");
+        CameraManager.Instance.ResetOffsetPosition();
         m_PlayerObject.m_Animator.Play("Idle");
     }
     public override void Update()
@@ -76,6 +77,8 @@ public class WalkState : PlayerState
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         else
         {
+            CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 3.0f);
+
             BattleUI.m_InputController.CalculateMoveVector();
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
             m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * 3.0f; //* 1.0f;

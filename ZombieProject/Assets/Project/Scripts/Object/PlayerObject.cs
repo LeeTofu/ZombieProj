@@ -6,7 +6,7 @@ using RootMotion.FinalIK;
 public class PlayerObject : MovingObject
 {
     public StateController m_StateController { private set; get; }
-    MoveController m_Controller;
+   // MoveController m_Controller;
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
@@ -16,8 +16,8 @@ public class PlayerObject : MovingObject
             m_Animator.applyRootMotion = false;
         }
 
-        m_Controller = gameObject.AddComponent<MoveController>();
-        m_Controller.Initialize(this);
+       // m_Controller = gameObject.AddComponent<MoveController>();
+       // m_Controller.Initialize(this);
 
         m_StateController = gameObject.AddComponent<StateController>();
         m_StateController.Initialize(this);

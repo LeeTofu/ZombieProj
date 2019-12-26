@@ -41,6 +41,8 @@ public class BattleMapCreator : MonoBehaviour
         m_PlayerCreateZone = bg.transform.Find("PlayerCreateZone");
         ZombieCreateZones = bg.transform.Find("ZombieCreateZone");
 
+
+
         if (m_PlayerCreateZone == null)
             Debug.LogError("x");
         if (ZombieCreateZones == null)

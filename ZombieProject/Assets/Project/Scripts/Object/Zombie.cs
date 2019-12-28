@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Zombie : MovingObject
 {
     protected BehaviorNode m_zombieBehavior;
@@ -13,6 +14,13 @@ public class Zombie : MovingObject
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
 
         // Test //
+        m_zombieState = ZOMBIE_STATE.IDLE;
+
+        m_Stat = new STAT
+        {
+            Range = 1.5f
+        };
+
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
    }

@@ -16,6 +16,18 @@ public enum OBEJCT_SORT
     ZOMBIE_OBJECT // 좀비들 오브젝트
 }
 
+public enum ZOMBIE_STATE
+{
+    IDLE,
+    WALK,
+    ATTACK,
+    RANGE_ATK,
+    PATROL,
+    CHASE,
+    NONE,
+}
+
+
 public class STAT
 {
     private float moveSpeed;
@@ -115,6 +127,7 @@ public abstract class MovingObject : MonoBehaviour
 
     public STAT m_Stat;
     public OBEJCT_SORT m_Sort;
+    public ZOMBIE_STATE m_zombieState;
     public Animator m_Animator;
     public ItemObject m_CurrentEquipedItem;
 

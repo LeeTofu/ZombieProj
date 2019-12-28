@@ -8,13 +8,13 @@ public class ZombieAttackCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        if (distance <= 1.4f)
+        if (distance <= m_Character.m_Stat.Range)
         {
             Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
         }
-//
-       // Debug.Log("AttackCondFail");
+
+        Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
 }
@@ -34,9 +34,13 @@ public class ZombieAttackAction : ActionNode
     public override NODE_STATE Tick()
     {
         //플레이 부분
-        if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+
+        if (m_Character.m_zombieState != ZOMBIE_STATE.ATTACK)
         {
-            m_Character.m_Animator.Play("Attack");
+            m_Character.m_Animator.CrossFade("Attack", 0.1f);
+            //m_Character.m_Animator.CrossFadeInFixedTime("Attack", 0.1f);
+            //m_Character.m_Animator.Play("Attack");
+            m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
             Debug.Log("AttackStart");
             return NODE_STATE.RUNNING;
         }
@@ -50,7 +54,29 @@ public class ZombieAttackAction : ActionNode
                 return NODE_STATE.RUNNING;
             }
         }
+        /*
+        if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            m_Character.m_Animator.CrossFade("Attack", 0.3f);
+            //m_Character.m_Animator.CrossFadeInFixedTime("Attack", 0.1f);
+            //m_Character.m_Animator.Play("Attack");
+            Debug.Log("AttackStart");
+            return NODE_STATE.RUNNING;
+        }
+        else
+        {
+            m_nowActionTime += Time.deltaTime;
+            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
+            if (m_nowActionTime < m_totalActionTime)
+            {
+                Debug.Log("Attacking");
+                return NODE_STATE.RUNNING;
+            }
+        }
+        */
 
+
+        m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
         Debug.Log("Attack out");
         return NODE_STATE.FAIL;

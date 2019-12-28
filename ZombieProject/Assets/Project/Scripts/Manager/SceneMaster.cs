@@ -157,6 +157,32 @@ public class SceneMaster : Singleton<SceneMaster>
         SceneManager.LoadScene("LOADING");
     }
 
+    public E_MAP GetBattleMap(GAME_STAGE _gameStage)
+    {
+        switch (_gameStage)
+        {
+            case GAME_STAGE.STAGE_1:
+            case GAME_STAGE.STAGE_1_HERO:
+                return E_MAP.CITY1;
+            case GAME_STAGE.STAGE_2:
+            case GAME_STAGE.STAGE_2_HERO:
+                return E_MAP.SEWER;
+            case GAME_STAGE.STAGE_3:
+            case GAME_STAGE.STAGE_3_HERO:
+                return E_MAP.HOSPITAL;
+            case GAME_STAGE.STAGE_4:
+            case GAME_STAGE.STAGE_4_HERO:
+                return E_MAP.BUNKER;
+            case GAME_STAGE.STAGE_5:
+            case GAME_STAGE.STAGE_5_HERO:
+                return E_MAP.SUBURB;
+            default:
+                return E_MAP.BUNKER;
+            
+        }
+        
+    }
+
     public string GetSceneName(GAME_STAGE _gameStage)
     {
         switch(_gameStage)
@@ -180,20 +206,17 @@ public class SceneMaster : Singleton<SceneMaster>
             case GAME_STAGE.STAGE_3_HERO:
                 return "병원 (지옥)";
             case GAME_STAGE.STAGE_4:
-                return "교외";
-            case GAME_STAGE.STAGE_4_HERO:
-                return "교외 (지옥)";
-            case GAME_STAGE.STAGE_5:
                 return "벙커 내부";
-            case GAME_STAGE.STAGE_5_HERO:
+            case GAME_STAGE.STAGE_4_HERO:
                 return "벙커 내부 (지옥)";
+            case GAME_STAGE.STAGE_5:
+                return "교외";
+            case GAME_STAGE.STAGE_5_HERO:
+                return "교외 (지옥)";
             case GAME_STAGE.CHALLENGE:
                 return "보스 사냥";
         }
-
         return " ";
-
-
     }
 
 

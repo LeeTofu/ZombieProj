@@ -27,7 +27,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void CameraInitialize(Vector3 _pos)
     {
-        m_DefalutCameraOffset = new Vector3(0.0f, 12.5f, 0.0f);
+        m_DefalutCameraOffset = new Vector3(0.0f, 15.5f, 0.0f);
         m_CameraOffset = m_DefalutCameraOffset;
 
         if (Camera.main == null)

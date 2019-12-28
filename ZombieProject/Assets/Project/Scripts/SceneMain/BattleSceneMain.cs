@@ -42,7 +42,9 @@ public class BattleSceneMain : SceneMain
 
         // 어떤 스테이지에 어떤 맵을 가져올 것인가를 결정하는 '데이터매니저' 만들것...
 
-        m_BattleMapCreator.CreateMap(SceneMaster.Instance.m_CurrentGameStage, E_MAP.SEWER);
+       E_MAP map = SceneMaster.Instance.GetBattleMap(SceneMaster.Instance.m_CurrentGameStage);
+
+        m_BattleMapCreator.CreateMap(SceneMaster.Instance.m_CurrentGameStage, map);
 
         m_PlayerCreateZone = m_BattleMapCreator.m_PlayerCreateZone;
 

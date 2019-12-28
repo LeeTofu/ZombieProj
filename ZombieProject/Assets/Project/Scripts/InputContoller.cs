@@ -4,6 +4,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public class Subject
+{
+    private List<IObserver> observers = new List<IObserver>();
+    public void Attach(IObserver o)
+    {
+        observers.Add(o);
+    }
+    public void Detach(IObserver o)
+    {
+        observers.Remove(o);
+    }
+    public void Notify()
+    {
+        foreach (IObserver o in observers)
+        {
+            o.ObsUpdate();
+        }
+    }
+    public void BeginDragNotify()
+    {
+        foreach (IObserver o in observers)
+        {
+            o.BeginDragUpdate();
+        }
+    }
+    public void EndDragNotify()
+    {
+        foreach (IObserver o in observers)
+        {
+            o.EndDragUpdate();
+        }
+    }
+    public void DragNotify()
+    {
+        foreach (IObserver o in observers)
+        {
+            o.DragUpdate();
+        }
+    }
+}
+
+public class ContollerMove : Subject
+{
+    private bool m_isHit;
+    public ContollerMove(bool _is) { m_isHit = _is; }
+    public bool isHit
+    {
+        get { return m_isHit; }
+        set { m_isHit = value; }
+    }
+}
+
 public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     // 컨트롤러 놓으면 원래 위치.
@@ -11,6 +63,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     // 인풋 컨트롤러 조이스틱을 눌렀나.
     public bool m_isHit { get; private set; }
+    public Subject m_SubJect { get; private set; }
 
     private Vector3 m_InputControllerPosition;
     private Canvas m_canvas;
@@ -29,6 +82,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     // 현재 캐릭터 이동할 벡터
     public Vector3 m_MoveVector { private set; get; }
 
+
     IEnumerator Start()
     {
 
@@ -39,9 +93,10 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         m_gr = m_canvas.GetComponent<GraphicRaycaster>();
         m_ped = new PointerEventData(null);
         m_InputControllerPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        m_isHit = false;
+        //m_isHit = false;
+        m_SubJect = new ContollerMove(false);
 
-        while(m_Character == null)
+        while (m_Character == null)
         {
             m_Character = PlayerManager.Instance.m_Player;
             this.enabled = true;
@@ -154,7 +209,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     // 여기서 무브 벡터 만들음.
     public void CalculateMoveVector()
     {
-        if (m_isHit == false) return;
+        //if (m_isHit == false) return;
         if (m_Character == null) return;
         
         Vector3 MoveControllerDir = GetDirectionVec3();
@@ -214,7 +269,8 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     {
         m_defaultPosition = this.transform.position;
         m_InputControllerPosition = m_defaultPosition;
-        m_isHit = true;
+        //m_isHit = true;
+        m_SubJect.BeginDragNotify();
 
         Debug.Log("BeginDrag");
         //throw new System.NotImplementedException();
@@ -225,7 +281,8 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_InputControllerPosition = m_defaultPosition;
         transform.position = m_InputControllerPosition;
-        m_isHit = false;
+        //m_isHit = false;
+        m_SubJect.EndDragNotify();
 
         m_DragDirectionVector = Vector3.zero;
 
@@ -245,6 +302,7 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
 
         }
+        m_SubJect.DragNotify();
         Debug.Log("OnDrag");
         //throw new System.NotImplementedException();
     }

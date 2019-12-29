@@ -6,7 +6,8 @@ using RootMotion.FinalIK;
 public class PlayerObject : MovingObject
 {
     public StateController m_StateController { private set; get; }
-   // MoveController m_Controller;
+    // MoveController m_Controller;
+    private IEnumerator cor;
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
@@ -16,11 +17,37 @@ public class PlayerObject : MovingObject
             m_Animator.applyRootMotion = false;
         }
 
-       // m_Controller = gameObject.AddComponent<MoveController>();
-       // m_Controller.Initialize(this);
+        // m_Controller = gameObject.AddComponent<MoveController>();
+        // m_Controller.Initialize(this);
 
         m_StateController = gameObject.AddComponent<StateController>();
         m_StateController.Initialize(this);
+
+        SetStat(new STAT
+        {
+            MaxHP = 100f,
+            CurHP = 100f,
+            Defend = 100f,
+            MoveSpeed = 1.0f
+        });
+
         return;
+    }
+
+    private new void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Wall"))
+        {
+            if (m_Stat.m_Coroutine != null) StopCoroutine(m_Stat.m_Coroutine);
+            m_Stat = new Blessing(m_Stat);
+            StartCoroutine(m_Stat.m_Coroutine);
+        }
+        else if (other.tag.Equals("Zombie"))
+        {
+            if (m_Stat.m_Coroutine != null) StopCoroutine(m_Stat.m_Coroutine);
+            m_Stat = new Poison(m_Stat);
+            StartCoroutine(m_Stat.m_Coroutine);
+        }
+        m_Stat.Action();
     }
 }

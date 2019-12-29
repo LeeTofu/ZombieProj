@@ -41,7 +41,7 @@ public class STAT
     private float maxHP;
 
     System.Action OnPropertyChange;
-
+    public IEnumerator m_Coroutine;
     public float MoveSpeed
     {
         get => moveSpeed;
@@ -110,6 +110,8 @@ public class STAT
     {
         OnPropertyChange += _action;
     }
+
+    public virtual void Action() { }
 }
 
 
@@ -306,13 +308,13 @@ public abstract class MovingObject : MonoBehaviour
     // ============= 버프는 영래 당담 ===================
     void AddBuff(Buff _buff)
     {
-        if (!_buff) return;
+        if (_buff!=null) return;
         m_ListBuff.Add(_buff);
     }
 
     void AddDeBuff(Buff _buff)
     {
-        if (!_buff) return;
+        if (_buff!=null) return;
         m_ListDeBuff.Add(_buff);
     }
 

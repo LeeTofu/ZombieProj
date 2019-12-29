@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class BattleItemSlotButton : MonoBehaviour
+public class BattleItemSlotButton : UIPressSubject
 {
     public ITEM_SLOT_SORT m_slotType;
     public Item m_Item { private set; get; }
@@ -16,8 +16,6 @@ public class BattleItemSlotButton : MonoBehaviour
 
     [SerializeField]
     Image m_CoolDownImage;
-
-    Button m_Button;
 
     ItemAction m_ItemAction;
 
@@ -38,6 +36,7 @@ public class BattleItemSlotButton : MonoBehaviour
         m_ItemIcon.color = Color.white;
 
         GetActionFromManager(m_Item);
+
     }
 
     // ============================================================
@@ -58,9 +57,9 @@ public class BattleItemSlotButton : MonoBehaviour
         if (m_ItemAction == null)
             m_ItemAction = gameObject.AddComponent<ItemAction>();
 
-        m_ItemAction.Initialized(_item);
+        m_ItemAction.Initialized(_item, this);
 
-        for (BUTTON_ACTION actionType = BUTTON_ACTION.PRESSED; actionType != BUTTON_ACTION.END; actionType++)
+        for (BUTTON_ACTION actionType = BUTTON_ACTION.PRESS_ENTER; actionType != BUTTON_ACTION.END; actionType++)
         {
             ITEM_EVENT_TYPE eventType =  ItemManager.Instance.GetItemActionType(_item);
             var action = ActionTypeManager.Instance.GetActionType(actionType, eventType);
@@ -68,12 +67,12 @@ public class BattleItemSlotButton : MonoBehaviour
             if (eventType == ITEM_EVENT_TYPE.END)
             {
                // Debug.LogError("END라서 액션 못넣음");
-                return;
+                continue;
             }
             if (action == null)
             {
                // Debug.LogError("action null이라 액션 못넣음" + actionType + " , " + eventType);
-                return;
+                continue;
             }
 
             m_ItemAction.SetPlayAction(actionType, action);
@@ -82,11 +81,15 @@ public class BattleItemSlotButton : MonoBehaviour
 
     private void Update()
     {
+        
+
         if (m_Item == null) return;
         if (m_ItemAction == null) return;
 
         UpdateCoolDown();
         UpdateAttackSpeed();
+
+        OnPressed();
     }
 
     void UpdateCoolDown()
@@ -105,6 +108,33 @@ public class BattleItemSlotButton : MonoBehaviour
         if (InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
 
         return true;
+    }
+
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        if(m_ItemAction != null)
+        {
+            if (m_ItemAction.OnPointerDown())
+                UpdateObserver(BUTTON_ACTION.PRESS_ENTER);
+        }
+    }
+
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        if (m_ItemAction != null)
+        {
+            if(m_ItemAction.OnPointerUp())
+                UpdateObserver(BUTTON_ACTION.PRESS_RELEASE);
+        }
+    }
+
+    public override void OnPressed()
+    {
+        if (m_ItemAction != null)
+        {
+            if (m_ItemAction.OnPointerPress())
+                UpdateObserver(BUTTON_ACTION.PRESS_DOWN);
+        }
     }
 
 

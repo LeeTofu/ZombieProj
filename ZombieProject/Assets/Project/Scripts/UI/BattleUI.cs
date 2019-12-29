@@ -13,10 +13,9 @@ public class BattleUI : BaseUI
     [SerializeField]
     TMPro.TextMeshProUGUI m_PartsText;
 
-    Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
+    static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
 
-
-    static public InputContoller m_InputController { private set; get; }
+    public static InputContoller m_InputController { private set; get; }
 
     private void Awake()
     {
@@ -76,4 +75,12 @@ public class BattleUI : BaseUI
     {
 
     }
+
+    public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot )
+    {
+        return m_ItemSlots[_itemSlot];
+    }
+
+
+
 }

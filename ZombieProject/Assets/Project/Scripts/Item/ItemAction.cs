@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum BUTTON_ACTION
+public enum BUTTON_ACTION // 버튼에 행해지는 액션 타입.
 {
     NONE = 12,
-    PRESSED = 0,  // 버튼을 누른상태인가?
-    RELEASE, // 버튼을 놓은 상태인가?
-    PRESS_DOWN, // 버튼을 누르는 타이밍인가?
+    PRESS_ENTER, // 아이템 버튼을 누를때
+    PRESS_DOWN, // 아이템 버튼을 누르고 있는 중일때
+    PRESS_RELEASE, // 아이템 버튼을 뗏을때
+
     DRAG_ENTER, // 드래그 시작
     DRAG, // 드래그중
     DRAG_EXIT, // 드래그 놓을때
@@ -16,7 +17,7 @@ public enum BUTTON_ACTION
 }
 
 
-public class ItemAction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ItemAction : MonoBehaviour
 {
     Item m_item;
 
@@ -45,13 +46,9 @@ public class ItemAction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     bool m_isDownHover = false;
 
-    private void Update()
-    {
-        OnButtonPressed();
-    }
+ 
 
-
-    public void Initialized( Item _item)
+    public void Initialized( Item _item, BattleItemSlotButton _slotButton)
     {
         m_item = _item;
 
@@ -64,6 +61,7 @@ public class ItemAction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         m_OriginalAttackSpeed = 0.5f;
 
         m_CurrentPlayAction = null;
+
     }
 
     private void PlayAction(MovingObject _object  ,BUTTON_ACTION _action)
@@ -227,40 +225,45 @@ public class ItemAction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
 
     // 버튼 눌렀을 때
-    public void OnPointerDown(PointerEventData eventData)
+    public bool OnPointerDown()
     {
         m_isDownHover = true;
         Debug.Log("스킬 아이콘을 눌렀다");
 
-        if (!CheckCanActionPlay()) return;
+        if (!CheckCanActionPlay()) return false;
 
-        PlayAction(PlayerManager.Instance.m_Player,  BUTTON_ACTION.PRESS_DOWN);
+        PlayAction(PlayerManager.Instance.m_Player,  BUTTON_ACTION.PRESS_ENTER);
+        return true;
         
     }
 
     // 버튼 누르고서 드래그 할때
-    public void OnButtonPressed()
+    public bool OnPointerPress()
     {
-        if (!m_isDownHover) return;
-        if (!CheckCanActionPlay()) return;
+        if (!m_isDownHover) return false;
+        if (!CheckCanActionPlay()) return false;
 
-        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESSED);
+        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_DOWN);
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;
 
         Debug.Log("스킬 아이콘 드래그중");
+
+        return true;
     }
 
     // 버튼 
-    public void OnPointerUp(PointerEventData eventData)
+    public bool OnPointerUp()
     {
         m_isDownHover = false;
         Debug.Log("스킬 아이콘 놓았다.");
 
-        if (!CheckCanActionPlay()) return;
+        if (!CheckCanActionPlay()) return false;
 
-        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.RELEASE);
+        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_RELEASE);
         AfterSkillActive();
+
+        return true;
     }
 
 }

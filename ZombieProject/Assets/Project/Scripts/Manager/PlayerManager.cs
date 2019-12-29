@@ -80,7 +80,9 @@ public class PlayerManager : Singleton<PlayerManager>
         m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
 
         m_Player.SetWeapon(m_MainItem == null ? m_SecondaryItem : m_MainItem);
+
         
+      
         return m_Player;
     }
 

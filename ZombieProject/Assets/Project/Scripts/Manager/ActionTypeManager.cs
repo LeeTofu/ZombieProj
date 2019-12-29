@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum ITEM_EVENT_TYPE
 {
-    FIRE_BULLET,
-    MELEE,
-    THROW_ARK,
+    FIRE_BULLET, // 불릿을 쏘는 아이템 타입
+    MELEE, // 근접 공격하는 아이템 타입
+    THROW_ARK, // 포물선으로 던지는 타입.
     END
 
 
@@ -45,13 +45,6 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                             if(character.m_CurrentEquipedItem != null)
                                 character.m_CurrentEquipedItem.PlaySound();
                             
-                            if (enemy)
-                                character.transform.rotation = Quaternion.LookRotation((enemy.transform.position - character.transform.position).normalized, Vector3.up);
-                            else
-                            {
-                                character.transform.rotation = Quaternion.LookRotation((ScreenToWorldPos - character.transform.position).normalized, Vector3.up);
-                            }
-
                             if (newBullet)
                             {
                                 newBullet.FireBullet(
@@ -92,15 +85,15 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
 
         switch (_action)
         {
-            case BUTTON_ACTION.PRESSED:
+            case BUTTON_ACTION.PRESS_DOWN:
                 if (m_ButtonPressTable.TryGetValue(_eventType, out action))
                     return action;
                 else return null;
-            case BUTTON_ACTION.PRESS_DOWN:
+            case BUTTON_ACTION.PRESS_ENTER:
                 if (m_ButtonPressDownTable.TryGetValue(_eventType, out action))
                     return action;
                 else return null;
-            case BUTTON_ACTION.RELEASE:
+            case BUTTON_ACTION.PRESS_RELEASE:
                 if (m_ButtonReleaseTable.TryGetValue(_eventType, out action))
                     return action;
                 else return null;

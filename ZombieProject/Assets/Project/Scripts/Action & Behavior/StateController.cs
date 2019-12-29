@@ -33,14 +33,14 @@ public class IdleState : PlayerState
     public IdleState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
     public override void Start()
     {
-      //  Debug.LogError("Idle");
         CameraManager.Instance.ResetOffsetPosition();
-        m_PlayerObject.m_Animator.Play("Idle");
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.Play("Idle", i);
+        }
     }
     public override void Update()
     {
-        //if (BattleUI.m_InputController.m_isHit)
-        //    m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
 
     }
     public override void End()
@@ -66,7 +66,12 @@ public class AttackState : PlayerState
     public AttackState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
     public override void Start()
     {
-        m_PlayerObject.m_Animator.Play("Idle");
+        // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. , Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
+        // 무빙샷 때문에 이렇게 만들음.
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.Play("Walking", i);
+        }
     }
     public override void Update()
     {
@@ -95,22 +100,14 @@ public class WalkState : PlayerState
     public WalkState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
     public override void Start()
     {
-        m_PlayerObject.m_Animator.Play("Walking");
+        // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
+        // 무빙샷 때문에 이렇게 만들음.
+         m_PlayerObject.m_Animator.Play("Walking", 0);
     }
 
     public override void Update()
     {
-        //if (!BattleUI.m_InputController.m_isHit)
-        //    m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
-        //else
-        //{
-        //    CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 3.0f);
-
-        //    BattleUI.m_InputController.CalculateMoveVector();
-        //    m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
-        //    m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * 3.0f; //* 1.0f;
-        //}
-        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 3.0f);
+        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
         BattleUI.m_InputController.CalculateMoveVector();
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
@@ -134,7 +131,7 @@ public class WalkState : PlayerState
     }
 }
 
-public class StateController : MonoBehaviour, IObserver
+public class StateController : MonoBehaviour
 {
     MovingObject m_Character;
     Dictionary<E_PLAYABLE_STATE, PlayerState> m_StateTable;
@@ -154,6 +151,10 @@ public class StateController : MonoBehaviour, IObserver
         InsertState(E_PLAYABLE_STATE.ATTACK, new AttackState(m_Character, this));
 
         ChangeState(E_PLAYABLE_STATE.IDLE);
+
+        InputContoller.AttachObserver(BUTTON_ACTION.DRAG_ENTER, BeginDragUpdate);
+        InputContoller.AttachObserver(BUTTON_ACTION.DRAG_EXIT, EndDragUpdate);
+        InputContoller.AttachObserver(BUTTON_ACTION.DRAG, DragUpdate);
     }
 
     void  InsertState(E_PLAYABLE_STATE _state , PlayerState _playerState)
@@ -190,27 +191,10 @@ public class StateController : MonoBehaviour, IObserver
 
     private void Update()
     {
-        // 이런 코드 안 쓰려고 스테이트 패턴 쓰는건데.. ㅠㅠ .. State 변화는 왠만하면 PlayerState 클래스 내에서 변경하자. 
-        // 나중에 개존나 꼬임.
-        // GetisHit 같은 bool 은 쓰지 말고 이것도 다 state로 넣고 처리하자.
-        // ============================================================
-        //if (m_Controller.GetInputContoller() != null)
-        //{
-        //    m_CurrentState.Update();
-
-        //    if (m_Controller.GetInputContoller().GetisHit())
-        //        ChangeState(E_PLAYABLE_STATE.WALKING);
-        //    else if (!m_Controller.GetInputContoller().GetisHit() && !m_StateTable[E_PLAYABLE_STATE.IDLE].Equals(m_CurrentState))
-        //        ChangeState(E_PLAYABLE_STATE.IDLE);
-        //}
-
         if(m_CurrentState != null)
             m_CurrentState.Update();
     }
 
-    public void ObsUpdate()
-    {
-    }
     public void BeginDragUpdate()
     {
         if (m_CurrentState != null)

@@ -107,36 +107,6 @@ public class BattleItemSlotButton : MonoBehaviour
         return true;
     }
 
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    if (!CheckCanActive()) return;
-
-    //    m_SkillActionPressDown(
-    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
-    //        PlayerManager.Instance.m_Player.transform.forward,
-    //        PlayerManager.Instance.m_Player);
-    //}
-
-    //public void OnDrag(PointerEventData eventData)
-    //{
-    //    if (!CheckCanActive()) return;
-
-    //    m_SkillActionDraged(
-    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
-    //        PlayerManager.Instance.m_Player.transform.forward,
-    //        PlayerManager.Instance.m_Player);
-    //}
-
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-    //    if (!CheckCanActive()) return;
-
-    //    m_SkillActionReleased(
-    //        PlayerManager.Instance.m_Player.m_CurrentEquipedItem.m_FireTransform.position,
-    //        PlayerManager.Instance.m_Player.transform.forward,
-    //        PlayerManager.Instance.m_Player);
-    //}
-
 
 }
 

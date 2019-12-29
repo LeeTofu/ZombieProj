@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public enum BUTTON_ACTION
 {
+    NONE = 12,
     PRESSED = 0,  // 버튼을 누른상태인가?
     RELEASE, // 버튼을 놓은 상태인가?
     PRESS_DOWN, // 버튼을 누르는 타이밍인가?

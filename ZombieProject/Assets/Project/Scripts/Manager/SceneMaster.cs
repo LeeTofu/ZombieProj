@@ -99,7 +99,6 @@ public class SceneMaster : Singleton<SceneMaster>
         return null;
     }
 
-
     public void SetBattleMap(GameObject _obj)
     {
         DestoryCurrentBattleMap();
@@ -173,14 +172,9 @@ public class SceneMaster : Singleton<SceneMaster>
             case GAME_STAGE.STAGE_4:
             case GAME_STAGE.STAGE_4_HERO:
                 return E_MAP.BUNKER;
-            case GAME_STAGE.STAGE_5:
-            case GAME_STAGE.STAGE_5_HERO:
-                return E_MAP.SUBURB;
             default:
                 return E_MAP.BUNKER;
-            
         }
-        
     }
 
     public string GetSceneName(GAME_STAGE _gameStage)
@@ -209,10 +203,6 @@ public class SceneMaster : Singleton<SceneMaster>
                 return "벙커 내부";
             case GAME_STAGE.STAGE_4_HERO:
                 return "벙커 내부 (지옥)";
-            case GAME_STAGE.STAGE_5:
-                return "교외";
-            case GAME_STAGE.STAGE_5_HERO:
-                return "교외 (지옥)";
             case GAME_STAGE.CHALLENGE:
                 return "보스 사냥";
         }

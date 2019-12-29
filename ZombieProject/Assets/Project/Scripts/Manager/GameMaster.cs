@@ -30,8 +30,6 @@ public enum GAME_STAGE
     STAGE_3_HERO,// 어려운 모드
     STAGE_4,
     STAGE_4_HERO,// 어려운 모드
-    STAGE_5,
-    STAGE_5_HERO,// 어려운 모드
     MUGEN_ZOMBIE, // 무한 좀비 모드
     CHALLENGE, // 도전 모드
     MONEY_DUNGEON, // 골드 던전

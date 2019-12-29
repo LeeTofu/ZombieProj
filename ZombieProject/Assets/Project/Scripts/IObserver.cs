@@ -4,8 +4,5 @@ using UnityEngine;
 
 public interface IObserver
 {
-    void ObsUpdate();
-    void BeginDragUpdate();
-    void EndDragUpdate();
-    void DragUpdate();
+    void ObserverUpdate();
 }

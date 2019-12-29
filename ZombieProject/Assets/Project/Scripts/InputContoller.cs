@@ -4,66 +4,111 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Subject
+// 영래가 짜던거 업그레이드
+// UI 드래그 한 것을 감지하고 이벤트를 실행시키고 싶을때, 이벤트를 등록해서 쓰시면 됩니다.
+// AttachObserver 함수로 등록하시면 됩니다.
+public abstract class UIDragSubject : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    private List<IObserver> observers = new List<IObserver>();
-    public void Attach(IObserver o)
+    static Dictionary<BUTTON_ACTION, List<System.Action>> m_buttonActionTable = new Dictionary<BUTTON_ACTION, List<System.Action>>();
+
+    BUTTON_ACTION m_CurrentButtonAction =  BUTTON_ACTION.NONE;
+    List<System.Action> m_ListCurrentUpdateObserver;
+
+    // 액션 추가하는 함수입니다.
+    static public void AttachObserver(BUTTON_ACTION _action, System.Action _event)
     {
-        observers.Add(o);
-    }
-    public void Detach(IObserver o)
-    {
-        observers.Remove(o);
-    }
-    public void Notify()
-    {
-        foreach (IObserver o in observers)
+        List<System.Action> list;
+       if(m_buttonActionTable.TryGetValue(_action, out list))
         {
-            o.ObsUpdate();
+            list.Add(_event);
+        }
+       else
+        {
+            list = new List<System.Action>();
+            list.Add(_event);
+            m_buttonActionTable.Add(_action, list);
         }
     }
-    public void BeginDragNotify()
+
+    // 액션이 담긴 리스트를 제거합니다.
+    static public void DetachObserver(BUTTON_ACTION _action, System.Action _event)
     {
-        foreach (IObserver o in observers)
+        List<System.Action> list;
+        if (m_buttonActionTable.TryGetValue(_action, out list))
         {
-            o.BeginDragUpdate();
+            list.Remove(_event);
+        }
+        else
+        {
+            Debug.LogError("그런 액션없는데 ?>");
         }
     }
-    public void EndDragNotify()
+
+    // 액션이 담긴 리스트를 돌리면서 액션을 실행 시킵니다.
+    // 이거 private 풀지 마세요. 
+    private void UpdateObserverList()
     {
-        foreach (IObserver o in observers)
+        if(m_ListCurrentUpdateObserver == null)
         {
-            o.EndDragUpdate();
+            Debug.LogError("List를 없는데 옵저버 돌린다? 퍽!");
+            return;
+        }
+
+        foreach (System.Action o in m_ListCurrentUpdateObserver)
+        {
+            o?.Invoke();
         }
     }
-    public void DragNotify()
+
+    // 업데이트를 돌리는 실질적인 함수입니다. 
+    protected void UpdateObserver(BUTTON_ACTION _action)
     {
-        foreach (IObserver o in observers)
+        // 이상한 액션을 업데이트 하려는가?
+        if(_action == BUTTON_ACTION.END || _action == BUTTON_ACTION.NONE)
         {
-            o.DragUpdate();
+            Debug.LogError("그런 버튼 액션 없다. 확인");
+            return;
+        }
+
+        // 액션이 지금이랑 같을때는 굳이 액션 리스트를 찾을 필요가 있나.
+        if(m_CurrentButtonAction == _action)
+        {
+            UpdateObserverList();
+            return;
+        }
+
+        // 새로운 액션이니 테이블에서 액션이 담긴 리스트를 찾자.
+        m_CurrentButtonAction = _action;
+        List<System.Action> list;
+        if (m_buttonActionTable.TryGetValue(_action, out list))
+        {
+            m_ListCurrentUpdateObserver = list;
+            UpdateObserverList();
+        }
+        else
+        {
+            Debug.LogError("그런 액션은 테이블에 없습니다. 다시 보셈");
         }
     }
+
+
+    // ============================ 상속해서 구현한 다음 쓰세요. ========================
+    // 끌기를 시작할 때.
+    public abstract void OnBeginDrag(PointerEventData eventData);
+    // 드래그를 마쳤을때
+    public abstract void OnEndDrag(PointerEventData eventData);
+    // 오직 끌고서 움직여야만 발동되는 함수
+    public abstract void OnDrag(PointerEventData eventData);
+    // ================================================================================
 }
 
-public class ContollerMove : Subject
-{
-    private bool m_isHit;
-    public ContollerMove(bool _is) { m_isHit = _is; }
-    public bool isHit
-    {
-        get { return m_isHit; }
-        set { m_isHit = value; }
-    }
-}
-
-public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class InputContoller : UIDragSubject
 {
     // 컨트롤러 놓으면 원래 위치.
     public Vector3 m_defaultPosition;
 
     // 인풋 컨트롤러 조이스틱을 눌렀나.
     public bool m_isHit { get; private set; }
-    public Subject m_SubJect { get; private set; }
 
     private Vector3 m_InputControllerPosition;
     private Canvas m_canvas;
@@ -82,10 +127,8 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     // 현재 캐릭터 이동할 벡터
     public Vector3 m_MoveVector { private set; get; }
 
-
     IEnumerator Start()
     {
-
         m_defaultPosition = transform.position;
 
         this.enabled = false;
@@ -94,7 +137,6 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         m_ped = new PointerEventData(null);
         m_InputControllerPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         //m_isHit = false;
-        m_SubJect = new ContollerMove(false);
 
         while (m_Character == null)
         {
@@ -104,57 +146,16 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) / s_ControllerBGRadius;
-
-#if UNITY_EDITOR
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    transform.localPosition = Vector3.zero;
-        //    m_position = transform.position;
-        //    m_isHit = false;
-        //}
-        //else if (transform.localPosition == Vector3.zero) m_position = transform.position;
-        //MoveDrag(Input.mousePosition);
-
-#elif UNITY_ANDROID
-        if (Input.touchCount > 0)
-        {
-            for(int i=0; i<Input.touchCount; i++)
-            {
-                Touch touch = Input.GetTouch(i);
-                //if(touch.phase == TouchPhase.Began)
-                //{
-                    
-                //}
-                MoveDrag(touch.position);
-            }
-            //if (touch.phase == TouchPhase.Ended)
-            //{
-            //    MoveDrag();
-            //}
-        }
-#endif
-        //CalculateMoveVector();
     }
+
     public float GetCurrentMouseDragLength()
     {
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
         float length = Vector3.Magnitude(mousePosition - m_InputControllerPosition);
         return length;
-    }
-
-    private void MouseDrag()
-    {
-        ////Vector3 mousePosition = GetMousePosition();
-
-        ////float length = Vector3.Magnitude(mousePosition - m_InputControllerPosition);
-
-        ////if (length <= m_lengthlimit) transform.position = mousePosition;
-        ////else transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
-
     }
 
     public Vector3 GetMousePosition()
@@ -166,16 +167,6 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     {
         return -(GetMousePosition() - m_InputControllerPosition);
     }
-
-    //private void OnEnable()
-    //{
-    //    if (GameObject.Find("InputContoller") != null)
-    //    {
-    //        m_InputContoller = GameObject.Find("InputContoller").GetComponent<InputContoller>();
-    //        m_InputContoller.enabled = true;
-    //    }
-    //    if (m_Character != null) /*m_Character.m_Animator.applyRootMotion = false*/;
-    //}
 
     // 벽 슬라이딩 만드는 함수.
     public bool CheckWallSliding(Vector3 _forward)
@@ -237,60 +228,30 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         }
     }
 
-    private void MoveDrag(Vector3 position)
+    public override void OnBeginDrag(PointerEventData eventData)
     {
-        //m_ped.position = position;
-        //List<RaycastResult> results = new List<RaycastResult>();
-        //m_gr.Raycast(m_ped, results);
+        UpdateObserver(BUTTON_ACTION.DRAG_ENTER);
 
-        //if (results.Count != 0 && !m_isHit)
-        //{
-        //    for (int i = 0; i < results.Count; i++)
-        //    {
-        //        GameObject obj = results[i].gameObject;
-        //        if (obj.name.Equals("InputContoller"))
-        //        {
-        //            Debug.Log(results.Count);
-        //            Debug.Log("hit");
-        //            m_isHit = true;
-        //            MouseDrag();
-        //        }
-        //    }
-        //}
-        //else if (m_isHit) MouseDrag();
-        //else if (m_isHit && GetCurrentMouseDragLength() >= m_lengthlimit)
-        //{
-        //    Debug.Log("계속 드래그");
-        //    transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
-        //}
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
         m_defaultPosition = this.transform.position;
         m_InputControllerPosition = m_defaultPosition;
-        //m_isHit = true;
-        m_SubJect.BeginDragNotify();
 
         Debug.Log("BeginDrag");
-        //throw new System.NotImplementedException();
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public override void OnEndDrag(PointerEventData eventData)
     {
+        UpdateObserver(BUTTON_ACTION.DRAG_EXIT);
+
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_InputControllerPosition = m_defaultPosition;
         transform.position = m_InputControllerPosition;
-        //m_isHit = false;
-        m_SubJect.EndDragNotify();
 
         m_DragDirectionVector = Vector3.zero;
 
         Debug.Log("EndDrag");
-        //throw new System.NotImplementedException();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public override void OnDrag(PointerEventData eventData)
     {
         if (GetCurrentMouseDragLength() < m_lengthlimit)
         {
@@ -302,8 +263,11 @@ public class InputContoller : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
 
         }
-        m_SubJect.DragNotify();
+
+        UpdateObserver(BUTTON_ACTION.DRAG);
         Debug.Log("OnDrag");
-        //throw new System.NotImplementedException();
     }
+
+
+
 }

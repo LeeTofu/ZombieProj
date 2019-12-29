@@ -23,8 +23,4 @@ public class PlayerObject : MovingObject
         m_StateController.Initialize(this);
         return;
     }
-    public void OnEnable()
-    {
-        if(BattleUI.m_InputController!=null) BattleUI.m_InputController.m_SubJect.Attach(m_StateController);
-    }
 }

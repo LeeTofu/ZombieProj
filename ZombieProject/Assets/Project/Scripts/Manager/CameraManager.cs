@@ -42,6 +42,14 @@ public class CameraManager : Singleton<CameraManager>
         if (m_Camera == null)
             Debug.LogError("Null이다...");
 
+
+
+        GameObject camPos = GameObject.Find("MainCameraPostion");
+       // m_Camera.transform.position = camPos.transform.position;
+        m_Camera.transform.rotation = camPos.transform.rotation;
+        camPos.SetActive(false);
+
+
         m_Camera.transform.position = _pos;
         SetTargeting(_pos);
     }

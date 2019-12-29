@@ -50,7 +50,7 @@ public class StageSelectUI : BaseUI
 
         if (m_CurretSelectedStage <= GAME_STAGE.NONE)
         {
-            m_CurretSelectedStage = GAME_STAGE.STAGE_5;
+            m_CurretSelectedStage = GAME_STAGE.EVENT_DUNGEON;
            
         }
 

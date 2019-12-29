@@ -256,7 +256,7 @@ public abstract class MovingObject : MonoBehaviour
         m_CollisionExitAction(collision.gameObject);
     }
     // --------------------------------------------------------------------
-
+    // 내 앞에 벽이 있나? 
     public bool CheckForwardWall(Vector3 _forward, out RaycastHit _hit, out Vector3 _center)
     {
         _center = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);

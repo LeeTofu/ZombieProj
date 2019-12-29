@@ -23,4 +23,12 @@ public class PlayerObject : MovingObject
         m_StateController.Initialize(this);
         return;
     }
+
+    private void OnEnable()
+    {
+        if(SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
+            m_StateController.InGame_Initialize();
+    }
+
+
 }

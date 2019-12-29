@@ -53,7 +53,8 @@ public class IdleState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.IDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
         });
     }
 }
@@ -94,7 +95,7 @@ public class MovingAttackState : PlayerState
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
         });
 
-        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
             () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
@@ -142,8 +143,8 @@ public class AttackState : PlayerState
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         });
 
-        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.DRAG_ENTER,
-        () =>
+         BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
@@ -195,8 +196,8 @@ public class WalkState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            Debug.LogError("Walking -> Attack");
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.WALKING)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
         });
 
 

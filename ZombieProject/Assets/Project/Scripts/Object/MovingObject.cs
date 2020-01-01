@@ -13,7 +13,10 @@ public enum OBEJCT_SORT
     ZOMBIE, // 좀비
     ELITE_ZOMBIE, // 네임드 좀비
     BOSS_ZOMBIE, // 보스 좀비
-    ZOMBIE_OBJECT // 좀비들 오브젝트
+    ZOMBIE_OBJECT, // 좀비들 오브젝트
+
+    BULLET, // (불릿)
+    DROPITEM // 드롭된 아이템 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
 }
 
 public enum ZOMBIE_STATE
@@ -39,6 +42,13 @@ public class STAT
 
     private float curHP;
     private float maxHP;
+
+    private float attackSpeed;
+
+    public IEnumerator m_Coroutine;
+
+
+    public bool isDead { get; private set; }
 
     System.Action OnPropertyChange;
 
@@ -93,7 +103,12 @@ public class STAT
         set
         {
             curHP = value;
-            OnPropertyChange?.Invoke();
+
+            if (CheckIsDead())
+            {
+                isDead = true;
+            }
+            else isDead = false;
         }
     }
     public float MaxHP
@@ -110,6 +125,19 @@ public class STAT
     {
         OnPropertyChange += _action;
     }
+
+    public bool CheckIsDead()
+    {
+        if(curHP <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public virtual void Action() { }
+
+
 }
 
 
@@ -130,6 +158,7 @@ public abstract class MovingObject : MonoBehaviour
     public ZOMBIE_STATE m_zombieState;
     public Animator m_Animator;
     public ItemObject m_CurrentEquipedItem;
+
 
     // 오른팔
     protected Transform m_PropR;
@@ -196,15 +225,26 @@ public abstract class MovingObject : MonoBehaviour
 
     }
 
+
+    protected void Update()
+    {
+        CheckDead();
+    }
+
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
     // 충돌 이벤트에 함수 등록해서 쓰는거임.
 
+        // 충돌에 대한 조건을 등록할 때 쓰는 함수입니다.
+        // 여기에 bool 반환하는 조건 함수를 만드셔서 등록하세요.
+        // 여러개 함수를 넣으면 그 조건 다 따져요. And 연산.
     public void AddCollisionCondtion(CheckCollisionCondition _collisionCondition)
     {
         m_CheckCollisionCondition += _collisionCondition;
     }
 
-
+    // 충돌 후에 일어날 이벤트에 대한 함수를 등록하는 함수입니다.
+    // 여기에 void 형 함수에 매개변수는 GameObject ( 충돌한 오브젝트 )한 함수를 만들어서 쓰세요.
+    // 매개변수가 더 필요하다면 따로 하나 이런 함수 만드셈.
     public void AddCollisionFunction(System.Action<GameObject> _collisionAction)
     {
         m_CollisionAction += _collisionAction;
@@ -304,15 +344,15 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // ============= 버프는 영래 당담 ===================
-    void AddBuff(Buff _buff)
+    public void AddBuff(Buff _buff)
     {
-        if (!_buff) return;
+        if (_buff != null) return;
         m_ListBuff.Add(_buff);
     }
 
-    void AddDeBuff(Buff _buff)
+    public void AddDeBuff(Buff _buff)
     {
-        if (!_buff) return;
+        if (_buff != null) return;
         m_ListDeBuff.Add(_buff);
     }
 
@@ -353,8 +393,15 @@ public abstract class MovingObject : MonoBehaviour
        // m_AimIK.solver.target = _object.transform;
     }
 
+    public void CheckDead()
+    {
+        if(m_Stat.isDead)
+        {
 
 
+            Destroy(gameObject, 1.0f);
+        }
+    }
 
 
 

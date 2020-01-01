@@ -114,8 +114,8 @@ public class InputContoller : UIDragSubject
 
             float length = GetCurrentMouseDragLength();
             float limitlength = m_lengthlimit;
-            Debug.Log(length);
-            Debug.Log(limitlength);
+       //     Debug.Log(length);
+        //    Debug.Log(limitlength);
 
             if (length >= limitlength) 
                 length = limitlength;
@@ -137,7 +137,7 @@ public class InputContoller : UIDragSubject
         m_defaultPosition = this.transform.position;
         m_InputControllerPosition = m_defaultPosition;
 
-        Debug.Log("BeginDrag");
+       // Debug.Log("BeginDrag");
     }
 
     public override void OnEndDrag(PointerEventData eventData)
@@ -150,7 +150,7 @@ public class InputContoller : UIDragSubject
 
         m_DragDirectionVector = Vector3.zero;
 
-        Debug.Log("EndDrag");
+       // Debug.Log("EndDrag");
     }
 
     public override void OnDrag(PointerEventData eventData)
@@ -167,7 +167,7 @@ public class InputContoller : UIDragSubject
         }
 
         UpdateObserver(BUTTON_ACTION.DRAG);
-        Debug.Log("OnDrag");
+     //   Debug.Log("OnDrag");
     }
 
 

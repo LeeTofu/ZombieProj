@@ -45,7 +45,7 @@ public class STAT
 
     private float attackSpeed;
 
-    public IEnumerator m_Coroutine;
+    public IEnumerator BuffCoroutine;
 
 
     public bool isDead { get; private set; }
@@ -104,6 +104,11 @@ public class STAT
         {
             curHP = value;
 
+            if(curHP < maxHP )
+            {
+                curHP = maxHP;
+            }
+
             if (CheckIsDead())
             {
                 isDead = true;
@@ -135,9 +140,6 @@ public class STAT
         return false;
     }
 
-    public virtual void Action() { }
-
-
 }
 
 
@@ -158,7 +160,6 @@ public abstract class MovingObject : MonoBehaviour
     public ZOMBIE_STATE m_zombieState;
     public Animator m_Animator;
     public ItemObject m_CurrentEquipedItem;
-
 
     // 오른팔
     protected Transform m_PropR;
@@ -346,15 +347,60 @@ public abstract class MovingObject : MonoBehaviour
     // ============= 버프는 영래 당담 ===================
     public void AddBuff(Buff _buff)
     {
-        if (_buff != null) return;
+        if (_buff == null) return;
         m_ListBuff.Add(_buff);
+
+        Debug.Log(" 버프 갯수 : " + m_ListBuff.Count);
+
+        if(_buff.m_BuffExitAction == null)
+        _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };
+
+        StartCoroutine(_buff.BuffCoroutine);
+    }
+
+    public void DeleteBuff(Buff _buff)
+    {
+        if (_buff == null) return;
+
+        StopCoroutine(_buff.BuffCoroutine);
+
+        m_ListBuff.Remove(_buff);
+    }
+
+    public void DeleteDeBuff(Buff _buff)
+    {
+        if (_buff != null) return;
+
+        StopCoroutine(_buff.BuffCoroutine);
+
+        m_ListDeBuff.Remove(_buff);
     }
 
     public void AddDeBuff(Buff _buff)
     {
         if (_buff != null) return;
         m_ListDeBuff.Add(_buff);
+
+        StartCoroutine(_buff.BuffCoroutine);
     }
+
+    public void AllStopBuff()
+    {
+        foreach(Buff buff in m_ListBuff)
+        {
+            StopCoroutine(buff.BuffCoroutine);
+        }
+
+        foreach (Buff buff in m_ListDeBuff)
+        {
+            StopCoroutine(buff.BuffCoroutine);
+        }
+
+        m_ListBuff.Clear();
+        m_ListDeBuff.Clear();
+
+    }
+    //==============================================
 
     public void SetRigidBodyState(bool _value)
     {
@@ -395,10 +441,11 @@ public abstract class MovingObject : MonoBehaviour
 
     public void CheckDead()
     {
+        if (m_Stat == null) return;
+
         if(m_Stat.isDead)
         {
-
-
+            AllStopBuff();
             Destroy(gameObject, 1.0f);
         }
     }

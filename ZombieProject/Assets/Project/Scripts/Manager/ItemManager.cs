@@ -114,6 +114,7 @@ public class ItemManager : Singleton<ItemManager>
         return newObj;
     }
 
+
     // 아이템 id로 아이템 stat을 가져오는 함수.
     public ItemStat GetItemStat(int _ItemID)
     {

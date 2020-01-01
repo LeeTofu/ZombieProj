@@ -9,6 +9,8 @@ public class BattleSceneMain : SceneMain
     Transform m_PlayerCreateZone;
     Transform m_ZombieCreateZone;
 
+    ObjectFactory m_ItemFactory;
+
     public IEnumerator Start()
     {
         while (m_PlayerCreateZone == null)
@@ -20,12 +22,14 @@ public class BattleSceneMain : SceneMain
         yield return new WaitForSeconds(3.0f);
         
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
+
         EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.position, m_ZombieCreateZone.rotation);
 
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
+        CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward, m_PlayerCreateZone.rotation);
+
     }
- 
 
     public override bool DeleteScene()
     {
@@ -59,6 +63,17 @@ public class BattleSceneMain : SceneMain
 
         Debug.Log("Battle init 불러옴");
         return true;
+    }
+
+    public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
+    {
+        if (m_ItemFactory == null)
+        {
+            m_ItemFactory = gameObject.AddComponent<ObjectFactory>();
+            m_ItemFactory.Initialize(10, "Prefabs/Item/ItemBox", "Prefabs/Item/Models");
+        }
+
+        m_ItemFactory.CreateObject(_pos, _quat);
     }
 
 }

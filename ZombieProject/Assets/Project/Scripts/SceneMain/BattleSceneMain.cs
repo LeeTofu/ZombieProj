@@ -9,7 +9,7 @@ public class BattleSceneMain : SceneMain
     Transform m_PlayerCreateZone;
     Transform m_ZombieCreateZone;
 
-    ObjectFactory m_ItemFactory;
+    static ObjectFactory s_ItemFactory;
 
     public IEnumerator Start()
     {
@@ -27,8 +27,13 @@ public class BattleSceneMain : SceneMain
 
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
-        CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward, m_PlayerCreateZone.rotation);
+        if (s_ItemFactory == null)
+        {
+            s_ItemFactory = gameObject.AddComponent<ObjectFactory>();
+            s_ItemFactory.Initialize(10, "Prefabs/Item/ItemBox", "Prefabs/Item/Models");
+        }
 
+        CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
     }
 
     public override bool DeleteScene()
@@ -65,15 +70,9 @@ public class BattleSceneMain : SceneMain
         return true;
     }
 
-    public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
+    static public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
     {
-        if (m_ItemFactory == null)
-        {
-            m_ItemFactory = gameObject.AddComponent<ObjectFactory>();
-            m_ItemFactory.Initialize(10, "Prefabs/Item/ItemBox", "Prefabs/Item/Models");
-        }
-
-        m_ItemFactory.CreateObject(_pos, _quat);
+        s_ItemFactory.CreateObject(_pos, _quat);
     }
 
 }

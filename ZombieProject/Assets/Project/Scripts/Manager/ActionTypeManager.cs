@@ -49,7 +49,7 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                             {
                                 newBullet.FireBullet(
                                     character.m_CurrentEquipedItem.m_FireTransform.position,
-                                    character.transform.forward, _item.m_ItemStat.m_BulletSpeed);
+                                    character.transform.forward, _item);
                             };
                         });
                     }
@@ -67,7 +67,7 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                             {
                                 newBullet.FireBullet(
                                     character.m_CurrentEquipedItem.m_FireTransform.position,
-                                    character.transform.forward, _item.m_ItemStat.m_BulletSpeed);
+                                    character.transform.forward, _item);
                             };
                         });
                     }

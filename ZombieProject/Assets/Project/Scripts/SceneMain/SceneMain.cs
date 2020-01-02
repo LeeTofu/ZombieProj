@@ -7,7 +7,6 @@ using UnityEngine;
 // 그 외는 안씀
 public abstract class SceneMain : MonoBehaviour
 {
-
     public GAME_STAGE m_Stage { get; private set; }
 
     [SerializeField]

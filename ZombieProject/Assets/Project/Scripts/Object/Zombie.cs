@@ -25,6 +25,16 @@ public class Zombie : MovingObject
         m_zombieBehavior.Initialize(this);
    }
 
+    private void DeadAction()
+    {
+        SceneMain main = SceneMaster.Instance.GetCurrentMain();
+
+        if (main != null)
+        {
+            BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+        }
+    }
+
     private void Update()
     {
         m_zombieBehavior.Tick();

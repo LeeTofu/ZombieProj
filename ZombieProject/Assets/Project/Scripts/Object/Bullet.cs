@@ -10,7 +10,6 @@ public class Bullet : MovingObject
     public Vector3 m_CurVelocity { get; private set; }
     public Vector3 m_CurDirection { get; private set; }
 
-    public float m_Speed { get; private set; }
     public bool m_isFire { get; private set; }
 
     [SerializeField]
@@ -33,10 +32,10 @@ public class Bullet : MovingObject
     {
         Debug.Log("Zombie Check");
         MovingObject zombie = _object.GetComponent<MovingObject>();
-     //   zombie.SetRigidBodyState(true);
-     //   zombie.AddForce(m_CurDirection * m_Speed + Vector3.up , Vector3.zero);
 
-     //   pushToMemory();
+        zombie.HitDamage(m_Stat.Attack);
+
+        pushToMemory();
     }
 
     bool CollisionCondition(GameObject _defender)
@@ -47,15 +46,22 @@ public class Bullet : MovingObject
         return true;
     }
 
-    public void FireBullet(Vector3 _pos, Vector3 _dir, float _speed)
+    public void FireBullet(Vector3 _pos, Vector3 _dir, Item _item)
     {
         transform.position = _pos;
          m_CurDirection = _dir;
         m_isFire = true;
-        m_Speed = _speed;
 
-
-
+        SetStat(new STAT
+        {
+            MaxHP = 100f,
+            CurHP = 100f,
+            Defend = 100f,
+            MoveSpeed = _item.m_ItemStat.m_BulletSpeed,
+            Attack = _item.m_ItemStat.m_AttackPoint,
+            Range = _item.m_ItemStat.m_Range,
+        }) ;
+       
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();
 
@@ -74,6 +80,6 @@ public class Bullet : MovingObject
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(m_CurDirection * Time.deltaTime * m_Speed);
+        transform.Translate(m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
     }
 }

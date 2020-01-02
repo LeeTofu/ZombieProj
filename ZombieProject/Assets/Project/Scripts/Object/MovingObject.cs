@@ -104,7 +104,7 @@ public class STAT
         {
             curHP = value;
 
-            if(curHP < maxHP )
+            if(curHP > maxHP )
             {
                 curHP = maxHP;
             }
@@ -126,6 +126,8 @@ public class STAT
         }
     }
 
+    // 스탯의 변수에 변화가 생기면 실행한 함수가 있다면 여기에 넣고 쓰자.
+    // 예 ) ui 스탯창 변화가 생길때 스탯을 갱신하는 함수를 여따 넣으면 알아서 갱신함.
     public void AddPropertyChangeAction(System.Action _action)
     {
         OnPropertyChange += _action;
@@ -155,7 +157,7 @@ public abstract class MovingObject : MonoBehaviour
     
     protected GameObject m_Model;
 
-    public STAT m_Stat;
+    public STAT m_Stat { protected set; get; }
     public OBEJCT_SORT m_Sort;
     public ZOMBIE_STATE m_zombieState;
     public Animator m_Animator;
@@ -169,10 +171,14 @@ public abstract class MovingObject : MonoBehaviour
     System.Action<GameObject> m_CollisionAction;
     System.Action<GameObject> m_CollisionExitAction;
 
+    // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
+    protected System.Action m_DeadAction;
+
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
 
     CheckCollisionCondition m_CheckCollisionCondition;
+
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public virtual void SetStat(STAT _stat)
     {
@@ -384,7 +390,7 @@ public abstract class MovingObject : MonoBehaviour
         StartCoroutine(_buff.BuffCoroutine);
     }
 
-    public void AllStopBuff()
+    public void AllDeleteBuff()
     {
         foreach(Buff buff in m_ListBuff)
         {
@@ -439,17 +445,31 @@ public abstract class MovingObject : MonoBehaviour
        // m_AimIK.solver.target = _object.transform;
     }
 
+    // 매 업데이트마다 죽음을 확인하다.
     public void CheckDead()
     {
         if (m_Stat == null) return;
 
         if(m_Stat.isDead)
         {
-            AllStopBuff();
-            Destroy(gameObject, 1.0f);
+            //걸린 모든 버프 제거하고
+            AllDeleteBuff();
+
+            // 죽은 후 실행할 함수가 있다면 실행하고
+            m_DeadAction?.Invoke();
+
+            // 1초뒤 풀에 넣는다.
+            Invoke("pushToMemory", 1.0f);
         }
     }
 
+    //데미지를 입다.
+    public void HitDamage(float _damage)
+    {
+        m_Stat.CurHP -= _damage;
+    }
+        
+    
 
 
 }

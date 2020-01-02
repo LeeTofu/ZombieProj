@@ -15,7 +15,7 @@ public abstract class Buff : STAT
         m_Stat = _stat;
     }
 
-
+    // 버프 종료 후 실행하는 액션 함수 
     public System.Action<Buff> m_BuffExitAction;
 
     // 버프 액션
@@ -65,7 +65,7 @@ public class Adrenaline : Buff
     }
     protected override void BuffAction()
      {
-        m_Stat.MoveSpeed = m_Stat.MoveSpeed * 2.5f;
+        m_Stat.MoveSpeed = m_Stat.MoveSpeed * 2.0f;
      }
 
     protected override void BuffExitAction()

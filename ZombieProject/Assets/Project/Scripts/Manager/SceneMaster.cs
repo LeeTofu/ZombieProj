@@ -88,6 +88,14 @@ public class SceneMaster : Singleton<SceneMaster>
 
     }
 
+    public SceneMain GetCurrentMain()
+    {
+        if (m_CurSceneMain == null)
+            return null;
+
+        return m_CurSceneMain.GetComponent<SceneMain>();
+    }
+
     public SceneMain GetGameMain(GAME_SCENE _scene)
     {
         GameObject main;

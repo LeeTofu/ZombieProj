@@ -17,12 +17,28 @@ public class DropItem : MovingObject
     // 이 아이템을 먹으면 주는 버프
     Buff m_Buff;
 
+    ParticleSystem m_DropItemParticle;
+
+    AudioSource m_audioSource;
+
+
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         AddCollisionCondtion(CollisionCondition);
         AddCollisionFunction(CollisionEvent);
 
-       
+        m_audioSource = GetComponent<AudioSource>();
+
+        if (m_DropItemParticle == null)
+        {
+            GameObject go = Resources.Load<GameObject>("Prefabs/Effect&Particle/DropItemEffect");
+            GameObject effect = Instantiate(go);
+            m_DropItemParticle = effect.GetComponent<ParticleSystem>();
+
+            m_DropItemParticle.Play();
+            m_DropItemParticle.transform.SetParent(transform);
+            m_DropItemParticle.transform.localPosition = Vector3.zero;
+        }
     }
 
     void CollisionEvent(GameObject _object)
@@ -50,13 +66,15 @@ public class DropItem : MovingObject
                 break;
         }
 
-
+        m_audioSource.Play();
+        GameObject go = Resources.Load<GameObject>("Prefabs/Effect&Particle/BuffEffect");
+        GameObject newEffect = Instantiate(go);
+        newEffect.transform.position = transform.position;
 
         player.AddBuff(m_Buff);
 
-        Debug.Log("들어감");
-
-        //pushToMemory();
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        m_DropItemParticle.gameObject.SetActive(false);
     }
 
     bool CollisionCondition(GameObject _defender)

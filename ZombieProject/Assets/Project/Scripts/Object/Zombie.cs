@@ -7,6 +7,8 @@ public class Zombie : MovingObject
 {
     protected BehaviorNode m_zombieBehavior;
 
+
+
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
         if(_Model != null) m_Model = _Model;
@@ -18,11 +20,16 @@ public class Zombie : MovingObject
 
         m_Stat = new STAT
         {
-            Range = 1.5f
+            MaxHP = 100,
+            Range = 1.5f,
+            MoveSpeed = 1.0f,
+            isKnockBack = false,
         };
 
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
+
+
    }
 
     private void DeadAction()

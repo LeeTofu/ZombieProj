@@ -5,7 +5,7 @@ using RootMotion.FinalIK;
 
 public class PlayerObject : MovingObject
 {
-    public StateController m_StateController { private set; get; }
+    public StateController m_StateController;
     // MoveController m_Controller;
     private IEnumerator cor;
 

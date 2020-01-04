@@ -46,8 +46,6 @@ public class ItemAction : MonoBehaviour
 
     bool m_isDownHover = false;
 
- 
-
     public void Initialized( Item _item, BattleItemSlotButton _slotButton)
     {
         m_item = _item;
@@ -122,7 +120,6 @@ public class ItemAction : MonoBehaviour
         }
     }
 
-
     // 쿨다운 틱당 도는 함수입ㄴ다.
     public void TickItemCoolTime()
     {
@@ -143,6 +140,7 @@ public class ItemAction : MonoBehaviour
         m_CoolTimePercentage = m_CurrentCoolTime / m_CurrentMaxCoolTime;
     }
 
+    // 아이템 공속 시간 업데이트
     public void TickItemAttackSpeed()
     {
         if (m_AttackSpeedTime == 0.0f) return;
@@ -155,6 +153,8 @@ public class ItemAction : MonoBehaviour
         }
     }
 
+
+    // 쿨다운 다됬나 체크
     bool CheckCoolDown()
     {
         if (m_item == null) return false;
@@ -169,6 +169,7 @@ public class ItemAction : MonoBehaviour
 
     }
 
+    // 공속이 되야 공격 가능
     bool CheckAttackSpeed()
     {
         if (m_item == null) return false;
@@ -182,6 +183,7 @@ public class ItemAction : MonoBehaviour
         return false;
     }
 
+    // 공속, 쿨다운 둘다 체크하는 함수
     bool CheckCanActionPlay()
     {
         if (!CheckCoolDown()) return false;
@@ -196,7 +198,6 @@ public class ItemAction : MonoBehaviour
         m_AttackSpeedTime = m_CurrentAttackSpeed;
         m_CurrentPlayAction = null;
     }
-
 
     // 곱연산임.
     // ==========================================
@@ -252,12 +253,11 @@ public class ItemAction : MonoBehaviour
         return true;
     }
 
-    // 버튼 
+    // 버튼을 누르고 올릴때
     public bool OnPointerUp()
     {
         m_isDownHover = false;
         Debug.Log("스킬 아이콘 놓았다.");
-
 
         PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_RELEASE);
         AfterSkillActive();

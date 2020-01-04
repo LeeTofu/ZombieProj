@@ -37,10 +37,10 @@ public class BattleSceneMain : SceneMain
         }
 
         CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
-        RespawnPhaseZombie(0);
+        StartRespawnPhaseZombie(0);
     }
 
-    public void RespawnPhaseZombie(int _phase)
+    public void StartRespawnPhaseZombie(int _phase)
     {
         EnemyManager.Instance.RespawnPhaseZombie(_phase);
     }

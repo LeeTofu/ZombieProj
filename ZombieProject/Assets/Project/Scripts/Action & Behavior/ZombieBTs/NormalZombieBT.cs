@@ -12,6 +12,16 @@ class NormalZombieBT : BehaviorNode
 
         SelectorNode sel = new SelectorNode();
 
+        SequenceNode seqDead = new SequenceNode();
+        seqDead.InsertAction(new ZombieDeadCondition());
+        seqDead.InsertAction(new ZombieDeadAction());
+        sel.InsertAction(seqDead);
+
+        SequenceNode seqKnockBack = new SequenceNode();
+        seqKnockBack.InsertAction(new ZombieKnockBackCondition());
+        seqKnockBack.InsertAction(new ZombieKnockBackAction());
+        sel.InsertAction(seqKnockBack);
+
         SequenceNode seqAtk = new SequenceNode();
         seqAtk.InsertAction(new ZombieAttackCondition());
         seqAtk.InsertAction(new ZombieAttackAction());
@@ -21,6 +31,11 @@ class NormalZombieBT : BehaviorNode
         seqWalk.InsertAction(new ZombieWalkCondition());
         seqWalk.InsertAction(new ZombieWalkAction());
         sel.InsertAction(seqWalk);
+
+        SequenceNode seqChase = new SequenceNode();
+        seqChase.InsertAction(new ZombieChaseCondition());
+        seqChase.InsertAction(new ZombieChaseAction());
+        sel.InsertAction(seqChase);
 
         sel.InsertAction(new ZombieIdleAction());
 

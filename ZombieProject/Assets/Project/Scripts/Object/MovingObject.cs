@@ -27,6 +27,8 @@ public enum ZOMBIE_STATE
     RANGE_ATK,
     PATROL,
     CHASE,
+    DEAD,
+    KNOCK_BACK,
     NONE,
 }
 
@@ -49,6 +51,8 @@ public class STAT
 
 
     public bool isDead { get; private set; }
+
+    public bool isKnockBack = false;
 
     System.Action OnPropertyChange;
 
@@ -121,6 +125,7 @@ public class STAT
         get => maxHP;
         set
         {
+            curHP = value;
             maxHP = value;
             OnPropertyChange?.Invoke();
         }
@@ -171,6 +176,8 @@ public abstract class MovingObject : MonoBehaviour
     System.Action<GameObject> m_CollisionAction;
     System.Action<GameObject> m_CollisionExitAction;
 
+    protected System.Action m_KnockBackAction;
+
     // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
     protected System.Action m_DeadAction;
 
@@ -178,6 +185,7 @@ public abstract class MovingObject : MonoBehaviour
     protected List<Buff> m_ListDeBuff = new List<Buff>();
 
     CheckCollisionCondition m_CheckCollisionCondition;
+
 
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public virtual void SetStat(STAT _stat)
@@ -467,9 +475,13 @@ public abstract class MovingObject : MonoBehaviour
     public void HitDamage(float _damage)
     {
         m_Stat.CurHP -= _damage;
+        KnockBack();
     }
         
-    
+    public void KnockBack()
+    {
+        m_Stat.isKnockBack = true;
+    }
 
 
 }

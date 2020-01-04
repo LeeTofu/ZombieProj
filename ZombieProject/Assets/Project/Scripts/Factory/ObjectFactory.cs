@@ -14,7 +14,7 @@ public class ObjectFactory : MonoBehaviour
 
     // 메모리에 푸시하고서 발생할 이벤트가 있다면 이 액션에 함수를 할당해서 쓰세요.
     // 안써도 무방.
-    // 사용예 ) 좀비를 메모리 풀에 다시 넣을때 좀비의 Count를 줄이는 이벤트를 넣고싶다. 그럼 여기에 등록하셈.
+    // 사용예 ) 좀비를 메모리 풀에 다시 넣을때 좀비의 Count를 줄이는 이벤트를 자동으로 실행하고 싶다. 그럼 여기에 등록하셈.
     public System.Action<MovingObject> m_PushMemoryAction;
 
      public void Initialize(int _maxCount, string _prefabPath, string _modelsPath)
@@ -52,7 +52,7 @@ public class ObjectFactory : MonoBehaviour
                 return newObject;
         }
 
-        // 팝을 했는데 이제 더이상 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
+        // 팝을 했는데 이제 더이상 풀에서 활성화할 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
 
         GameObject Model = Instantiate(
             m_ModelPrefabs[Random.Range(0, m_ModelPrefabs.Length)],
@@ -75,13 +75,15 @@ public class ObjectFactory : MonoBehaviour
         newObject.SetFactory(this);
         newObject.gameObject.SetActive(true);
 
+        newObject.transform.SetParent(transform);
+
         PushObjectToPooling(newObject);
 
         return newObject;
     }
 
 
-   // 처음에만 실행시켜주세요.
+   // 처음 메모리 풀링 만들때만 실행시켜주세요. 런타임중에 다시 실행할 일 없습니다.
    protected void CreateObjectPool()
     {
         if (m_ListSleepingMovingObject.Count >= m_MaxCount) return;
@@ -99,6 +101,9 @@ public class ObjectFactory : MonoBehaviour
     // 다 쓰고 풀링에 넣어줌.
     public void PushObjectToPooling(MovingObject _object)
     {
+        
+
+
         m_ListSleepingMovingObject.Enqueue(_object);
         m_PushMemoryAction?.Invoke(_object);
     }

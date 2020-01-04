@@ -20,12 +20,20 @@ public class Bullet : MovingObject
 
     public AudioClip[] m_GunSound;
 
+    public GameObject m_BloodEffect;
+
     public bool m_isArc { get; private set; }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         AddCollisionCondtion(CollisionCondition);
         AddCollisionFunction(CollisionEvent);
+
+        m_BloodEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effect&Particle/BloodExplosion"));
+        m_BloodEffect.transform.SetParent(transform);
+        m_BloodEffect.transform.localPosition = Vector3.zero;
+        m_BloodEffect.transform.localRotation = Quaternion.identity;
+        m_BloodEffect.SetActive(false);
     }
 
     void CollisionEvent(GameObject _object)
@@ -33,10 +41,27 @@ public class Bullet : MovingObject
         Debug.Log("Zombie Check");
         MovingObject zombie = _object.GetComponent<MovingObject>();
 
+        m_BloodEffect.transform.SetParent(null);
+        m_BloodEffect.SetActive(true);
+        m_BloodEffect.transform.rotation = Quaternion.LookRotation(-m_CurDirection);
+
         zombie.HitDamage(m_Stat.Attack);
+
+        StartCoroutine(EffectExit());
 
         pushToMemory();
     }
+
+    IEnumerator EffectExit()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        m_BloodEffect.transform.SetParent(transform);
+        m_BloodEffect.transform.localPosition = Vector3.zero;
+        m_BloodEffect.transform.localRotation = Quaternion.identity;
+        m_BloodEffect.SetActive(false);
+    }
+
 
     bool CollisionCondition(GameObject _defender)
     {

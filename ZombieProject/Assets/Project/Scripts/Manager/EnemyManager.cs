@@ -100,7 +100,7 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
-    // 에너미에 등록된 모든 좀비 리스폰을 삭제.
+    // 에너미 매니저에 등록된 모든 좀비 리스폰을 리스트에서 삭제합니다.
     public void AllDeleteRespawnZombie()
     {
         List<ZombieRespawn> zombieList;
@@ -114,6 +114,7 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
+    // 에너미 매니저에 등록된 좀비 리스폰을 삭제합니다.
     public void DeletaRespawnZombie(int _phase, ZombieRespawn _zombieRespawn)
     {
         List<ZombieRespawn> zombieList;
@@ -137,6 +138,7 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
+    //좀비를 메모리 풀에 넣을때 발생하는 이벤트 함수입니다.
     private void PushToPoolEvent(MovingObject _zombie)
     {
         if (m_ListZombies == null) return;
@@ -165,6 +167,7 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
+    // 좀비리스트에 있는 모든 좀비를 메모리에 집어넣습니다.
     void AllZombiePushToMemory()
     {
         foreach(var zombie in m_ListZombies)
@@ -176,7 +179,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     // 인게임 들어갓을때 마다 실행되는 초기화 함수입니다.
     // 인게임 들어갈때 마다 초기화.
-    // 실행되는 시점은 씬이 다 초기화 되기전임. 
+    // 실행되는 시점은 게임씬이 생성하기 전 로딩때 임. 
     public void Initialize_InGame()
     {
         AllStopRespawnZombie();

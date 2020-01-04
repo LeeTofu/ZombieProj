@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
+
 public class BattleSceneMain : SceneMain
 {
     private BattleMapCreator m_BattleMapCreator;
@@ -10,6 +14,8 @@ public class BattleSceneMain : SceneMain
     Transform m_ZombieCreateZone;
 
     static ObjectFactory s_ItemFactory;
+
+    Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
 
     public IEnumerator Start()
     {
@@ -22,9 +28,6 @@ public class BattleSceneMain : SceneMain
         yield return new WaitForSeconds(3.0f);
         
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
-
-        EnemyManager.Instance.CreateZombie(m_ZombieCreateZone.position, m_ZombieCreateZone.rotation);
-
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
         if (s_ItemFactory == null)
@@ -34,6 +37,12 @@ public class BattleSceneMain : SceneMain
         }
 
         CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
+        RespawnPhaseZombie(0);
+    }
+
+    public void RespawnPhaseZombie(int _phase)
+    {
+        EnemyManager.Instance.RespawnPhaseZombie(_phase);
     }
 
     public override bool DeleteScene()
@@ -41,8 +50,9 @@ public class BattleSceneMain : SceneMain
         return true;
     }
 
-    // 이거 로딩중에 실해되는 함수이므로 주의해서 쓰세요.
+    // 이거 로딩중에 실행되는 함수이므로 주의해서 쓰세요.
     // 맵 로딩 중
+    // 씬 다 초기화 안될때 불리는 함수임.
     public override bool InitializeScene()
     {
 
@@ -64,6 +74,8 @@ public class BattleSceneMain : SceneMain
 
         if (m_ZombieCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
+
+        EnemyManager.Instance.Initialize_InGame();
 
 
         Debug.Log("Battle init 불러옴");

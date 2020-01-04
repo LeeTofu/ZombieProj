@@ -12,6 +12,11 @@ public class ObjectFactory : MonoBehaviour
     protected int m_MaxCount;
     protected Queue<MovingObject> m_ListSleepingMovingObject = new Queue<MovingObject>();
 
+    // 메모리에 푸시하고서 발생할 이벤트가 있다면 이 액션에 함수를 할당해서 쓰세요.
+    // 안써도 무방.
+    // 사용예 ) 좀비를 메모리 풀에 다시 넣을때 좀비의 Count를 줄이는 이벤트를 넣고싶다. 그럼 여기에 등록하셈.
+    public System.Action<MovingObject> m_PushMemoryAction;
+
      public void Initialize(int _maxCount, string _prefabPath, string _modelsPath)
     {
         m_MaxCount = _maxCount;
@@ -40,11 +45,14 @@ public class ObjectFactory : MonoBehaviour
             newObject = PopObjectFromPooling(_pos, _quat);
         }
 
+       // 풀에서 팝을 했는데 오브젝트가 있구나.. 그럼 액티브 true 하고 리턴하자.
         if (newObject != null)
         {
-            newObject.gameObject.SetActive(true);
-            return newObject;
+                newObject.gameObject.SetActive(true);
+                return newObject;
         }
+
+        // 팝을 했는데 이제 더이상 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
 
         GameObject Model = Instantiate(
             m_ModelPrefabs[Random.Range(0, m_ModelPrefabs.Length)],
@@ -92,6 +100,7 @@ public class ObjectFactory : MonoBehaviour
     public void PushObjectToPooling(MovingObject _object)
     {
         m_ListSleepingMovingObject.Enqueue(_object);
+        m_PushMemoryAction?.Invoke(_object);
     }
 
 

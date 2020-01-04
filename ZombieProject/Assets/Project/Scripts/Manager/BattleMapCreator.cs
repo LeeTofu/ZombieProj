@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 맵종류
 public enum E_MAP
@@ -20,9 +21,11 @@ public class BattleMapCreator : MonoBehaviour
     public Transform m_PlayerCreateZone { get; private set; }
     public Transform ZombieCreateZones { get; private set; }
 
+    NavMeshData m_NavMeshData;
 
     public bool CreateMap(GAME_STAGE _Stage, E_MAP _map)
     {
+        Resources.Load("");
 
         GameObject bg = Instantiate(Resources.Load<GameObject>("Prefabs/BackGround/BackGround_" + _map.ToString()));
 

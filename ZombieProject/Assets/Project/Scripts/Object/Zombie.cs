@@ -7,6 +7,7 @@ public class Zombie : MovingObject
 {
     protected BehaviorNode m_zombieBehavior;
 
+    private Coroutine m_KnockBackCoroutine;
 
 
     public override void Initialize(GameObject _Model, MoveController _Controller)
@@ -29,15 +30,36 @@ public class Zombie : MovingObject
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
 
-
+        m_KnockBackAction = (time) => { KnockBackAction(time); };
    }
+
+    private void KnockBackAction(float _time)
+    {
+        m_Stat.isKnockBack = true;
+
+        if(m_KnockBackCoroutine != null)
+        {
+            StopCoroutine(m_KnockBackCoroutine);
+        }
+
+        m_KnockBackCoroutine = StartCoroutine(ExitKnockBack(_time));
+    }
+
+    private IEnumerator ExitKnockBack(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        m_Stat.isKnockBack = false;
+    }
 
     private void DeadAction()
     {
-        SceneMain main = SceneMaster.Instance.GetCurrentMain();
-
-        if (main != null)
+        if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
+            if (m_KnockBackCoroutine != null)
+            {
+                StopCoroutine(m_KnockBackCoroutine);
+            }
+
             BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
         }
     }

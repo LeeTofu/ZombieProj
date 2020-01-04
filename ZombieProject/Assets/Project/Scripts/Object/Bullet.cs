@@ -45,7 +45,7 @@ public class Bullet : MovingObject
         m_BloodEffect.SetActive(true);
         m_BloodEffect.transform.rotation = Quaternion.LookRotation(-m_CurDirection);
 
-        zombie.HitDamage(m_Stat.Attack);
+        zombie.HitDamage(m_Stat.Attack, true, 1.0f);
 
         StartCoroutine(EffectExit());
 

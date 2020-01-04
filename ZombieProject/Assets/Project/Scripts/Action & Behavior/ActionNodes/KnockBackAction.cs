@@ -41,25 +41,18 @@ public class ZombieKnockBackAction : ActionNode
         }
         else
         {
-            m_nowActionTime += Time.deltaTime;
-
-            if (m_nowActionTime < m_totalActionTime)
+            
+            if (m_Character.m_Stat.isKnockBack)
             {
                 return NODE_STATE.RUNNING;
             }
             else
             {
-                m_Character.m_Stat.isKnockBack = false;
                 m_Character.m_zombieState = ZOMBIE_STATE.NONE;
                 m_nowActionTime = 0f;
-
                 return NODE_STATE.FAIL;
             }
-        }
- 
-        m_Character.m_zombieState = ZOMBIE_STATE.NONE;
-        m_nowActionTime = 0f;
 
-        return NODE_STATE.FAIL;
+        }
     }
 }

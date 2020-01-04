@@ -176,7 +176,7 @@ public abstract class MovingObject : MonoBehaviour
     System.Action<GameObject> m_CollisionAction;
     System.Action<GameObject> m_CollisionExitAction;
 
-    protected System.Action m_KnockBackAction;
+    protected System.Action<float> m_KnockBackAction;
 
     // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
     protected System.Action m_DeadAction;
@@ -472,16 +472,12 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     //데미지를 입다.
-    public void HitDamage(float _damage)
+    public void HitDamage(float _damage, bool _isKnockBack = false, float _kockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
-        KnockBack();
-    }
-        
-    public void KnockBack()
-    {
-        m_Stat.isKnockBack = true;
-    }
 
+        if (_isKnockBack)
+            m_KnockBackAction?.Invoke(_kockBackTime);
+    }
 
 }

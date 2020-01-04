@@ -29,12 +29,6 @@ public class EnemyManager : Singleton<EnemyManager>
         return m_ListZombies.Count;
     }
 
-
-    public MovingObject GetZombie()
-    {
-        return m_ListZombies[0];
-    }
-
     // _pos 에서 가장 가가운 좀비 찾아낸다.
     public MovingObject GetNearestZombie(Vector3 _pos, float _maxDistance)
     {
@@ -43,6 +37,9 @@ public class EnemyManager : Singleton<EnemyManager>
 
         foreach(MovingObject zombie in m_ListZombies)
         {
+            if (zombie.m_Stat.isDead) continue;
+            if (!zombie.gameObject.activeSelf) continue;
+
             float sqrlen = (zombie.transform.position - _pos).sqrMagnitude;
             float len = (zombie.transform.position - _pos).magnitude;
 

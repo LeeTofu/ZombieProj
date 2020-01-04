@@ -258,7 +258,6 @@ public class ItemAction : MonoBehaviour
         m_isDownHover = false;
         Debug.Log("스킬 아이콘 놓았다.");
 
-        if (!CheckCanActionPlay()) return false;
 
         PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_RELEASE);
         AfterSkillActive();

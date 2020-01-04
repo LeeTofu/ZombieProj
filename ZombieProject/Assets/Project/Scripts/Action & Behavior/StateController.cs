@@ -8,6 +8,9 @@ public enum E_PLAYABLE_STATE
     WALKING,
     ATTACK,
     MOVING_ATTACK,
+    INJURED_IDLE,
+    INJURED_WALKING,
+    KNOCKBACK,
     NONE
 }
 
@@ -32,6 +35,9 @@ public class StateController : MonoBehaviour
         InsertState(E_PLAYABLE_STATE.WALKING, new WalkState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.ATTACK, new AttackState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.MOVING_ATTACK, new MovingAttackState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.INJURED_IDLE, new InjuredIdleState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.INJURED_WALKING, new InjuredWalkState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.KNOCKBACK, new KnockBackState(m_Character, this));
 
     }
 

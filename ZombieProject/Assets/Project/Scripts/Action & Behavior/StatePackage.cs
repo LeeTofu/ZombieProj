@@ -203,3 +203,100 @@ public class WalkState : PlayerState
 
     }
 }
+
+public class InjuredIdleState : PlayerState
+{
+    public InjuredIdleState(MovingObject playerObject, StateController _stateController) : base(playerObject, _stateController) { }
+    public override void Start()
+    {
+        CameraManager.Instance.ResetOffsetPosition();
+        m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f ,0);
+    }
+    public override void End()
+    {
+
+    }
+    public override void Update()
+    {
+
+    }
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_ENTER,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        });
+
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.IDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
+        });
+    }
+}
+public class InjuredWalkState : PlayerState
+{
+    public InjuredWalkState(MovingObject playerObject, StateController _stateController) : base(playerObject, _stateController) { }
+    public override void Start()
+    {
+        m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
+    }
+    public override void End()
+    {
+
+    }
+    public override void Update()
+    {
+
+    }
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        });
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.WALKING)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
+        });
+    }
+}
+
+public class KnockBackState : PlayerState
+{
+    public KnockBackState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller)
+    {
+    }
+    public override void Start()
+    {
+        m_PlayerObject.m_Animator.CrossFade("KnockBack", 0.3f, 0);
+    }
+    public override void End()
+    {
+        if (m_PlayerObject.m_Stat.CurHP <= 30.0f)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
+        else
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
+    }
+    public override void Update()
+    {
+
+    }
+    public override void AddAction()
+    {
+
+    }
+}

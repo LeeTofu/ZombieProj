@@ -43,6 +43,8 @@ public class DropItem : MovingObject
 
     void CollisionEvent(GameObject _object)
     {
+        if (!GetComponentInChildren<MeshRenderer>().enabled) return;
+
         MovingObject player = _object.GetComponent<MovingObject>();
 
         switch (m_dropItem)

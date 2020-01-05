@@ -9,13 +9,13 @@ public class ZombieWalkCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        if (distance < 10f && distance > m_Character.m_Stat.Range)
+        if (distance < 10f && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed < 0.8f)
         {
-            Debug.Log("WalkCondSuccess");
+         //   Debug.Log("WalkCondSuccess");
             return NODE_STATE.SUCCESS;
         }
 
-        Debug.Log("WalkCondFail");
+       // Debug.Log("WalkCondFail");
         return NODE_STATE.FAIL;
     }
 }
@@ -27,6 +27,7 @@ public class ZombieWalkAction : ActionNode
         m_Character = _character;
 
         RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
+
         for (int i = 0; i < ac.animationClips.Length; i++)
             if (ac.animationClips[i].name == "Zombie_Walk_F_1_Full_Loop_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
@@ -42,17 +43,17 @@ public class ZombieWalkAction : ActionNode
             //m_Character.m_Animator.CrossFadeInFixedTime("Walk", 0.1f);
             //m_Character.m_Animator.Play("Walk");
             m_Character.m_zombieState = ZOMBIE_STATE.WALK;
-            Debug.Log("WalkStart");
+          //  Debug.Log("WalkStart");
             return NODE_STATE.RUNNING;
         }
         else
         {
             m_nowActionTime += Time.deltaTime;
             m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
-            m_Character.gameObject.transform.position += m_Character.transform.forward * 0.5f * Time.deltaTime;
+            m_Character.gameObject.transform.position += m_Character.transform.forward * m_Character.m_Stat.MoveSpeed * Time.deltaTime;
             if (m_nowActionTime < m_totalActionTime)
             {
-                Debug.Log("Walking");
+              //  Debug.Log("Walking");
                 return NODE_STATE.RUNNING;
             }
         }
@@ -80,7 +81,7 @@ public class ZombieWalkAction : ActionNode
 
         m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
-        Debug.Log("Walk out");
+     //   Debug.Log("Walk out");
         return NODE_STATE.FAIL;
     }
 }

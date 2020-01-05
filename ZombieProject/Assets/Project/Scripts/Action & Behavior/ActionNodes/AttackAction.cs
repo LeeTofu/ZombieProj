@@ -10,11 +10,11 @@ public class ZombieAttackCondition : DecoratorNode
 
         if (distance <= m_Character.m_Stat.Range)
         {
-            Debug.Log("AttackCondSuccess");
+         //   Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
         }
 
-        Debug.Log("AttackCondFail");
+      //  Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
 }
@@ -41,7 +41,7 @@ public class ZombieAttackAction : ActionNode
             //m_Character.m_Animator.CrossFadeInFixedTime("Attack", 0.1f);
             //m_Character.m_Animator.Play("Attack");
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
-            Debug.Log("AttackStart");
+           // Debug.Log("AttackStart");
             return NODE_STATE.RUNNING;
         }
         else
@@ -50,7 +50,7 @@ public class ZombieAttackAction : ActionNode
             m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
             if (m_nowActionTime < m_totalActionTime)
             {
-                Debug.Log("Attacking");
+               // Debug.Log("Attacking");
                 return NODE_STATE.RUNNING;
             }
         }
@@ -78,7 +78,7 @@ public class ZombieAttackAction : ActionNode
 
         m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
-        Debug.Log("Attack out");
+      //  Debug.Log("Attack out");
         return NODE_STATE.FAIL;
     }
 }

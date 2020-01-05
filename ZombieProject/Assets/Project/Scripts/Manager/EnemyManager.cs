@@ -138,7 +138,7 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         if(m_ZombieFactory )
         {
-           m_ZombieFactory.GetObjectFromFactory(_pos, _quat, (int)_ZombieType);
+           m_ZombieFactory.PopObject(_pos, _quat, (int)_ZombieType);
         }
     }
 
@@ -168,10 +168,15 @@ public class EnemyManager : Singleton<EnemyManager>
     // 딱 한번만 매니저 생성시 함수 실행됨.
     public override bool Initialize()
     {
-        m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
-        m_ZombieFactory.Initialize( "Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>( "Prefabs/Zombies/Models/Normal"));
-        m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 10);
+        if (m_ZombieFactory == null)
+        {
 
+            m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
+
+            m_ZombieFactory.Initialize("Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 10);
+        }
+        
         return true;
     }
 

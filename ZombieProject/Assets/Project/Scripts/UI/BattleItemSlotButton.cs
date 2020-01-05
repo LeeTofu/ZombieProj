@@ -66,12 +66,10 @@ public class BattleItemSlotButton : UIPressSubject
 
             if (eventType == ITEM_EVENT_TYPE.END)
             {
-               // Debug.LogError("END라서 액션 못넣음");
                 continue;
             }
             if (action == null)
             {
-               // Debug.LogError("action null이라 액션 못넣음" + actionType + " , " + eventType);
                 continue;
             }
 

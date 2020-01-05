@@ -72,7 +72,7 @@ public class PlayerManager : Singleton<PlayerManager>
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
         // 설정 //
-        m_Player = m_PlayerFactory.GetObjectFromFactory(_pos, _quat, (int)OBJECT_TYPE.PLAYER);
+        m_Player = m_PlayerFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.PLAYER);
 
         m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
         m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
@@ -88,9 +88,12 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         LoadPlayerInfo();
 
-        m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
-        m_PlayerFactory.Initialize("Prefabs/Players/Player", Resources.LoadAll<GameObject>("Prefabs/Players/Models/Normal"));
-        m_PlayerFactory.CreateObjectPool((int)OBJECT_TYPE.PLAYER, 1);
+        if (m_PlayerFactory == null)
+        {
+            m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
+            m_PlayerFactory.Initialize("Prefabs/Players/Player", Resources.LoadAll<GameObject>("Prefabs/Players/Models/Normal"));
+            m_PlayerFactory.CreateObjectPool((int)OBJECT_TYPE.PLAYER, 1);
+        }
 
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
 
@@ -98,11 +101,6 @@ public class PlayerManager : Singleton<PlayerManager>
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
         return true;
-    }
-
-    public void PlayerAttack(MovingObject _object, Item _item, Vector3 _screenPos)
-    {
-
     }
 
     // 해당 터치 위치가 플레이어가 공격할 수 있는 시야각에 있는지 체크하는 함수입니다.
@@ -148,7 +146,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
             if (zombie == null)
             {
-                Debug.LogError("감지 XX");
                 return null;
             }
             else

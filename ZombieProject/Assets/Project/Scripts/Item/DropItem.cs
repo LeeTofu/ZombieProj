@@ -71,7 +71,7 @@ public class DropItem : MovingObject
 
     private void OnEnable()
     {
-        m_EffectObject =  EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(0, 0, 0));
+        m_EffectObject =  EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(-90.0f, 0, 0));
     }
 
     private void OnDisable()

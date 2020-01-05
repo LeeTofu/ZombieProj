@@ -35,22 +35,29 @@ public class Bullet : MovingObject
 
     void CollisionEvent(GameObject _object)
     {
-        Debug.Log("Zombie Check");
-        MovingObject zombie = _object.GetComponent<MovingObject>();
+        if (_object.tag == "Zombie")
+        {
+            MovingObject zombie = _object.GetComponent<MovingObject>();
 
-        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true ,1.0f);
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
 
-        zombie.HitDamage(m_Stat.Attack, true, 1.0f);
+            zombie.HitDamage(100, true, 1.0f);
 
-        pushToMemory((int)m_BulletType);
+            pushToMemory((int)m_BulletType);
+        }
+        else if (_object.tag == "Wall")
+        {
+            Debug.LogError("Wall Check");
+            //EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
+            pushToMemory((int)m_BulletType);
+        }
     }
 
     bool CollisionCondition(GameObject _defender)
     {
-        if (_defender.GetComponent<MovingObject>() == null) return false;
-        if (_defender.tag != "Zombie") return false;
-
-        return true;
+        if (_defender.tag == "Zombie" || _defender.tag == "Wall")  return true;
+        
+        return false;
     }
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)

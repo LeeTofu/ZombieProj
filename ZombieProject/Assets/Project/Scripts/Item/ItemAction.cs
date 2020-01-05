@@ -79,12 +79,10 @@ public class ItemAction : MonoBehaviour
             action?.Invoke(_object, m_item);
 
             m_PreButtonActionType = _action;
-            Debug.Log(_action + "실행");
             return;
         }
 
         m_PreButtonActionType = BUTTON_ACTION.END;
-        Debug.Log(_action + "없는데요?");
         m_CurrentPlayAction = null;
     }
 
@@ -229,11 +227,10 @@ public class ItemAction : MonoBehaviour
     public bool OnPointerDown()
     {
         m_isDownHover = true;
-        Debug.Log("스킬 아이콘을 눌렀다");
-
         if (!CheckCanActionPlay()) return false;
 
         PlayAction(PlayerManager.Instance.m_Player,  BUTTON_ACTION.PRESS_ENTER);
+
         return true;
         
     }
@@ -248,8 +245,6 @@ public class ItemAction : MonoBehaviour
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;
 
-        Debug.Log("스킬 아이콘 드래그중");
-
         return true;
     }
 
@@ -257,8 +252,6 @@ public class ItemAction : MonoBehaviour
     public bool OnPointerUp()
     {
         m_isDownHover = false;
-        Debug.Log("스킬 아이콘 놓았다.");
-
         PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_RELEASE);
         AfterSkillActive();
 

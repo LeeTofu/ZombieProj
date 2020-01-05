@@ -457,13 +457,6 @@ public abstract class MovingObject : MonoBehaviour
         m_Factory = _factory;
     }
 
-    public void SetAimIK(GameObject _object)
-    {
-      //  if (m_AimIK == null)
-      //     m_AimIK = GetComponentInChildren<AimIK>();
-
-       // m_AimIK.solver.target = _object.transform;
-    }
 
     // 매 업데이트마다 죽음을 확인하다.
     public void DeadAction()
@@ -474,12 +467,7 @@ public abstract class MovingObject : MonoBehaviour
         {
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
-
-            //죽음 후 실행할 콜백 함수가 있으면 실행.
             m_DeadActionCallBackFunc?.Invoke();
-
-            // 1초뒤 풀에 넣는다.
-            Invoke("pushToMemory", 1.0f);
         }
     }
 

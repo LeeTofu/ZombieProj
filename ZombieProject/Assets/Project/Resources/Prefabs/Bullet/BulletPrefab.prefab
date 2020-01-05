@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8675321724212790523}
   - component: {fileID: 5805785472826076372}
   - component: {fileID: 3456772759987329102}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2432204988309734355}
   - component: {fileID: 6666301456961604935}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

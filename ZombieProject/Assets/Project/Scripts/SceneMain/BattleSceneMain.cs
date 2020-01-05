@@ -85,7 +85,7 @@ public class BattleSceneMain : SceneMain
 
     static public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
     {
-        s_DropItemFactory.GetObjectFromFactory(_pos, _quat, (int)OBJECT_TYPE.DROPITEM);
+        s_DropItemFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.DROPITEM);
     }
 
 }

@@ -7,8 +7,6 @@ public class ObjectFactory : MonoBehaviour
     protected GameObject[] m_ModelPrefabs;
     protected GameObject m_MovingObejctPrefabs;
 
-    bool m_Initialize = false;
-
     protected Dictionary<int,Queue<MovingObject>> m_ListSleepingMovingObject = new Dictionary<int,Queue<MovingObject>>();
     public List<MovingObject> m_ListAllMovingObject { get; protected set; }
 
@@ -52,7 +50,7 @@ public class ObjectFactory : MonoBehaviour
         return newQ;
     }
 
-    public MovingObject GetObjectFromFactory(Vector3 _pos, Quaternion _quat, int _typeKey)
+    public MovingObject PopObject(Vector3 _pos, Quaternion _quat, int _typeKey)
     {
         MovingObject newObject = null;
         Queue<MovingObject> objectQ = GetObjectQ(_typeKey);
@@ -60,23 +58,23 @@ public class ObjectFactory : MonoBehaviour
         if (objectQ != null)
         {
             newObject = PopObjectFromPooling(_pos, _quat, objectQ);
+
+            if (newObject != null)
+            {
+                return newObject;
+            }
+            
         }
         else
         {
-            CreateObjectQ(_typeKey);
-        }
-
-        // 풀에서 팝을 했는데 오브젝트가 있구나.. 그럼 액티브 true 하고 리턴하자.
-        if (newObject != null)
-        {
-            return newObject;
+            objectQ = CreateObjectQ(_typeKey);
         }
 
         // 팝을 했는데 이제 더이상 풀에서 활성화할 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
 
-        MovingObject obj = CreateObject();
-        obj.transform.position = _pos;
-        obj.transform.rotation = _quat;
+        newObject = CreateObject();
+        newObject.transform.position = _pos;
+        newObject.transform.rotation = _quat;
 
         return newObject;
     }
@@ -96,6 +94,7 @@ public class ObjectFactory : MonoBehaviour
         Model.transform.SetParent(newGameObject.transform);
         Model.transform.localPosition = Vector3.zero;
         Model.transform.localScale = Vector3.one;
+        Model.transform.localRotation = Quaternion.identity;
 
         newObject = newGameObject.GetComponent<MovingObject>();
         newObject.Initialize(Model, null);
@@ -138,6 +137,15 @@ public class ObjectFactory : MonoBehaviour
             mobject.transform.SetParent(transform);
         }
     }
+
+    public void PushObjectToPooling(MovingObject _object, Queue<MovingObject> _Q)
+    {
+        if (_Q == null) return;
+
+        _object.gameObject.SetActive(false);
+        _Q.Enqueue(_object);
+    }
+
 
     // 다 쓰고 풀링에 넣어줌.
     public void PushObjectToPooling(MovingObject _object, int _typeKey)

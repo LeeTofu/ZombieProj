@@ -47,7 +47,7 @@ public class EffectManager : Singleton<EffectManager>
     {
         if (m_EffectFactory == null) return null;
 
-        EffectObject effect = m_EffectFactory.GetObjectFromFactory(_pos, _quat, (int)_particleType) as EffectObject;
+        EffectObject effect = m_EffectFactory.PopObject(_pos, _quat, (int)_particleType) as EffectObject;
 
         if(!effect)
         {

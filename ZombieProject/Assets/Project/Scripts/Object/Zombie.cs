@@ -9,7 +9,6 @@ public class Zombie : MovingObject
 
     private Coroutine m_KnockBackCoroutine;
 
-
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
         if(_Model != null) m_Model = _Model;

@@ -85,10 +85,7 @@ public abstract class BaseSubject : MonoBehaviour
             m_ListCurrentUpdateObserver = list;
             UpdateObserverList();
         }
-        else
-        {
-            Debug.LogError("그런 액션은 테이블에 없습니다. 나중에 넣으셈 ( 별일 아님. ) : " + _action);
-        }
+        
     }
 }
 

@@ -17,7 +17,7 @@ public class BattleItemSlotButton : UIPressSubject
     [SerializeField]
     Image m_CoolDownImage;
 
-    ItemAction m_ItemAction;
+    ItemActionController m_ItemButtonController;
 
     public void Init(MovingObject _character ,Item _item)
     {
@@ -35,54 +35,19 @@ public class BattleItemSlotButton : UIPressSubject
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
 
-        GetActionFromManager(m_Item);
+        m_ItemButtonController = GetComponent<ItemActionController>();
 
+        if (m_ItemButtonController == null)
+            m_ItemButtonController = gameObject.AddComponent<ItemActionController>();
+
+        m_ItemButtonController.Initialized(_item, this);
     }
 
-    // ============================================================
-    // 버튼 누르면 액션이 발동 된다.
-    // 그 액션은 아이템 타입에 따라 다르다.
-    // 그러므로 아이템 타입에 따른 액션을 가져오기 위해 ItemManager, ActionTypeManager에서 액션을 가져오도록 한다.
-    // 끝.
-    private void  GetActionFromManager(Item _item)
-    {
-        if (_item == null)
-        {
-            Debug.LogError("item 없는데~ 액션을 넣는다고? ");
-            return;
-        }
-
-        m_ItemAction = GetComponent<ItemAction>();
-
-        if (m_ItemAction == null)
-            m_ItemAction = gameObject.AddComponent<ItemAction>();
-
-        m_ItemAction.Initialized(_item, this);
-
-        for (BUTTON_ACTION actionType = BUTTON_ACTION.PRESS_ENTER; actionType != BUTTON_ACTION.END; actionType++)
-        {
-            ITEM_EVENT_TYPE eventType =  ItemManager.Instance.GetItemActionType(_item);
-            var action = ActionTypeManager.Instance.GetActionType(actionType, eventType);
-
-            if (eventType == ITEM_EVENT_TYPE.END)
-            {
-                continue;
-            }
-            if (action == null)
-            {
-                continue;
-            }
-
-            m_ItemAction.SetPlayAction(actionType, action);
-        }
-    }
 
     private void Update()
     {
-        
-
         if (m_Item == null) return;
-        if (m_ItemAction == null) return;
+        if (m_ItemButtonController == null) return;
 
         UpdateCoolDown();
         UpdateAttackSpeed();
@@ -92,13 +57,13 @@ public class BattleItemSlotButton : UIPressSubject
 
     void UpdateCoolDown()
     {
-        m_ItemAction.TickItemCoolTime();
-        m_CoolDownImage.fillAmount = m_ItemAction.m_CoolTimePercentage;
+        m_ItemButtonController.TickItemCoolTime();
+        m_CoolDownImage.fillAmount = m_ItemButtonController.m_CoolTimePercentage;
     }
 
     void UpdateAttackSpeed()
     {
-        m_ItemAction.TickItemAttackSpeed();
+        m_ItemButtonController.TickItemAttackSpeed();
     }
 
     bool CheckCanActive()
@@ -110,27 +75,27 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if(m_ItemAction != null)
+        if(m_ItemButtonController != null && m_Item != null)
         {
-            if (m_ItemAction.OnPointerDown())
+            if (m_ItemButtonController.OnPointerDownConditon())
                 UpdateObserver(BUTTON_ACTION.PRESS_ENTER);
         }
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        if (m_ItemAction != null)
+        if (m_ItemButtonController != null && m_Item != null)
         {
-            if(m_ItemAction.OnPointerUp())
+            if(m_ItemButtonController.OnPointerUpCondition())
                 UpdateObserver(BUTTON_ACTION.PRESS_RELEASE);
         }
     }
 
     public override void OnPressed()
     {
-        if (m_ItemAction != null)
+        if (m_ItemButtonController != null && m_Item != null)
         {
-            if (m_ItemAction.OnPointerPress())
+            if (m_ItemButtonController.OnPointerPressCondition())
                 UpdateObserver(BUTTON_ACTION.PRESS_DOWN);
         }
     }

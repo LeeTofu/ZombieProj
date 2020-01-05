@@ -22,6 +22,8 @@ public class StateController : MonoBehaviour
 
     public PlayerState m_CurrentState { private set; get; }
 
+    public static bool m_isInitialize = false;
+
 
     // 게임 로그인 화면서 처음 생성시 초기화 ( 두번 이상 호출 ㄴㄴ )
     public void Initialize(MovingObject _object)
@@ -46,10 +48,15 @@ public class StateController : MonoBehaviour
     {
         ChangeState(E_PLAYABLE_STATE.IDLE);
 
-        for(E_PLAYABLE_STATE i = E_PLAYABLE_STATE.IDLE; i != E_PLAYABLE_STATE.NONE; i++)
+        if (m_isInitialize == false)
         {
-            m_StateTable[i].AddAction();
+            for (E_PLAYABLE_STATE i = E_PLAYABLE_STATE.IDLE; i != E_PLAYABLE_STATE.NONE; i++)
+            {
+                m_StateTable[i].AddAction();
+            }
         }
+
+        m_isInitialize = true;
     }
 
     void  InsertState(E_PLAYABLE_STATE _state , PlayerState _playerState)

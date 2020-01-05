@@ -159,4 +159,18 @@ public class PlayerManager : Singleton<PlayerManager>
     }
 
 
+    public void PlayerAttack()
+    {
+        Vector3 ScreenToWorldPos;
+        MovingObject enemy = GetTouchNearestEnemy(Input.mousePosition, out ScreenToWorldPos);
+
+        ScreenToWorldPos.y = m_Player.transform.position.y;
+
+        Debug.Log("들어온다 브!!");
+
+        if (m_Player.m_CurrentEquipedItem != null)
+            m_Player.m_CurrentEquipedItem.ItemAction();
+    }
+
+
 }

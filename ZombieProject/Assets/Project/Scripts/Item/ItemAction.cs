@@ -17,7 +17,7 @@ public enum BUTTON_ACTION // 버튼에 행해지는 액션 타입.
 }
 
 
-public class ItemAction : MonoBehaviour
+public class ItemActionController : MonoBehaviour
 {
     Item m_item;
 
@@ -41,7 +41,6 @@ public class ItemAction : MonoBehaviour
 
     Dictionary<BUTTON_ACTION, System.Action<MovingObject, Item>> m_ActionTable = new Dictionary<BUTTON_ACTION, System.Action<MovingObject, Item>>();
 
-    System.Action<MovingObject, Item> m_CurrentPlayAction;
     BUTTON_ACTION m_PreButtonActionType;
 
     bool m_isDownHover = false;
@@ -58,64 +57,6 @@ public class ItemAction : MonoBehaviour
         m_AttackSpeedTime = 0.0f;
         m_OriginalAttackSpeed = 0.5f;
 
-        m_CurrentPlayAction = null;
-
-    }
-
-    private void PlayAction(MovingObject _object  ,BUTTON_ACTION _action)
-    {
-        System.Action<MovingObject, Item> action;
-
-        // 전에 했던 액션과 동일하면 동일하게 실행.
-        if(m_CurrentPlayAction != null && m_PreButtonActionType == _action)
-        {
-            m_CurrentPlayAction?.Invoke(_object, m_item);
-            return;
-        }
-
-        if(m_ActionTable.TryGetValue(_action, out action))
-        {
-            m_CurrentPlayAction = action;
-            action?.Invoke(_object, m_item);
-
-            m_PreButtonActionType = _action;
-            return;
-        }
-
-        m_PreButtonActionType = BUTTON_ACTION.END;
-        m_CurrentPlayAction = null;
-    }
-
-    // 기존 액션에 액션을 더하는 함수입니다. 
-    public void AddPlayAction(BUTTON_ACTION _actionType, System.Action<MovingObject, Item> _action)
-    {
-        if (_action == null) return;
-
-        System.Action<MovingObject, Item> action;
-        if (m_ActionTable.TryGetValue(_actionType, out action))
-        {
-            action += _action;
-        }
-        else
-        {
-            m_ActionTable.Add(_actionType,_action);
-        }
-    }
-
-    // 액션을 설정하는 함수입니다.
-    public void SetPlayAction(BUTTON_ACTION _actionType, System.Action<MovingObject, Item> _action)
-    {
-        if (_action == null) return;
-
-        System.Action<MovingObject, Item> action;
-        if (m_ActionTable.TryGetValue(_actionType, out action))
-        {
-            m_ActionTable[_actionType] = _action;
-        }
-        else
-        {
-            m_ActionTable.Add(_actionType, _action);
-        }
     }
 
     // 쿨다운 틱당 도는 함수입ㄴ다.
@@ -194,7 +135,6 @@ public class ItemAction : MonoBehaviour
     {
         m_CurrentCoolTime = m_CurrentMaxCoolTime;
         m_AttackSpeedTime = m_CurrentAttackSpeed;
-        m_CurrentPlayAction = null;
     }
 
     // 곱연산임.
@@ -224,24 +164,20 @@ public class ItemAction : MonoBehaviour
     }
 
     // 버튼 눌렀을 때
-    public bool OnPointerDown()
+    public bool OnPointerDownConditon()
     {
         m_isDownHover = true;
         if (!CheckCanActionPlay()) return false;
-
-        PlayAction(PlayerManager.Instance.m_Player,  BUTTON_ACTION.PRESS_ENTER);
 
         return true;
         
     }
 
     // 버튼 누르고서 드래그 할때
-    public bool OnPointerPress()
+    public bool OnPointerPressCondition()
     {
         if (!m_isDownHover) return false;
         if (!CheckCanActionPlay()) return false;
-
-        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_DOWN);
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;
 
@@ -249,13 +185,12 @@ public class ItemAction : MonoBehaviour
     }
 
     // 버튼을 누르고 올릴때
-    public bool OnPointerUp()
+    public bool OnPointerUpCondition()
     {
         m_isDownHover = false;
-        PlayAction(PlayerManager.Instance.m_Player,BUTTON_ACTION.PRESS_RELEASE);
+
         AfterSkillActive();
 
         return true;
     }
-
 }

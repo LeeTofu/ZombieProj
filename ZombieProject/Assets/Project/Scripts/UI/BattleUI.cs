@@ -69,12 +69,27 @@ public class BattleUI : BaseUI
                  m_ItemSlots[type].Init(PlayerManager.Instance.m_Player, item);
             }
         }
+
+        AddAction();
     }
 
     public override void DeleteUI()
     {
 
     }
+
+    public void AddAction()
+    {
+        GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(
+            BUTTON_ACTION.PRESS_DOWN, () =>
+            {
+                PlayerManager.Instance.PlayerAttack();
+            }
+            );
+    }
+
+
+
 
     public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot )
     {

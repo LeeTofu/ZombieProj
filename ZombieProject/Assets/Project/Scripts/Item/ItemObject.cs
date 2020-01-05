@@ -11,6 +11,8 @@ public class ItemObject : MonoBehaviour
     AudioSource m_audio;
     AudioClip[] m_auidoClip;
 
+    public Item m_Item { private set; get; }
+
     private void Awake()
     {
         var trArr = transform.GetComponentsInChildren<Transform>();
@@ -33,6 +35,8 @@ public class ItemObject : MonoBehaviour
     {
         m_auidoClip = Resources.LoadAll<AudioClip>("Sound/WeaponSound/" + _item.m_ItemStat.m_Sort.ToString());
 
+        m_Item = _item;
+
         m_audio = GetComponent<AudioSource>();
 
         if (m_audio == null)
@@ -47,7 +51,17 @@ public class ItemObject : MonoBehaviour
         else Debug.LogError("무기에 오디오 없습니다.");
     }
 
+    public void ItemAction()
+    {
 
+        Debug.Log("들어온다 브!!2");
+        PlaySound();
+
+        BulletManager.Instance.FireBullet(
+            m_FireTransform.position,
+            transform.forward,
+            m_Item.m_ItemStat);
+    }
 
 
 }

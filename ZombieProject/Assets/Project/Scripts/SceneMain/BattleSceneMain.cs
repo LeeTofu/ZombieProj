@@ -13,7 +13,7 @@ public class BattleSceneMain : SceneMain
     Transform m_PlayerCreateZone;
     Transform m_ZombieCreateZone;
 
-    static ObjectFactory s_ItemFactory;
+    static ObjectFactory s_DropItemFactory;
 
     Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
 
@@ -30,10 +30,11 @@ public class BattleSceneMain : SceneMain
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
-        if (s_ItemFactory == null)
+        if (s_DropItemFactory == null)
         {
-            s_ItemFactory = gameObject.AddComponent<ObjectFactory>();
-            s_ItemFactory.Initialize(10, "Prefabs/Item/ItemBox", "Prefabs/Item/Models");
+            s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();
+            s_DropItemFactory.Initialize("Prefabs/Item/ItemBox", Resources.LoadAll<GameObject>( "Prefabs/Item/Models"));
+            s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.DROPITEM, 10);
         }
 
         CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
@@ -84,7 +85,7 @@ public class BattleSceneMain : SceneMain
 
     static public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
     {
-        s_ItemFactory.CreateObject(_pos, _quat);
+        s_DropItemFactory.GetObjectFromFactory(_pos, _quat, (int)OBJECT_TYPE.DROPITEM);
     }
 
 }

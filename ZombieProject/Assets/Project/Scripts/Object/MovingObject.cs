@@ -4,7 +4,7 @@ using UnityEngine;
 using RootMotion.FinalIK;
 
 // 오브젝트 종류
-public enum OBEJCT_SORT
+public enum OBJECT_TYPE
 {
     PLAYER = 1, // 플레이어
     PLAYER_MERCENARY, // 플레이어 용병
@@ -16,7 +16,8 @@ public enum OBEJCT_SORT
     ZOMBIE_OBJECT, // 좀비들 오브젝트
 
     BULLET, // (불릿)
-    DROPITEM // 드롭된 아이템 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
+    DROPITEM, // 드롭된 아이템 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
+    EFFECT // 이펙트
 }
 
 public enum ZOMBIE_STATE
@@ -31,7 +32,6 @@ public enum ZOMBIE_STATE
     KNOCK_BACK,
     NONE,
 }
-
 
 public class STAT
 {
@@ -48,7 +48,6 @@ public class STAT
     private float attackSpeed;
 
     public IEnumerator BuffCoroutine;
-
 
     public bool isDead { get; private set; }
 
@@ -163,9 +162,15 @@ public abstract class MovingObject : MonoBehaviour
     protected GameObject m_Model;
 
     public STAT m_Stat { protected set; get; }
-    public OBEJCT_SORT m_Sort;
+    public OBJECT_TYPE m_Type;
+
+    [HideInInspector]
     public ZOMBIE_STATE m_zombieState;
+
+    [HideInInspector]
     public Animator m_Animator;
+
+    [HideInInspector]
     public ItemObject m_CurrentEquipedItem;
 
     // 오른팔
@@ -179,7 +184,7 @@ public abstract class MovingObject : MonoBehaviour
     protected System.Action<float> m_KnockBackAction;
 
     // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
-    protected System.Action m_DeadAction;
+    public System.Action m_DeadActionCallBackFunc;
 
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
@@ -208,7 +213,7 @@ public abstract class MovingObject : MonoBehaviour
 
     // Factory에서 만들어진 MovingObject는 자동으로 오브젝트 풀링해서 쓴당.
     // 오브젝트 다 쓰고 나면 pushToMemory 필수로 실행해주세요.
-    public void pushToMemory()
+    public void pushToMemory(int _type)
     {
         if (!gameObject.activeSelf) return;
         if(m_Factory == null)
@@ -218,7 +223,20 @@ public abstract class MovingObject : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-        m_Factory.PushObjectToPooling(this);
+        m_Factory.PushObjectToPooling(this, _type);
+    }
+
+    public void pushToMemory(ObjectFactory _factory, int _type)
+    {
+        if (!gameObject.activeSelf) return;
+        if (_factory == null)
+        {
+            Debug.LogError(gameObject.name + " Factory 없습니다.");
+            return;
+        }
+
+        gameObject.SetActive(false);
+        _factory.PushObjectToPooling(this, _type);
     }
 
 
@@ -238,12 +256,6 @@ public abstract class MovingObject : MonoBehaviour
 
         m_CollisionAction += (GameObject obj) => { };
 
-    }
-
-
-    protected void Update()
-    {
-        CheckDead();
     }
 
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
@@ -454,7 +466,7 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // 매 업데이트마다 죽음을 확인하다.
-    public void CheckDead()
+    public void DeadAction()
     {
         if (m_Stat == null) return;
 
@@ -463,8 +475,8 @@ public abstract class MovingObject : MonoBehaviour
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
 
-            // 죽은 후 실행할 함수가 있다면 실행하고
-            m_DeadAction?.Invoke();
+            //죽음 후 실행할 콜백 함수가 있으면 실행.
+            m_DeadActionCallBackFunc?.Invoke();
 
             // 1초뒤 풀에 넣는다.
             Invoke("pushToMemory", 1.0f);
@@ -472,12 +484,11 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     //데미지를 입다.
-    public void HitDamage(float _damage, bool _isKnockBack = false, float _kockBackTime = 0.0f)
+    public void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
 
         if (_isKnockBack)
-            m_KnockBackAction?.Invoke(_kockBackTime);
+            m_KnockBackAction?.Invoke(_knockBackTime);
     }
-
 }

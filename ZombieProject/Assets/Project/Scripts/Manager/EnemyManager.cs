@@ -6,10 +6,6 @@ using System.Xml;
 
 public class EnemyManager : Singleton<EnemyManager>
 {
-    private List<MovingObject> m_ListZombies = new List<MovingObject>();
-    private List<MovingObject> m_ListEliteZombies = new List<MovingObject>();
-    private List<MovingObject> m_ListBossZombies = new List<MovingObject>();
-
     private Dictionary<int, STAT> m_NormalZombieStatTable = new Dictionary<int, STAT>();
     private Dictionary<int, STAT> m_NamedZombieStatTable = new Dictionary<int, STAT>();
     private Dictionary<int, STAT> m_BossZombieStatTable = new Dictionary<int, STAT>();
@@ -26,7 +22,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public int GetZombieCount()
     {
-        return m_ListZombies.Count;
+        return m_ZombieFactory.m_ListAllMovingObject.Count;
     }
 
     // _pos 에서 가장 가가운 좀비 찾아낸다.
@@ -35,7 +31,7 @@ public class EnemyManager : Singleton<EnemyManager>
         float maxLen = 1000000.0f;
         MovingObject target = null;
 
-        foreach(MovingObject zombie in m_ListZombies)
+        foreach(MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
         {
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
@@ -138,41 +134,20 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
-    //좀비를 메모리 풀에 넣을때 발생하는 이벤트 함수입니다.
-    private void PushToPoolEvent(MovingObject _zombie)
-    {
-        if (m_ListZombies == null) return;
-        if (_zombie == null) return;
-
-        m_ListZombies.Remove(_zombie);
-    }
-
-
-    public void CreateZombie(Vector3 _pos, Quaternion _quat)
+    public void CreateZombie(Vector3 _pos, Quaternion _quat, OBJECT_TYPE _ZombieType)
     {
         if(m_ZombieFactory )
         {
-            MovingObject newZombie = m_ZombieFactory.CreateObject(_pos, _quat);
-            m_ListZombies.Add(newZombie);
-        }
-    }
-
-    public void CreateZombie()
-    {
-        if (m_ZombieFactory)
-        {
-            MovingObject newZombie = m_ZombieFactory.CreateObject(m_ZombieCreateZone.transform.position, m_ZombieCreateZone.transform.rotation);
-
-            m_ListZombies.Add(newZombie);
+           m_ZombieFactory.GetObjectFromFactory(_pos, _quat, (int)_ZombieType);
         }
     }
 
     // 좀비리스트에 있는 모든 좀비를 메모리에 집어넣습니다.
-    void AllZombiePushToMemory()
+    public void AllZombiePushToMemory()
     {
-        foreach(var zombie in m_ListZombies)
+       foreach(MovingObject obj in m_ZombieFactory.m_ListAllMovingObject  )
         {
-            zombie.pushToMemory();
+            obj.pushToMemory((int)obj.m_Type);
         }
     }
 
@@ -186,8 +161,7 @@ public class EnemyManager : Singleton<EnemyManager>
         AllDeleteRespawnZombie();
 
         AllZombiePushToMemory();
-        m_ListZombies.Clear();
-       
+
     }
 
     // 매니저 생성시 무조건 실행되는 초기화 함수입니다.
@@ -195,14 +169,8 @@ public class EnemyManager : Singleton<EnemyManager>
     public override bool Initialize()
     {
         m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
-        m_ZombieFactory.Initialize(10, "Prefabs/Zombies/Zombie", "Prefabs/Zombies/Models/Normal");
-
-        m_ZombieCreateZone = GameObject.Find("ZombieCreateZone");
-
-        if (m_ZombieCreateZone != null)
-            m_ZombieCreateZone.GetComponent<MeshRenderer>().enabled = false;
-
-        m_ZombieFactory.m_PushMemoryAction = (_zombie) => { PushToPoolEvent(_zombie); };
+        m_ZombieFactory.Initialize( "Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>( "Prefabs/Zombies/Models/Normal"));
+        m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 10);
 
         return true;
     }

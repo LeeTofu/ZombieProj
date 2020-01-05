@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5805785472826076372}
   - component: {fileID: 3456772759987329102}
   m_Layer: 0
-  m_Name: TestBullet
+  m_Name: BulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,12 +93,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4edd97e73beaf14e9c405f029614301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sort: 0
+  m_Type: 8
+  m_zombieState: 0
   m_Animator: {fileID: 0}
   m_CurrentEquipedItem: {fileID: 0}
   m_HitEffect: {fileID: 0}
   m_TrailRenderer: {fileID: 0}
   m_PointLight: {fileID: 7136590604474385150}
+  m_GunSound: []
 --- !u!96 &3456772759987329102
 TrailRenderer:
   serializedVersion: 2

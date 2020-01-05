@@ -27,6 +27,7 @@ public class ZombieDeadAction : ActionNode
         //플레이 부분
         if (m_Character.m_zombieState != ZOMBIE_STATE.DEAD)
         {
+            m_Character.DeadAction();
             m_Character.m_Animator.CrossFade("Dead", 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.DEAD;
         }

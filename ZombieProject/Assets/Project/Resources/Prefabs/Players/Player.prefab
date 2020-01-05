@@ -45,10 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900856407195d489309915031ca314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Sort: 0
+  m_Type: 1
   m_zombieState: 0
   m_Animator: {fileID: 0}
   m_CurrentEquipedItem: {fileID: 0}
+  m_StateController: {fileID: 0}
 --- !u!136 &5026015320785085023
 CapsuleCollider:
   m_ObjectHideFlags: 0

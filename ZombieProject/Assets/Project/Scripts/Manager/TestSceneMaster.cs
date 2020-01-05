@@ -15,7 +15,7 @@ public class TestSceneMaster : Singleton<TestSceneMaster>
         PlayerManager.Instance.CreateManager();
 
         PlayerManager.Instance.CreatePlayer(Vector3.forward * 3f, Quaternion.identity);
-        EnemyManager.Instance.CreateZombie();
+        EnemyManager.Instance.CreateZombie(Vector3.zero, Quaternion.identity, OBJECT_TYPE.ZOMBIE);
 
         return true;
     }

@@ -32,6 +32,9 @@ public class ZombieRespawn : MonoBehaviour
     // 리스폰 실행중인 코루틴.
     Coroutine m_Coroutine;
 
+    [SerializeField]
+    OBJECT_TYPE m_RespawnType;
+
     public int CurRespawnCount
     {
         get => m_CurRespawnCount;
@@ -73,7 +76,7 @@ public class ZombieRespawn : MonoBehaviour
 
     private void RespawnZombie()
     {
-        EnemyManager.Instance.CreateZombie(transform.position, transform.rotation);
+        EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, m_RespawnType);
         m_CurRespawnCount++;
     }
 

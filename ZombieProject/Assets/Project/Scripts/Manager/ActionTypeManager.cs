@@ -23,8 +23,6 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
 
     public override bool Initialize()
     {
-        m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
-        m_BulletFactory.Initialize(30, "Prefabs/Weapon/Bullet/TestBullet" ,"Prefabs/Weapon/Bullet/Models");
 
         for (ITEM_EVENT_TYPE eventType = ITEM_EVENT_TYPE.FIRE_BULLET; eventType != ITEM_EVENT_TYPE.END; eventType++)
         {
@@ -33,43 +31,22 @@ public class ActionTypeManager : Singleton<ActionTypeManager>
                 case ITEM_EVENT_TYPE.FIRE_BULLET:
                     {
                         m_ButtonPressTable.Add(eventType, (MovingObject character, Item _item) =>
-                        {
-                            MovingObject newBulletObj = m_BulletFactory.CreateObject(Vector3.zero, Quaternion.identity);
-                            Bullet newBullet = newBulletObj as Bullet;
+                       {
+                           Vector3 ScreenToWorldPos;
+                           MovingObject enemy = PlayerManager.Instance.GetTouchNearestEnemy(Input.mousePosition, out ScreenToWorldPos);
 
-                            Vector3 ScreenToWorldPos;
-                            MovingObject enemy = PlayerManager.Instance.GetTouchNearestEnemy(Input.mousePosition, out ScreenToWorldPos);
+                           ScreenToWorldPos.y = character.transform.position.y;
 
-                            ScreenToWorldPos.y = character.transform.position.y;
+                           if (character.m_CurrentEquipedItem != null)
+                               character.m_CurrentEquipedItem.PlaySound();
 
-                            if(character.m_CurrentEquipedItem != null)
-                                character.m_CurrentEquipedItem.PlaySound();
-                            
-                            if (newBullet)
-                            {
-                                newBullet.FireBullet(
-                                    character.m_CurrentEquipedItem.m_FireTransform.position,
-                                    character.transform.forward, _item);
-                            };
-                        });
+                           BulletManager.Instance.FireBullet(character.m_CurrentEquipedItem.m_FireTransform.position, character.transform.forward, _item.m_ItemStat);
+                       }
+                        );
                     }
                     break;
                 case ITEM_EVENT_TYPE.THROW_ARK:
                     {
-                        m_ButtonPressTable.Add(eventType, (MovingObject character, Item _item) =>
-                        {
-                            character.transform.rotation = Quaternion.LookRotation(character.transform.forward, Vector3.up);
-
-                            MovingObject newBulletObj = m_BulletFactory.CreateObject(Vector3.zero, Quaternion.identity);
-                            Bullet newBullet = newBulletObj as Bullet;
-
-                            if (newBullet)
-                            {
-                                newBullet.FireBullet(
-                                    character.m_CurrentEquipedItem.m_FireTransform.position,
-                                    character.transform.forward, _item);
-                            };
-                        });
                     }
                     break;
             }

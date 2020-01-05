@@ -34,8 +34,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private ObjectFactory m_PlayerFactory;
 
-    ObjectFactory m_BulletFactory;
-
     [HideInInspector]
     public GameObject m_PlayerCreateZone;
 
@@ -74,7 +72,7 @@ public class PlayerManager : Singleton<PlayerManager>
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
         // 설정 //
-        m_Player = m_PlayerFactory.CreateObject(_pos, _quat);
+        m_Player = m_PlayerFactory.GetObjectFromFactory(_pos, _quat, (int)OBJECT_TYPE.PLAYER);
 
         m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
         m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
@@ -91,10 +89,8 @@ public class PlayerManager : Singleton<PlayerManager>
         LoadPlayerInfo();
 
         m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
-        m_PlayerFactory.Initialize(2, "Prefabs/Players/Player", "Prefabs/Players/Models/Normal");
-
-        m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
-        m_BulletFactory.Initialize(30, "Prefabs/Weapon/Bullet/TestBullet", "Prefabs/Weapon/Bullet/Models");
+        m_PlayerFactory.Initialize("Prefabs/Players/Player", Resources.LoadAll<GameObject>("Prefabs/Players/Models/Normal"));
+        m_PlayerFactory.CreateObjectPool((int)OBJECT_TYPE.PLAYER, 1);
 
         m_PlayerCreateZone = GameObject.Find("PlayerCreateZone");
 

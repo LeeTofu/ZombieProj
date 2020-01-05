@@ -20,7 +20,8 @@ public class Bullet : MovingObject
 
     public AudioClip[] m_GunSound;
 
-    public GameObject m_BloodEffect;
+    BULLET_TYPE m_BulletType;
+
 
     public bool m_isArc { get; private set; }
 
@@ -29,11 +30,7 @@ public class Bullet : MovingObject
         AddCollisionCondtion(CollisionCondition);
         AddCollisionFunction(CollisionEvent);
 
-        m_BloodEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effect&Particle/BloodExplosion"));
-        m_BloodEffect.transform.SetParent(transform);
-        m_BloodEffect.transform.localPosition = Vector3.zero;
-        m_BloodEffect.transform.localRotation = Quaternion.identity;
-        m_BloodEffect.SetActive(false);
+
     }
 
     void CollisionEvent(GameObject _object)
@@ -41,27 +38,12 @@ public class Bullet : MovingObject
         Debug.Log("Zombie Check");
         MovingObject zombie = _object.GetComponent<MovingObject>();
 
-        m_BloodEffect.transform.SetParent(null);
-        m_BloodEffect.SetActive(true);
-        m_BloodEffect.transform.rotation = Quaternion.LookRotation(-m_CurDirection);
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true ,1.0f);
 
         zombie.HitDamage(m_Stat.Attack, true, 1.0f);
 
-        StartCoroutine(EffectExit());
-
-        pushToMemory();
+        pushToMemory((int)m_BulletType);
     }
-
-    IEnumerator EffectExit()
-    {
-        yield return new WaitForSeconds(1.5f);
-
-        m_BloodEffect.transform.SetParent(transform);
-        m_BloodEffect.transform.localPosition = Vector3.zero;
-        m_BloodEffect.transform.localRotation = Quaternion.identity;
-        m_BloodEffect.SetActive(false);
-    }
-
 
     bool CollisionCondition(GameObject _defender)
     {
@@ -71,7 +53,7 @@ public class Bullet : MovingObject
         return true;
     }
 
-    public void FireBullet(Vector3 _pos, Vector3 _dir, Item _item)
+    public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)
     {
         transform.position = _pos;
          m_CurDirection = _dir;
@@ -82,11 +64,13 @@ public class Bullet : MovingObject
             MaxHP = 100f,
             CurHP = 100f,
             Defend = 100f,
-            MoveSpeed = _item.m_ItemStat.m_BulletSpeed,
-            Attack = _item.m_ItemStat.m_AttackPoint,
-            Range = _item.m_ItemStat.m_Range,
+            MoveSpeed = _itemStat.m_BulletSpeed,
+            Attack = _itemStat.m_AttackPoint,
+            Range = _itemStat.m_Range,
         }) ;
-       
+
+        m_BulletType = BulletManager.Instance.GetBulletTypeFromItemStat(_itemStat);
+
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();
 
@@ -99,7 +83,7 @@ public class Bullet : MovingObject
 
         m_isArc = false;
 
-        Invoke("pushToMemory", 1.5f);
+       Invoke("pushToMemory", 1.5f);
     }
 
     // Update is called once per frame
@@ -107,4 +91,10 @@ public class Bullet : MovingObject
     {
         transform.Translate(m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
     }
+
+    private void OnDisable()
+    {
+        
+    }
+
 }

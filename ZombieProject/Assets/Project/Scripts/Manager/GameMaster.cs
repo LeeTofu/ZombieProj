@@ -62,6 +62,8 @@ public class GameMaster : Singleton<GameMaster>
         InvenManager.Instance.CreateManager();
 
         CameraManager.Instance.CreateManager();
+        BulletManager.Instance.CreateManager();
+        EffectManager.Instance.CreateManager();
         
 
         return true;

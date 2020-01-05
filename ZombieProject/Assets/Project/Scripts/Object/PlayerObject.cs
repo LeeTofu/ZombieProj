@@ -17,11 +17,14 @@ public class PlayerObject : MovingObject
             m_Animator.applyRootMotion = false;
         }
 
-       // m_Controller = gameObject.AddComponent<MoveController>();
-       // m_Controller.Initialize(this);
+        // m_Controller = gameObject.AddComponent<MoveController>();
+        // m_Controller.Initialize(this);
 
-        m_StateController = gameObject.AddComponent<StateController>();
-        m_StateController.Initialize(this);
+        if (m_StateController == null)
+        {
+            m_StateController = gameObject.AddComponent<StateController>();
+            m_StateController.Initialize(this);
+        }
 
         SetStat(new STAT
         {
@@ -36,8 +39,16 @@ public class PlayerObject : MovingObject
 
     private void OnEnable()
     {
-        if(SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
+        if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
+        {
+            if (m_StateController == null)
+            {
+                m_StateController = gameObject.AddComponent<StateController>();
+                m_StateController.Initialize(this);
+            }
+
             m_StateController.InGame_Initialize();
+        }
     }
 
 

@@ -41,14 +41,10 @@ public class BattleMapCreator : MonoBehaviour
         bg.transform.rotation = Quaternion.identity;
         
         m_PlayerCreateZone = bg.transform.Find("PlayerCreateZone");
-        ZombieCreateZones = bg.transform.Find("ZombieCreateZone");
-
-
 
         if (m_PlayerCreateZone == null)
             Debug.LogError("x");
-        if (ZombieCreateZones == null)
-            Debug.LogError("x2");
+
 
         return true;
 

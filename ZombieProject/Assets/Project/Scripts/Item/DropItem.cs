@@ -16,11 +16,10 @@ public class DropItem : MovingObject
 
     // 이 아이템을 먹으면 주는 버프
     Buff m_Buff;
-
-    ParticleSystem m_DropItemParticle;
+    EffectObject m_EffectObject;
+    // ParticleSystem m_DropItemParticle;
 
     AudioSource m_audioSource;
-
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
@@ -28,23 +27,10 @@ public class DropItem : MovingObject
         AddCollisionFunction(CollisionEvent);
 
         m_audioSource = GetComponent<AudioSource>();
-
-        if (m_DropItemParticle == null)
-        {
-            GameObject go = Resources.Load<GameObject>("Prefabs/Effect&Particle/DropItemEffect");
-            GameObject effect = Instantiate(go);
-            m_DropItemParticle = effect.GetComponent<ParticleSystem>();
-
-            m_DropItemParticle.Play();
-            m_DropItemParticle.transform.SetParent(transform);
-            m_DropItemParticle.transform.localPosition = Vector3.zero;
-        }
     }
 
     void CollisionEvent(GameObject _object)
     {
-        if (!GetComponentInChildren<MeshRenderer>().enabled) return;
-
         MovingObject player = _object.GetComponent<MovingObject>();
 
         switch (m_dropItem)
@@ -69,14 +55,10 @@ public class DropItem : MovingObject
         }
 
         m_audioSource.Play();
-        GameObject go = Resources.Load<GameObject>("Prefabs/Effect&Particle/BuffEffect");
-        GameObject newEffect = Instantiate(go);
-        newEffect.transform.position = transform.position;
-
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, true, 1.0f);
         player.AddBuff(m_Buff);
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
-        m_DropItemParticle.gameObject.SetActive(false);
+        pushToMemory((int)m_Type);
     }
 
     bool CollisionCondition(GameObject _defender)
@@ -86,4 +68,16 @@ public class DropItem : MovingObject
 
         return true;
     }
+
+    private void OnEnable()
+    {
+        m_EffectObject =  EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(0, 0, 0));
+    }
+
+    private void OnDisable()
+    {
+        if (m_EffectObject != null)
+            m_EffectObject.SetDestroyTime(0.0f, (int)PARTICLE_TYPE.DROP_ITEM);
+    }
+
 }

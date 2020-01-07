@@ -7,7 +7,7 @@ public class PlayerObject : MovingObject
 {
     public StateController m_StateController;
     // MoveController m_Controller;
-    private IEnumerator cor;
+    private Coroutine m_Coroutine;
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
@@ -33,7 +33,13 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-
+        AddKnockBackAction(0.2f);
+        AddKnockBackFunction((float time)=>
+        {
+            if (m_Coroutine != null)
+                StopCoroutine(m_Coroutine);
+            m_Coroutine = StartCoroutine(KnockBackChange(time));
+        });
         return;
     }
 
@@ -51,5 +57,22 @@ public class PlayerObject : MovingObject
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            m_StateController.ChangeState(E_PLAYABLE_STATE.KNOCKBACK);
+            HitDamage(1f, true, 2f);
+        }
+    }
 
+    private IEnumerator KnockBackChange(float _time)
+    {
+        m_StateController.ChangeState(E_PLAYABLE_STATE.KNOCKBACK);
+        yield return new WaitForSeconds(_time);
+        if (m_Stat.CurHP <= 30f)
+            m_StateController.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateController.ChangeState(E_PLAYABLE_STATE.IDLE);
+    }
 }

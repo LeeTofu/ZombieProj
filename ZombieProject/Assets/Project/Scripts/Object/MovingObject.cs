@@ -191,6 +191,8 @@ public abstract class MovingObject : MonoBehaviour
 
     CheckCollisionCondition m_CheckCollisionCondition;
 
+    public Coroutine m_BlinkCoroutine;
+    public Coroutine m_NoDamageCoroutine;
 
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public virtual void SetStat(STAT _stat)
@@ -475,8 +477,47 @@ public abstract class MovingObject : MonoBehaviour
     public void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
-
+        m_Stat.isKnockBack = _isKnockBack;
         if (_isKnockBack)
             m_KnockBackAction?.Invoke(_knockBackTime);
+    }
+    public void AddKnockBackFunction(System.Action<float> _kockBackAction)
+    {
+        m_KnockBackAction += _kockBackAction;
+    }
+
+    // 넉백액션함수에 깜빡이는 코루틴이랑 넉백당한 동안 캡슐콜라이더 해제하는 코루틴 추가하는 함수
+    public void AddKnockBackAction(float _blinkterm)
+    {
+        AddKnockBackFunction((float time) =>
+        {
+            if (m_BlinkCoroutine != null)
+                //StopCoroutine(m_BlinkCoroutine);
+            if (m_NoDamageCoroutine != null)
+                StopCoroutine(m_NoDamageCoroutine);
+            //m_BlinkCoroutine = StartCoroutine(Blink(time, _blinkterm));
+            m_NoDamageCoroutine = StartCoroutine(CollsionRelease(time));
+        });
+    }
+    //애니메이터있는 게임오브젝트의 액티브를 true,false 줘서 깜빡이게하는 코루틴
+    public IEnumerator Blink(float _time, float _blinkterm)
+    {
+        GameObject go = GetComponentInChildren<Animator>().gameObject;
+        bool isActive = true;
+        for (float i = 0; i < _time; i += _blinkterm)
+        {
+            go.SetActive(isActive);
+            isActive = !isActive;
+            yield return new WaitForSeconds(_blinkterm);
+        }
+        go.SetActive(true);
+    }
+    //_time 받은 만큼 캡슐콜라이더 enabled false해주는 코루틴
+    public IEnumerator CollsionRelease(float _time)
+    {
+        CapsuleCollider cc = GetComponent<CapsuleCollider>();
+        cc.enabled = false;
+        yield return new WaitForSeconds(_time);
+        cc.enabled = true;
     }
 }

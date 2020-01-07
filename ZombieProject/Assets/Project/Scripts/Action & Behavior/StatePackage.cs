@@ -282,14 +282,7 @@ public class KnockBackState : PlayerState
     }
     public override void End()
     {
-        if (m_PlayerObject.m_Stat.CurHP <= 30.0f)
-        {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
-        }
-        else
-        {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
-        }
+
     }
     public override void Update()
     {

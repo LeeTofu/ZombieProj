@@ -28,7 +28,7 @@ public class IdleState : PlayerState
         CameraManager.Instance.ResetOffsetPosition();
         for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
         {
-            m_PlayerObject.m_Animator.Play("Idle", i);
+            m_PlayerObject.m_Animator.CrossFade("Idle", 0.3f, i);
         }
     }
     public override void Update()
@@ -70,8 +70,16 @@ public class MovingAttackState : PlayerState
     {
         // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. , Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
         // 무빙샷 때문에 이렇게 만들음.
-        m_PlayerObject.m_Animator.Play("Attack", 1);
-
+        if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+        {
+            m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
+            m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+        }
+        else
+        {
+            m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, 0);
+            m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+        }
     }
     public override void Update()
     {
@@ -92,7 +100,16 @@ public class MovingAttackState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+            {
+                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+                }
+                else
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+                }
+            }
         });
 
         BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
@@ -106,7 +123,18 @@ public class MovingAttackState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
-                m_PlayerObject.m_Animator.Play("Attack", 1);
+            {
+                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                {
+                    m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
+                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                }
+                else
+                {
+                    m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, 0);
+                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                }
+            }
         });
     }
 }
@@ -122,7 +150,18 @@ public class AttackState : PlayerState
     {
         // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. , Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
         // 무빙샷 때문에 이렇게 만들음.
-        m_PlayerObject.m_Animator.Play("Attack", 1);
+        if(m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+        {
+            m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
+            m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+        }
+        else
+        {
+            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            {
+                m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, i);
+            }
+        }
 
     }
     public override void Update()
@@ -140,7 +179,16 @@ public class AttackState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+            {
+                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+                }
+                else
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+                }
+            }
         });
 
          BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
@@ -154,7 +202,18 @@ public class AttackState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
-                m_PlayerObject.m_Animator.Play("Attack", 1);
+            {
+                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                {
+                    m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
+                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                }
+                else
+                {
+                    for(int i=0; i<m_PlayerObject.m_Animator.layerCount; i++)
+                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, i);
+                }
+            }
         });
     }
 }
@@ -168,7 +227,10 @@ public class WalkState : PlayerState
     {
         // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
         // 무빙샷 때문에 이렇게 만들음.
-        m_PlayerObject.m_Animator.Play("Walking", 0);
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, i);
+        }
     }
 
     public override void Update()
@@ -210,7 +272,8 @@ public class InjuredIdleState : PlayerState
     public override void Start()
     {
         CameraManager.Instance.ResetOffsetPosition();
-        m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f ,0);
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f ,i);
     }
     public override void End()
     {
@@ -233,7 +296,7 @@ public class InjuredIdleState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.IDLE)
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
         });
     }
@@ -243,7 +306,8 @@ public class InjuredWalkState : PlayerState
     public InjuredWalkState(MovingObject playerObject, StateController _stateController) : base(playerObject, _stateController) { }
     public override void Start()
     {
-        m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
     }
     public override void End()
     {
@@ -251,7 +315,11 @@ public class InjuredWalkState : PlayerState
     }
     public override void Update()
     {
+                CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
+        BattleUI.m_InputController.CalculateMoveVector();
+        m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
     }
     public override void AddAction()
     {
@@ -265,7 +333,7 @@ public class InjuredWalkState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.WALKING)
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
         });
     }
@@ -278,7 +346,8 @@ public class KnockBackState : PlayerState
     }
     public override void Start()
     {
-        m_PlayerObject.m_Animator.CrossFade("KnockBack", 0.3f, 0);
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("KnockBack", 0.3f, i);
     }
     public override void End()
     {
@@ -286,7 +355,7 @@ public class KnockBackState : PlayerState
     }
     public override void Update()
     {
-
+        
     }
     public override void AddAction()
     {

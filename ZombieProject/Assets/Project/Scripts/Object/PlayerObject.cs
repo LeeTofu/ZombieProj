@@ -33,7 +33,7 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-        AddKnockBackAction(0.2f);
+        AddKnockBackAction(0.1f);
         AddKnockBackFunction((float time)=>
         {
             if (m_Coroutine != null)
@@ -59,20 +59,27 @@ public class PlayerObject : MovingObject
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
         {
-            m_StateController.ChangeState(E_PLAYABLE_STATE.KNOCKBACK);
-            HitDamage(1f, true, 2f);
+            PlayerManager.Instance.m_Player.HitDamage(35f, true, 2f);
         }
     }
 
     private IEnumerator KnockBackChange(float _time)
     {
         m_StateController.ChangeState(E_PLAYABLE_STATE.KNOCKBACK);
-        yield return new WaitForSeconds(_time);
-        if (m_Stat.CurHP <= 30f)
+        while(!m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
+        {
+            yield return null;
+        }
+        while(m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        {
+            yield return null;
+        }
+        if (m_Stat.CurHP <= m_InjuredHP)
             m_StateController.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
             m_StateController.ChangeState(E_PLAYABLE_STATE.IDLE);
+
     }
 }

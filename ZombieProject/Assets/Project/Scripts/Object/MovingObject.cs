@@ -192,8 +192,8 @@ public abstract class MovingObject : MonoBehaviour
     CheckCollisionCondition m_CheckCollisionCondition;
 
     public Coroutine m_BlinkCoroutine;
-    public Coroutine m_NoDamageCoroutine;
-
+    public Coroutine m_KnocoBackCoroutine;
+    public float m_InjuredHP = 30f;
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public virtual void SetStat(STAT _stat)
     {
@@ -477,7 +477,6 @@ public abstract class MovingObject : MonoBehaviour
     public void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
-        m_Stat.isKnockBack = _isKnockBack;
         if (_isKnockBack)
             m_KnockBackAction?.Invoke(_knockBackTime);
     }
@@ -492,32 +491,32 @@ public abstract class MovingObject : MonoBehaviour
         AddKnockBackFunction((float time) =>
         {
             if (m_BlinkCoroutine != null)
-                //StopCoroutine(m_BlinkCoroutine);
-            if (m_NoDamageCoroutine != null)
-                StopCoroutine(m_NoDamageCoroutine);
-            //m_BlinkCoroutine = StartCoroutine(Blink(time, _blinkterm));
-            m_NoDamageCoroutine = StartCoroutine(CollsionRelease(time));
+                StopCoroutine(m_BlinkCoroutine);
+            if (m_KnocoBackCoroutine != null)
+                StopCoroutine(m_KnocoBackCoroutine);
+            m_BlinkCoroutine = StartCoroutine(Blink(time, _blinkterm));
+            m_KnocoBackCoroutine = StartCoroutine(KnockBackRelease(time));
         });
     }
     //애니메이터있는 게임오브젝트의 액티브를 true,false 줘서 깜빡이게하는 코루틴
     public IEnumerator Blink(float _time, float _blinkterm)
     {
-        GameObject go = GetComponentInChildren<Animator>().gameObject;
-        bool isActive = true;
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        
         for (float i = 0; i < _time; i += _blinkterm)
         {
-            go.SetActive(isActive);
-            isActive = !isActive;
+            for (int j = 0; j < rs.Length; ++j)
+                rs[j].enabled = !rs[j].enabled;
             yield return new WaitForSeconds(_blinkterm);
         }
-        go.SetActive(true);
+        for (int i = 0; i < rs.Length; ++i)
+            rs[i].enabled = true;
     }
     //_time 받은 만큼 캡슐콜라이더 enabled false해주는 코루틴
-    public IEnumerator CollsionRelease(float _time)
+    public IEnumerator KnockBackRelease(float _time)
     {
-        CapsuleCollider cc = GetComponent<CapsuleCollider>();
-        cc.enabled = false;
+        m_Stat.isKnockBack = true;
         yield return new WaitForSeconds(_time);
-        cc.enabled = true;
+        m_Stat.isKnockBack = false;
     }
 }

@@ -167,6 +167,13 @@ public class ItemActionController : MonoBehaviour
     public bool OnPointerDownConditon()
     {
         m_isDownHover = true;
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        {
+            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
+                return false;
+            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
+                return false;
+        }
         if (!CheckCanActionPlay()) return false;
 
         return true;
@@ -177,6 +184,13 @@ public class ItemActionController : MonoBehaviour
     public bool OnPointerPressCondition()
     {
         if (!m_isDownHover) return false;
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        {
+            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
+                return false;
+            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
+                return false;
+        }
         if (!CheckCanActionPlay()) return false;
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;
@@ -187,6 +201,13 @@ public class ItemActionController : MonoBehaviour
     // 버튼을 누르고 올릴때
     public bool OnPointerUpCondition()
     {
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        {
+            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
+                return false;
+            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
+                return false;
+        }
         m_isDownHover = false;
 
         AfterSkillActive();

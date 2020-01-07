@@ -5,7 +5,9 @@ using UnityEngine;
 public class NavNode
 {
     public Vector3 m_nodePos;
-    public List<int> m_connectedNodeIdx = new List<int>();  //연결된 노드들의 idx모음
+    public List<int> m_connectedNodeIndices = new List<int>();  //연결된 노드들의 idx모음
+
+    public GameObject m_nodeModel;
 }
 
 public class NavCell
@@ -14,27 +16,27 @@ public class NavCell
     public Vector3 m_centerPos;          //Cell을 이루는 삼각형의 중심
     public int[] m_adjacentCells = new int[3] { -1, -1, -1 };  //인접한 cell들 정보
 
-    public bool CellCheck(int a, int b, int c)
+    public bool CellCheck(int _a, int _b, int _c)
     {
         int cnt = 0;
 
         for(int i = 0; i < 3; i++)
         {
-            if(m_vertices[i] == a)
+            if(m_vertices[i] == _a)
             {
                 cnt++; break;
             }
         }
         for(int i = 0; i < 3; i++)
         {
-            if (m_vertices[i] == b)
+            if (m_vertices[i] == _b)
             {
                 cnt++; break;
             }
         }
         for (int i = 0; i < 3; i++)
         {
-            if (m_vertices[i] == c)
+            if (m_vertices[i] == _c)
             {
                 cnt++; break;
             }
@@ -43,27 +45,27 @@ public class NavCell
         return (cnt > 2)? true : false;
     }
 
-    public bool IsAdjacentCell(int a, int b, int c)
+    public bool IsAdjacentCell(int _a, int _b, int _c)
     {
         int cnt = 0;
 
         for (int i = 0; i < 3; i++)
         {
-            if (m_vertices[i] == a)
+            if (m_vertices[i] == _a)
             {
                 cnt++; break;
             }
         }
         for (int i = 0; i < 3; i++)
         {
-            if (m_vertices[i] == b)
+            if (m_vertices[i] == _b)
             {
                 cnt++; break;
             }
         }
         for (int i = 0; i < 3; i++)
         {
-            if (m_vertices[i] == c)
+            if (m_vertices[i] == _c)
             {
                 cnt++; break;
             }
@@ -75,20 +77,23 @@ public class NavCell
 
 public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
 {
-    public List<NavNode> m_navNodeList = new List<NavNode>();
-    public List<NavCell> m_navCellList = new List<NavCell>();
-    public int m_targetLayerMask;
-    public int m_selectedNodeNum, m_targetNodeNum;
+    private List<NavNode> m_navNodeList = new List<NavNode>();
+    private List<NavCell> m_navCellList = new List<NavCell>();
+    private int m_targetLayerMask;
+    private int m_selectedNodeNum, m_targetNodeNum;
+    private Vector3 m_nowMousePos;
+    private GameObject m_nodePrefab;
 
     public override bool Initialize()
     {
-        m_targetLayerMask = 1 << LayerMask.NameToLayer("NavPicking") + 1 << LayerMask.NameToLayer("NavNode");
+        m_targetLayerMask = 1 << LayerMask.NameToLayer("NavPicking") | 1 << LayerMask.NameToLayer("NavNode");
         m_selectedNodeNum = m_targetNodeNum = -1;
+        m_nodePrefab = Resources.Load<GameObject>("Prefabs/PathFinding/Node");
 
         return true;
     }
 
-    public bool LoadNavMeshInfoFromFile(string filePath)
+    public bool LoadNavMeshInfoFromFile(string _filePath)
     {
         
 
@@ -100,11 +105,11 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
 
     }
 
-    public bool CheckDuplicatedCell(int a, int b, int c)
+    public bool CheckDuplicatedCell(int _a, int _b, int _c)
     {
         foreach(NavCell cell in m_navCellList)
         {
-            if (cell.CellCheck(a, b, c)) return true;
+            if (cell.CellCheck(_a, _b, _c)) return true;
         }
 
         return false;
@@ -112,23 +117,29 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
 
     public void Update()
     {
+        
+
         //노드 생성 or 노드 선택
         if(Input.GetMouseButtonDown(0))
         {
+            
+
             RaycastHit hit;
 
-            Ray ray = NavMeshMakingCam.Instance.m_Camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = NavMeshMakingCam.Instance.m_Camera.ScreenPointToRay(Input.mousePosition);
 
-            if(Physics.Raycast(ray.origin, ray.direction, out hit, 1000f, m_targetLayerMask))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000f, m_targetLayerMask))
             {
-                if(hit.collider.gameObject.layer == 21)
+                if (hit.transform.gameObject.layer == 21)
                 {
                     NavNode newNode = new NavNode();
                     newNode.m_nodePos = hit.point;
+                    newNode.m_nodeModel = Instantiate(m_nodePrefab, newNode.m_nodePos, Quaternion.identity);
 
-                    m_navNodeList.Add(newNode); 
+                    m_navNodeList.Add(newNode);
                 }
-                else if(hit.collider.gameObject.layer == 22)
+                else if(hit.transform.gameObject.layer == 22)
                 {
                     float dist = 0.5f;
                     for(int i = 0; i < m_navNodeList.Count; i++)
@@ -152,11 +163,12 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
             {
                 RaycastHit hit;
 
-                Ray ray = NavMeshMakingCam.Instance.m_Camera.ScreenPointToRay(Input.mousePosition);
-
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //Ray ray = NavMeshMakingCam.Instance.m_Camera.ScreenPointToRay(Input.mousePosition);
 
                 if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000f, m_targetLayerMask))
                 {
+                    m_targetNodeNum = -1;
                     float dist = 0.5f;
                     for (int i = 0; i < m_navNodeList.Count; i++)
                     {
@@ -169,40 +181,35 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
                         }
                     }
 
-                    Gizmos.color = Color.black;
-                    if (m_targetNodeNum >= 0)
+                    if (m_targetNodeNum < 0)
                     {
-                        Gizmos.DrawLine(m_navNodeList[m_selectedNodeNum].m_nodePos, m_navNodeList[m_targetNodeNum].m_nodePos);
-                    }
-                    else
-                    {
-                        Gizmos.DrawLine(m_navNodeList[m_selectedNodeNum].m_nodePos, hit.point);
+                        m_nowMousePos = hit.point;
                     }
                 }
                    
             }
         }
-
+        
         //노드 연결
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             if(m_selectedNodeNum >= 0 && m_targetNodeNum >= 0)
             {
-                if(!m_navNodeList[m_selectedNodeNum].m_connectedNodeIdx.Contains(m_targetNodeNum))
-                    m_navNodeList[m_selectedNodeNum].m_connectedNodeIdx.Add(m_targetNodeNum);
-                if(!m_navNodeList[m_targetNodeNum].m_connectedNodeIdx.Contains(m_selectedNodeNum))
-                    m_navNodeList[m_targetNodeNum].m_connectedNodeIdx.Add(m_selectedNodeNum);
+                if(!m_navNodeList[m_selectedNodeNum].m_connectedNodeIndices.Contains(m_targetNodeNum))
+                    m_navNodeList[m_selectedNodeNum].m_connectedNodeIndices.Add(m_targetNodeNum);
+                if(!m_navNodeList[m_targetNodeNum].m_connectedNodeIndices.Contains(m_selectedNodeNum))
+                    m_navNodeList[m_targetNodeNum].m_connectedNodeIndices.Add(m_selectedNodeNum);
 
                 //이어진 노드끼리 cell형성할 수 있는지, 있다면 cell 생성후 리스트 삽입
 
                 int cellMakingNodeNum = -1;
 
-                for(int i = 0; i < m_navNodeList[m_targetNodeNum].m_connectedNodeIdx.Count; i++)
+                for(int i = 0; i < m_navNodeList[m_targetNodeNum].m_connectedNodeIndices.Count; i++)
                 {
                     if (cellMakingNodeNum > 0) break;
-                    for(int j = 0; j < m_navNodeList[i].m_connectedNodeIdx.Count; j++)
+                    for(int j = 0; j < m_navNodeList[i].m_connectedNodeIndices.Count; j++) // -> 수정필요
                     {
-                        int nowNodeNum = m_navNodeList[i].m_connectedNodeIdx[j];
+                        int nowNodeNum = m_navNodeList[i].m_connectedNodeIndices[j];
                         if (nowNodeNum == m_selectedNodeNum)
                         {
                             if(!CheckDuplicatedCell(m_selectedNodeNum, m_targetNodeNum, nowNodeNum))
@@ -242,11 +249,35 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
                     }
 
                     m_navCellList.Add(newCell);
+                    Debug.Log(m_navCellList.Count);
                 }
 
             }
 
             m_selectedNodeNum = m_targetNodeNum = -1;
+        }
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        for(int i = 0; i < m_navNodeList.Count; i++)
+        {
+            for(int j = 0; j < m_navNodeList[i].m_connectedNodeIndices.Count; j++)
+            {
+                if (i >= m_navNodeList[i].m_connectedNodeIndices[j]) continue;
+
+                Gizmos.DrawLine(m_navNodeList[i].m_nodePos, m_navNodeList[m_navNodeList[i].m_connectedNodeIndices[j]].m_nodePos);
+            }
+        }
+
+        Gizmos.color = Color.red;
+        if (m_selectedNodeNum >= 0)
+        {
+            if (m_targetNodeNum >= 0)
+                Gizmos.DrawLine(m_navNodeList[m_selectedNodeNum].m_nodePos, m_navNodeList[m_targetNodeNum].m_nodePos);
+            else
+                Gizmos.DrawLine(m_navNodeList[m_selectedNodeNum].m_nodePos, m_nowMousePos);
         }
     }
 }

@@ -341,6 +341,7 @@ public class InjuredWalkState : PlayerState
 
 public class KnockBackState : PlayerState
 {
+    private Coroutine m_Coroutine;
     public KnockBackState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller)
     {
     }
@@ -359,6 +360,29 @@ public class KnockBackState : PlayerState
     }
     public override void AddAction()
     {
+        m_PlayerObject.AddKnockBackAction(0.1f);
+        m_PlayerObject.AddKnockBackFunction((float time) =>
+        {
+            if (m_Coroutine != null)
+               m_StateContoller.StopCoroutine(m_Coroutine);
+            m_Coroutine = m_StateContoller.StartCoroutine(KnockBackChange(time, m_PlayerObject));
+        });
+    }
+    private IEnumerator KnockBackChange(float _time, MovingObject _movingObject)
+    {
+        m_StateContoller.ChangeState(E_PLAYABLE_STATE.KNOCKBACK);
+        while (!_movingObject.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
+        {
+            yield return null;
+        }
+        while (_movingObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        {
+            yield return null;
+        }
+        if (_movingObject.m_Stat.CurHP <= _movingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
 
     }
 }

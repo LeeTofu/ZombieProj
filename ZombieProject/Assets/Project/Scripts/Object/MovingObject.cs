@@ -194,7 +194,9 @@ public abstract class MovingObject : MonoBehaviour
     public Coroutine m_BlinkCoroutine;
     public Coroutine m_KnocoBackCoroutine;
     public float m_InjuredHP = 30f;
+    protected Renderer[] m_Renderers;
     public abstract void Initialize(GameObject _model, MoveController _Controller);
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;
@@ -369,7 +371,7 @@ public abstract class MovingObject : MonoBehaviour
 
         m_CurrentEquipedItem = itemObject.GetComponent<ItemObject>();
         m_CurrentEquipedItem.Init(_item);
-
+        m_Renderers = GetComponentsInChildren<Renderer>();
     }
 
     // ============= 버프는 영래 당담 ===================
@@ -485,7 +487,7 @@ public abstract class MovingObject : MonoBehaviour
         m_KnockBackAction += _kockBackAction;
     }
 
-    // 넉백액션함수에 깜빡이는 코루틴이랑 넉백당한 동안 캡슐콜라이더 해제하는 코루틴 추가하는 함수
+    // 넉백액션함수에 깜빡이는 코루틴이랑 넉백당한 동안 isKnockBack을 true로 해주는 코루틴 추가하는 함수
     public void AddKnockBackAction(float _blinkterm)
     {
         AddKnockBackFunction((float time) =>
@@ -498,21 +500,19 @@ public abstract class MovingObject : MonoBehaviour
             m_KnocoBackCoroutine = StartCoroutine(KnockBackRelease(time));
         });
     }
-    //애니메이터있는 게임오브젝트의 액티브를 true,false 줘서 깜빡이게하는 코루틴
+    //Renderer가 있는 게임오브젝트들을 true,false 줘서 깜빡이게하는 코루틴
     public IEnumerator Blink(float _time, float _blinkterm)
     {
-        Renderer[] rs = GetComponentsInChildren<Renderer>();
-        
         for (float i = 0; i < _time; i += _blinkterm)
         {
-            for (int j = 0; j < rs.Length; ++j)
-                rs[j].enabled = !rs[j].enabled;
+            for (int j = 0; j < m_Renderers.Length; ++j)
+                m_Renderers[j].enabled = !m_Renderers[j].enabled;
             yield return new WaitForSeconds(_blinkterm);
         }
-        for (int i = 0; i < rs.Length; ++i)
-            rs[i].enabled = true;
+        for (int i = 0; i < m_Renderers.Length; ++i)
+            m_Renderers[i].enabled = true;
     }
-    //_time 받은 만큼 캡슐콜라이더 enabled false해주는 코루틴
+    //_time 받은 만큼 m_Stated의 isKnockBack을 true해준다
     public IEnumerator KnockBackRelease(float _time)
     {
         m_Stat.isKnockBack = true;

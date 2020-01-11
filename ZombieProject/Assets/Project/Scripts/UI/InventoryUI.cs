@@ -49,7 +49,7 @@ public class InventoryUI: BaseUI
     public void InsertToScroll(ItemSlot _slot, int _c, int _r)
     {
         _slot.transform.SetParent(m_ScrollGrid.transform);
-        _slot.transform.localPosition = 0.5f * new Vector3(ItemSlot.WIDTH + 30, -ItemSlot.HEIGHT, 0) + _c * new Vector3(ItemSlot.WIDTH, 0, 0) - _r * new Vector3(0, ItemSlot.HEIGHT, 0);
+        _slot.transform.localPosition = 0.5f * new Vector3(ItemSlot.WIDTH, -ItemSlot.HEIGHT, 0) + _c * new Vector3(ItemSlot.WIDTH, 0, 0) - _r * new Vector3(0, ItemSlot.HEIGHT, 0);
     }
 
     public override void InitializeUI()
@@ -77,13 +77,23 @@ public class InventoryUI: BaseUI
 
             ItemSlot slot = InvenManager.Instance.GetItemSlot(slotType, equipedItem.m_UniqueItemID);
             slot.EquipItem();
-            // _slot.EquipItem();
+
             _EquipmentSlot.SetItem(equipedItem);
         }
     }
 
     void SortItemslot(MAIN_ITEM_SORT _slot)
     {
+        switch(_slot)
+        {
+            case MAIN_ITEM_SORT.EQUIPMENT:
+                m_SecondEquipButton.gameObject.SetActive(true);
+                break;
+            default:
+                m_SecondEquipButton.gameObject.SetActive(false);
+                break;
+        }
+
         InvenManager.Instance.InitializeInventoryTab(_slot);
     }
 
@@ -105,6 +115,7 @@ public class InventoryUI: BaseUI
     public void ClickDetachButton()
     {
         if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
         if (!InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped) return;
 
         DetachItem(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemSlotType);
@@ -113,21 +124,26 @@ public class InventoryUI: BaseUI
     public void ClickEquipButton()
     {
         if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped &&
+           InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == InvenManager.Instance.GetEquipedItemSlot(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemSlotType)) return;
 
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
-        switch(sort)
+        switch (sort)
         {
             case MAIN_ITEM_SORT.EQUIPMENT:
-                if(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort == ITEM_SORT.ARMOR)
-                    EquipItem(ITEM_SLOT_SORT.FIFTH);
-               else EquipItem(ITEM_SLOT_SORT.MAIN);
-                break;
-            case MAIN_ITEM_SORT.ETC:
-                EquipItem(ITEM_SLOT_SORT.FOURTH);
+                EquipItem(ITEM_SLOT_SORT.MAIN);
                 break;
             case MAIN_ITEM_SORT.QUICK:
-                EquipItem(ITEM_SLOT_SORT.THIRD);
+                if(InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.THIRD) != null)
+                {
+                    EquipItem(ITEM_SLOT_SORT.FOURTH);
+                }
+                else
+                {
+                    EquipItem(ITEM_SLOT_SORT.THIRD);
+                }
                 break;
         }
     }
@@ -135,6 +151,9 @@ public class InventoryUI: BaseUI
     public void ClickSecondaryEquipButton()
     {
         if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped && 
+            InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND)) return;
 
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
@@ -157,6 +176,8 @@ public class InventoryUI: BaseUI
             return;
         }
 
+        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_isEquipmentItemSlot) return;
+
         InvenManager.Instance.EquipItem(
           InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_UniqueItemID,
           _slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
@@ -178,9 +199,8 @@ public class InventoryUI: BaseUI
         }
 
         Debug.Log("들어가기 시작");
-       //  m_ItemEquipmentSlot[(int)_slotType].SetItem(null);
-        InvenManager.Instance.DetachItem(_slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
 
+        InvenManager.Instance.DetachItem(_slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
         SetEuqipmentItemSlot(_slotType, m_ItemEquipmentSlot[(int)(_slotType) - 1]);
     }
 
@@ -191,6 +211,9 @@ public class InventoryUI: BaseUI
 
     public void OpenItemInfoUI(ItemSlot _slot)
     {
+        if (_slot == null) return;
+        if (_slot.m_Item == null) return;
+
        MAIN_ITEM_SORT mainSort = InvenManager.Instance.ConvertSortToMainSort(_slot.m_Item.m_ItemStat.m_Sort);
 
         if (mainSort != MAIN_ITEM_SORT.EQUIPMENT)

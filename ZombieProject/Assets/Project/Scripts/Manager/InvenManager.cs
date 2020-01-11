@@ -23,8 +23,8 @@ public class InvenManager : Singleton<InvenManager>
 
     public const int MAX_INVEN_SLOT = 30;
 
-    public const int MAX_INVEN_ROW = 15;
-    public const int MAX_INVEN_COL = 2;
+    public const int MAX_INVEN_ROW = 10;
+    public const int MAX_INVEN_COL = 3;
 
 
     public override bool Initialize()
@@ -251,10 +251,10 @@ public class InvenManager : Singleton<InvenManager>
                 sort = MAIN_ITEM_SORT.QUICK;
                 break;
             case ITEM_SLOT_SORT.FOURTH:
-                sort = MAIN_ITEM_SORT.ETC;
+                sort = MAIN_ITEM_SORT.QUICK;
                 break;
             case ITEM_SLOT_SORT.FIFTH:
-                sort = MAIN_ITEM_SORT.EQUIPMENT;
+                sort = MAIN_ITEM_SORT.QUICK;
                 break;
         }
 
@@ -386,7 +386,9 @@ public class InvenManager : Singleton<InvenManager>
 
     public bool EquipItem(int _itemUniqueID, ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
-      
+        // 장착 슬롯의 아이템 슬롯으로 장착은 못해요.
+        if (_EquipmentSlot != null && _EquipmentSlot.m_isEquipmentItemSlot) return false;
+
         Item item = GetItemFromInven(_itemUniqueID);
 
         if (item == null)
@@ -429,8 +431,6 @@ public class InvenManager : Singleton<InvenManager>
 
     public Item DetachItem(ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
-      //  if (_slotSort == ITEM_SLOT_SORT.NONE || _slotSort == ITEM_SLOT_SORT.END) return null;
-
         Item preEquipItem = null;
 
         Debug.Log("여기는 와애ㅑ지");

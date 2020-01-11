@@ -47,8 +47,7 @@ public class Bullet : MovingObject
         }
         else if (_object.tag == "Wall")
         {
-            Debug.LogError("Wall Check");
-            //EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
             pushToMemory((int)m_BulletType);
         }
     }

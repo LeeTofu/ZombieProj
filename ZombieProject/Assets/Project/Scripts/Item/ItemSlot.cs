@@ -14,6 +14,7 @@ public class ItemSlot : MonoBehaviour
 
     //[SerializeField]
    // Image EquipItemItmage;
+    public bool m_isEquipmentItemSlot;
 
     [SerializeField]
     TextMeshProUGUI m_Equiped;
@@ -53,16 +54,22 @@ public class ItemSlot : MonoBehaviour
                 m_IconImage.sprite = sprite;
             }
 
-            m_ItemName.text = m_Item.m_ItemStat.m_ItemName;
-            m_ItemLv.text = "Lv " + m_Item.m_Lv.ToString();
+            if(m_ItemName != null)
+                m_ItemName.text = m_Item.m_ItemStat.m_ItemName;
+
+            if(m_ItemLv != null)
+                m_ItemLv.text = "Lv " + m_Item.m_Lv.ToString();
         }
         else
         {
             if (m_IconImage)
                 m_IconImage.sprite = m_NullImage;
 
-            m_ItemName.text = "";
-            m_ItemLv.text = "";
+            if (m_ItemName != null)
+                m_ItemName.text = "";
+
+            if (m_ItemLv != null)
+                m_ItemLv.text = "";
 
             m_Item = null;
         }
@@ -91,23 +98,21 @@ public class ItemSlot : MonoBehaviour
     public void EquipItem()
     {
         if (m_Item == null) return;
-       // if (m_Item.m_isEquiped) return;
 
         m_IconImage.color = Color.gray;
-        m_Equiped.gameObject.SetActive(true);
 
-        Debug.Log("들옴~~~");
-      //  InvenManager.Instance.EquipItem(m_Item.m_UniqueItemID, ITEM_SLOT_SORT.MAIN);
+        if(m_Equiped != null)
+            m_Equiped.gameObject.SetActive(true);
     }
 
     public void DetachItem()
     {
         if (m_Item == null) return;
-        //if (!m_Item.m_isEquiped) return;
 
         m_IconImage.color = Color.white;
-        m_Equiped.gameObject.SetActive(false);
-      //  InvenManager.Instance.DetachItem( m_Item.m_ItemSlotType);
+
+        if (m_Equiped != null)
+            m_Equiped.gameObject.SetActive(false);
     }
 
 

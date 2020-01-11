@@ -158,18 +158,52 @@ public class PlayerManager : Singleton<PlayerManager>
         return null;
     }
 
+    public MovingObject GetNearestZombie(Vector3 _playerPos)
+    {
+        MovingObject zombie = EnemyManager.Instance.GetNearestZombie(_playerPos, 1.0f);
+
+        if (zombie == null)
+        {
+            return null;
+        }
+        else
+        {
+            return zombie;
+        }
+    }
+
+    public void PlayerChangeWeapon()
+    {
+        Item item = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
+        if(item != null)
+        {
+            m_Player.SetWeapon(item);
+        }
+    }
 
     public void PlayerAttack()
     {
-        Vector3 ScreenToWorldPos;
-        MovingObject enemy = GetTouchNearestEnemy(Input.mousePosition, out ScreenToWorldPos);
-
-        ScreenToWorldPos.y = m_Player.transform.position.y;
-
-        Debug.Log("들어온다 브!!");
-
         if (m_Player.m_CurrentEquipedItem != null)
             m_Player.m_CurrentEquipedItem.ItemAction();
+    }
+
+    public void PlayerUseItem(ITEM_SLOT_SORT _type)
+    {
+        if (_type == ITEM_SLOT_SORT.MAIN || _type == ITEM_SLOT_SORT.SECOND) return;
+
+        Item item = InvenManager.Instance.GetEquipedItemSlot(_type);
+
+        if (item == null) return;
+
+        switch(item.m_ItemStat.m_Sort)
+        {
+            case ITEM_SORT.HEALTH_PACK:
+                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
+                break;
+            case ITEM_SORT.BUFF:
+                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
+                break;
+        }
     }
 
 

@@ -26,6 +26,7 @@ public enum ITEM_SORT
     SHOT_GUN,// Equipment
     ARMOR, // Equipment
 
+    BUFF,// Quick
     HEALTH_PACK, // Quick
     AMMO,// Quick
     GRENADE,// Quick

@@ -50,6 +50,13 @@ public class PlayerObject : MovingObject
         }
     }
 
+    public void ChangeState(E_PLAYABLE_STATE _state)
+    {
+        if(m_StateController != null)
+        m_StateController.ChangeState(_state);
+    }
+
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack)

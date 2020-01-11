@@ -90,7 +90,6 @@ public class Bullet : MovingObject
 
         m_isArc = false;
 
-       Invoke("pushToMemory", 1.5f);
     }
 
     // Update is called once per frame

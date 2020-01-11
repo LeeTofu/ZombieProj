@@ -386,3 +386,49 @@ public class KnockBackState : PlayerState
 
     }
 }
+
+
+public class DrinkState : PlayerState
+{
+    private Coroutine m_Coroutine;
+
+    private float m_Time = 0.0f;
+
+    public DrinkState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller)
+    {
+    }
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("Drink", 0.3f, i);
+
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, m_PlayerObject.transform.position, Quaternion.identity, true, 1.0f);
+        m_Time = 0.0f;
+    }
+    public override void End()
+    {
+        m_Time = 0.0f;
+    }
+
+    public override void Update()
+    {
+        if(m_Time < 1.0f)
+        {
+            m_Time += Time.deltaTime;
+            return;
+        }
+
+        if (m_PlayerObject.m_Stat != null)
+            m_PlayerObject.AddBuff(new Blessing(m_PlayerObject.m_Stat));
+
+        if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+    }
+    public override void AddAction()
+    {
+
+    }
+
+}

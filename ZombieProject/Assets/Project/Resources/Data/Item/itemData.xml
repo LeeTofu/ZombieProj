@@ -13,7 +13,11 @@
 		<HPRegenerate>0</HPRegenerate>
 		<Range>5</Range>
 		<isAccumulate>FALSE</isAccumulate>
-		<AttackSpeed>5</AttackSpeed>
+		<AttackSpeed>1</AttackSpeed>
+    <BulletSpeed>60</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <CoolTime>0</CoolTime>
 	</text>
 	<text>
 		<ItemID>2</ItemID>
@@ -28,7 +32,11 @@
 		<HPRegenerate>0</HPRegenerate>
 		<Range>1</Range>
 		<isAccumulate>FALSE</isAccumulate>
-		<AttackSpeed>10</AttackSpeed>
+		<AttackSpeed>1</AttackSpeed>
+    <BulletSpeed>60</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <CoolTime>0</CoolTime>
 	</text>
 	<text>
 		<ItemID>3</ItemID>
@@ -43,6 +51,29 @@
 		<HPRegenerate>0</HPRegenerate>
 		<Range>1</Range>
 		<isAccumulate>false</isAccumulate>
-		<AttackSpeed>12</AttackSpeed>
+		<AttackSpeed>1</AttackSpeed>
+    <BulletSpeed>60</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <CoolTime>0</CoolTime>
 	</text>
+  <text>
+    <ItemID>4</ItemID>
+    <ItemName>HealthPack</ItemName>
+    <IconName>Health_icon_05</IconName>
+    <ModelName>HealthPack_01</ModelName>
+    <ItemSort>HEALTH_PACK</ItemSort>
+    <HP>0</HP>
+    <Attack>1</Attack>
+    <Armor>0</Armor>
+    <MovePoint>2</MovePoint>
+    <HPRegenerate>20</HPRegenerate>
+    <Range>1</Range>
+    <isAccumulate>false</isAccumulate>
+    <AttackSpeed>2</AttackSpeed>
+    <BulletSpeed>50</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>true</isHaveCoolTime>
+    <CoolTime>10</CoolTime>
+  </text>
 </Root>

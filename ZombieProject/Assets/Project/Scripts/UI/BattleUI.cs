@@ -70,26 +70,12 @@ public class BattleUI : BaseUI
             }
         }
 
-        AddAction();
     }
 
     public override void DeleteUI()
     {
 
     }
-
-    public void AddAction()
-    {
-        GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(
-            BUTTON_ACTION.PRESS_DOWN, () =>
-            {
-                PlayerManager.Instance.PlayerAttack();
-            }
-            );
-    }
-
-
-
 
     public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot )
     {

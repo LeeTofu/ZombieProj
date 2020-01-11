@@ -16,4 +16,20 @@
 		<SlotSort>MAIN</SlotSort>
 		<CurrentEXP>0</CurrentEXP>
 	</text>
+  <text>
+    <uniqueID>3434</uniqueID>
+    <ItemID>4</ItemID>
+    <isEquiped>true</isEquiped>
+    <Level>1</Level>
+    <SlotSort>THIRD</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>1111</uniqueID>
+    <ItemID>4</ItemID>
+    <isEquiped>true</isEquiped>
+    <Level>1</Level>
+    <SlotSort>FOURTH</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
 </Root>

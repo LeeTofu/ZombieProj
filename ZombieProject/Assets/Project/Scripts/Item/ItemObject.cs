@@ -53,14 +53,30 @@ public class ItemObject : MonoBehaviour
 
     public void ItemAction()
     {
-
-        Debug.Log("들어온다 브!!2");
         PlaySound();
 
-        BulletManager.Instance.FireBullet(
-            m_FireTransform.position,
-            transform.forward,
-            m_Item.m_ItemStat);
+        PlayerManager.Instance.GetNearestZombie(transform.position);
+
+        switch(ItemManager.Instance.GetItemActionType(m_Item))
+        {
+            case ITEM_EVENT_TYPE.FIRE_BULLET:
+                BulletManager.Instance.FireBullet(
+                 m_FireTransform.position,
+                transform.forward,
+                m_Item.m_ItemStat);
+                break;
+            case ITEM_EVENT_TYPE.THROW_ARK:
+
+                break;
+            case ITEM_EVENT_TYPE.MELEE:
+
+                break;
+            case ITEM_EVENT_TYPE.PIERCE:
+
+                break;
+
+
+        }
     }
 
 

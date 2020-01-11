@@ -41,6 +41,8 @@ public class BattleItemSlotButton : UIPressSubject
             m_ItemButtonController = gameObject.AddComponent<ItemActionController>();
 
         m_ItemButtonController.Initialized(_item, this);
+
+        RegisterEvent(BUTTON_ACTION.PRESS_DOWN , PlayItemAction);
     }
 
 
@@ -68,10 +70,36 @@ public class BattleItemSlotButton : UIPressSubject
 
     bool CheckCanActive()
     {
-        if (InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
+        if (!InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
 
         return true;
     }
+
+    void PlayItemAction()
+    {
+        if(CheckCanActive())
+        {
+            switch(m_slotType)
+            {
+                case ITEM_SLOT_SORT.MAIN:
+                    PlayerManager.Instance.PlayerAttack();
+                    break;
+                case ITEM_SLOT_SORT.SECOND:
+                    PlayerManager.Instance.PlayerChangeWeapon();
+                    break;
+                case ITEM_SLOT_SORT.END:
+                case ITEM_SLOT_SORT.NONE:
+                    { }
+                    break;
+                default:
+                    PlayerManager.Instance.PlayerUseItem(m_slotType);
+                    break;
+            }
+        }
+    }
+
+
+
 
     public override void OnPointerDown(PointerEventData eventData)
     {

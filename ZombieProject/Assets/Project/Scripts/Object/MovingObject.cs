@@ -193,7 +193,10 @@ public abstract class MovingObject : MonoBehaviour
 
     public Coroutine m_BlinkCoroutine;
     public Coroutine m_KnocoBackCoroutine;
-    public float m_InjuredHP = 30f;
+
+    [HideInInspector]
+    public const float m_InjuredHP = 30f;
+
     protected Renderer[] m_Renderers;
     public abstract void Initialize(GameObject _model, MoveController _Controller);
 

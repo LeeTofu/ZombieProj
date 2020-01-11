@@ -51,6 +51,27 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
+    public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance)
+    {
+        float maxLen = 1000000.0f;
+        List<MovingObject> target = new List<MovingObject>();
+
+        foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
+        {
+            if (zombie.m_Stat.isDead) continue;
+            if (!zombie.gameObject.activeSelf) continue;
+
+            float len = (zombie.transform.position - _pos).magnitude;
+
+            if (len < _maxDistance)
+            {
+                target.Add(zombie);
+            }
+        }
+
+        return target;
+    }
+
 
     // 페이즈 발생 시키는 함수.
     public void OccurZombiePhase(int _phase)

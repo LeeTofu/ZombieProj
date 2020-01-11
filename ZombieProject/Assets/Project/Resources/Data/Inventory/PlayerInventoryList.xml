@@ -13,20 +13,20 @@
 		<ItemID>1</ItemID>
 		<isEquiped>true</isEquiped>
 		<Level>2</Level>
-		<SlotSort>MAIN</SlotSort>
+		<SlotSort>SECOND</SlotSort>
 		<CurrentEXP>0</CurrentEXP>
 	</text>
   <text>
     <uniqueID>3434</uniqueID>
-    <ItemID>4</ItemID>
+    <ItemID>5</ItemID>
     <isEquiped>true</isEquiped>
     <Level>1</Level>
-    <SlotSort>THIRD</SlotSort>
+    <SlotSort>MAIN</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
   <text>
     <uniqueID>1111</uniqueID>
-    <ItemID>4</ItemID>
+    <ItemID>6</ItemID>
     <isEquiped>true</isEquiped>
     <Level>1</Level>
     <SlotSort>FOURTH</SlotSort>

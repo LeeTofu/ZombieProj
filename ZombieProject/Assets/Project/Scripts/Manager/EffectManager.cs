@@ -5,18 +5,21 @@ using UnityEngine;
 
 public enum PARTICLE_TYPE
 {
-    DUST,
+    DUST, // 작은 먼지
 
-    EXPLOSION_SMALL,
+    EXPLOSION_SMALL, // 폭발 작은거
     EXPLOSION_MEDIUM,
     EXPLOSION_HUGE,
+    BULLET_EXPLOSION, // 총알이 뭔가에 부딫혀서 폭발
 
-    BLOOD,
+    BLOOD, // 피
 
-    BUFF,
-    DEBUFF,
+    BUFF, //버프 이펙트
+    DEBUFF, // 디버프 이펙트
 
-    DROP_ITEM,
+    DROP_ITEM, // 드랍 아이템 표시
+
+    MUZZLE, // 총알 발사
 
     NONE
 }
@@ -34,7 +37,7 @@ public class EffectManager : Singleton<EffectManager>
          m_EffectFactory = gameObject.AddComponent<ObjectFactory>();
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Blood"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BLOOD, 15);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BLOOD, 10);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BuffEffect"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BUFF, 5);
@@ -42,8 +45,17 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/DropItemEffect"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DROP_ITEM, 15);
 
-        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectMod/Dust"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 10);
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Dust"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletMuzzle"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletExplosion"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/ExplosionMedium"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 5);
 
         return true;
     }

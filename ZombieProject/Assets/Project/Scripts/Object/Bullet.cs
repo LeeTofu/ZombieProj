@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MovingObject
+public abstract class Bullet : MovingObject
 {
     [SerializeField]
-    private ParticleSystem m_HitEffect;
+    ParticleSystem m_TrailEffect;
 
     public Vector3 m_CurVelocity { get; private set; }
     public Vector3 m_CurDirection { get; private set; }
@@ -19,53 +19,77 @@ public class Bullet : MovingObject
     GameObject m_PointLight;
 
     public AudioClip[] m_GunSound;
+    public BULLET_TYPE m_BulletType;
 
-    BULLET_TYPE m_BulletType;
-
-
-    public bool m_isArc { get; private set; }
+    protected float m_currentMoveDistance = 0.0f;
+    protected float m_currentSpeed = 0.0f;
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         AddCollisionCondtion(CollisionCondition);
         AddCollisionFunction(CollisionEvent);
 
-
     }
 
-    void CollisionEvent(GameObject _object)
+    protected void SplashAttack(Vector3 _pos)
     {
-        if (_object.tag == "Zombie")
+        var zombies = EnemyManager.Instance.GetRangeZombies(_pos, 2.0f);
+
+        foreach (MovingObject zombie in zombies)
         {
-            MovingObject zombie = _object.GetComponent<MovingObject>();
-
-            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
-
-            zombie.HitDamage(100, true, 1.0f);
-
-            pushToMemory((int)m_BulletType);
-        }
-        else if (_object.tag == "Wall")
-        {
-            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
-            pushToMemory((int)m_BulletType);
+            zombie.HitDamage(m_Stat.Attack, true, 1.0f);
         }
     }
 
-    bool CollisionCondition(GameObject _defender)
+    protected abstract void BulletMove();
+
+    protected abstract void CollisionEvent(GameObject _object);
+
+    protected bool CollisionCondition(GameObject _defender)
     {
         if (_defender.tag == "Zombie" || _defender.tag == "Wall")  return true;
         
         return false;
     }
 
-    public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)
+    public void FireBullet(Vector3 _pos, Vector3 _dir, STAT _stat )
     {
         transform.position = _pos;
-         m_CurDirection = _dir;
+        transform.forward = _dir;
+
+        if(m_TrailEffect != null)
+        {
+            m_TrailEffect = transform.GetComponentInChildren<ParticleSystem>();
+            m_TrailEffect.Play();
+        }
+
+        m_currentSpeed = 0.0f;
+        m_currentMoveDistance = 0.0f;
+
+        m_CurDirection = _dir;
         m_isFire = true;
 
-        SetStat(new STAT
+        SetStat(_stat);
+
+        if (m_TrailRenderer == null)
+            m_TrailRenderer = GetComponent<TrailRenderer>();
+
+        if (m_TrailRenderer)
+        {
+            m_TrailRenderer.enabled = true;
+            m_TrailRenderer.startWidth = 0.18f;
+            m_TrailRenderer.endWidth = 0.05f;
+            m_TrailRenderer.time = 0.25f;
+        }
+
+        m_PointLight.SetActive(true);
+
+    }
+
+
+    public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)
+    {
+        FireBullet( _pos,  _dir, new STAT
         {
             MaxHP = 100f,
             CurHP = 100f,
@@ -73,33 +97,11 @@ public class Bullet : MovingObject
             MoveSpeed = _itemStat.m_BulletSpeed,
             Attack = _itemStat.m_AttackPoint,
             Range = _itemStat.m_Range,
-        }) ;
-
-        m_BulletType = BulletManager.Instance.GetBulletTypeFromItemStat(_itemStat);
-
-        if (m_TrailRenderer == null)
-            m_TrailRenderer = GetComponent<TrailRenderer>();
-
-        m_TrailRenderer.enabled = true;
-        m_TrailRenderer.startWidth = 0.18f;
-        m_TrailRenderer.endWidth = 0.05f;
-        m_TrailRenderer.time = 0.25f;
-
-        m_PointLight.SetActive(true);
-
-        m_isArc = false;
-
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-        transform.Translate(m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
+        BulletMove();
     }
-
-    private void OnDisable()
-    {
-        
-    }
-
 }

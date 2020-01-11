@@ -48,6 +48,7 @@ public class ItemObject : MonoBehaviour
     {
         if (m_audio)
             m_audio.PlayOneShot(m_auidoClip[Random.Range(0, m_auidoClip.Length)]);
+
         else Debug.LogError("무기에 오디오 없습니다.");
     }
 
@@ -55,14 +56,15 @@ public class ItemObject : MonoBehaviour
     {
         PlaySound();
 
-        PlayerManager.Instance.GetNearestZombie(transform.position);
-
         switch(ItemManager.Instance.GetItemActionType(m_Item))
         {
             case ITEM_EVENT_TYPE.FIRE_BULLET:
+
+
+
                 BulletManager.Instance.FireBullet(
                  m_FireTransform.position,
-                transform.forward,
+                new Vector3(m_FireTransform.transform.forward.x, 0 , m_FireTransform.transform.forward.z),
                 m_Item.m_ItemStat);
                 break;
             case ITEM_EVENT_TYPE.THROW_ARK:

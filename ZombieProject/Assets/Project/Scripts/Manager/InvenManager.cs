@@ -387,7 +387,7 @@ public class InvenManager : Singleton<InvenManager>
     public bool EquipItem(int _itemUniqueID, ITEM_SLOT_SORT _slotSort, ItemSlot _EquipmentSlot)
     {
         // 장착 슬롯의 아이템 슬롯으로 장착은 못해요.
-        if (_EquipmentSlot != null && _EquipmentSlot.m_isEquipmentItemSlot) return false;
+    //    if (_EquipmentSlot != null && _EquipmentSlot.m_isEquipmentItemSlot) return false;
 
         Item item = GetItemFromInven(_itemUniqueID);
 

@@ -9,7 +9,6 @@ public class InventoryUI: BaseUI
     [SerializeField]
     Button m_SecondEquipButton;
 
-
     [SerializeField]
     ScrollRect m_ScrollRect;
 
@@ -33,8 +32,6 @@ public class InventoryUI: BaseUI
 
     [SerializeField]
     TextMeshProUGUI PlayerName;
-
-    //  public ItemSlot m_SelectedItemSlot { private set; get; }
 
     private void Awake()
     {
@@ -125,9 +122,7 @@ public class InventoryUI: BaseUI
     {
         if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
         if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped &&
-           InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == InvenManager.Instance.GetEquipedItemSlot(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemSlotType)) return;
-
+      
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
         switch (sort)
@@ -152,8 +147,6 @@ public class InventoryUI: BaseUI
     {
         if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
         if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped && 
-            InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND)) return;
 
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
@@ -161,7 +154,6 @@ public class InventoryUI: BaseUI
 
         EquipItem(ITEM_SLOT_SORT.SECOND);
     }
-
 
     private void EquipItem(ITEM_SLOT_SORT _slotType)
     {
@@ -176,13 +168,11 @@ public class InventoryUI: BaseUI
             return;
         }
 
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_isEquipmentItemSlot) return;
+      //  if (InvenManager.Instance.m_Main.m_SelectedSlot.m_isEquipmentItemSlot) return;
 
         InvenManager.Instance.EquipItem(
           InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_UniqueItemID,
           _slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
-
-       // SetEuqipmentItemSlot(_slotType, m_ItemEquipmentSlot[(int)(_slotType) - 1]);
     }
 
     public void DetachItem(ITEM_SLOT_SORT _slotType)

@@ -26,9 +26,13 @@ public class BulletManager : Singleton<BulletManager>
         if (m_BulletFactory == null)
         {
             m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
-            m_BulletFactory.Initialize("Prefabs/Bullet/BulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models"));
 
+            m_BulletFactory.Initialize("Prefabs/Bullet/BulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.NORMAL_BULLET, 5);
+
+            m_BulletFactory.Initialize("Prefabs/Bullet/BazukaBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/Bazuka"));
+            m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.BAZUKA, 5);
+
         }
 
         return true;
@@ -65,6 +69,19 @@ public class BulletManager : Singleton<BulletManager>
         }
 
         bulletObject.FireBullet(_pos, _dir, _itemStat);
+    }
+
+    public void FireBullet(Vector3 _pos, Vector3 _dir, BULLET_TYPE _bulletType, STAT _stat)
+    {
+        Bullet bulletObject = m_BulletFactory.PopObject(_pos, Quaternion.identity, (int)_bulletType) as Bullet;
+
+        if (bulletObject == null)
+        {
+            Debug.LogError("Bullet 없슈");
+            return;
+        }
+
+        bulletObject.FireBullet(_pos, _dir, _stat);
     }
 
 

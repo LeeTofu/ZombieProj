@@ -53,7 +53,7 @@ public class ItemActionController : MonoBehaviour
         m_CurrentMaxCoolTime = m_item.m_ItemStat.m_CoolTime;
         m_OriginalMaxCoolTime =  m_item.m_ItemStat.m_CoolTime;
 
-        m_CurrentAttackSpeed = 0.5f;
+        m_CurrentAttackSpeed = m_item.m_ItemStat.m_AttackSpeed;
         m_AttackSpeedTime = 0.0f;
         m_OriginalAttackSpeed = 0.5f;
 
@@ -131,11 +131,11 @@ public class ItemActionController : MonoBehaviour
         return true;
     }
 
-    void AfterSkillActive()
-    {
-        m_CurrentCoolTime = m_CurrentMaxCoolTime;
-        m_AttackSpeedTime = m_CurrentAttackSpeed;
-    }
+    //void AfterSkillActive()
+    //{
+    //    m_CurrentCoolTime = m_CurrentMaxCoolTime;
+    //    m_AttackSpeedTime = 0;
+    //}
 
     // 곱연산임.
     // ==========================================
@@ -169,12 +169,12 @@ public class ItemActionController : MonoBehaviour
         m_isDownHover = true;
         if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
         {
-            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
-                return false;
-            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
-                return false;
+            return false;
         }
         if (!CheckCanActionPlay()) return false;
+
+        if(m_item.m_ItemStat.m_isHaveCoolTime)
+            m_CurrentCoolTime = m_CurrentMaxCoolTime;
 
         return true;
         
@@ -186,10 +186,7 @@ public class ItemActionController : MonoBehaviour
         if (!m_isDownHover) return false;
         if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
         {
-            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
-                return false;
-            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
-                return false;
+            return false;
         }
         if (!CheckCanActionPlay()) return false;
 
@@ -209,8 +206,6 @@ public class ItemActionController : MonoBehaviour
                 return false;
         }
         m_isDownHover = false;
-
-        AfterSkillActive();
 
         return true;
     }

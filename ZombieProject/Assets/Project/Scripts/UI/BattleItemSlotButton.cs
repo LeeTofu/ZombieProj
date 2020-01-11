@@ -42,7 +42,8 @@ public class BattleItemSlotButton : UIPressSubject
 
         m_ItemButtonController.Initialized(_item, this);
 
-        RegisterEvent(BUTTON_ACTION.PRESS_DOWN , PlayItemAction);
+        RegisterEvent(BUTTON_ACTION.PRESS_ENTER, PressEnterItemAction);
+        RegisterEvent(BUTTON_ACTION.PRESS_DOWN, PressItemAction);
     }
 
 
@@ -75,21 +76,14 @@ public class BattleItemSlotButton : UIPressSubject
         return true;
     }
 
-    void PlayItemAction()
+    void PressEnterItemAction()
     {
         if(CheckCanActive())
         {
             switch(m_slotType)
             {
-                case ITEM_SLOT_SORT.MAIN:
-                    PlayerManager.Instance.PlayerAttack();
-                    break;
                 case ITEM_SLOT_SORT.SECOND:
                     PlayerManager.Instance.PlayerChangeWeapon();
-                    break;
-                case ITEM_SLOT_SORT.END:
-                case ITEM_SLOT_SORT.NONE:
-                    { }
                     break;
                 default:
                     PlayerManager.Instance.PlayerUseItem(m_slotType);
@@ -98,7 +92,18 @@ public class BattleItemSlotButton : UIPressSubject
         }
     }
 
-
+    void PressItemAction()
+    {
+        if (CheckCanActive())
+        {
+            switch (m_slotType)
+            {
+                case ITEM_SLOT_SORT.MAIN:
+                    PlayerManager.Instance.PlayerAttack();
+                    break;
+            }
+        }
+    }
 
 
     public override void OnPointerDown(PointerEventData eventData)

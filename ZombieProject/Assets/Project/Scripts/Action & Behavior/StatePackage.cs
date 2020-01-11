@@ -70,7 +70,7 @@ public class MovingAttackState : PlayerState
     {
         // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. , Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
         // 무빙샷 때문에 이렇게 만들음.
-        if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
         {
             m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
             m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
@@ -101,7 +101,7 @@ public class MovingAttackState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
             {
-                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
                 {
                     m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
                 }
@@ -124,7 +124,7 @@ public class MovingAttackState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
             {
-                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
                 {
                     m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
                     m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
@@ -150,7 +150,7 @@ public class AttackState : PlayerState
     {
         // Layer1 은 오직 상체를 위한 애니메이션을 담당합니다. , Layer 0은 전체적인 상하체 기존 쓰던 애니메이션.
         // 무빙샷 때문에 이렇게 만들음.
-        if(m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+        if(m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
         {
             m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
             m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
@@ -180,7 +180,7 @@ public class AttackState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
             {
-                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
                 {
                     m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
                 }
@@ -203,7 +203,7 @@ public class AttackState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
             {
-                if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
                 {
                     m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
                     m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
@@ -379,7 +379,7 @@ public class KnockBackState : PlayerState
         {
             yield return null;
         }
-        if (_movingObject.m_Stat.CurHP <= _movingObject.m_InjuredHP)
+        if (_movingObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
@@ -421,7 +421,7 @@ public class DrinkState : PlayerState
         if (m_PlayerObject.m_Stat != null)
             m_PlayerObject.AddBuff(new Blessing(m_PlayerObject.m_Stat));
 
-        if (m_PlayerObject.m_Stat.CurHP <= m_PlayerObject.m_InjuredHP)
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);

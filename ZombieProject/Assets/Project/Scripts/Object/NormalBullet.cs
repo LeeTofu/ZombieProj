@@ -6,12 +6,16 @@ public class NormalBullet : Bullet
 {
     public override void InGame_Initialize()
     {
-        
+        if (m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         base.Initialize(_model, _Controller);
+
+        if (m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
     }
 
     protected override void BulletMove()
@@ -19,7 +23,7 @@ public class NormalBullet : Bullet
         transform.position += (m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
     }
 
-    protected override void CollisionEvent(GameObject _object)
+    public override void CollisionEvent(GameObject _object)
     {
         if (_object.tag == "Zombie")
         {

@@ -149,16 +149,12 @@ public class STAT
 }
 
 
-public delegate bool CheckCollisionCondition(GameObject _collider);
 
 public abstract class MovingObject : MonoBehaviour
 {
-    protected AimIK m_AimIK;
-
     private ObjectFactory m_Factory;
     protected Rigidbody m_RigidBody;
-    protected CapsuleCollider m_CapsuleCollider;
-    
+
     protected GameObject m_Model;
 
     public STAT m_Stat { protected set; get; }
@@ -178,17 +174,12 @@ public abstract class MovingObject : MonoBehaviour
     // 왼팔
     protected Transform m_PropL;
 
-    System.Action<GameObject> m_CollisionAction;
-    System.Action<GameObject> m_CollisionExitAction;
-
     protected System.Action<float> m_KnockBackAction;
     // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
     protected System.Action m_DeadActionCallBackFunc;
 
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
-
-    CheckCollisionCondition m_CheckCollisionCondition;
 
     public Coroutine m_BlinkCoroutine;
     public Coroutine m_KnocoBackCoroutine;
@@ -199,6 +190,9 @@ public abstract class MovingObject : MonoBehaviour
     protected Renderer[] m_Renderers;
     public abstract void Initialize(GameObject _model, MoveController _Controller);
     public abstract void InGame_Initialize();
+
+    // 충돌 액션이나 조건 처리하는 컴포넌트
+    protected CollisionAction m_CollisionAction;
 
     public virtual void SetStat(STAT _stat)
     {
@@ -253,81 +247,9 @@ public abstract class MovingObject : MonoBehaviour
         if(m_RigidBody == null)
             m_RigidBody = gameObject.AddComponent<Rigidbody>();
 
-        m_CapsuleCollider = gameObject.GetComponent<CapsuleCollider>();
-        if (m_CapsuleCollider == null)
-            m_CapsuleCollider = gameObject.AddComponent<CapsuleCollider>();
-
-
         SetRigidBodyState(false);
         StopRigidbody();
 
-        m_CollisionAction += (GameObject obj) => { };
-
-    }
-
-    // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
-    // 충돌 이벤트에 함수 등록해서 쓰는거임.
-
-        // 충돌에 대한 조건을 등록할 때 쓰는 함수입니다.
-        // 여기에 bool 반환하는 조건 함수를 만드셔서 등록하세요.
-        // 여러개 함수를 넣으면 그 조건 다 따져요. And 연산.
-    public void AddCollisionCondtion(CheckCollisionCondition _collisionCondition)
-    {
-        m_CheckCollisionCondition += _collisionCondition;
-    }
-
-    // 충돌 후에 일어날 이벤트에 대한 함수를 등록하는 함수입니다.
-    // 여기에 void 형 함수에 매개변수는 GameObject ( 충돌한 오브젝트 )한 함수를 만들어서 쓰세요.
-    // 매개변수가 더 필요하다면 따로 하나 이런 함수 만드셈.
-    public void AddCollisionFunction(System.Action<GameObject> _collisionAction)
-    {
-        m_CollisionAction += _collisionAction;
-    }
-
-
-    public void AddCollisionExitFunction(System.Action<GameObject> _collisionExitAction)
-    {
-        if (m_CollisionExitAction == null)
-        {
-            m_CollisionExitAction = _collisionExitAction;
-            return;
-        }
-
-        m_CollisionExitAction += _collisionExitAction;
-    }
-
-    protected void OnCollisionEnter(Collision collision)
-    {
-        if (m_CollisionAction == null) return;
-
-        if (m_CheckCollisionCondition == null)
-            m_CollisionAction(collision.gameObject);
-        else if (m_CheckCollisionCondition(collision.gameObject))
-            m_CollisionAction(collision.gameObject);
-    }
-
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (m_CollisionAction == null) return;
-
-        if (m_CheckCollisionCondition == null)
-            m_CollisionAction(other.gameObject);
-        else if (m_CheckCollisionCondition(other.gameObject))
-            m_CollisionAction(other.gameObject);
-    }
-
-    protected void OnTriggerExit(Collider other)
-    {
-        if (m_CollisionExitAction == null) return;
-
-        m_CollisionExitAction(other.gameObject);
-    }
-
-    protected void OnCollisionExit(Collision collision)
-    {
-        if (m_CollisionExitAction == null) return;
-
-        m_CollisionExitAction(collision.gameObject);
     }
     // --------------------------------------------------------------------
     // 내 앞에 벽이 있나? 
@@ -465,14 +387,15 @@ public abstract class MovingObject : MonoBehaviour
     }
 
 
-    // 매 업데이트마다 죽음을 확인하다.
+    // 죽음시 처리할 액션이다
     public void DeadAction()
     {
         if (m_Stat == null) return;
 
         if(m_Stat.isDead)
         {
-            m_CapsuleCollider.enabled = false;
+
+            m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
             m_DeadActionCallBackFunc?.Invoke();

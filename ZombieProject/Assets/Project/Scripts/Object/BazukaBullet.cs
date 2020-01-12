@@ -12,6 +12,9 @@ public class BazukaBullet : Bullet
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         base.Initialize(_model, _Controller);
+
+        if (m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
     }
 
     protected override void BulletMove()
@@ -25,7 +28,7 @@ public class BazukaBullet : Bullet
     }
 
 
-    protected override void CollisionEvent(GameObject _object)
+    public override void CollisionEvent(GameObject _object)
     {
         m_currentSpeed = 0.0f;
 

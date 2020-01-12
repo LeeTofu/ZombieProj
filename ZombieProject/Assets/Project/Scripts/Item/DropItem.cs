@@ -33,32 +33,32 @@ public class DropItem : MovingObject
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-        AddCollisionCondtion(CollisionCondition);
-        AddCollisionFunction(CollisionEvent);
-
         m_audioSource = GetComponent<AudioSource>();
+
+        if(m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<DropItemCollisionAction>();
     }
 
-    void CollisionEvent(GameObject _object)
+    public void ApplyBuff(MovingObject _object)
     {
-        MovingObject player = _object.GetComponent<MovingObject>();
+        if (_object == null) return;
 
         switch (m_dropItem)
         {
             case eDROP_ITEM.ADRENALIN:
                 {
-                    m_Buff = new Adrenaline(player.m_Stat);
+                    m_Buff = new Adrenaline(_object.m_Stat);
                 }
                 break;
             case eDROP_ITEM.HEALTH:
                 {
-                    m_Buff = new Blessing(player.m_Stat);
+                    m_Buff = new Blessing(_object.m_Stat);
 
                 }
                 break;
             case eDROP_ITEM.POISON:
                 {
-                    m_Buff = new Poison(player.m_Stat);
+                    m_Buff = new Poison(_object.m_Stat);
 
                 }
                 break;
@@ -66,7 +66,7 @@ public class DropItem : MovingObject
 
         m_audioSource.Play();
         EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 1.0f);
-        player.AddBuff(m_Buff);
+        _object.AddBuff(m_Buff);
 
         pushToMemory((int)m_Type);
     }

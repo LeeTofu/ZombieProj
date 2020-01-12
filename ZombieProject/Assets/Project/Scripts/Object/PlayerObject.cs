@@ -29,6 +29,12 @@ public class PlayerObject : MovingObject
 
             m_StateController.InGame_Initialize();
         }
+
+
+        if (m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
+ 
+
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
@@ -55,6 +61,10 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
+
+        if (m_CollisionAction == null)
+            m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
+
         return;
     }
 

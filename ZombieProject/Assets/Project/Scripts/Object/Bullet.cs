@@ -26,8 +26,7 @@ public abstract class Bullet : MovingObject
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-        AddCollisionCondtion(CollisionCondition);
-        AddCollisionFunction(CollisionEvent);
+
     }
 
     protected void SplashAttack(Vector3 _pos)
@@ -42,14 +41,7 @@ public abstract class Bullet : MovingObject
 
     protected abstract void BulletMove();
 
-    protected abstract void CollisionEvent(GameObject _object);
-
-    protected bool CollisionCondition(GameObject _defender)
-    {
-        if (_defender.tag == "Zombie" || _defender.tag == "Wall")  return true;
-        
-        return false;
-    }
+    public abstract void CollisionEvent(GameObject _object);
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, STAT _stat )
     {

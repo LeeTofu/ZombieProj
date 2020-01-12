@@ -40,6 +40,7 @@ public class STAT
 
     private float attack;
     private float range;
+    private float AlertRange;
     private float def;
 
     private float curHP;
@@ -91,6 +92,17 @@ public class STAT
             OnPropertyChange?.Invoke();
         }
     }
+
+    public float alertRange
+    {
+        get => AlertRange;
+        set
+        {
+            AlertRange = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+
     public float Defend
     {
         get => def;
@@ -188,7 +200,11 @@ public abstract class MovingObject : MonoBehaviour
     public const float m_InjuredHP = 30f;
 
     protected Renderer[] m_Renderers;
+
+    // 처음 오브젝트가 팩토리에서 만들어질 때 단 한번만 실행합니다.
     public abstract void Initialize(GameObject _model, MoveController _Controller);
+
+    // 팩토리에서 오브젝트를 꺼내올때 마다 실행합니다.
     public abstract void InGame_Initialize();
 
     // 충돌 액션이나 조건 처리하는 컴포넌트

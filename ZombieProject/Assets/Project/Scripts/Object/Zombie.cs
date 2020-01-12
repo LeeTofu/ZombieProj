@@ -29,13 +29,14 @@ public class Zombie : MovingObject
             MaxHP = 100,
             Range = 1.5f,
             MoveSpeed = 1.0f,
+            alertRange = 10.0f,
             isKnockBack = false,
         };
 
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
 
-        m_DeadActionCallBackFunc = DeadAction;
+        m_DeadActionCallBackFunc = DeadActionCallback;
         m_KnockBackAction = (time) => { KnockBackAction(time); };
 
         if (m_CollisionAction == null)
@@ -61,7 +62,7 @@ public class Zombie : MovingObject
         m_Stat.isKnockBack = false;
     }
 
-    private void DeadAction()
+    private void DeadActionCallback()
     {
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
@@ -70,7 +71,8 @@ public class Zombie : MovingObject
                 StopCoroutine(m_KnockBackCoroutine);
             }
 
-            BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+            if(m_Type == OBJECT_TYPE.ELITE_ZOMBIE)
+                BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
 
             if (m_CollisionAction != null)
                 m_CollisionAction.SetCollisionActive(false);

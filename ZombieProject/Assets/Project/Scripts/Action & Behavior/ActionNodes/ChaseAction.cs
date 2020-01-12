@@ -9,7 +9,7 @@ public class ZombieChaseCondition : DecoratorNode
         float distance = Vector3.Distance(m_Character.gameObject.transform.position,
             PlayerManager.Instance.m_Player.gameObject.transform.position);
 
-        if (distance < 10f && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed >= 0.8f)
+        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed >= 0.8f)
         {
             return NODE_STATE.SUCCESS;
         }

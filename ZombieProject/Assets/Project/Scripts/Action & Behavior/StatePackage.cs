@@ -402,7 +402,8 @@ public class DrinkState : PlayerState
         for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
             m_PlayerObject.m_Animator.CrossFade("Drink", 0.3f, i);
 
-        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, m_PlayerObject.transform.position, Quaternion.identity, true, 1.0f);
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, m_PlayerObject.transform.position, Quaternion.identity, 
+            Vector3.one * 1.2f,  true, 1.0f);
         m_Time = 0.0f;
     }
     public override void End()

@@ -182,9 +182,8 @@ public abstract class MovingObject : MonoBehaviour
     System.Action<GameObject> m_CollisionExitAction;
 
     protected System.Action<float> m_KnockBackAction;
-
     // 죽은 후 실행하는 함수. // 좀비는 아이템을 떨구고... 플레이어는 게임을 종료하고... 
-    public System.Action m_DeadActionCallBackFunc;
+    protected System.Action m_DeadActionCallBackFunc;
 
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
@@ -199,6 +198,7 @@ public abstract class MovingObject : MonoBehaviour
 
     protected Renderer[] m_Renderers;
     public abstract void Initialize(GameObject _model, MoveController _Controller);
+    public abstract void InGame_Initialize();
 
     public virtual void SetStat(STAT _stat)
     {
@@ -472,6 +472,7 @@ public abstract class MovingObject : MonoBehaviour
 
         if(m_Stat.isDead)
         {
+            m_CapsuleCollider.enabled = false;
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
             m_DeadActionCallBackFunc?.Invoke();
@@ -482,6 +483,7 @@ public abstract class MovingObject : MonoBehaviour
     public void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
+
         if (_isKnockBack)
             m_KnockBackAction?.Invoke(_knockBackTime);
     }
@@ -499,6 +501,7 @@ public abstract class MovingObject : MonoBehaviour
                 StopCoroutine(m_BlinkCoroutine);
             if (m_KnocoBackCoroutine != null)
                 StopCoroutine(m_KnocoBackCoroutine);
+
             m_BlinkCoroutine = StartCoroutine(Blink(time, _blinkterm));
             m_KnocoBackCoroutine = StartCoroutine(KnockBackRelease(time));
         });

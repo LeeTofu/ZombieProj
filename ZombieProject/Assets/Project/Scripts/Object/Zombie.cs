@@ -9,6 +9,13 @@ public class Zombie : MovingObject
 
     private Coroutine m_KnockBackCoroutine;
 
+    public override void InGame_Initialize()
+    {
+        if(m_CapsuleCollider != null)
+            m_CapsuleCollider.enabled = true;
+    }
+
+
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
         if(_Model != null) m_Model = _Model;
@@ -29,6 +36,7 @@ public class Zombie : MovingObject
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
 
+        m_DeadActionCallBackFunc = DeadAction;
         m_KnockBackAction = (time) => { KnockBackAction(time); };
    }
 
@@ -60,6 +68,9 @@ public class Zombie : MovingObject
             }
 
             BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+
+            if (m_CapsuleCollider != null)
+                m_CapsuleCollider.enabled = false;
         }
     }
 

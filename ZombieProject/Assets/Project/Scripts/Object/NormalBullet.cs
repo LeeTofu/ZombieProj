@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class NormalBullet : Bullet
 {
-
+    public override void InGame_Initialize()
+    {
+        
+    }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
@@ -22,10 +25,17 @@ public class NormalBullet : Bullet
         {
             MovingObject zombie = _object.GetComponent<MovingObject>();
             zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
-            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
+            EffectManager.Instance.PlayEffect(
+                PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), 
+                Vector3.one * 0.8f, true, 1.0f);
         }
         else
-            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
+            EffectManager.Instance.PlayEffect(
+                PARTICLE_TYPE.BULLET_EXPLOSION, 
+                transform.position, 
+                Quaternion.LookRotation(-m_CurDirection),
+                 Vector3.one * 1.0f,
+                true, 1.0f);
 
         pushToMemory((int)m_BulletType);
     }

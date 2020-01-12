@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class EffectObject : MovingObject
 {
-
+    ParticleSystem m_ParticleSystem;
     Coroutine m_Coroutine;
+
+    public override void InGame_Initialize()
+    {
+        if (m_ParticleSystem != null)
+        {
+            m_ParticleSystem.Play();
+        }
+    }
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-        
+        if(m_ParticleSystem == null)
+        {
+            m_ParticleSystem = GetComponentInChildren<ParticleSystem>();
+        }
     }
-
-
-
 
     public void SetDestroyTime(float _time, int _type)
     {

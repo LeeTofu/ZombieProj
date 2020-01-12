@@ -61,6 +61,7 @@ public class ObjectFactory : MonoBehaviour
 
             if (newObject != null)
             {
+                newObject.InGame_Initialize();
                 return newObject;
             }
             

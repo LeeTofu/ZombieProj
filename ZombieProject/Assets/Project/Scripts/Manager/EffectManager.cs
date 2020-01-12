@@ -52,7 +52,7 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 5);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletExplosion"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 5);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 10);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/ExplosionMedium"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 5);
@@ -60,7 +60,7 @@ public class EffectManager : Singleton<EffectManager>
         return true;
     }
 
-    public EffectObject PlayEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, bool _isDestroy = false, float _DestroyTime = 0.0f )
+    public EffectObject PlayEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f )
     {
         if (m_EffectFactory == null) return null;
 
@@ -75,6 +75,7 @@ public class EffectManager : Singleton<EffectManager>
         if(_isDestroy)
             effect.SetDestroyTime(_DestroyTime, (int)_particleType);
 
+        effect.transform.localScale = _scale;
         return effect;
     }
 }

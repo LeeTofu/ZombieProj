@@ -21,6 +21,16 @@ public class DropItem : MovingObject
 
     AudioSource m_audioSource;
 
+
+    public override void InGame_Initialize()
+    {
+        if (m_EffectObject == null)
+        {
+            m_EffectObject = EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(-90.0f, 0, 0),
+            Vector3.one * 1.0f);
+        }
+    }
+
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         AddCollisionCondtion(CollisionCondition);
@@ -55,7 +65,7 @@ public class DropItem : MovingObject
         }
 
         m_audioSource.Play();
-        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, true, 1.0f);
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 1.0f);
         player.AddBuff(m_Buff);
 
         pushToMemory((int)m_Type);
@@ -69,10 +79,6 @@ public class DropItem : MovingObject
         return true;
     }
 
-    private void OnEnable()
-    {
-        m_EffectObject =  EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(-90.0f, 0, 0));
-    }
 
     private void OnDisable()
     {

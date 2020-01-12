@@ -59,9 +59,6 @@ public class ItemObject : MonoBehaviour
         switch(ItemManager.Instance.GetItemActionType(m_Item))
         {
             case ITEM_EVENT_TYPE.FIRE_BULLET:
-
-
-
                 BulletManager.Instance.FireBullet(
                  m_FireTransform.position,
                 new Vector3(m_FireTransform.transform.forward.x, 0 , m_FireTransform.transform.forward.z),

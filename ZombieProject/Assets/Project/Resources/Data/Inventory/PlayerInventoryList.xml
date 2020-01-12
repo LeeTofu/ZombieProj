@@ -18,18 +18,26 @@
 	</text>
   <text>
     <uniqueID>3434</uniqueID>
-    <ItemID>5</ItemID>
-    <isEquiped>true</isEquiped>
+    <ItemID>7</ItemID>
+    <isEquiped>false</isEquiped>
     <Level>1</Level>
-    <SlotSort>MAIN</SlotSort>
+    <SlotSort>THIRD</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
   <text>
     <uniqueID>1111</uniqueID>
-    <ItemID>6</ItemID>
+    <ItemID>7</ItemID>
     <isEquiped>true</isEquiped>
     <Level>1</Level>
     <SlotSort>FOURTH</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>24356</uniqueID>
+    <ItemID>6</ItemID>
+    <isEquiped>true</isEquiped>
+    <Level>1</Level>
+    <SlotSort>MAIN</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
 </Root>

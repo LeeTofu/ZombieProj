@@ -63,6 +63,7 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_BulletSpeed = float.Parse(node.SelectSingleNode("BulletSpeed").InnerText);
             itemStat.m_BulletString = node.SelectSingleNode("BulletString").InnerText;
 
+            itemStat.m_isKnockBack = bool.Parse(node.SelectSingleNode("isKnockBack").InnerText);
             itemStat.m_isHaveCoolTime = bool.Parse(node.SelectSingleNode("isHaveCoolTime").InnerText);
             itemStat.m_CoolTime = float.Parse(node.SelectSingleNode("CoolTime").InnerText);
 

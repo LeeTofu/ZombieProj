@@ -53,7 +53,6 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance)
     {
-        float maxLen = 1000000.0f;
         List<MovingObject> target = new List<MovingObject>();
 
         foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)

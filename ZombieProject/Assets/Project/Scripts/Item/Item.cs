@@ -69,7 +69,9 @@ public struct ItemStat
 
     public bool m_isAccumulate; // 중첩이 되나 1,2,3...
     public bool m_isHaveCoolTime; // 쿨타임을 가진 아이템인가? -> 없다면 그냥 버튼 누르기만 해도 공격함.
-    
+
+    public bool m_isKnockBack; // 넉백 시키는가
+
     public float m_BulletSpeed; // 공격템인데 Bullet의 공속은? ()
     public string m_BulletString; // 공격템인데 Bullet의 string;
 

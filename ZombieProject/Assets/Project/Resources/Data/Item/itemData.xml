@@ -7,16 +7,17 @@
 		<ModelName>Rifle_01</ModelName>
 		<ItemSort>RIFLE</ItemSort>
 		<HP>0</HP>
-		<Attack>1</Attack>
+		<Attack>25</Attack>
 		<Armor>0</Armor>
 		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
 		<Range>5</Range>
 		<isAccumulate>FALSE</isAccumulate>
-		<AttackSpeed>1</AttackSpeed>
+		<AttackSpeed>0.8</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
 	</text>
 	<text>
@@ -36,6 +37,7 @@
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
 	</text>
 	<text>
@@ -55,6 +57,7 @@
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
 	</text>
   <text>
@@ -74,6 +77,7 @@
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
   </text>
   <text>
@@ -83,7 +87,7 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>LAUNCHER</ItemSort>
     <HP>0</HP>
-    <Attack>25</Attack>
+    <Attack>100</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
@@ -93,10 +97,31 @@
     <BulletSpeed>10</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
   </text>
   <text>
     <ItemID>6</ItemID>
+    <ItemName>MachineGun</ItemName>
+    <IconName>Weapon_icon_19</IconName>
+    <ModelName>Rifle_01</ModelName>
+    <ItemSort>MACHINE_GUN</ItemSort>
+    <HP>0</HP>
+    <Attack>8</Attack>
+    <Armor>0</Armor>
+    <MovePoint>2</MovePoint>
+    <HPRegenerate>0</HPRegenerate>
+    <Range>5</Range>
+    <isAccumulate>false</isAccumulate>
+    <AttackSpeed>0.2</AttackSpeed>
+    <BulletSpeed>60</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
+    <CoolTime>0</CoolTime>
+  </text>
+  <text>
+    <ItemID>7</ItemID>
     <ItemName>HealthPack</ItemName>
     <IconName>Health_icon_05</IconName>
     <ModelName>HealthPack_01</ModelName>
@@ -112,10 +137,11 @@
     <BulletSpeed>50</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
   </text>
   <text>
-    <ItemID>7</ItemID>
+    <ItemID>8</ItemID>
     <ItemName>GuidedBomb</ItemName>
     <IconName>Grenade_icon_02</IconName>
     <ModelName>Bomb_01</ModelName>
@@ -131,10 +157,11 @@
     <BulletSpeed>50</BulletSpeed>
     <BulletString>Bomb</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
   </text>
   <text>
-    <ItemID>8</ItemID>
+    <ItemID>9</ItemID>
     <ItemName>Bomb</ItemName>
     <IconName>Grenade_icon_03</IconName>
     <ModelName>Bomb_02</ModelName>
@@ -150,6 +177,7 @@
     <BulletSpeed>50</BulletSpeed>
     <BulletString>Bomb</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
   </text>
 </Root>

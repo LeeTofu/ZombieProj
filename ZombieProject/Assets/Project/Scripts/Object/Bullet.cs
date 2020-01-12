@@ -28,7 +28,6 @@ public abstract class Bullet : MovingObject
     {
         AddCollisionCondtion(CollisionCondition);
         AddCollisionFunction(CollisionEvent);
-
     }
 
     protected void SplashAttack(Vector3 _pos)
@@ -37,7 +36,7 @@ public abstract class Bullet : MovingObject
 
         foreach (MovingObject zombie in zombies)
         {
-            zombie.HitDamage(m_Stat.Attack, true, 1.0f);
+            zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
         }
     }
 
@@ -89,7 +88,7 @@ public abstract class Bullet : MovingObject
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)
     {
-        FireBullet( _pos,  _dir, new STAT
+        FireBullet(_pos, _dir, new STAT
         {
             MaxHP = 100f,
             CurHP = 100f,
@@ -97,7 +96,8 @@ public abstract class Bullet : MovingObject
             MoveSpeed = _itemStat.m_BulletSpeed,
             Attack = _itemStat.m_AttackPoint,
             Range = _itemStat.m_Range,
-        });
+            isKnockBack = _itemStat.m_isKnockBack
+        }) ;
     }
 
     protected void Update()

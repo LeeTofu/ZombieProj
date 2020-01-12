@@ -21,10 +21,11 @@ public class NormalBullet : Bullet
         if (_object.tag == "Zombie")
         {
             MovingObject zombie = _object.GetComponent<MovingObject>();
-            zombie.HitDamage(m_Stat.Attack, true, 1.0f);
+            zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
         }
-
-        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
+        else
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DUST, transform.position, Quaternion.LookRotation(-m_CurDirection), true, 1.0f);
 
         pushToMemory((int)m_BulletType);
     }

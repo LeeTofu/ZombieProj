@@ -12,6 +12,7 @@ public enum E_PLAYABLE_STATE
     INJURED_WALKING,
     KNOCKBACK,
     DRINK,
+    DEATH,
     NONE
 }
 
@@ -42,6 +43,7 @@ public class StateController : MonoBehaviour
         InsertState(E_PLAYABLE_STATE.INJURED_WALKING, new InjuredWalkState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.KNOCKBACK, new KnockBackState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.DRINK, new DrinkState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.DEATH, new DeathState(m_Character, this));
 
     }
 

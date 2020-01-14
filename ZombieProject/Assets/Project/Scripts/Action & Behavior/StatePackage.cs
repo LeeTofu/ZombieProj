@@ -379,10 +379,12 @@ public class KnockBackState : PlayerState
         {
             yield return null;
         }
-        if (_movingObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
-        else
+        if (_movingObject.m_Stat.CurHP <= 0f)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DEATH);
+        else if (_movingObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
 
     }
 }
@@ -432,4 +434,28 @@ public class DrinkState : PlayerState
 
     }
 
+}
+public class DeathState : PlayerState
+{
+    public DeathState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("Death", 0.3f, i);
+        }
+    }
+
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+    }
+
+    public override void AddAction()
+    {
+    }
 }

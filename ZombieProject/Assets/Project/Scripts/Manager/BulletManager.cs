@@ -30,8 +30,14 @@ public class BulletManager : Singleton<BulletManager>
             m_BulletFactory.Initialize("Prefabs/Bullet/BulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.NORMAL_BULLET, 5);
 
+            m_BulletFactory.Initialize("Prefabs/Bullet/ShotGunBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
+            m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.SHOT_GUN_BULLET, 25);
+
             m_BulletFactory.Initialize("Prefabs/Bullet/BazukaBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/Bazuka"));
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.BAZUKA, 5);
+
+            m_BulletFactory.Initialize("Prefabs/Bullet/PierceBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
+            m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.SNIPER_BULLET, 5);
 
         }
 

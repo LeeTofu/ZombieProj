@@ -141,10 +141,13 @@ public class ItemManager : Singleton<ItemManager>
             case ITEM_SORT.MACHINE_GUN:
             case ITEM_SORT.RIFLE:
             case ITEM_SORT.LAUNCHER:
-            case ITEM_SORT.SHOT_GUN:
                 return ITEM_EVENT_TYPE.FIRE_BULLET;
             case ITEM_SORT.MELEE:
                 return ITEM_EVENT_TYPE.MELEE;
+            case ITEM_SORT.SHOT_GUN:
+                return ITEM_EVENT_TYPE.SHOT_GUN;
+            case ITEM_SORT.SNIPER:
+                return ITEM_EVENT_TYPE.PIERCE;
             default:
                 return ITEM_EVENT_TYPE.END;
         }

@@ -30,7 +30,6 @@ public class PlayerObject : MovingObject
             m_StateController.InGame_Initialize();
         }
 
-
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
  

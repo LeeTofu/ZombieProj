@@ -28,7 +28,7 @@ public class Zombie : MovingObject
         {
             MaxHP = 100,
             Range = 1.5f,
-            MoveSpeed = 1.0f,
+            MoveSpeed = 0.5f,
             alertRange = 10.0f,
             isKnockBack = false,
         };

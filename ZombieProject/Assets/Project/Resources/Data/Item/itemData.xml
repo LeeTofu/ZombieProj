@@ -7,7 +7,7 @@
 		<ModelName>Rifle_01</ModelName>
 		<ItemSort>RIFLE</ItemSort>
 		<HP>0</HP>
-		<Attack>25</Attack>
+		<Attack>40</Attack>
 		<Armor>0</Armor>
 		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
@@ -67,7 +67,7 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SHOT_GUN</ItemSort>
     <HP>0</HP>
-    <Attack>2</Attack>
+    <Attack>20</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
@@ -113,7 +113,7 @@
     <HPRegenerate>0</HPRegenerate>
     <Range>5</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>0.2</AttackSpeed>
+    <AttackSpeed>0.15</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
@@ -179,5 +179,25 @@
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
+  </text>
+  <text>
+    <ItemID>100</ItemID>
+    <ItemName>Sniper Rifle</ItemName>
+    <IconName>Weapon_icon_15</IconName>
+    <ModelName>Rifle_01</ModelName>
+    <ItemSort>SNIPER</ItemSort>
+    <HP>0</HP>
+    <Attack>75</Attack>
+    <Armor>0</Armor>
+    <MovePoint>2</MovePoint>
+    <HPRegenerate>0</HPRegenerate>
+    <Range>1</Range>
+    <isAccumulate>false</isAccumulate>
+    <AttackSpeed>2</AttackSpeed>
+    <BulletSpeed>60</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
+    <CoolTime>0</CoolTime>
   </text>
 </Root>

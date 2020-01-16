@@ -18,18 +18,11 @@ public class BuffManager : Singleton<BuffManager>
     Dictionary<BUFF_TYPE, Buff> m_BuffTable = new Dictionary<BUFF_TYPE, Buff>();
     public override bool Initialize()
     {
-        ParsingCheck();
+        LoadBuffData();
 
         return true;
     }
-    public void ParsingCheck()
-    {
-        TextAsset textAsset = (TextAsset)Resources.Load("Data/Buff/BuffData");
 
-        if (textAsset == null)
-            CreateXML();
-        else LoadBuffData();
-    }
     public void LoadBuffData()
     {
         if (m_IsParsing) return;
@@ -67,89 +60,6 @@ public class BuffManager : Singleton<BuffManager>
         }
 
         m_IsParsing = true;
-    }
-    public void CreateXML()
-    {
-        if (m_IsCreateXML || m_IsParsing) return;
-
-        XmlDocument xmlDocument = new XmlDocument();
-        xmlDocument.AppendChild(xmlDocument.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-
-        XmlNode root = xmlDocument.CreateNode(XmlNodeType.Element, "BuffInfo", string.Empty);
-        xmlDocument.AppendChild(root);
-
-        XmlNode child = xmlDocument.CreateNode(XmlNodeType.Element, "Buff", string.Empty);
-        root.AppendChild(child);
-
-        XmlElement BUFFTYPE = xmlDocument.CreateElement("BUFFTYPE");
-        BUFFTYPE.InnerText = "ADRENALINE";
-        child.AppendChild(BUFFTYPE);
-
-        XmlElement DurationTime = xmlDocument.CreateElement("DurationTime");
-        DurationTime.InnerText = "5";
-        child.AppendChild(DurationTime);
-
-        XmlElement TickTime = xmlDocument.CreateElement("TickTime");
-        TickTime.InnerText = "1";
-        child.AppendChild(TickTime);
-
-        child = xmlDocument.CreateNode(XmlNodeType.Element, "Buff", string.Empty);
-        root.AppendChild(child);
-
-        BUFFTYPE = xmlDocument.CreateElement("BUFFTYPE");
-        BUFFTYPE.InnerText = "BLESSING";
-        child.AppendChild(BUFFTYPE);
-
-        DurationTime = xmlDocument.CreateElement("DurationTime");
-        DurationTime.InnerText = "5";
-        child.AppendChild(DurationTime);
-
-        TickTime = xmlDocument.CreateElement("TickTime");
-        TickTime.InnerText = "1";
-        child.AppendChild(TickTime);
-
-        child = xmlDocument.CreateNode(XmlNodeType.Element, "Buff", string.Empty);
-        root.AppendChild(child);
-
-        BUFFTYPE = xmlDocument.CreateElement("BUFFTYPE");
-        BUFFTYPE.InnerText = "POISON";
-        child.AppendChild(BUFFTYPE);
-
-        DurationTime = xmlDocument.CreateElement("DurationTime");
-        DurationTime.InnerText = "5";
-        child.AppendChild(DurationTime);
-
-        TickTime = xmlDocument.CreateElement("TickTime");
-        TickTime.InnerText = "1";
-        child.AppendChild(TickTime);
-
-        xmlDocument.Save("Assets/Project/Resources/Data/Buff/BuffData.xml");
-
-        foreach (BUFF_TYPE i in System.Enum.GetValues(typeof(BUFF_TYPE)))
-        {
-            Buff buff;
-            STAT stat = new STAT();
-            switch (i)
-            {
-                case BUFF_TYPE.ADRENALINE:
-                    buff = new Adrenaline(stat);
-                    break;
-                case BUFF_TYPE.BLESSING:
-                    buff = new Blessing(stat);
-                    break;
-                case BUFF_TYPE.POISON:
-                    buff = new Poison(stat);
-                    break;
-                default:
-                    Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + i);
-                    continue;
-            }
-            buff.m_DurationTime = 5f;
-            buff.m_TickTime = 1;
-            m_BuffTable.Add(i, buff);
-        }
-
-        m_IsCreateXML = true;
     }
 
     public Buff GetBuff(BUFF_TYPE _bufftype)

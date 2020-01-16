@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<BuffInfo>
+  <Buff>
+    <BUFFTYPE>ADRENALINE</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+  </Buff>
+  <Buff>
+    <BUFFTYPE>BLESSING</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+  </Buff>
+  <Buff>
+    <BUFFTYPE>POISON</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+  </Buff>
+</BuffInfo>

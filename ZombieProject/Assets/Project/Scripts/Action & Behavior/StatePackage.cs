@@ -422,7 +422,7 @@ public class DrinkState : PlayerState
         }
 
         if (m_PlayerObject.m_Stat != null)
-            m_PlayerObject.AddBuff(new Blessing(m_PlayerObject.m_Stat));
+            m_PlayerObject.AddBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING));
 
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);

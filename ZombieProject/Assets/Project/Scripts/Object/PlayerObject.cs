@@ -18,7 +18,7 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-
+        BuffManager.Instance.SetStat(m_Stat);
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
             if (m_StateController == null)
@@ -60,7 +60,7 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-
+        BuffManager.Instance.SetStat(m_Stat);
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 

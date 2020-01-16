@@ -64,7 +64,8 @@ public class GameMaster : Singleton<GameMaster>
         CameraManager.Instance.CreateManager();
         BulletManager.Instance.CreateManager();
         EffectManager.Instance.CreateManager();
-        
+
+        BuffManager.Instance.CreateManager();
 
         return true;
     }

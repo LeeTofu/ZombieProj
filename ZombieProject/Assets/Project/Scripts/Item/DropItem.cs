@@ -47,18 +47,18 @@ public class DropItem : MovingObject
         {
             case eDROP_ITEM.ADRENALIN:
                 {
-                    m_Buff = new Adrenaline(_object.m_Stat);
+                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.ADRENALINE);
                 }
                 break;
             case eDROP_ITEM.HEALTH:
                 {
-                    m_Buff = new Blessing(_object.m_Stat);
+                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING);
 
                 }
                 break;
             case eDROP_ITEM.POISON:
                 {
-                    m_Buff = new Poison(_object.m_Stat);
+                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.POISON);
 
                 }
                 break;

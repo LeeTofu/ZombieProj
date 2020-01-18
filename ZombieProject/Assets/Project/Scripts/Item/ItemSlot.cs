@@ -9,6 +9,8 @@ public class ItemSlot : MonoBehaviour
     public const float WIDTH = 225;
     public const float HEIGHT = 100;
 
+    InventoryUI m_UI;
+
     [SerializeField]
     Image m_SelectedLineImage;
 
@@ -30,11 +32,18 @@ public class ItemSlot : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI m_ItemLv;
 
+    public ItemSlot m_SelectedSlot { get; private set; }
+
     public Item m_Item { private set; get; }
 
     public void Awake()
     {
         m_NullImage = m_IconImage.sprite;
+    }
+
+    private void Start()
+    {
+        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.INVENTORY).GetComponent<InventoryUI>();
     }
 
     public Sprite GetItemTexture()
@@ -76,10 +85,12 @@ public class ItemSlot : MonoBehaviour
 
     }
 
+   
+
     public void ClickSelectItem()
     {
         if (m_Item == null) return;
-        if(InvenManager.Instance.m_Main.SelectItem(this))
+        if(m_UI.SelectItem(this))
             InvenManager.Instance.m_UI.OpenItemInfoUI(this);
         else
             InvenManager.Instance.m_UI.CloseItemInfoUI();

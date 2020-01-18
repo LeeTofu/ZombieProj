@@ -49,6 +49,9 @@ public class MainUI : BaseUI
 
     public void PressStartButton()
     {
+        if (!InvenManager.Instance.isEquipedItemSlot(ITEM_SLOT_SORT.MAIN)) return;
+
+
         m_Title.gameObject.SetActive(false);
 
         for (int i = 0; i < m_Buttons.Length; i++)

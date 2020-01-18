@@ -33,6 +33,9 @@ public class InventoryUI: BaseUI
     [SerializeField]
     TextMeshProUGUI PlayerName;
 
+    public ItemSlot m_SelectedSlot { private set; get; }
+
+
     private void Awake()
     {
         m_RectSize.x = m_ScrollRect.GetComponent<RectTransform>().rect.width;
@@ -63,6 +66,26 @@ public class InventoryUI: BaseUI
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.THIRD, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.THIRD - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.FOURTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FOURTH - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.FIFTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FIFTH - 1)]);
+    }
+
+    public bool SelectItem(ItemSlot _slot)
+    {
+        if (m_SelectedSlot)
+        {
+            m_SelectedSlot.UnSelectSlot();
+
+            if (_slot == m_SelectedSlot)
+            {
+                m_SelectedSlot = null;
+                return false;
+            }
+        }
+
+        m_SelectedSlot = _slot;
+        m_SelectedSlot.SelectItem();
+
+        return true;
+
     }
 
     void SetEuqipmentItemSlot(ITEM_SLOT_SORT _slotType, ItemSlot _EquipmentSlot)
@@ -111,19 +134,19 @@ public class InventoryUI: BaseUI
 
     public void ClickDetachButton()
     {
-        if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
-        if (!InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_isEquiped) return;
+        if (m_SelectedSlot == null) return;
+        if (m_SelectedSlot.m_Item == null) return;
+        if (!m_SelectedSlot.m_Item.m_isEquiped) return;
 
-        DetachItem(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemSlotType);
+        DetachItem(m_SelectedSlot.m_Item.m_ItemSlotType);
     }
 
     public void ClickEquipButton()
     {
-        if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
+        if (m_SelectedSlot == null) return;
+        if (m_SelectedSlot.m_Item == null) return;
       
-        MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
+        MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
         switch (sort)
         {
@@ -145,10 +168,10 @@ public class InventoryUI: BaseUI
 
     public void ClickSecondaryEquipButton()
     {
-        if (InvenManager.Instance.m_Main.m_SelectedSlot == null) return;
-        if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null) return;
+        if (m_SelectedSlot == null) return;
+        if (m_SelectedSlot.m_Item == null) return;
 
-        MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
+        MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
         if (sort != MAIN_ITEM_SORT.EQUIPMENT) return;
 
@@ -157,33 +180,33 @@ public class InventoryUI: BaseUI
 
     private void EquipItem(ITEM_SLOT_SORT _slotType)
     {
-        if (InvenManager.Instance.m_Main.m_SelectedSlot == null)
+        if (m_SelectedSlot == null)
         {
             Debug.LogError("선택한 아이템이 없다.");
             return;
         }
-        else if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null)
+        else if (m_SelectedSlot.m_Item == null)
         {
             Debug.LogError("선택한 아이템 슬롯에 아이템이 없다.");
             return;
         }
 
-      //  if (InvenManager.Instance.m_Main.m_SelectedSlot.m_isEquipmentItemSlot) return;
+        if (m_SelectedSlot.m_isEquipmentItemSlot) return;
 
         InvenManager.Instance.EquipItem(
-          InvenManager.Instance.m_Main.m_SelectedSlot.m_Item.m_UniqueItemID,
+          m_SelectedSlot.m_Item.m_UniqueItemID,
           _slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
     }
 
     public void DetachItem(ITEM_SLOT_SORT _slotType)
     {
         Debug.Log("누름");
-        if (!InvenManager.Instance.m_Main.m_SelectedSlot)
+        if (!m_SelectedSlot)
         {
             return;
         }
 
-         if (InvenManager.Instance.m_Main.m_SelectedSlot.m_Item == null)
+         if (m_SelectedSlot.m_Item == null)
         {
             return;
         }

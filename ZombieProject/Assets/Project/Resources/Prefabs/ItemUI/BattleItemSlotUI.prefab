@@ -122,7 +122,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4900071353243828599}
-        m_MethodName: ButtonClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b93fa56a3ca5f44a9e3076552c4c859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slotType: 2
+  m_slotType: 4
   m_StackCountText: {fileID: 1975470436521626746}
   m_ItemIcon: {fileID: 1698316395203876238}
   m_CoolDownImage: {fileID: 7479254381921379244}
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8149255240864136673

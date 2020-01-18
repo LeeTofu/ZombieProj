@@ -26,7 +26,7 @@ public class InvenManager : Singleton<InvenManager>
     public const int MAX_INVEN_ROW = 10;
     public const int MAX_INVEN_COL = 3;
 
-
+ 
     public override bool Initialize()
     {
         m_ItemSlotPrefab = Resources.Load<GameObject>("Prefabs/ItemUI/ItemSlotUI");
@@ -411,8 +411,8 @@ public class InvenManager : Singleton<InvenManager>
         item.m_isEquiped = true;
         item.m_ItemSlotType = _slotSort;
 
-        if (m_Main != null && m_Main.m_SelectedSlot)
-            m_Main.m_SelectedSlot.EquipItem();
+        if (m_Main != null && m_UI.m_SelectedSlot)
+            m_UI.m_SelectedSlot.EquipItem();
 
         if(_EquipmentSlot)
         {

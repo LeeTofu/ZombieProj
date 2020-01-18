@@ -188,8 +188,8 @@ public abstract class MovingObject : MonoBehaviour
     [HideInInspector]
     public Animator m_Animator;
 
-    [HideInInspector]
-    public ItemObject m_CurrentEquipedItem;
+   // [HideInInspector]
+   // public ItemObject m_CurrentEquipedItem;
 
     // 오른팔
     protected Transform m_PropR;
@@ -297,32 +297,20 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     // 무빙오브젝트의 무기를 셋팅하는 함수임.
-    public void SetWeapon(Item _item, bool _isRightHand = true)
+    public void SetWeapon(GameObject _itemObject, bool _isRightHand = true)
     {
-        if(m_CurrentEquipedItem != null)
-        {
-            m_CurrentEquipedItem.gameObject.SetActive(false);
-        }
-        if (_item == null) return;
-
-        GameObject itemObject = ItemManager.Instance.CreateItemObject(_item);
-
-        if (itemObject == null) return;
-
         Transform PropHand;
 
         if (_isRightHand)
             PropHand = FindChildObject(gameObject, "Hand_R");
         else PropHand = FindChildObject(gameObject, "Hand_L");
 
-        itemObject.transform.SetParent(PropHand);
-        itemObject.transform.localPosition = new Vector3(15f, 2.4f, -3.6f);
-        itemObject.transform.localRotation = Quaternion.Euler(-4.336f, 90.0f, -106f);
-        itemObject.transform.localScale = new Vector3(75, 75, 75);
+        _itemObject.transform.SetParent(PropHand);
+        _itemObject.transform.localPosition = new Vector3(15f, 2.4f, -3.6f);
+        _itemObject.transform.localRotation = Quaternion.Euler(-4.336f, 90.0f, -106f);
+        _itemObject.transform.localScale = new Vector3(75, 75, 75);
 
-        m_CurrentEquipedItem = itemObject.GetComponent<ItemObject>();
-        m_CurrentEquipedItem.Init(_item);
-        m_Renderers = GetComponentsInChildren<Renderer>();
+        _itemObject.SetActive(true);
     }
 
     // ============= 버프는 영래 당담 ===================
@@ -333,7 +321,6 @@ public abstract class MovingObject : MonoBehaviour
         
         Debug.Log(" 버프 갯수 : " + m_ListBuff.Count + " , " + _buff.m_BuffType);
 
-        if(_buff.m_BuffExitAction == null)
         _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };
 
         StartCoroutine(_buff.BuffCoroutine);
@@ -458,14 +445,16 @@ public abstract class MovingObject : MonoBehaviour
     //Renderer가 있는 게임오브젝트들을 true,false 줘서 깜빡이게하는 코루틴
     public IEnumerator Blink(float _time, float _blinkterm)
     {
-        for (float i = 0; i < _time; i += _blinkterm)
-        {
-            for (int j = 0; j < m_Renderers.Length; ++j)
-                m_Renderers[j].enabled = !m_Renderers[j].enabled;
-            yield return new WaitForSeconds(_blinkterm);
-        }
-        for (int i = 0; i < m_Renderers.Length; ++i)
-            m_Renderers[i].enabled = true;
+        yield return null;
+
+        //for (float i = 0; i < _time; i += _blinkterm)
+        //{
+        //    for (int j = 0; j < m_Renderers.Length; ++j)
+        //        m_Renderers[j].enabled = !m_Renderers[j].enabled;
+        //    yield return new WaitForSeconds(_blinkterm);
+        //}
+        //for (int i = 0; i < m_Renderers.Length; ++i)
+        //    m_Renderers[i].enabled = true;
     }
     //_time 받은 만큼 m_Stated의 isKnockBack을 true해준다
     public IEnumerator KnockBackRelease(float _time)

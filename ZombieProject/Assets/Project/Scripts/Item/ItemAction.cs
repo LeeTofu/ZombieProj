@@ -17,9 +17,11 @@ public enum BUTTON_ACTION // 버튼에 행해지는 액션 타입.
 }
 
 
-public class ItemActionController : MonoBehaviour
+public class SlotController : MonoBehaviour
 {
-    Item m_item;
+  //  Item m_item;
+
+    bool m_isHaveCoolTime;
 
     // 현재 아이템 쿨다운
     public float m_CurrentCoolTime { private set; get; }
@@ -45,26 +47,38 @@ public class ItemActionController : MonoBehaviour
 
     bool m_isDownHover = false;
 
-    public void Initialized( Item _item, BattleItemSlotButton _slotButton)
+    public void Initialized(Item _item)
     {
-        m_item = _item;
+        m_isHaveCoolTime = _item.m_ItemStat.m_isHaveCoolTime;
 
         m_CurrentCoolTime = 0.0f;
-        m_CurrentMaxCoolTime = m_item.m_ItemStat.m_CoolTime;
-        m_OriginalMaxCoolTime =  m_item.m_ItemStat.m_CoolTime;
+        m_CurrentMaxCoolTime = _item.m_ItemStat.m_CoolTime;
+        m_OriginalMaxCoolTime = _item.m_ItemStat.m_CoolTime;
 
-        m_CurrentAttackSpeed = m_item.m_ItemStat.m_AttackSpeed;
+        m_CurrentAttackSpeed = _item.m_ItemStat.m_AttackSpeed;
         m_AttackSpeedTime = 0.0f;
-        m_OriginalAttackSpeed = 0.5f;
+        m_OriginalAttackSpeed = _item.m_ItemStat.m_AttackSpeed;
 
     }
 
-   
+    public void Initialized( float _CoolTime, bool _isHaveCoolTime, float _AttackTime)
+    {
+        m_isHaveCoolTime = _isHaveCoolTime;
+
+        m_CurrentCoolTime = 0.0f;
+        m_CurrentMaxCoolTime = _CoolTime;
+        m_OriginalMaxCoolTime = _CoolTime;
+
+        m_CurrentAttackSpeed = _AttackTime;
+        m_AttackSpeedTime = 0.0f;
+        m_OriginalAttackSpeed = _AttackTime;
+
+    }
 
     // 쿨다운 틱당 도는 함수입ㄴ다.
     public void TickItemCoolTime()
     {
-        if (m_item.m_ItemStat.m_isHaveCoolTime == false) return;
+        if (m_isHaveCoolTime == false) return;
         if (m_CurrentCoolTime <= 0.0f)
         {
             m_CoolTimePercentage = 0.0f;
@@ -98,8 +112,8 @@ public class ItemActionController : MonoBehaviour
     // 쿨다운 다됬나 체크
     bool CheckCoolDown()
     {
-        if (m_item == null) return false;
-        if (m_item.m_ItemStat.m_isHaveCoolTime == false) return true;
+       // if (m_item == null) return false;
+        if (m_isHaveCoolTime == false) return true;
 
         if(m_CurrentCoolTime <= 0.0f)
         {
@@ -113,8 +127,8 @@ public class ItemActionController : MonoBehaviour
     // 공속이 되야 공격 가능
     bool CheckAttackSpeed()
     {
-        if (m_item == null) return false;
-        if (m_item.m_ItemStat.m_AttackSpeed <= 0.0f) return true;
+      //  if (m_item == null) return false;
+        if (m_OriginalAttackSpeed <= 0.0f) return true;
 
         if (m_AttackSpeedTime <= 0.0f)
         {
@@ -175,7 +189,7 @@ public class ItemActionController : MonoBehaviour
         }
         if (!CheckCanActionPlay()) return false;
 
-        if(m_item.m_ItemStat.m_isHaveCoolTime)
+        if(m_isHaveCoolTime)
             m_CurrentCoolTime = m_CurrentMaxCoolTime;
 
         return true;
@@ -202,11 +216,9 @@ public class ItemActionController : MonoBehaviour
     {
         if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
         {
-            if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.MAIN)
-                return false;
-            else if (m_item.m_ItemSlotType == ITEM_SLOT_SORT.SECOND)
-                return false;
+            return false;
         }
+
         m_isDownHover = false;
 
         return true;

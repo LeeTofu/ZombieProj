@@ -96,6 +96,19 @@ public class Item
 
     public ITEM_SLOT_SORT m_ItemSlotType { get; set; } // 이 아이템이 장착되었다면 
                                                        //어느 부위에 장착이 되었는지.
+
+
+
+    public Item(Item _item)
+    {
+        m_UniqueItemID = _item.m_UniqueItemID;
+        m_Lv = _item.m_Lv;
+        m_CurrentEXP = _item.m_CurrentEXP;
+        m_ItemStat = _item.m_ItemStat;
+        m_ItemSlotType = _item.m_ItemSlotType;
+
+    }
+
     public Item(int _ownedID, int _LV, int _curEXP, ITEM_SLOT_SORT _sort, ItemStat _stat) 
     {
         m_UniqueItemID = _ownedID;

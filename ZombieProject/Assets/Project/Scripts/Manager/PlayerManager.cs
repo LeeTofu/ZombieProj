@@ -124,16 +124,17 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_Player == null) return;
         if(m_CurrentEquipedItemObject == null)
         {
+          
             m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
             m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
             BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
-
+            
             return;
         }
 
         m_CurrentEquipedItemObject.gameObject.SetActive(false);
-
+        
         m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
 
         m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);

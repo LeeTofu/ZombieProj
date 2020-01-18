@@ -9,21 +9,23 @@ public class BattleItemSlotButton : UIPressSubject
     public ITEM_SLOT_SORT m_slotType;
     public Item m_Item { private set; get; }
 
-    MovingObject m_Character;
+    [SerializeField]
+    TMPro.TextMeshProUGUI m_StackCountText;
 
     [SerializeField]
     Image m_ItemIcon;
 
     [SerializeField]
-    Image m_CoolDownImage;
+    protected Image m_CoolDownImage;
 
-    ItemActionController m_ItemButtonController;
+    protected SlotController m_ItemButtonController;
 
-    bool m_isInitialize = false;
+    protected bool m_isInitialize = false;
 
-    public void Init(MovingObject _character ,Item _item)
+    public virtual void Init(MovingObject _character ,Item _item)
     {
         m_CoolDownImage.fillAmount = 0.0f;
+        m_StackCountText.text = " ";
 
         if (_item == null)
         {
@@ -36,20 +38,25 @@ public class BattleItemSlotButton : UIPressSubject
             return;
         }
 
-        m_Character = _character;
         m_Item = _item;
        
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
 
         if (m_ItemButtonController == null)
-            m_ItemButtonController = GetComponent<ItemActionController>();
+            m_ItemButtonController = GetComponent<SlotController>();
 
         if (m_ItemButtonController == null)
-            m_ItemButtonController = gameObject.AddComponent<ItemActionController>();
+            m_ItemButtonController = gameObject.AddComponent<SlotController>();
 
         m_ItemButtonController.enabled = true;
-        m_ItemButtonController.Initialized(_item, this);
+       
+        if (m_slotType != ITEM_SLOT_SORT.SECOND)
+            m_ItemButtonController.Initialized(_item);
+        else
+        {
+            m_ItemButtonController.Initialized(5.0f, true, 0.0f);
+        }
 
         if (m_isInitialize == false)
         {
@@ -97,7 +104,7 @@ public class BattleItemSlotButton : UIPressSubject
     {
         if(CheckCanActive())
         {
-            switch(m_slotType)
+            switch (m_slotType)
             {
                 case ITEM_SLOT_SORT.SECOND:
                     PlayerManager.Instance.ChangeWeapon();
@@ -105,6 +112,7 @@ public class BattleItemSlotButton : UIPressSubject
                 default:
                     PlayerManager.Instance.PlayerUseItem(m_slotType);
                     break;
+
             }
         }
     }
@@ -125,7 +133,7 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if(m_ItemButtonController != null && m_Item != null)
+        if(m_ItemButtonController != null && m_Item !=null )
         {
             if (m_ItemButtonController.OnPointerDownConditon())
                 UpdateObserver(BUTTON_ACTION.PRESS_ENTER);
@@ -134,7 +142,7 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        if (m_ItemButtonController != null && m_Item != null)
+        if (m_ItemButtonController != null && m_Item != null )
         {
             if(m_ItemButtonController.OnPointerUpCondition())
                 UpdateObserver(BUTTON_ACTION.PRESS_RELEASE);
@@ -143,7 +151,7 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPressed()
     {
-        if (m_ItemButtonController != null && m_Item != null)
+        if (m_ItemButtonController != null && m_Item != null )
         {
             if (m_ItemButtonController.OnPointerPressCondition())
                 UpdateObserver(BUTTON_ACTION.PRESS_DOWN);

@@ -142,6 +142,16 @@ public class STAT
         }
     }
 
+    public float AttackSpeed
+    {
+        get => attackSpeed;
+        set
+        {
+            attackSpeed = value;
+            OnPropertyChange?.Invoke();
+        }
+    }
+
     // 스탯의 변수에 변화가 생기면 실행한 함수가 있다면 여기에 넣고 쓰자.
     // 예 ) ui 스탯창 변화가 생길때 스탯을 갱신하는 함수를 여따 넣으면 알아서 갱신함.
     public void AddPropertyChangeAction(System.Action _action)
@@ -320,8 +330,8 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff == null) return;
         m_ListBuff.Add(_buff);
-
-        Debug.Log(" 버프 갯수 : " + m_ListBuff.Count);
+        
+        Debug.Log(" 버프 갯수 : " + m_ListBuff.Count + " , " + _buff.m_BuffType);
 
         if(_buff.m_BuffExitAction == null)
         _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };

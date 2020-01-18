@@ -3,16 +3,55 @@
   <Buff>
     <BUFFTYPE>ADRENALINE</BUFFTYPE>
     <DurationTime>5</DurationTime>
-    <TickTime>1</TickTime>
+    <TickTime>0</TickTime>
+    <Attack>0</Attack>
+    <AttackSpeed>1.2</AttackSpeed>
+    <MoveSpeed>2.0</MoveSpeed>
+    <Level>1</Level>
+  </Buff>
+  <Buff>
+    <BUFFTYPE>ADRENALINE</BUFFTYPE>
+    <DurationTime>7.5</DurationTime>
+    <TickTime>0</TickTime>
+    <Attack>5</Attack>
+    <AttackSpeed>1.4</AttackSpeed>
+    <MoveSpeed>2.0</MoveSpeed>
+    <Level>2</Level>
   </Buff>
   <Buff>
     <BUFFTYPE>BLESSING</BUFFTYPE>
     <DurationTime>5</DurationTime>
     <TickTime>1</TickTime>
+    <Attack>5</Attack>
+    <AttackSpeed>0.0</AttackSpeed>
+    <MoveSpeed>0.0</MoveSpeed>
+    <Level>1</Level>
+  </Buff>
+  <Buff>
+    <BUFFTYPE>BLESSING</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+    <Attack>10</Attack>
+    <AttackSpeed>0.0</AttackSpeed>
+    <MoveSpeed>0.0</MoveSpeed>
+    <Level>2</Level>
   </Buff>
   <Buff>
     <BUFFTYPE>POISON</BUFFTYPE>
     <DurationTime>5</DurationTime>
     <TickTime>1</TickTime>
+    <Attack>5</Attack>
+    <AttackSpeed>0.7</AttackSpeed>
+    <MoveSpeed>0.7</MoveSpeed>
+    <Level>1</Level>
+  </Buff>
+  <Buff>
+    <BUFFTYPE>POISON</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+    <Attack>5</Attack>
+    <AttackSpeed>0.5</AttackSpeed>
+    <MoveSpeed>0.5</MoveSpeed>
+    <Level>2</Level>
   </Buff>
 </BuffInfo>

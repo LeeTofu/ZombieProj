@@ -48,7 +48,8 @@ MonoBehaviour:
   m_zombieState: 0
   m_Animator: {fileID: 0}
   m_CurrentEquipedItem: {fileID: 0}
-  m_dropItem: 0
+  m_BuffType: 1
+  m_Level: 1
 --- !u!82 &1075387660303436797
 AudioSource:
   m_ObjectHideFlags: 0

@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eDROP_ITEM
-{
-    ADRENALIN, // 공속,이속 증가
-    HEALTH, // 체력 회복
-    POISON // 독
-}
 
 public class DropItem : MovingObject
 {
     [SerializeField]
-    eDROP_ITEM m_dropItem;
+    BUFF_TYPE m_BuffType;
+
+    [SerializeField]
+    int m_Level;
 
     // 이 아이템을 먹으면 주는 버프
     Buff m_Buff;
@@ -43,30 +40,12 @@ public class DropItem : MovingObject
     {
         if (_object == null) return;
 
-        switch (m_dropItem)
-        {
-            case eDROP_ITEM.ADRENALIN:
-                {
-                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.ADRENALINE);
-                }
-                break;
-            case eDROP_ITEM.HEALTH:
-                {
-                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING);
-
-                }
-                break;
-            case eDROP_ITEM.POISON:
-                {
-                    m_Buff = BuffManager.Instance.GetBuff(BUFF_TYPE.POISON);
-
-                }
-                break;
-        }
+        Debug.Log("Buff 걸림" + m_BuffType);
+        BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
 
         m_audioSource.Play();
         EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 1.0f);
-        _object.AddBuff(m_Buff);
+      //  _object.AddBuff(m_Buff);
 
         pushToMemory((int)m_Type);
     }

@@ -9,7 +9,11 @@ public abstract class Buff : STAT
 
     protected float m_CurTimeDuration = 0.0f;// 현재 버프 시간
 
-    protected STAT m_Stat;
+    public int m_Level;
+
+    public BUFF_TYPE m_BuffType;
+
+    public STAT m_Stat;
     public Buff(STAT _stat)
     { 
         m_Stat = _stat;
@@ -65,18 +69,20 @@ public class Adrenaline : Buff
 {
      public Adrenaline(STAT _stat) : base(_stat) 
     {
+        m_BuffType = BUFF_TYPE.ADRENALINE;
         Debug.Log("아드레날린 분비");
         BuffCoroutine = OnceCoroutine();
     }
     protected override void BuffAction()
      {
-        m_Stat.MoveSpeed = m_Stat.MoveSpeed * 2.0f;
+        Debug.Log( MoveSpeed );
+        m_Stat.MoveSpeed *= MoveSpeed;
      }
 
     protected override void BuffExitAction()
     {
         Debug.Log("아드레날린 분비 끝");
-        m_Stat.MoveSpeed = m_Stat.MoveSpeed / 2.5f;
+        m_Stat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
     }
@@ -86,11 +92,12 @@ public class Blessing : Buff
 {
     public Blessing(STAT _stat) : base(_stat)
     {
+        m_BuffType = BUFF_TYPE.BLESSING;
         BuffCoroutine = TimeTickCorotine();
     }
     protected override void BuffAction()
     {
-        m_Stat.CurHP += 2.0f;
+        m_Stat.CurHP += Attack;
         Debug.Log("Healing:" + m_Stat.CurHP);
     }
     protected override void BuffExitAction()
@@ -104,16 +111,19 @@ public class Poison : Buff
 {
     public Poison(STAT _stat) : base(_stat)
     {
-         BuffCoroutine = TimeTickCorotine();
+        m_BuffType = BUFF_TYPE.POISON;
+        BuffCoroutine = TimeTickCorotine();
     }
     protected override void BuffAction()
     {
-        m_Stat.CurHP -= 2.0f;
-        Debug.Log("PoisonDamage:" + m_Stat.CurHP);
+        m_Stat.CurHP -= Attack;
+        m_Stat.MoveSpeed *= MoveSpeed;
+        Debug.Log("PoisonDamage:" + Attack);
     }
 
     protected override void BuffExitAction()
     {
+        m_Stat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
     }

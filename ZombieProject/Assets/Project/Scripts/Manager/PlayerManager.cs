@@ -198,9 +198,11 @@ public class PlayerManager : Singleton<PlayerManager>
         switch(item.m_ItemStat.m_Sort)
         {
             case ITEM_SORT.HEALTH_PACK:
+                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING, item.m_Lv));
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
             case ITEM_SORT.BUFF:
+                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.ADRENALINE, item.m_Lv));
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
         }

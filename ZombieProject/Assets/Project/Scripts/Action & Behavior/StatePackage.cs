@@ -406,6 +406,7 @@ public class DrinkState : PlayerState
 
         EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, m_PlayerObject.transform.position, Quaternion.identity, 
             Vector3.one * 1.2f,  true, 1.0f);
+
         m_Time = 0.0f;
     }
     public override void End()
@@ -422,7 +423,10 @@ public class DrinkState : PlayerState
         }
 
         if (m_PlayerObject.m_Stat != null)
-            m_PlayerObject.AddBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING));
+        {
+            if((m_PlayerObject as PlayerObject).m_ReservedBuff == null)
+                BuffManager.Instance.ApplyBuff((m_PlayerObject as PlayerObject).m_ReservedBuff, m_PlayerObject);
+        }
 
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);

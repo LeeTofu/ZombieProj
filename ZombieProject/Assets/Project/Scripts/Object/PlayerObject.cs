@@ -9,6 +9,8 @@ public class PlayerObject : MovingObject
     // MoveController m_Controller;
     private Coroutine m_Coroutine;
 
+    public Buff m_ReservedBuff;
+
     public override void InGame_Initialize()
     {
         SetStat(new STAT
@@ -18,7 +20,8 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-        BuffManager.Instance.SetStat(m_Stat);
+
+
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
             if (m_StateController == null)
@@ -60,20 +63,24 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-        BuffManager.Instance.SetStat(m_Stat);
+
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 
         return;
     }
 
-
     public void ChangeState(E_PLAYABLE_STATE _state)
     {
         if(m_StateController != null)
-        m_StateController.ChangeState(_state);
+            m_StateController.ChangeState(_state);
     }
 
+    public void ReserveBuff(Buff _buff)
+    {
+        _buff.SetStat(m_Stat);
+        m_ReservedBuff = _buff;
+    }
 
     private void Update()
     {

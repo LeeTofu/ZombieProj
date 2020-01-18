@@ -6,26 +6,28 @@ using UnityEngine;
 public enum BUFF_TYPE
 {
     NONE = 0,
+
     ADRENALINE,
     BLESSING,
     POISON,
+
     END
 }
 public class BuffManager : Singleton<BuffManager>
 {
     public bool m_IsCreateXML = false;
     public bool m_IsParsing = false;
-    Dictionary<BUFF_TYPE, Buff> m_BuffTable = new Dictionary<BUFF_TYPE, Buff>();
+    Dictionary<BUFF_TYPE, List<Buff>> m_BuffTable = new Dictionary<BUFF_TYPE, List<Buff>>();
     public override bool Initialize()
     {
         LoadBuffData();
-
         return true;
     }
 
     public void LoadBuffData()
     {
         if (m_IsParsing) return;
+
         TextAsset textAsset = (TextAsset)Resources.Load("Data/Buff/BuffData");
         Debug.Log(textAsset);
         XmlDocument xmlDoc = new XmlDocument();
@@ -39,6 +41,7 @@ public class BuffManager : Singleton<BuffManager>
             STAT stat = new STAT();
             BUFF_TYPE bufftype;
             System.Enum.TryParse<BUFF_TYPE>(node.SelectSingleNode("BUFFTYPE").InnerText, out bufftype);
+
             switch(bufftype)
             {
                 case BUFF_TYPE.ADRENALINE:
@@ -54,33 +57,127 @@ public class BuffManager : Singleton<BuffManager>
                     Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + bufftype);
                     continue;
             }
+
+            
             buff.m_DurationTime = float.Parse(node.SelectSingleNode("DurationTime").InnerText);
             buff.m_TickTime = int.Parse(node.SelectSingleNode("TickTime").InnerText);
-            m_BuffTable.Add(bufftype, buff);
+
+            // ================= 추가 ======================
+            buff.Attack = float.Parse(node.SelectSingleNode("Attack").InnerText);
+            buff.MoveSpeed = float.Parse(node.SelectSingleNode("MoveSpeed").InnerText);
+            buff.AttackSpeed = float.Parse(node.SelectSingleNode("AttackSpeed").InnerText);
+            buff.m_Level = int.Parse(node.SelectSingleNode("Level").InnerText);
+
+            List<Buff> buffList;
+
+            if(m_BuffTable.TryGetValue(bufftype, out buffList))
+            {
+                buffList.Add(buff);
+            }
+            else
+            {
+                buffList = new List<Buff>();
+                buffList.Add(buff);
+                m_BuffTable.Add(bufftype, buffList);
+            }
+            
+            // =============================================
         }
 
         m_IsParsing = true;
     }
 
-    public Buff GetBuff(BUFF_TYPE _bufftype)
+    Buff CloneBuff(Buff _buff)
     {
-        Buff buff;
-        if (!m_BuffTable.TryGetValue(_bufftype, out buff))
+        Buff newBuff = null;
+        STAT stat = new STAT();
+
+        switch (_buff.m_BuffType)
         {
-            Debug.LogError("그런 버프 없음");
+            case BUFF_TYPE.ADRENALINE:
+                newBuff = new Adrenaline(_buff.m_Stat);
+                break;
+            case BUFF_TYPE.BLESSING:
+                newBuff = new Blessing(_buff.m_Stat);
+                break;
+            case BUFF_TYPE.POISON:
+                newBuff = new Poison(_buff.m_Stat);
+                break;
         }
-        return buff;
+
+        newBuff.m_Level = _buff.m_Level;
+        newBuff.m_BuffExitAction = _buff.m_BuffExitAction;
+        newBuff.m_DurationTime = _buff.m_DurationTime;
+
+        newBuff.Attack = _buff.Attack;
+        newBuff.MoveSpeed = _buff.MoveSpeed;
+        newBuff.AttackSpeed = _buff.AttackSpeed;
+
+        return newBuff;
     }
 
-    public void SetStat(STAT _stat)
+    // ======================== 추가 ========================
+    public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, int _buffLevel )
     {
-        Buff buff;
-        foreach(BUFF_TYPE i in System.Enum.GetValues(typeof(BUFF_TYPE)))
+       if(_object != null)
         {
-            if (m_BuffTable.TryGetValue(i, out buff))
+            Buff buff = GetBuff(_bufftype, _buffLevel);
+            buff.SetStat(_object.m_Stat);
+
+            buff = CloneBuff(buff);
+
+            if (buff == null) return;
+
+            if(buff.m_BuffType == BUFF_TYPE.END || buff.m_BuffType == BUFF_TYPE.NONE)
             {
-                buff.SetStat(_stat);
+                Debug.LogError("End나 None이 왜");
+                return;
             }
+            _object.AddBuff(buff);
         }
     }
+
+    public void ApplyBuff(Buff _buff, MovingObject _object)
+    {
+        if (_object != null)
+        {
+            _buff.SetStat(_object.m_Stat);
+            Buff newBuff = CloneBuff(_buff);
+
+            if (newBuff == null) return;
+            _object.AddBuff(newBuff);
+        }
+    }
+
+    // 버프 레벨1 -> buff가 담긴 리스트의 0번째에 들어있음,
+    // 버프 레벨2 -> buff가 담긴 리스트의 1번째에 들어있음,
+    // 버프 레벨3 -> buff가 담긴 리스트의 2번째에 들어있음,
+    // ...
+
+    public Buff GetBuff(BUFF_TYPE _bufftype, int _Level)
+    {
+        List<Buff> listBuff;
+
+        Debug.Log(_bufftype);
+
+        if (!m_BuffTable.TryGetValue(_bufftype, out listBuff))
+        {
+            Debug.LogError("그런 버프 없음");
+            // ========= 추가 ========
+            return null;
+            // =======================
+        }
+
+        foreach(Buff buff in listBuff)
+        {
+            if(buff.m_Level == _Level)
+            {
+                return buff;
+            }
+        }
+
+        return null;
+    }
+    // ====================================================
+
 }

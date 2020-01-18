@@ -129,6 +129,7 @@ public class STAT
                 isDead = true;
             }
             else isDead = false;
+            OnPropertyChange?.Invoke();
         }
     }
     public float MaxHP
@@ -210,6 +211,9 @@ public abstract class MovingObject : MonoBehaviour
     public const float m_InjuredHP = 30f;
 
     protected Renderer[] m_Renderers;
+
+    protected System.Action m_BuffAction;
+    protected System.Action m_DeBuffAction;
 
     // 처음 오브젝트가 팩토리에서 만들어질 때 단 한번만 실행합니다.
     public abstract void Initialize(GameObject _model, MoveController _Controller);
@@ -318,7 +322,7 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff == null) return;
         m_ListBuff.Add(_buff);
-        
+        m_BuffAction?.Invoke();
         Debug.Log(" 버프 갯수 : " + m_ListBuff.Count + " , " + _buff.m_BuffType);
 
         _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };
@@ -348,7 +352,7 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff != null) return;
         m_ListDeBuff.Add(_buff);
-
+        m_DeBuffAction?.Invoke();
         StartCoroutine(_buff.BuffCoroutine);
     }
 
@@ -423,11 +427,26 @@ public abstract class MovingObject : MonoBehaviour
         if (_isKnockBack)
             m_KnockBackAction?.Invoke(_knockBackTime);
     }
-    public void AddKnockBackFunction(System.Action<float> _kockBackAction)
+    public void AddKnockBackFunction(System.Action<float> _knockBackAction)
     {
-        m_KnockBackAction += _kockBackAction;
+        m_KnockBackAction += _knockBackAction;
     }
-
+    public void AddBuffFunction(System.Action _buffAction)
+    {
+        m_BuffAction += _buffAction;
+    }
+    public void AddDeBuffFunction(System.Action _deBuffAction)
+    {
+        m_DeBuffAction += _deBuffAction;
+    }
+    public List<Buff> GetListBuff()
+    {
+        return m_ListBuff;
+    }
+    public List<Buff> GetListDeBuff()
+    {
+        return m_ListDeBuff;
+    }
     // 넉백액션함수에 깜빡이는 코루틴이랑 넉백당한 동안 isKnockBack을 true로 해주는 코루틴 추가하는 함수
     public void AddKnockBackAction(float _blinkterm)
     {

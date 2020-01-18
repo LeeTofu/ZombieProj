@@ -424,7 +424,7 @@ public class DrinkState : PlayerState
 
         if (m_PlayerObject.m_Stat != null)
         {
-            if((m_PlayerObject as PlayerObject).m_ReservedBuff == null)
+            if((m_PlayerObject as PlayerObject).m_ReservedBuff != null)
                 BuffManager.Instance.ApplyBuff((m_PlayerObject as PlayerObject).m_ReservedBuff, m_PlayerObject);
         }
 

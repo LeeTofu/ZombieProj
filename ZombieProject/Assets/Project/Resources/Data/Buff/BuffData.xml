@@ -22,7 +22,7 @@
     <BUFFTYPE>BLESSING</BUFFTYPE>
     <DurationTime>5</DurationTime>
     <TickTime>1</TickTime>
-    <Attack>5</Attack>
+    <Attack>10</Attack>
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>1</Level>
@@ -31,7 +31,7 @@
     <BUFFTYPE>BLESSING</BUFFTYPE>
     <DurationTime>5</DurationTime>
     <TickTime>1</TickTime>
-    <Attack>10</Attack>
+    <Attack>15</Attack>
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>2</Level>

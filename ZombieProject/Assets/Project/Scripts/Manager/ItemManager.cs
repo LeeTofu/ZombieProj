@@ -100,8 +100,10 @@ public class ItemManager : Singleton<ItemManager>
     }
 
     // 인게임에 쓰는 무기 오브젝트를 만드는 함수입니다.
-    public GameObject CreateItemObject(Item _item)
+    public ItemObject CreateItemObject(Item _item)
     {
+        if (_item == null) return null;
+
         GameObject newObj = new GameObject("Waepon");
 
         GameObject newItemModel = Instantiate(Resources.Load<GameObject>(m_WeaponModelPath + _item.m_ItemStat.m_ModelString));
@@ -109,10 +111,12 @@ public class ItemManager : Singleton<ItemManager>
         newItemModel.transform.localPosition = Vector3.zero;
         newItemModel.transform.localRotation = Quaternion.identity;
 
-        newObj.AddComponent<ItemObject>();
+        ItemObject item = newObj.AddComponent<ItemObject>();
         newObj.AddComponent<AudioSource>();
 
-        return newObj;
+        item.Init(_item);
+
+        return item;
     }
 
 

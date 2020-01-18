@@ -11,7 +11,7 @@
 		<Armor>0</Armor>
 		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
-		<Range>5</Range>
+		<Range>10</Range>
 		<isAccumulate>FALSE</isAccumulate>
 		<AttackSpeed>0.8</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
@@ -71,7 +71,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>1</Range>
+    <Range>5.5</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
@@ -91,7 +91,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>5</Range>
+    <Range>10</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>3</AttackSpeed>
     <BulletSpeed>10</BulletSpeed>
@@ -111,7 +111,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>5</Range>
+    <Range>10</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>0.15</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
@@ -191,7 +191,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>1</Range>
+    <Range>20</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>

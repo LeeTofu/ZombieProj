@@ -46,7 +46,7 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DROP_ITEM, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Dust"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 5);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletMuzzle"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 5);

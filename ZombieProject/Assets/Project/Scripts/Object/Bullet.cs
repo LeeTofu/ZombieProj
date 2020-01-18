@@ -39,6 +39,8 @@ public abstract class Bullet : MovingObject
         }
     }
 
+    // Bullet이 사정거리까지 이동했을 떼 실행하는 함수.
+    protected abstract void BulletOverRangefunction();
     protected abstract void BulletMove();
 
     public abstract void CollisionEvent(GameObject _object);
@@ -94,6 +96,17 @@ public abstract class Bullet : MovingObject
 
     protected void Update()
     {
-        BulletMove();
+        if (m_isFire)
+        {
+            m_currentMoveDistance += (Time.deltaTime * m_Stat.MoveSpeed);
+            if (m_currentMoveDistance > m_Stat.Range)
+            {
+                BulletOverRangefunction();
+                m_currentMoveDistance = 0.0f;
+                return;
+            }
+
+            BulletMove();
+        }
     }
 }

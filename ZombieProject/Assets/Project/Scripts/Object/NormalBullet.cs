@@ -23,6 +23,18 @@ public class NormalBullet : Bullet
         transform.position += (m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
     }
 
+    protected override void BulletOverRangefunction()
+    {
+        EffectManager.Instance.PlayEffect(
+        PARTICLE_TYPE.DUST,
+        transform.position,
+        Quaternion.LookRotation(-m_CurDirection),
+        Vector3.one * 1.0f,
+        true, 1.0f);
+
+        pushToMemory((int)m_BulletType);
+    }
+
     public override void CollisionEvent(GameObject _object)
     {
         if (_object.tag == "Zombie")

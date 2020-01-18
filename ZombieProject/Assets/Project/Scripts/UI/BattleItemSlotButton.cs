@@ -19,31 +19,45 @@ public class BattleItemSlotButton : UIPressSubject
 
     ItemActionController m_ItemButtonController;
 
+    bool m_isInitialize = false;
+
     public void Init(MovingObject _character ,Item _item)
     {
         m_CoolDownImage.fillAmount = 0.0f;
 
         if (_item == null)
         {
+            m_Item = null;
             m_ItemIcon.color = Color.clear;
+
+            if (m_ItemButtonController != null)
+                m_ItemButtonController.enabled = false;
+
             return;
         }
 
         m_Character = _character;
         m_Item = _item;
-        m_slotType = _item.m_ItemSlotType;
+       
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
 
-        m_ItemButtonController = GetComponent<ItemActionController>();
+        if (m_ItemButtonController == null)
+            m_ItemButtonController = GetComponent<ItemActionController>();
 
         if (m_ItemButtonController == null)
             m_ItemButtonController = gameObject.AddComponent<ItemActionController>();
 
+        m_ItemButtonController.enabled = true;
         m_ItemButtonController.Initialized(_item, this);
 
-        RegisterEvent(BUTTON_ACTION.PRESS_ENTER, PressEnterItemAction);
-        RegisterEvent(BUTTON_ACTION.PRESS_DOWN, PressItemAction);
+        if (m_isInitialize == false)
+        {
+            RegisterEvent(BUTTON_ACTION.PRESS_ENTER, PressEnterItemAction);
+            RegisterEvent(BUTTON_ACTION.PRESS_DOWN, PressItemAction);
+        }
+
+        m_isInitialize = true;
     }
 
 
@@ -60,8 +74,11 @@ public class BattleItemSlotButton : UIPressSubject
 
     void UpdateCoolDown()
     {
-        m_ItemButtonController.TickItemCoolTime();
-        m_CoolDownImage.fillAmount = m_ItemButtonController.m_CoolTimePercentage;
+        if (m_ItemButtonController.enabled)
+        {
+            m_ItemButtonController.TickItemCoolTime();
+            m_CoolDownImage.fillAmount = m_ItemButtonController.m_CoolTimePercentage;
+        }
     }
 
     void UpdateAttackSpeed()
@@ -83,7 +100,7 @@ public class BattleItemSlotButton : UIPressSubject
             switch(m_slotType)
             {
                 case ITEM_SLOT_SORT.SECOND:
-                    PlayerManager.Instance.PlayerChangeWeapon();
+                    PlayerManager.Instance.ChangeWeapon();
                     break;
                 default:
                     PlayerManager.Instance.PlayerUseItem(m_slotType);

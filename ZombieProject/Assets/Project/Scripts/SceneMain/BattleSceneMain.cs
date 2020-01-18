@@ -78,7 +78,6 @@ public class BattleSceneMain : SceneMain
 
         EnemyManager.Instance.Initialize_InGame();
 
-
         Debug.Log("Battle init 불러옴");
         return true;
     }

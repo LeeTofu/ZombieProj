@@ -59,6 +59,8 @@ public class ItemActionController : MonoBehaviour
 
     }
 
+   
+
     // 쿨다운 틱당 도는 함수입ㄴ다.
     public void TickItemCoolTime()
     {

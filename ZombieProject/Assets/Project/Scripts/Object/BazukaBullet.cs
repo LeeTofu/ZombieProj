@@ -27,6 +27,20 @@ public class BazukaBullet : Bullet
         Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
     }
 
+    protected override void BulletOverRangefunction()
+    {
+        EffectManager.Instance.PlayEffect(
+                    PARTICLE_TYPE.EXPLOSION_MEDIUM,
+                    transform.position,
+                    Quaternion.LookRotation(-transform.forward),
+                    Vector3.one * 1.4f,
+                    true, 1.0f);
+
+        SplashAttack(transform.position);
+
+        pushToMemory((int)m_BulletType);
+    }
+
 
     public override void CollisionEvent(GameObject _object)
     {

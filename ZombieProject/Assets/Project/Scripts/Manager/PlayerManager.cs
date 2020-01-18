@@ -20,6 +20,10 @@ public class PlayerManager : Singleton<PlayerManager>
     public Item m_MainItem;
     public Item m_SecondaryItem;
 
+    public ItemObject m_MainEquipedItemObject;
+    public ItemObject m_SecondEquipedItemObject;
+
+    public ItemObject m_CurrentEquipedItemObject;
 
     [SerializeField]
     private GameObject m_PlayerHeadModelPrefabs;
@@ -66,6 +70,42 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
+
+    // Player 게임 시작시에 무기 셋팅 하는 부분.
+    void PlayerWeaponInitialize()
+    {
+        if (m_MainEquipedItemObject != null)
+        {
+            Destroy(m_MainEquipedItemObject);
+            m_MainEquipedItemObject = null;
+        }
+        if (m_SecondEquipedItemObject != null)
+        {
+            Destroy(m_SecondEquipedItemObject);
+            m_SecondEquipedItemObject = null;
+        }
+
+        m_CurrentEquipedItemObject = null;
+
+        m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
+        m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
+
+        m_MainEquipedItemObject = ItemManager.Instance.CreateItemObject(m_MainItem);
+        m_SecondEquipedItemObject = ItemManager.Instance.CreateItemObject(m_SecondaryItem);
+
+        m_CurrentEquipedItemObject = m_MainEquipedItemObject == null ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
+
+        if (m_MainEquipedItemObject != null)
+            m_MainEquipedItemObject.gameObject.SetActive(false);
+        if (m_SecondEquipedItemObject != null)
+            m_SecondEquipedItemObject.gameObject.SetActive(false);
+
+        if (m_CurrentEquipedItemObject)
+            m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
+
+    }
+
+
     public MovingObject CreatePlayer(Vector3 _pos, Quaternion _quat)
     {
         if (m_PlayerCreateZone != null)
@@ -74,15 +114,32 @@ public class PlayerManager : Singleton<PlayerManager>
         // 설정 //
         m_Player = m_PlayerFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.PLAYER);
 
-        m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
-        m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
+        PlayerWeaponInitialize();
 
-        m_Player.SetWeapon(m_MainItem == null ? m_SecondaryItem : m_MainItem);
-
-        
-      
         return m_Player;
     }
+
+    public void ChangeWeapon()
+    {
+        if (m_Player == null) return;
+        if(m_CurrentEquipedItemObject == null)
+        {
+            m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
+            m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
+
+            BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
+
+            return;
+        }
+
+        m_CurrentEquipedItemObject.gameObject.SetActive(false);
+
+        m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
+
+        m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
+    }
+
 
     public override bool Initialize()
     {
@@ -172,19 +229,11 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    public void PlayerChangeWeapon()
-    {
-        Item item = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
-        if(item != null)
-        {
-            m_Player.SetWeapon(item);
-        }
-    }
 
     public void PlayerAttack()
     {
-        if (m_Player.m_CurrentEquipedItem != null)
-            m_Player.m_CurrentEquipedItem.ItemAction();
+        if (m_CurrentEquipedItemObject != null)
+            m_CurrentEquipedItemObject.ItemAction();
     }
 
     public void PlayerUseItem(ITEM_SLOT_SORT _type)

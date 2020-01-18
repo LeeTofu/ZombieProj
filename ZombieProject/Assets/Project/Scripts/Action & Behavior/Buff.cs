@@ -12,11 +12,14 @@ public abstract class Buff : STAT
     public int m_Level;
 
     public BUFF_TYPE m_BuffType;
+    
+    public string m_ImagePath;
 
     public STAT m_Stat;
     public Buff(STAT _stat)
     { 
         m_Stat = _stat;
+        m_ImagePath = "Image/UIIcon/";
     }
     
     public void SetStat(STAT _stat)
@@ -70,6 +73,7 @@ public class Adrenaline : Buff
      public Adrenaline(STAT _stat) : base(_stat) 
     {
         m_BuffType = BUFF_TYPE.ADRENALINE;
+        m_ImagePath += "Speed";
         Debug.Log("아드레날린 분비");
         BuffCoroutine = OnceCoroutine();
     }
@@ -93,12 +97,15 @@ public class Blessing : Buff
     public Blessing(STAT _stat) : base(_stat)
     {
         m_BuffType = BUFF_TYPE.BLESSING;
+        m_ImagePath += "Plus2";
         BuffCoroutine = TimeTickCorotine();
     }
     protected override void BuffAction()
     {
         m_Stat.CurHP += Attack;
         Debug.Log("Healing:" + m_Stat.CurHP);
+        Debug.Log(m_DurationTime);
+        Debug.Log(m_CurTimeDuration);
     }
     protected override void BuffExitAction()
     {
@@ -112,6 +119,7 @@ public class Poison : Buff
     public Poison(STAT _stat) : base(_stat)
     {
         m_BuffType = BUFF_TYPE.POISON;
+        m_ImagePath += "";
         BuffCoroutine = TimeTickCorotine();
     }
     protected override void BuffAction()

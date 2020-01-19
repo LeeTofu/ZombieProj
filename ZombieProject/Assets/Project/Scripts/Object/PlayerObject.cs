@@ -35,8 +35,6 @@ public class PlayerObject : MovingObject
 
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
- 
-
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller)

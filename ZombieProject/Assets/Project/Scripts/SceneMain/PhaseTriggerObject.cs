@@ -11,9 +11,16 @@ public class PhaseTriggerObject : MonoBehaviour
 
     AudioSource m_Source;
 
+    BoxCollider m_Collidier;
+
+    BattleUI m_UI;
+
+
     private void Start()
     {
+        m_Collidier = GetComponent<BoxCollider>();
         m_Source = GetComponent<AudioSource>();
+        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.IN_GAME).GetComponent<BattleUI>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,7 +29,8 @@ public class PhaseTriggerObject : MonoBehaviour
 
         m_Source.Play();
         EnemyManager.Instance.OccurZombiePhase(m_IWillOccurPhase);
+        m_UI.PlayWaringText();
 
-        gameObject.SetActive(false);
+        m_Collidier.enabled = false;
     }
 }

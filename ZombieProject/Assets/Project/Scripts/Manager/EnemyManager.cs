@@ -171,7 +171,6 @@ public class EnemyManager : Singleton<EnemyManager>
         }
     }
 
-
     // 인게임 들어갓을때 마다 실행되는 초기화 함수입니다.
     // 인게임 들어갈때 마다 초기화.
     // 실행되는 시점은 게임씬이 생성하기 전 로딩때 임. 

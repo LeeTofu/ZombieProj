@@ -162,28 +162,27 @@ public class PlayerManager : Singleton<PlayerManager>
     }
 
     // 해당 터치 위치가 플레이어가 공격할 수 있는 시야각에 있는지 체크하는 함수입니다.
-    public bool CheckCanAttack(Vector3 _inputScreenPosition)
+    public bool CheckCanAttack(Vector3 _zombiePos)
     {
         if (m_Player == null) return false;
 
-        Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
-        RaycastHit castHit;
-        if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
-        {
-            Vector3 HitPositon = castHit.point;
-            HitPositon.y = m_Player.transform.position.y;
-            Vector3 HitForward = HitPositon - m_Player.transform.position;
+      //  Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
+       // RaycastHit castHit;
+       // if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
+       // {
+          //  Vector3 HitPositon = castHit.point;
+          //  HitPositon.y = m_Player.transform.position.y;
+            Vector3 HitForward = _zombiePos - m_Player.transform.position;
 
             HitForward = HitForward.normalized;
 
-            if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.8f)
+            if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.85f)
             {
                 return true;
             }
             else return false;
-        }
+      //  }
 
-        return false;
     }
 
 
@@ -233,8 +232,28 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void PlayerAttack()
     {
-        if (m_CurrentEquipedItemObject != null)
-            m_CurrentEquipedItemObject.ItemAction();
+        if (m_CurrentEquipedItemObject == null) return;
+
+        ItemStat itemStat = m_CurrentEquipedItemObject.m_Item.m_ItemStat;
+        MovingObject zombie = EnemyManager.Instance.GetNearestZombie(m_Player.transform.position, itemStat.m_Range);
+
+        if (zombie != null)
+        {
+            if (CheckCanAttack(zombie.transform.position))
+            {
+                Vector3 dir = zombie.transform.position - m_Player.transform.position;
+                dir.y = 0.0f;
+                dir = dir.normalized;
+
+                m_Player.transform.rotation = Quaternion.LookRotation(dir);
+            }
+        }
+        else
+        {
+          //  m_Player.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+        }
+
+        m_CurrentEquipedItemObject.ItemAction();
     }
 
     public void PlayerUseItem(ITEM_SLOT_SORT _type)

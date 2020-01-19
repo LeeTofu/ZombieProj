@@ -6,11 +6,15 @@ using UnityEngine.EventSystems;
 
 public class InputContoller : UIDragSubject
 {
+
+    Touch m_CurrnetTouch;
+    Dictionary<int, Touch> m_TouchhTable = new Dictionary<int, Touch>();
+
     // 컨트롤러 놓으면 원래 위치.
     public Vector3 m_defaultPosition;
 
     // 인풋 컨트롤러 조이스틱을 눌렀나.
-    public bool m_isHit { get; private set; }
+    public int m_touchCount { get; private set; }
 
     private Vector3 m_InputControllerPosition;
     private Canvas m_canvas;
@@ -24,6 +28,8 @@ public class InputContoller : UIDragSubject
     // 입력 컨트롤러 배경 반지름.
     static float s_ControllerBGRadius = 10.0f;
 
+    int m_LastFingerID = -1;
+
     // Drag 한 벡터
     public Vector3 m_DragDirectionVector { private set; get; }
     // 현재 캐릭터 이동할 벡터
@@ -31,6 +37,7 @@ public class InputContoller : UIDragSubject
 
     IEnumerator Start()
     {
+        m_touchCount = 0;
         m_defaultPosition = transform.position;
 
         this.enabled = false;
@@ -39,6 +46,7 @@ public class InputContoller : UIDragSubject
         m_ped = new PointerEventData(null);
         m_InputControllerPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         //m_isHit = false;
+
 
         while (m_Character == null)
         {
@@ -51,18 +59,51 @@ public class InputContoller : UIDragSubject
     void Update()
     {
         m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) / s_ControllerBGRadius;
+
     }
 
     public float GetCurrentMouseDragLength()
     {
-        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+        Vector3 mousePosition = Vector3.zero;
+#if UNITY_EDITOR
+         mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+#elif UNITY_ANDROID
+        if (Input.touchCount > 0 && m_LastFingerID != -1)
+        {
+            for (int i = 0; i < Input.touches.Length; i++)
+            {
+                if (Input.touches[i].fingerId == m_LastFingerID)
+                {
+                    mousePosition = Input.touches[i].position;
+                    break;
+                }
+            }
+        }
+#endif
+
         float length = Vector3.Magnitude(mousePosition - m_InputControllerPosition);
         return length;
     }
 
     public Vector3 GetMousePosition()
     {
+#if UNITY_EDITOR
         return new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+#elif UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
+            for (int i = 0; i < Input.touches.Length; i++)
+            {
+                if (Input.touches[i].fingerId == m_LastFingerID)
+                {
+                    return new Vector3(Input.touches[i].position.x, Input.touches[i].position.y, transform.position.z);
+                }
+            }
+        }
+        return Vector3.zero;
+#endif
+
+
     }
 
     public Vector3 GetDirectionVec3()
@@ -102,9 +143,12 @@ public class InputContoller : UIDragSubject
     // 여기서 무브 벡터 만들음.
     public void CalculateMoveVector()
     {
-        //if (m_isHit == false) return;
         if (m_Character == null) return;
-        
+#if !UNITY_EDITOR
+        if (Input.touchCount <= 0) return;
+        if (m_LastFingerID == -1) return;
+#endif
+
         Vector3 MoveControllerDir = GetDirectionVec3();
 
         if (MoveControllerDir.sqrMagnitude > 0.0f)
@@ -130,8 +174,26 @@ public class InputContoller : UIDragSubject
         }
     }
 
+
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        if (m_LastFingerID != -1) return;
+
+        if (Input.touchCount > 0)
+        {
+            for (int i = 0; i < Input.touches.Length; i++)
+            {
+                if (Input.touches[i].phase == TouchPhase.Began || 
+                    Input.touches[i].phase == TouchPhase.Stationary ||
+                    Input.touches[i].phase == TouchPhase.Moved)
+                {
+                    m_LastFingerID = Input.touches[i].fingerId;
+                    break;
+                }
+            }
+        }
+
         UpdateObserver(BUTTON_ACTION.DRAG_ENTER);
 
         m_defaultPosition = this.transform.position;
@@ -144,26 +206,38 @@ public class InputContoller : UIDragSubject
     {
         UpdateObserver(BUTTON_ACTION.DRAG_EXIT);
 
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+      //  Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(m_LastFingerIndex).position);
         m_InputControllerPosition = m_defaultPosition;
         transform.position = m_InputControllerPosition;
 
         m_DragDirectionVector = Vector3.zero;
+
+        m_LastFingerID = -1;
 
        // Debug.Log("EndDrag");
     }
 
     public override void OnDrag(PointerEventData eventData)
     {
+        if (m_LastFingerID == -1) return;
+
+        Vector2 currentPos;
+
         if (GetCurrentMouseDragLength() < m_lengthlimit)
         {
-            Vector2 currentPos = Input.mousePosition;
+            Debug.Log("OnDrag 손가락 id : " + m_LastFingerID);
+
+#if UNITY_EDITOR
+            currentPos = Input.mousePosition;
+#elif UNITY_ANDROID
+            currentPos = GetMousePosition();
+#endif
+
             this.transform.position = currentPos;
         }
         else
         {
             transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
-
         }
 
         UpdateObserver(BUTTON_ACTION.DRAG);

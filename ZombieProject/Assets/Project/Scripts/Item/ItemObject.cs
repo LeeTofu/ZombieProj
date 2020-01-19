@@ -65,11 +65,10 @@ public class ItemObject : MonoBehaviour
                 m_Item.m_ItemStat);
                 break;
             case ITEM_EVENT_TYPE.SHOT_GUN:
-
-                for(int i = 0; i < 7; i++)
+                for(int i = 0; i < 5; i++)
                 {
                     Vector3 forward = new Vector3(m_FireTransform.transform.forward.x , 0, m_FireTransform.transform.forward.z);
-                    Vector3 dir = Quaternion.Euler(0, -30.0f + i * 10.0f, 0) * forward;
+                    Vector3 dir = Quaternion.Euler(0, -30.0f + i * 15.0f, 0) * forward;
 
                     BulletManager.Instance.FireBullet(
                     m_FireTransform.position,

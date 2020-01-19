@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class BattleUI : BaseUI
 {
     [SerializeField]
+    TwinkleTextUI m_WaringText;
+
+    [SerializeField]
     TMPro.TextMeshProUGUI m_CountDown;
 
     [SerializeField]
@@ -32,8 +35,9 @@ public class BattleUI : BaseUI
 
     private void Start()
     {
-        Debug.Log("Battle  UI 불러옴");
+        Debug.Log("Battle UI 불러옴");
         StartCoroutine(CountDown_C());
+        m_WaringText.gameObject.SetActive(false);
     }
 
     IEnumerator CountDown_C()
@@ -84,6 +88,7 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffImage = transform.Find("BuffList").GetComponentsInChildren<Image>();
         m_ListDeBuffImage = transform.Find("DeBuffList").GetComponentsInChildren<Image>();
+
         for (int i = 0; i < buttons.Length; i++)
         {
             ITEM_SLOT_SORT type = buttons[i].m_slotType;
@@ -131,5 +136,14 @@ public class BattleUI : BaseUI
         }
         m_HpImage.fillAmount = CurHpAmount;
     }
+    public void PlayWaringText()
+    {
+        m_WaringText.gameObject.SetActive(true);
+        m_WaringText.StartTextUITwinkle();
+    }
+
+   
+
+
 
 }

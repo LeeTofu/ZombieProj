@@ -178,6 +178,7 @@ public class InputContoller : UIDragSubject
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+#if !UNITY_EDITOR
         if (m_LastFingerID != -1) return;
 
         if (Input.touchCount > 0)
@@ -193,6 +194,7 @@ public class InputContoller : UIDragSubject
                 }
             }
         }
+#endif
 
         UpdateObserver(BUTTON_ACTION.DRAG_ENTER);
 
@@ -219,8 +221,10 @@ public class InputContoller : UIDragSubject
 
     public override void OnDrag(PointerEventData eventData)
     {
-        if (m_LastFingerID == -1) return;
 
+#if !UNITY_EDITOR
+        if (m_LastFingerID == -1) return;
+#endif
         Vector2 currentPos;
 
         if (GetCurrentMouseDragLength() < m_lengthlimit)

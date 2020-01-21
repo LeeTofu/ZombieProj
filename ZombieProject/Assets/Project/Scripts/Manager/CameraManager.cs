@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager>
 {
+    Coroutine m_CameraShakeCoroutine;
     public Camera m_Camera;
 
     public float m_CameraSensitivity = 3.0f;
@@ -17,6 +18,7 @@ public class CameraManager : Singleton<CameraManager>
 
     float m_ZoomOutInRatio;
 
+    Vector3 m_CameraOringPostion;
 
 
     public override bool Initialize()
@@ -70,6 +72,34 @@ public class CameraManager : Singleton<CameraManager>
     {
         m_CameraOffset = m_DefalutCameraOffset;
     }
+
+    public void ShakeCamera(float _duration, float _intensity)
+    {
+        if (m_Camera == null) return;
+
+        m_CameraOringPostion = m_Camera.transform.position;
+      
+        if (m_CameraShakeCoroutine != null)
+            StopCoroutine(m_CameraShakeCoroutine);
+
+        m_CameraShakeCoroutine = StartCoroutine(Shake_C(_duration, _intensity));
+
+    }
+
+    IEnumerator Shake_C(float _duration, float _intensity)
+    {
+        float time = 0.0f;
+        float intensity = _intensity;
+        while(time < _duration)
+        {
+            m_Camera.transform.position = m_Camera.transform.position + Random.insideUnitSphere * intensity;
+            intensity -= Time.deltaTime;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
 
     //public void ZoomInOut(float _value)
     //{

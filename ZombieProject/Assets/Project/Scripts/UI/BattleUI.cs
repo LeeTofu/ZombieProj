@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class BattleUI : BaseUI
 {
+    Coroutine m_DamagedCoroutine;
+
+    [SerializeField]
+    RawImage m_DamagedImage;
+
     [SerializeField]
     TwinkleTextUI m_WaringText;
 
@@ -36,6 +41,7 @@ public class BattleUI : BaseUI
     private void Start()
     {
         Debug.Log("Battle UI 불러옴");
+        m_DamagedImage.gameObject.SetActive(false);
         StartCoroutine(CountDown_C());
         m_WaringText.gameObject.SetActive(false);
     }
@@ -53,6 +59,37 @@ public class BattleUI : BaseUI
         m_CountDown.text = " ";
         AddPlayerAction();
     }
+
+    public void OnDamagedEffect()
+    {
+        if (m_DamagedImage == null) return;
+
+        m_DamagedImage.gameObject.SetActive(true);
+        m_DamagedImage.color = Color.red;
+
+        if (m_DamagedCoroutine != null)
+            StopCoroutine(m_DamagedCoroutine);
+
+        CameraManager.Instance.ShakeCamera(0.5f, 0.2f);
+        m_DamagedCoroutine = StartCoroutine(DamageEffect_C(2.0f));
+    }
+
+    IEnumerator DamageEffect_C(float _duration)
+    {
+        float time = 0.0f;
+        while (time < _duration)
+        {
+            
+            m_DamagedImage.color = Color.Lerp(m_DamagedImage.color, new Color(1,0,0,0), Time.deltaTime * 2.0f);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        m_DamagedImage.gameObject.SetActive(false);
+    }
+
+
+
 
     private void AddPlayerAction()
     {

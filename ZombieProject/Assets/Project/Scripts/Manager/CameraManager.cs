@@ -83,7 +83,6 @@ public class CameraManager : Singleton<CameraManager>
             StopCoroutine(m_CameraShakeCoroutine);
 
         m_CameraShakeCoroutine = StartCoroutine(Shake_C(_duration, _intensity));
-
     }
 
     IEnumerator Shake_C(float _duration, float _intensity)

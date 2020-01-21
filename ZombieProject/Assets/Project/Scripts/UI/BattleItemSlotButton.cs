@@ -19,7 +19,7 @@ public class BattleItemSlotButton : UIPressSubject
     protected Image m_CoolDownImage;
 
     protected SlotController m_ItemButtonController;
-
+    
     protected bool m_isInitialize = false;
 
     public virtual void Init(MovingObject _character ,Item _item)
@@ -42,6 +42,8 @@ public class BattleItemSlotButton : UIPressSubject
        
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
+
+        m_StackCountText.text = _item.m_Count.ToString();
 
         if (m_ItemButtonController == null)
             m_ItemButtonController = GetComponent<SlotController>();
@@ -95,10 +97,24 @@ public class BattleItemSlotButton : UIPressSubject
 
     bool CheckCanActive()
     {
+        if (m_ItemButtonController.m_CoolTimePercentage > 0) return false;
         if (!InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
+        if (m_Item.m_Count <= 0) return false;
 
         return true;
     }
+
+    public void SpendItemStackCount()
+    {
+        m_Item.spendItem();
+        m_StackCountText.text = m_Item.m_Count.ToString();
+    }
+    public void plusItemStackCount(int _acc)
+    {
+        m_Item.plusItem(_acc);
+        m_StackCountText.text = m_Item.m_Count.ToString();
+    }
+
 
     void PressEnterItemAction()
     {
@@ -106,14 +122,19 @@ public class BattleItemSlotButton : UIPressSubject
         {
             switch (m_slotType)
             {
+                case ITEM_SLOT_SORT.MAIN:
+                    break;
                 case ITEM_SLOT_SORT.SECOND:
                     PlayerManager.Instance.ChangeWeapon();
                     break;
                 default:
                     PlayerManager.Instance.PlayerUseItem(m_slotType);
+                    SpendItemStackCount();
                     break;
 
             }
+
+           
         }
     }
 
@@ -125,6 +146,7 @@ public class BattleItemSlotButton : UIPressSubject
             {
                 case ITEM_SLOT_SORT.MAIN:
                     PlayerManager.Instance.PlayerAttack();
+                    SpendItemStackCount();
                     break;
             }
         }

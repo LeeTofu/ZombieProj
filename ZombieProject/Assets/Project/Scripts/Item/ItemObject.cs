@@ -11,6 +11,8 @@ public class ItemObject : MonoBehaviour
     AudioSource m_audio;
     AudioClip[] m_auidoClip;
 
+    public int m_currentBulletCount;
+
     public Item m_Item { private set; get; }
 
     private void Awake()
@@ -36,7 +38,7 @@ public class ItemObject : MonoBehaviour
         m_auidoClip = Resources.LoadAll<AudioClip>("Sound/WeaponSound/" + _item.m_ItemStat.m_Sort.ToString());
 
         m_Item = _item;
-
+        m_currentBulletCount = _item.m_Count;
         m_audio = GetComponent<AudioSource>();
 
         if (m_audio == null)

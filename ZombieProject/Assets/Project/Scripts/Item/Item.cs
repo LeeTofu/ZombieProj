@@ -75,6 +75,8 @@ public struct ItemStat
     public float m_BulletSpeed; // 공격템인데 Bullet의 공속은? ()
     public string m_BulletString; // 공격템인데 Bullet의 string;
 
+    public int m_Count; // 시작 카운트
+
 }
 
 public class Item
@@ -92,6 +94,7 @@ public class Item
 
     public ITEM_SLOT_SORT m_ItemSlotType { get; set; } // 이 아이템이 장착되었다면 
                                                        //어느 부위에 장착이 되었는지.
+
     public Item(Item _item)
     {
         m_UniqueItemID = _item.m_UniqueItemID;
@@ -99,6 +102,7 @@ public class Item
         m_CurrentEXP = _item.m_CurrentEXP;
         m_ItemStat = _item.m_ItemStat;
         m_ItemSlotType = _item.m_ItemSlotType;
+        m_Count = _item.m_Count;
     }
 
     public Item(int _ownedID, int _LV, int _curEXP, ITEM_SLOT_SORT _sort, ItemStat _stat) 
@@ -108,11 +112,27 @@ public class Item
         m_CurrentEXP = _curEXP;
         m_ItemStat = _stat;
         m_ItemSlotType = _sort;
+        m_Count = _stat.m_Count;
     }
 
     public void EquipItem()
     {
         m_isEquiped = true;
+    }
+
+    public void spendItem()
+    {
+        m_Count -= 1;
+
+        if(m_Count < 0)
+        {
+            m_Count = 0;
+        }
+    }
+
+    public void plusItem(int _accum)
+    {
+        m_Count += _accum;
     }
 
 }

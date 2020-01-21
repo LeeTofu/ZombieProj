@@ -19,6 +19,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>30</Count>
 	</text>
 	<text>
 		<ItemID>2</ItemID>
@@ -39,6 +40,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>-1</Count>
 	</text>
 	<text>
 		<ItemID>3</ItemID>
@@ -59,6 +61,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>-1</Count>
 	</text>
   <text>
     <ItemID>4</ItemID>
@@ -79,6 +82,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>10</Count>
   </text>
   <text>
     <ItemID>5</ItemID>
@@ -99,6 +103,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>5</Count>
   </text>
   <text>
     <ItemID>6</ItemID>
@@ -119,6 +124,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>120</Count>
   </text>
   <text>
     <ItemID>7</ItemID>
@@ -139,6 +145,7 @@
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
+    <Count>3</Count>
   </text>
   <text>
     <ItemID>8</ItemID>
@@ -159,6 +166,7 @@
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
+    <Count>2</Count>
   </text>
   <text>
     <ItemID>9</ItemID>
@@ -179,6 +187,7 @@
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
+    <Count>2</Count>
   </text>
   <text>
     <ItemID>100</ItemID>
@@ -199,5 +208,6 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
+    <Count>10</Count>
   </text>
 </Root>

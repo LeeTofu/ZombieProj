@@ -30,8 +30,10 @@ public class BattleUI : BaseUI
 
     public Coroutine m_HpDownCoroutine;
 
-    public Image[] m_ListBuffImage;
-    public Image[] m_ListDeBuffImage;
+    public static Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI> m_BuffTextTable = new Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI>();
+    public static Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI> m_DeBuffTextTable = new Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI>();
+    public static TMPro.TextMeshProUGUI[] m_ListBuffText;
+    public static TMPro.TextMeshProUGUI[] m_ListDeBuffText;
 
     private void Awake()
     {
@@ -97,24 +99,41 @@ public class BattleUI : BaseUI
         {
             if (m_HpDownCoroutine != null)
                 StopCoroutine(m_HpDownCoroutine);
-            m_HpDownCoroutine = StartCoroutine(HpDown());
+            m_HpDownCoroutine = StartCoroutine(HpChange());
         });
-        PlayerManager.Instance.m_Player.AddBuffFunction(() =>
+
+        PlayerManager.Instance.m_Player.AddBuffFunction((Buff _buff) =>
         {
-            List<Buff> listBuff = PlayerManager.Instance.m_Player.GetListBuff();
-            for (int i = 0; i < listBuff.Count; i++)
+            TMPro.TextMeshProUGUI text;
+            if (!m_BuffTextTable.TryGetValue(_buff.m_BuffType, out text))
             {
-                m_ListBuffImage[i].enabled = true;
-                m_ListBuffImage[i].sprite = Resources.Load(listBuff[i].m_ImagePath, typeof(Sprite)) as Sprite;
+                for (int i = 0; i < m_ListBuffText.Length; i++)
+                {
+                    if (!m_ListBuffText[i].enabled)
+                    {
+                        m_BuffTextTable.Add(_buff.m_BuffType, m_ListBuffText[i]);
+                        m_ListBuffText[i].text = _buff.m_Text;
+                        m_ListBuffText[i].enabled = true;
+                        break;
+                    }
+                }
             }
         });
-        PlayerManager.Instance.m_Player.AddDeBuffFunction(() =>
+        PlayerManager.Instance.m_Player.AddDeBuffFunction((Buff _buff) =>
         {
-            List<Buff> listDeBuff = PlayerManager.Instance.m_Player.GetListDeBuff();
-            for (int i = 0; i < listDeBuff.Count; i++)
+            TMPro.TextMeshProUGUI text;
+            if (!m_DeBuffTextTable.TryGetValue(_buff.m_BuffType, out text))
             {
-                m_ListDeBuffImage[i].enabled = true;
-                m_ListDeBuffImage[i].sprite = Resources.Load(listDeBuff[i].m_ImagePath, typeof(Sprite)) as Sprite;
+                for (int i = 0; i < m_ListDeBuffText.Length; i++)
+                {
+                    if (!m_ListDeBuffText[i].enabled)
+                    {
+                        m_DeBuffTextTable.Add(_buff.m_BuffType, m_ListDeBuffText[i]);
+                        m_ListDeBuffText[i].text = _buff.m_Text;
+                        m_ListDeBuffText[i].enabled = true;
+                        break;
+                    }
+                }
             }
         });
     }
@@ -123,8 +142,8 @@ public class BattleUI : BaseUI
     {
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
-        m_ListBuffImage = transform.Find("BuffList").GetComponentsInChildren<Image>();
-        m_ListDeBuffImage = transform.Find("DeBuffList").GetComponentsInChildren<Image>();
+        m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -163,14 +182,16 @@ public class BattleUI : BaseUI
         return m_ItemSlots[_itemSlot];
     }
 
-    public IEnumerator HpDown()
+    public IEnumerator HpChange()
     {
         float CurHpAmount = PlayerManager.Instance.m_Player.m_Stat.CurHP / PlayerManager.Instance.m_Player.m_Stat.MaxHP;
-        for (float i = m_HpImage.fillAmount; i > CurHpAmount; i -= 0.01f)
+        float PrevHpAmount = m_HpImage.fillAmount;
+        for (float i = 0f; m_HpImage.fillAmount * 100 != CurHpAmount * 100; i += 0.01f)
         {
-            m_HpImage.fillAmount = i;
+            m_HpImage.fillAmount = Mathf.Lerp(PrevHpAmount, CurHpAmount, i);
             yield return new WaitForSeconds(0.01f);
         }
+
         m_HpImage.fillAmount = CurHpAmount;
     }
     public void PlayWaringText()
@@ -178,9 +199,26 @@ public class BattleUI : BaseUI
         m_WaringText.gameObject.SetActive(true);
         m_WaringText.StartTextUITwinkle();
     }
+    public static void DeleteBuffText(Buff _buff)
+    {
+        TMPro.TextMeshProUGUI text;
+        if (m_BuffTextTable.TryGetValue(_buff.m_BuffType, out text))
+        {
+            text.enabled = false;
+            text.text = null;
+            m_BuffTextTable.Remove(_buff.m_BuffType);
+        }
+    }
 
-   
-
-
+    public static void DeleteDeBuffText(Buff _buff)
+    {
+        TMPro.TextMeshProUGUI text;
+        if (m_DeBuffTextTable.TryGetValue(_buff.m_BuffType, out text))
+        {
+            text.enabled = false;
+            text.text = null;
+            m_DeBuffTextTable.Remove(_buff.m_BuffType);
+        }
+    }
 
 }

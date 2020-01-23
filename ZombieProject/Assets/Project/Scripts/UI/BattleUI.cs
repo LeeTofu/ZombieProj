@@ -30,10 +30,8 @@ public class BattleUI : BaseUI
 
     public Coroutine m_HpDownCoroutine;
 
-    public static Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI> m_BuffTextTable = new Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI>();
-    public static Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI> m_DeBuffTextTable = new Dictionary<BUFF_TYPE, TMPro.TextMeshProUGUI>();
-    public static TMPro.TextMeshProUGUI[] m_ListBuffText;
-    public static TMPro.TextMeshProUGUI[] m_ListDeBuffText;
+    public TMPro.TextMeshProUGUI[] m_ListBuffText;
+    public TMPro.TextMeshProUGUI[] m_ListDeBuffText;
 
     private void Awake()
     {
@@ -102,37 +100,39 @@ public class BattleUI : BaseUI
             m_HpDownCoroutine = StartCoroutine(HpChange());
         });
 
-        PlayerManager.Instance.m_Player.AddBuffFunction((Buff _buff) =>
+        PlayerManager.Instance.m_Player.AddBuffFunction((List<Buff> _listbuff) =>
         {
-            TMPro.TextMeshProUGUI text;
-            if (!m_BuffTextTable.TryGetValue(_buff.m_BuffType, out text))
+            int lastnum = 0, num = -1;
+            Dictionary<BUFF_TYPE, int> buffNumTable = new Dictionary<BUFF_TYPE, int>();
+            for (int i=0; i< m_ListBuffText.Length; i++)
             {
-                for (int i = 0; i < m_ListBuffText.Length; i++)
+                m_ListBuffText[i].text = null;
+            }
+            for (int i = 0; i < _listbuff.Count; i++)
+            {
+                if(!buffNumTable.TryGetValue(_listbuff[i].m_BuffType, out num))
                 {
-                    if (!m_ListBuffText[i].enabled)
-                    {
-                        m_BuffTextTable.Add(_buff.m_BuffType, m_ListBuffText[i]);
-                        m_ListBuffText[i].text = _buff.m_Text;
-                        m_ListBuffText[i].enabled = true;
-                        break;
-                    }
+                    buffNumTable.Add(_listbuff[i].m_BuffType, lastnum);
+                    m_ListBuffText[lastnum].text = _listbuff[i].m_Text;
+                    lastnum++;
                 }
             }
         });
-        PlayerManager.Instance.m_Player.AddDeBuffFunction((Buff _buff) =>
+        PlayerManager.Instance.m_Player.AddDeBuffFunction((List<Buff> _listdebuff) =>
         {
-            TMPro.TextMeshProUGUI text;
-            if (!m_DeBuffTextTable.TryGetValue(_buff.m_BuffType, out text))
+            int lastnum = 0, num = -1;
+            Dictionary<BUFF_TYPE, int> buffNumTable = new Dictionary<BUFF_TYPE, int>();
+            for (int i = 0; i < m_ListDeBuffText.Length; i++)
             {
-                for (int i = 0; i < m_ListDeBuffText.Length; i++)
+                m_ListDeBuffText[i].text = null;
+            }
+            for (int i = 0; i < _listdebuff.Count; i++)
+            {
+                if (!buffNumTable.TryGetValue(_listdebuff[i].m_BuffType, out num))
                 {
-                    if (!m_ListDeBuffText[i].enabled)
-                    {
-                        m_DeBuffTextTable.Add(_buff.m_BuffType, m_ListDeBuffText[i]);
-                        m_ListDeBuffText[i].text = _buff.m_Text;
-                        m_ListDeBuffText[i].enabled = true;
-                        break;
-                    }
+                    buffNumTable.Add(_listdebuff[i].m_BuffType, lastnum);
+                    m_ListDeBuffText[lastnum].text = _listdebuff[i].m_Text;
+                    lastnum++;
                 }
             }
         });
@@ -199,26 +199,4 @@ public class BattleUI : BaseUI
         m_WaringText.gameObject.SetActive(true);
         m_WaringText.StartTextUITwinkle();
     }
-    public static void DeleteBuffText(Buff _buff)
-    {
-        TMPro.TextMeshProUGUI text;
-        if (m_BuffTextTable.TryGetValue(_buff.m_BuffType, out text))
-        {
-            text.enabled = false;
-            text.text = null;
-            m_BuffTextTable.Remove(_buff.m_BuffType);
-        }
-    }
-
-    public static void DeleteDeBuffText(Buff _buff)
-    {
-        TMPro.TextMeshProUGUI text;
-        if (m_DeBuffTextTable.TryGetValue(_buff.m_BuffType, out text))
-        {
-            text.enabled = false;
-            text.text = null;
-            m_DeBuffTextTable.Remove(_buff.m_BuffType);
-        }
-    }
-
 }

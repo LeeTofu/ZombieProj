@@ -198,7 +198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873333427929692596}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597727869473726638}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -814,7 +814,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 474, y: 295}
+  m_AnchoredPosition: {x: 480, y: 295}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2270597605490884364
@@ -851,7 +851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136, y: 0}
+  m_AnchoredPosition: {x: 120, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8685355951696568250
@@ -869,7 +869,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2270597605490884364}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -1176,6 +1176,8 @@ MonoBehaviour:
   m_MoneyText: {fileID: 0}
   m_PartsText: {fileID: 0}
   m_HpImage: {fileID: 0}
+  m_ListBuffText: []
+  m_ListDeBuffText: []
 --- !u!1 &3620642853523666852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -136, y: 0}
+  m_AnchoredPosition: {x: -120, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3438691899550732712
@@ -1302,7 +1304,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3631477007709090588}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2126,7 +2128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136, y: 0}
+  m_AnchoredPosition: {x: 120, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3457962915310177966
@@ -2144,7 +2146,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7466292861681165193}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2669,7 +2671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 474, y: 201}
+  m_AnchoredPosition: {x: 480, y: 201}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &4691776380744654171
@@ -2679,6 +2681,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2784,11 +2791,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c648efd3b4f4d41a8208cc418f7eef, type: 3}
 --- !u!224 &3140578745503463481 stripped
@@ -2804,6 +2806,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2924,11 +2931,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI
-      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2994,6 +2996,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3114,11 +3121,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3184,6 +3186,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3303,11 +3310,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}

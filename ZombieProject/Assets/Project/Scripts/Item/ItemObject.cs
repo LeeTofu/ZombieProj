@@ -61,6 +61,8 @@ public class ItemObject : MonoBehaviour
         switch(ItemManager.Instance.GetItemActionType(m_Item))
         {
             case ITEM_EVENT_TYPE.FIRE_BULLET:
+            case ITEM_EVENT_TYPE.PIERCE:
+            case ITEM_EVENT_TYPE.THROW_ARK:
                 BulletManager.Instance.FireBullet(
                  m_FireTransform.position,
                 new Vector3(m_FireTransform.transform.forward.x, 0 , m_FireTransform.transform.forward.z),
@@ -78,21 +80,9 @@ public class ItemObject : MonoBehaviour
                     m_Item.m_ItemStat);
                 }
                 break;
-            case ITEM_EVENT_TYPE.THROW_ARK:
-
-                break;
             case ITEM_EVENT_TYPE.MELEE:
 
                 break;
-            case ITEM_EVENT_TYPE.PIERCE:
-                BulletManager.Instance.FireBullet(
-                    m_FireTransform.position,
-                    new Vector3(m_FireTransform.transform.forward.x, 0, m_FireTransform.transform.forward.z),
-                    m_Item.m_ItemStat);
-
-                break;
-
-
         }
     }
 

@@ -10,6 +10,8 @@ public enum ITEM_EVENT_TYPE
     PIERCE, // 꿰꿇는 공격.
     SHOT_GUN,
 
+
+
     END
 
 

@@ -20,6 +20,10 @@ public class EnemyManager : Singleton<EnemyManager>
     public GameObject m_ZombieCreateZone;
 
 
+    // 좀비의 어그로가 될 오브젝트
+    public MovingObject m_ZombieAttackObject { private set; get; }
+
+
     public int GetZombieCount()
     {
         return m_ZombieFactory.m_ListAllMovingObject.Count;
@@ -51,6 +55,7 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
+    // _pos 에서 _maxDistance 안에 있는 모든 좀비 찾아낸다.
     public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance)
     {
         List<MovingObject> target = new List<MovingObject>();
@@ -71,6 +76,10 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
+    public void SetZombieAttackObject(MovingObject _object)
+    {
+        m_ZombieAttackObject = _object;
+    }
 
     // 페이즈 발생 시키는 함수.
     public void OccurZombiePhase(int _phase)
@@ -178,7 +187,6 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         AllStopRespawnZombie();
         AllDeleteRespawnZombie();
-
         AllZombiePushToMemory();
 
     }

@@ -5,10 +5,7 @@ public class ZombieAttackCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
-        float distance = Vector3.Distance(m_Character.gameObject.transform.position,
-            PlayerManager.Instance.m_Player.gameObject.transform.position);
-
-        if (distance <= m_Character.m_Stat.Range)
+        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range)
         {
          //   Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
@@ -46,8 +43,10 @@ public class ZombieAttackAction : ActionNode
         }
         else
         {
-            m_nowActionTime += Time.deltaTime;
-            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
+            MovingObject mobject = GetAttackObject();
+
+             m_nowActionTime += Time.deltaTime;
+            m_Character.gameObject.transform.LookAt(mobject.transform.position, Vector3.up);
             if (m_nowActionTime < m_totalActionTime)
             {
                // Debug.Log("Attacking");

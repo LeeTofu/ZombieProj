@@ -10,34 +10,74 @@
 	</text>
 	<text>
 		<uniqueID>32134</uniqueID>
-		<ItemID>1</ItemID>
-		<isEquiped>true</isEquiped>
+		<ItemID>3</ItemID>
+		<isEquiped>false</isEquiped>
 		<Level>2</Level>
-		<SlotSort>SECOND</SlotSort>
+		<SlotSort>NONE</SlotSort>
 		<CurrentEXP>0</CurrentEXP>
 	</text>
   <text>
     <uniqueID>3434</uniqueID>
-    <ItemID>7</ItemID>
+    <ItemID>4</ItemID>
     <isEquiped>false</isEquiped>
     <Level>1</Level>
-    <SlotSort>THIRD</SlotSort>
+    <SlotSort>NONE</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
   <text>
     <uniqueID>1111</uniqueID>
-    <ItemID>7</ItemID>
-    <isEquiped>true</isEquiped>
+    <ItemID>5</ItemID>
+    <isEquiped>false</isEquiped>
     <Level>1</Level>
-    <SlotSort>FOURTH</SlotSort>
+    <SlotSort>NONE</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
   <text>
-    <uniqueID>321156</uniqueID>
-    <ItemID>4</ItemID>
-    <isEquiped>true</isEquiped>
+    <uniqueID>11112</uniqueID>
+    <ItemID>6</ItemID>
+    <isEquiped>false</isEquiped>
     <Level>1</Level>
-    <SlotSort>MAIN</SlotSort>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>187</uniqueID>
+    <ItemID>7</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>11321</uniqueID>
+    <ItemID>8</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>11165</uniqueID>
+    <ItemID>9</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>32190</uniqueID>
+    <ItemID>10</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
+  <text>
+    <uniqueID>1113</uniqueID>
+    <ItemID>100</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
 </Root>

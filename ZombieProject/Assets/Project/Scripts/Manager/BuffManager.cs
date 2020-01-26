@@ -87,6 +87,37 @@ public class BuffManager : Singleton<BuffManager>
         m_IsParsing = true;
     }
 
+    Buff CloneBuff(Buff _buff, ItemStat _stat)
+    {
+        Buff newBuff = null;
+        STAT stat = new STAT();
+
+        switch (_buff.m_BuffType)
+        {
+            case BUFF_TYPE.ADRENALINE:
+                newBuff = new Adrenaline(stat);
+                break;
+            case BUFF_TYPE.BLESSING:
+                newBuff = new Blessing(stat);
+                break;
+            case BUFF_TYPE.POISON:
+                newBuff = new Poison(stat);
+                break;
+        }
+
+        newBuff.m_Level = 0;
+        newBuff.m_BuffExitAction = _buff.m_BuffExitAction;
+        newBuff.m_DurationTime = _stat.m_Range;
+        newBuff.m_TickTime = _stat.m_AttackSpeed;
+
+        newBuff.Attack = _stat.m_AttackPoint;
+        newBuff.MoveSpeed = _stat.m_MoveSpeed;
+        newBuff.AttackSpeed = _stat.m_AttackSpeed;
+
+        return newBuff;
+    }
+
+
     Buff CloneBuff(Buff _buff)
     {
         Buff newBuff = null;
@@ -138,6 +169,26 @@ public class BuffManager : Singleton<BuffManager>
         }
     }
 
+    public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, ItemStat _itemStat)
+    {
+        if (_object != null)
+        {
+            Buff buff = GetBuff(_bufftype, 0);
+            buff.SetStat(_object.m_Stat);
+
+            buff = CloneBuff(buff, _itemStat);
+
+            if (buff == null) return;
+
+            if (buff.m_BuffType == BUFF_TYPE.END || buff.m_BuffType == BUFF_TYPE.NONE)
+            {
+                Debug.LogError("End나 None이 왜");
+                return;
+            }
+            _object.AddBuff(buff);
+        }
+    }
+
     public void ApplyBuff(Buff _buff, MovingObject _object)
     {
         if (_object != null)
@@ -154,6 +205,14 @@ public class BuffManager : Singleton<BuffManager>
     // 버프 레벨2 -> buff가 담긴 리스트의 1번째에 들어있음,
     // 버프 레벨3 -> buff가 담긴 리스트의 2번째에 들어있음,
     // ...
+
+    public Buff GetItemBuff(BUFF_TYPE _bufftype, ItemStat _itemStat)
+    {
+        Buff newBuff = GetBuff(_bufftype, 0);
+        newBuff = CloneBuff(newBuff, _itemStat);
+
+        return newBuff;
+    }
 
     public Buff GetBuff(BUFF_TYPE _bufftype, int _Level)
     {

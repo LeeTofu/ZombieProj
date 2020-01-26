@@ -26,6 +26,37 @@ public abstract class BehaviorNode
     {
         return NODE_STATE.SUCCESS;
     }
+
+    protected float GetAttackObjectDistance()
+    {
+        float distance = 0.0f;
+
+        MovingObject mobject = GetAttackObject();
+
+        if (mobject == null) return 10000.0f;
+
+        distance = Vector3.Distance(
+            m_Character.transform.position,
+           mobject.transform.position);
+
+        return distance;
+    }
+
+    protected MovingObject GetAttackObject()
+    {
+        if (m_Character.m_TargetingObject != null)
+        {
+            return m_Character.m_TargetingObject;
+        }
+        else if (EnemyManager.Instance.m_ZombieAttackObject)
+        {
+            return EnemyManager.Instance.m_ZombieAttackObject;
+        }
+        else
+        {
+            return PlayerManager.Instance.m_Player;
+        }
+    }
 }
 
 public abstract class CompositeNode : BehaviorNode
@@ -99,6 +130,10 @@ public class SequenceNode : CompositeNode
 
 public abstract class DecoratorNode : BehaviorNode
 {
+ 
+
+
+
     //반복, 실행조건(확률 등)추가
 }
 

@@ -2,7 +2,7 @@
 <Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<text>
 		<ItemID>1</ItemID>
-		<ItemName>Gun</ItemName>
+		<ItemName>소총</ItemName>
 		<IconName>Weapon_icon_01</IconName>
 		<ModelName>Rifle_01</ModelName>
 		<ItemSort>RIFLE</ItemSort>
@@ -20,10 +20,11 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>30</Count>
+    <Info>일반 총기입니다.</Info>
 	</text>
 	<text>
 		<ItemID>2</ItemID>
-		<ItemName>ChainSaw</ItemName>
+		<ItemName>전기톱</ItemName>
 		<IconName>Weapon_icon_03</IconName>
 		<ModelName>Rifle_02</ModelName>
 		<ItemSort>MELEE</ItemSort>
@@ -41,31 +42,33 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>-1</Count>
+    <Info>근거리 공격이 가능합니다.</Info>
 	</text>
 	<text>
 		<ItemID>3</ItemID>
-		<ItemName>Bat</ItemName>
-		<IconName>Weapon_icon_05</IconName>
+		<ItemName>수류탄</ItemName>
+		<IconName>Grenade_icon_00</IconName>
 		<ModelName>Rifle_02</ModelName>
-		<ItemSort>MELEE</ItemSort>
+		<ItemSort>GRENADE</ItemSort>
 		<HP>0</HP>
-		<Attack>1</Attack>
+		<Attack>100</Attack>
 		<Armor>0</Armor>
-		<MovePoint>2</MovePoint>
+		<MovePoint>0</MovePoint>
 		<HPRegenerate>0</HPRegenerate>
-		<Range>1</Range>
+		<Range>10</Range>
 		<isAccumulate>false</isAccumulate>
 		<AttackSpeed>0.5</AttackSpeed>
-    <BulletSpeed>60</BulletSpeed>
+    <BulletSpeed>6</BulletSpeed>
     <BulletString>TestBullet</BulletString>
-    <isHaveCoolTime>false</isHaveCoolTime>
+    <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
-    <CoolTime>0</CoolTime>
-    <Count>-1</Count>
+    <CoolTime>10</CoolTime>
+    <Count>3</Count>
+    <Info>벽을 한번 튕긴 후 폭발하는 투척형 폭탄입니다.</Info>
 	</text>
   <text>
     <ItemID>4</ItemID>
-    <ItemName>ShotGun</ItemName>
+    <ItemName>샷건</ItemName>
     <IconName>Weapon_icon_31</IconName>
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SHOT_GUN</ItemSort>
@@ -83,15 +86,16 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>10</Count>
+    <Info>사거리가 짧지만 5발의 총알을 부채꼴 모양으로 발사하는 산탄총입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
     <ItemID>5</ItemID>
-    <ItemName>Launcher</ItemName>
+    <ItemName>런처</ItemName>
     <IconName>Weapon_icon_36</IconName>
     <ModelName>Rifle_01</ModelName>
     <ItemSort>LAUNCHER</ItemSort>
     <HP>0</HP>
-    <Attack>100</Attack>
+    <Attack>130</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
@@ -104,10 +108,11 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>5</Count>
+    <Info>강력한 범위 공격을 가진 로켓런처입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
     <ItemID>6</ItemID>
-    <ItemName>MachineGun</ItemName>
+    <ItemName>돌격소총</ItemName>
     <IconName>Weapon_icon_19</IconName>
     <ModelName>Rifle_01</ModelName>
     <ItemSort>MACHINE_GUN</ItemSort>
@@ -125,32 +130,34 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>120</Count>
+    <Info>빠른 연사를 가진 일반 총기입니다.</Info>
   </text>
   <text>
     <ItemID>7</ItemID>
-    <ItemName>HealthPack</ItemName>
+    <ItemName>치료 키트</ItemName>
     <IconName>Health_icon_05</IconName>
     <ModelName>HealthPack_01</ModelName>
     <ItemSort>HEALTH_PACK</ItemSort>
     <HP>0</HP>
-    <Attack>1</Attack>
+    <Attack>15</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>20</HPRegenerate>
-    <Range>1</Range>
+    <Range>5.0</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>2</AttackSpeed>
+    <AttackSpeed>1.0</AttackSpeed>
     <BulletSpeed>50</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>3</Count>
+    <Info>자신의 체력을 서서히 치료합니다.</Info>
   </text>
   <text>
     <ItemID>8</ItemID>
-    <ItemName>GuidedBomb</ItemName>
-    <IconName>Grenade_icon_02</IconName>
+    <ItemName>설치형 폭탄</ItemName>
+    <IconName>Other_icon_00</IconName>
     <ModelName>Bomb_01</ModelName>
     <ItemSort>GRENADE</ItemSort>
     <HP>0</HP>
@@ -158,7 +165,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>1</Range>
+    <Range>5</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
     <BulletSpeed>50</BulletSpeed>
@@ -167,11 +174,12 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>2</Count>
+    <Info>자신의 자리에 주변 적을 유도하는 폭탄을 설치 합니다.</Info>
   </text>
   <text>
     <ItemID>9</ItemID>
-    <ItemName>Bomb</ItemName>
-    <IconName>Grenade_icon_03</IconName>
+    <ItemName>화염병</ItemName>
+    <IconName>Grenade_icon_05</IconName>
     <ModelName>Bomb_02</ModelName>
     <ItemSort>GRENADE</ItemSort>
     <HP>0</HP>
@@ -179,7 +187,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>20</HPRegenerate>
-    <Range>1</Range>
+    <Range>10</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
     <BulletSpeed>50</BulletSpeed>
@@ -188,10 +196,33 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>2</Count>
+    <Info>투척시, 벽이나 적을 적중한 경우, 그 자리에 화염 구덩이를 설치합니다.</Info>
+  </text>
+  <text>
+    <ItemID>10</ItemID>
+    <ItemName>각성제</ItemName>
+    <IconName>Other_icon_11</IconName>
+    <ModelName>HealthPack_01</ModelName>
+    <ItemSort>BUFF</ItemSort>
+    <HP>0</HP>
+    <Attack>1</Attack>
+    <Armor>0</Armor>
+    <MovePoint>2</MovePoint>
+    <HPRegenerate>20</HPRegenerate>
+    <Range>5.0</Range>
+    <isAccumulate>false</isAccumulate>
+    <AttackSpeed>0</AttackSpeed>
+    <BulletSpeed>50</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>true</isHaveCoolTime>
+    <isKnockBack>false</isKnockBack>
+    <CoolTime>15</CoolTime>
+    <Count>3</Count>
+    <Info>자신의 모든 상태이상을 해제하고 이동속도를 증가시킵니다.</Info>
   </text>
   <text>
     <ItemID>100</ItemID>
-    <ItemName>Sniper Rifle</ItemName>
+    <ItemName>저격소총</ItemName>
     <IconName>Weapon_icon_15</IconName>
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SNIPER</ItemSort>
@@ -209,5 +240,6 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>10</Count>
+    <Info>적을 관통하며 긴 사거리를 가진 총기입니다. 적중시 적을 넉백합니다.</Info>
   </text>
 </Root>

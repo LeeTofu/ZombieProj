@@ -15,9 +15,13 @@ public class MainUI : BaseUI
     [SerializeField]
     Image m_Title;
 
+    [SerializeField]
+    GameObject m_WarningWindow;
+
 
     private void Start()
     {
+        m_WarningWindow.SetActive(false);
         Debug.Log("Main UI 불러옴");
     }
 
@@ -49,8 +53,13 @@ public class MainUI : BaseUI
 
     public void PressStartButton()
     {
-        if (!InvenManager.Instance.isEquipedItemSlot(ITEM_SLOT_SORT.MAIN)) return;
+        if (!InvenManager.Instance.isEquipedItemSlot(ITEM_SLOT_SORT.MAIN))
+        {
+            m_WarningWindow.SetActive(true);
+            return;
+        }
 
+        if (m_WarningWindow.activeSelf) return;
 
         m_Title.gameObject.SetActive(false);
 
@@ -68,17 +77,25 @@ public class MainUI : BaseUI
 
     public void PressShopButton()
     {
+
+        if (m_WarningWindow.activeSelf) return;
+
         SceneMaster.Instance.LoadScene(GAME_SCENE.SHOP);
     }
 
     public void PressInventoryButton()
     {
+
+        if (m_WarningWindow.activeSelf) return;
+
         SceneMaster.Instance.LoadScene(GAME_SCENE.INVENTORY);
     }
 
     public void PressExitButton()
     {
-      //  SceneMaster.Instance.LoadScene(GAME_SCENE.IN_GAME);
+        if (m_WarningWindow.activeSelf) return;
+
+        //  SceneMaster.Instance.LoadScene(GAME_SCENE.IN_GAME);
     }
 
     

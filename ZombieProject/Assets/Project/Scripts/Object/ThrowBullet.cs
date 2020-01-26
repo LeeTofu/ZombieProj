@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BazukaBullet : Bullet
+public class ThrowBullet : Bullet
 {
+    Ray ray = new Ray();
+    RaycastHit rayCast;
+    Vector3 m_ReflectedVector;
+
+
+
     public override void InGame_Initialize()
     {
        
@@ -19,12 +25,7 @@ public class BazukaBullet : Bullet
 
     protected override void BulletMove()
     {
-        m_currentMoveDistance += Time.deltaTime * 2.0f;
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, m_Stat.MoveSpeed, Time.deltaTime * 2.0f);
-
-        transform.position += (transform.forward * Time.deltaTime * m_currentSpeed);
-
-       // Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
+        transform.position += (m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
     }
 
     protected override void BulletOverRangefunction()
@@ -44,17 +45,12 @@ public class BazukaBullet : Bullet
 
     public override void CollisionEvent(GameObject _object)
     {
-        m_currentSpeed = 0.0f;
+        ray.origin = transform.position;
+        ray.direction = m_CurDirection;
 
-        EffectManager.Instance.PlayEffect(
-            PARTICLE_TYPE.EXPLOSION_MEDIUM, 
-            transform.position, 
-            Quaternion.LookRotation(-transform.forward), 
-            Vector3.one * 1.4f,
-            true, 1.0f);
-
-        SplashAttack(transform.position);
-       
-        pushToMemory((int)m_BulletType);
+        if (Physics.Raycast(ray, out rayCast, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
+        {
+            m_CurDirection = Vector3.Reflect(m_CurDirection, rayCast.normal);
+        }
     }
 }

@@ -6,8 +6,7 @@ public class ZombieChaseCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
-        float distance = Vector3.Distance(m_Character.gameObject.transform.position,
-            PlayerManager.Instance.m_Player.gameObject.transform.position);
+        float distance = GetAttackObjectDistance();
 
         if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed >= 0.8f)
         {
@@ -42,8 +41,10 @@ public class ZombieChaseAction : ActionNode
         }
         else
         {
+            MovingObject mobject = GetAttackObject();
+
             m_nowActionTime += Time.deltaTime;
-            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
+            m_Character.gameObject.transform.LookAt(mobject.transform.position, Vector3.up);
             m_Character.gameObject.transform.position += m_Character.transform.forward * m_Character.m_Stat.MoveSpeed * Time.deltaTime;
             if (m_nowActionTime < m_totalActionTime)
             {

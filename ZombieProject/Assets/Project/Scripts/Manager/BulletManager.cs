@@ -10,6 +10,7 @@ public enum BULLET_TYPE
 
     SHOT_GUN_BULLET,
     SNIPER_BULLET,
+    THROW_BULLET,
 
     ZOMBIE_RANGE_ATTACK_BULLET1,
     ZOMBIE_RANGE_ATTACK_BULLET2,
@@ -39,6 +40,9 @@ public class BulletManager : Singleton<BulletManager>
             m_BulletFactory.Initialize("Prefabs/Bullet/PierceBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.SNIPER_BULLET, 5);
 
+            m_BulletFactory.Initialize("Prefabs/Bullet/ThrowBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/Grenade"));
+            m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.THROW_BULLET, 5);
+
         }
 
         return true;
@@ -57,6 +61,8 @@ public class BulletManager : Singleton<BulletManager>
                 return BULLET_TYPE.SHOT_GUN_BULLET;
             case ITEM_SORT.SNIPER:
                 return BULLET_TYPE.SNIPER_BULLET;
+            case ITEM_SORT.GRENADE:
+                return BULLET_TYPE.THROW_BULLET;
             default:
                 return BULLET_TYPE.ZOMBIE_RANGE_ATTACK_BULLET1;
         }

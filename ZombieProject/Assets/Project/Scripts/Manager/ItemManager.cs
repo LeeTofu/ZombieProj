@@ -69,6 +69,8 @@ public class ItemManager : Singleton<ItemManager>
 
             itemStat.m_Count = int.Parse(node.SelectSingleNode("Count").InnerText);
 
+            itemStat.m_Info = node.SelectSingleNode("Info").InnerText;
+
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
             Debug.Log(itemStat.m_ItemID);
 
@@ -154,6 +156,8 @@ public class ItemManager : Singleton<ItemManager>
                 return ITEM_EVENT_TYPE.SHOT_GUN;
             case ITEM_SORT.SNIPER:
                 return ITEM_EVENT_TYPE.PIERCE;
+            case ITEM_SORT.GRENADE:
+                return ITEM_EVENT_TYPE.THROW_ARK;
             default:
                 return ITEM_EVENT_TYPE.END;
         }

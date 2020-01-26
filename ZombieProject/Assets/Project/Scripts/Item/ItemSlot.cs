@@ -63,7 +63,18 @@ public class ItemSlot : MonoBehaviour
                 m_IconImage.sprite = sprite;
             }
 
-            if(m_ItemName != null)
+            if( InvenManager.Instance.ConvertSortToMainSort(_item.m_ItemStat.m_Sort) == MAIN_ITEM_SORT.QUICK)
+            {
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80);
+            }
+            else 
+            {
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 210);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80);
+            }
+
+            if (m_ItemName != null)
                 m_ItemName.text = m_Item.m_ItemStat.m_ItemName;
 
             if(m_ItemLv != null)

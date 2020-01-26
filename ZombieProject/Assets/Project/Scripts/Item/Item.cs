@@ -75,7 +75,9 @@ public struct ItemStat
     public float m_BulletSpeed; // 공격템인데 Bullet의 공속은? ()
     public string m_BulletString; // 공격템인데 Bullet의 string;
 
-    public int m_Count; // 시작 카운트
+    public int m_Count; // 시작 카운트 , 시작 총알 갯수, 시작 갯수
+
+    public string m_Info;
 
 }
 

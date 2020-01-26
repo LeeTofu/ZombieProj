@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Xml;
-using UnityEngine.UI;
+using UnityEngine;
 
 
 public class PlayerManager : Singleton<PlayerManager>
@@ -122,19 +120,19 @@ public class PlayerManager : Singleton<PlayerManager>
     public void ChangeWeapon()
     {
         if (m_Player == null) return;
-        if(m_CurrentEquipedItemObject == null)
+        if (m_CurrentEquipedItemObject == null)
         {
-          
+
             m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
             m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
             BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
-            
+
             return;
         }
 
         m_CurrentEquipedItemObject.gameObject.SetActive(false);
-        
+
         m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
 
         m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
@@ -166,22 +164,22 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (m_Player == null) return false;
 
-      //  Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
-       // RaycastHit castHit;
-       // if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
-       // {
-          //  Vector3 HitPositon = castHit.point;
-          //  HitPositon.y = m_Player.transform.position.y;
-            Vector3 HitForward = _zombiePos - m_Player.transform.position;
+        //  Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
+        // RaycastHit castHit;
+        // if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
+        // {
+        //  Vector3 HitPositon = castHit.point;
+        //  HitPositon.y = m_Player.transform.position.y;
+        Vector3 HitForward = _zombiePos - m_Player.transform.position;
 
-            HitForward = HitForward.normalized;
+        HitForward = HitForward.normalized;
 
-            if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.85f)
-            {
-                return true;
-            }
-            else return false;
-      //  }
+        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.85f)
+        {
+            return true;
+        }
+        else return false;
+        //  }
 
     }
 
@@ -250,7 +248,7 @@ public class PlayerManager : Singleton<PlayerManager>
         }
         else
         {
-          //  m_Player.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+            //  m_Player.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         }
 
         m_CurrentEquipedItemObject.ItemAction();
@@ -264,14 +262,23 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (item == null) return;
 
-        switch(item.m_ItemStat.m_Sort)
+        switch (item.m_ItemStat.m_Sort)
         {
             case ITEM_SORT.HEALTH_PACK:
-                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.BLESSING, item.m_Lv));
+                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetItemBuff(BUFF_TYPE.BLESSING, item.m_ItemStat));
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
             case ITEM_SORT.BUFF:
-                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetBuff(BUFF_TYPE.ADRENALINE, item.m_Lv));
+                (m_Player as PlayerObject).ReserveBuff(BuffManager.Instance.GetItemBuff(BUFF_TYPE.ADRENALINE, item.m_ItemStat));
+                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
+                break;
+            case ITEM_SORT.GRENADE:
+
+                BulletManager.Instance.FireBullet(
+                m_Player.transform.position + new Vector3(0,1,0),
+                m_Player.transform.forward,
+                item.m_ItemStat);
+
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
         }

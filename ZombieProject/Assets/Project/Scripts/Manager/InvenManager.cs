@@ -227,6 +227,7 @@ public class InvenManager : Singleton<InvenManager>
             case ITEM_SORT.GRENADE:
             case ITEM_SORT.HEALTH_PACK:
             case ITEM_SORT.AMMO:
+            case ITEM_SORT.BUFF:
                 sort = MAIN_ITEM_SORT.QUICK;
                 break;
             default:
@@ -358,16 +359,19 @@ public class InvenManager : Singleton<InvenManager>
 
     public ItemSlot FindEmptyInventorySlot(MAIN_ITEM_SORT _itemSort)
     {
-        if (CheckCurrentInvenTabFull(_itemSort)) return null;
-
-        for(int i = 0; i < m_ItemInventorySlot.Count; i++)
+        if (CheckCurrentInvenTabFull(_itemSort))
+        {
+            Debug.LogError("sws");
+            return null;
+        }
+        for(int i = 0; i < m_ItemInventorySlot[_itemSort].Count; i++)
         {
            if( m_ItemInventorySlot[_itemSort][i].m_Item == null)
             {
                 return m_ItemInventorySlot[_itemSort][i];
             }
         }
-
+        Debug.LogError("sws");
         return null;
     }
 

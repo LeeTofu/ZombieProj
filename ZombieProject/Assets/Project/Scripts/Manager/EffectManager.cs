@@ -78,4 +78,23 @@ public class EffectManager : Singleton<EffectManager>
         effect.transform.localScale = _scale;
         return effect;
     }
+
+    public EffectObject AttachEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f)
+    {
+        if (m_EffectFactory == null) return null;
+
+        EffectObject effect = m_EffectFactory.PopObject(_pos, _quat, (int)_particleType) as EffectObject;
+
+        if (!effect)
+        {
+            Debug.LogError(" 파티클 타입 " + _particleType);
+            return null;
+        }
+
+        if (_isDestroy)
+            effect.SetDestroyTime(_DestroyTime, (int)_particleType);
+
+        effect.transform.localScale = _scale;
+        return effect;
+    }
 }

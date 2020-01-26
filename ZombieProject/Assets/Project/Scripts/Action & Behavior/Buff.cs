@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Buff : STAT
 {
     public float m_DurationTime; // 버프가 전체 몇초간 지속되는가
-    public int m_TickTime; // 이 버프가 지속적으로 무언가를 하는 버프라면 몇 초 간격으로 할것인가.
+    public float m_TickTime; // 이 버프가 지속적으로 무언가를 하는 버프라면 몇 초 간격으로 할것인가.
 
     protected float m_CurTimeDuration = 0.0f;// 현재 버프 시간
 
@@ -20,7 +20,7 @@ public abstract class Buff : STAT
     { 
         m_Stat = _stat;
     }
-    
+
     public void SetStat(STAT _stat)
     {
         m_Stat = _stat;

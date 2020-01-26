@@ -8,7 +8,7 @@ public abstract class Bullet : MovingObject
     ParticleSystem m_TrailEffect;
 
     public Vector3 m_CurVelocity { get; private set; }
-    public Vector3 m_CurDirection { get; private set; }
+    public Vector3 m_CurDirection { get;  set; }
 
     public bool m_isFire { get; private set; }
 
@@ -75,10 +75,10 @@ public abstract class Bullet : MovingObject
             m_TrailRenderer.time = 0.25f;
         }
 
-        m_PointLight.SetActive(true);
+        if(m_PointLight)
+            m_PointLight.SetActive(true);
 
     }
-
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, ItemStat _itemStat)
     {

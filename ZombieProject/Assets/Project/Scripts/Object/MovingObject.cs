@@ -224,6 +224,9 @@ public abstract class MovingObject : MonoBehaviour
     // 충돌 액션이나 조건 처리하는 컴포넌트
     protected CollisionAction m_CollisionAction;
 
+    // 어그 끌리는 오브젝트
+    public MovingObject m_TargetingObject { private set; get; }
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;

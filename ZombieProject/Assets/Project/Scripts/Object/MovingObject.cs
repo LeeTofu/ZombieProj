@@ -212,8 +212,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected Renderer[] m_Renderers;
 
-    protected System.Action<Buff> m_BuffAction;
-    protected System.Action<Buff> m_DeBuffAction;
+    protected System.Action<List<Buff> > m_BuffAction;
+    protected System.Action<List<Buff> > m_DeBuffAction;
 
     // 처음 오브젝트가 팩토리에서 만들어질 때 단 한번만 실행합니다.
     public abstract void Initialize(GameObject _model, MoveController _Controller);
@@ -325,7 +325,7 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff == null) return;
         m_ListBuff.Add(_buff);
-        m_BuffAction?.Invoke(_buff);
+        m_BuffAction?.Invoke(m_ListBuff);
         Debug.Log(" 버프 갯수 : " + m_ListBuff.Count + " , " + _buff.m_BuffType);
 
         _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };
@@ -338,14 +338,8 @@ public abstract class MovingObject : MonoBehaviour
         if (_buff == null) return;
 
         StopCoroutine(_buff.BuffCoroutine);
-        int j = 0;
-        foreach (Buff b in m_ListBuff)//버프리스트에 _buff와 같은 버프 갯수를 센다음 1이 아니면 Image를 삭제하지않는다
-        {
-            if (b.m_BuffType.Equals(_buff.m_BuffType))
-                j++;
-        }
-        if (j == 1) BattleUI.DeleteBuffText(_buff);
         m_ListBuff.Remove(_buff);
+        m_BuffAction?.Invoke(m_ListBuff);
     }
 
     public void DeleteDeBuff(Buff _buff)
@@ -353,21 +347,15 @@ public abstract class MovingObject : MonoBehaviour
         if (_buff != null) return;
 
         StopCoroutine(_buff.BuffCoroutine);
-        int j = 0;
-        foreach (Buff b in m_ListDeBuff)
-        {
-            if (b.m_BuffType.Equals(_buff.m_BuffType))
-                j++;
-        }
-        if (j == 1) BattleUI.DeleteDeBuffText(_buff);
         m_ListDeBuff.Remove(_buff);
+        m_DeBuffAction?.Invoke(m_ListDeBuff);
     }
 
     public void AddDeBuff(Buff _buff)
     {
         if (_buff != null) return;
         m_ListDeBuff.Add(_buff);
-        m_DeBuffAction?.Invoke(_buff);
+        m_DeBuffAction?.Invoke(m_ListDeBuff);
         StartCoroutine(_buff.BuffCoroutine);
     }
 
@@ -446,11 +434,11 @@ public abstract class MovingObject : MonoBehaviour
     {
         m_KnockBackAction += _knockBackAction;
     }
-    public void AddBuffFunction(System.Action<Buff> _buffAction)
+    public void AddBuffFunction(System.Action<List<Buff> > _buffAction)
     {
         m_BuffAction += _buffAction;
     }
-    public void AddDeBuffFunction(System.Action<Buff> _deBuffAction)
+    public void AddDeBuffFunction(System.Action<List<Buff> > _deBuffAction)
     {
         m_DeBuffAction += _deBuffAction;
     }

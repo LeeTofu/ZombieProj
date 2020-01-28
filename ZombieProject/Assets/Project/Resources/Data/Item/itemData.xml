@@ -95,7 +95,7 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>LAUNCHER</ItemSort>
     <HP>0</HP>
-    <Attack>130</Attack>
+    <Attack>100</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>

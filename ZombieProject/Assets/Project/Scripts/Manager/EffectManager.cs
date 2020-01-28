@@ -79,11 +79,12 @@ public class EffectManager : Singleton<EffectManager>
         return effect;
     }
 
-    public EffectObject AttachEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f)
+    public EffectObject AttachEffect(PARTICLE_TYPE _particleType, MovingObject _object, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f)
     {
+        if (_object == null) return null;
         if (m_EffectFactory == null) return null;
 
-        EffectObject effect = m_EffectFactory.PopObject(_pos, _quat, (int)_particleType) as EffectObject;
+        EffectObject effect = m_EffectFactory.PopObject(_object.transform.position, _quat, (int)_particleType) as EffectObject;
 
         if (!effect)
         {
@@ -95,6 +96,8 @@ public class EffectManager : Singleton<EffectManager>
             effect.SetDestroyTime(_DestroyTime, (int)_particleType);
 
         effect.transform.localScale = _scale;
+        effect.transform.SetParent(_object.transform);
+
         return effect;
     }
 }

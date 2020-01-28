@@ -107,7 +107,15 @@ public class BattleItemSlotButton : UIPressSubject
     public void SpendItemStackCount()
     {
         m_Item.spendItem();
-        m_StackCountText.text = m_Item.m_Count.ToString();
+
+        if (m_Item.m_Count > 0)
+        {
+            m_StackCountText.text = m_Item.m_Count.ToString();
+        }
+        else
+        {
+            m_StackCountText.text = "<color=#ff0000>" + m_Item.m_Count.ToString() + "</color>";
+        }
     }
     public void plusItemStackCount(int _acc)
     {

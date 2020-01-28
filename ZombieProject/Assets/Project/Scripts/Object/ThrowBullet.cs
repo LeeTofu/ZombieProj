@@ -37,7 +37,7 @@ public class ThrowBullet : Bullet
                     Vector3.one * 1.4f,
                     true, 1.0f);
 
-        SplashAttack(transform.position);
+        SplashAttack(transform.position, 4.0f);
 
         pushToMemory((int)m_BulletType);
     }

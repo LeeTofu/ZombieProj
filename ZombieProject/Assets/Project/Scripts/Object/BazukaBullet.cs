@@ -19,10 +19,8 @@ public class BazukaBullet : Bullet
 
     protected override void BulletMove()
     {
-        m_currentMoveDistance += Time.deltaTime * 2.0f;
-        m_currentSpeed = Mathf.Lerp(m_currentSpeed, m_Stat.MoveSpeed, Time.deltaTime * 2.0f);
-
-        transform.position += (transform.forward * Time.deltaTime * m_currentSpeed);
+  
+        transform.position += (transform.forward * Time.deltaTime * m_Stat.MoveSpeed);
 
        // Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
     }
@@ -36,7 +34,7 @@ public class BazukaBullet : Bullet
                     Vector3.one * 1.4f,
                     true, 1.0f);
 
-        SplashAttack(transform.position);
+        SplashAttack(transform.position, 4.0f);
 
         pushToMemory((int)m_BulletType);
     }
@@ -53,7 +51,9 @@ public class BazukaBullet : Bullet
             Vector3.one * 1.4f,
             true, 1.0f);
 
-        SplashAttack(transform.position);
+        Debug.LogWarning("틀");
+
+        SplashAttack(transform.position, 4.0f);
        
         pushToMemory((int)m_BulletType);
     }

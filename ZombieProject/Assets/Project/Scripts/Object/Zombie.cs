@@ -28,7 +28,7 @@ public class Zombie : MovingObject
         {
             MaxHP = 100,
             Range = 1.5f,
-            MoveSpeed = 0.5f,
+            MoveSpeed = Random.Range(0.4f,0.6f),
             alertRange = 10.0f,
             isKnockBack = false,
         };

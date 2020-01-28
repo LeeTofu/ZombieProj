@@ -35,7 +35,6 @@ public class InventoryUI: BaseUI
 
     public ItemSlot m_SelectedSlot { private set; get; }
 
-
     private void Awake()
     {
         m_RectSize.x = m_ScrollRect.GetComponent<RectTransform>().rect.width;

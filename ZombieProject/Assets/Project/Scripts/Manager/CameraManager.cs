@@ -19,6 +19,7 @@ public class CameraManager : Singleton<CameraManager>
     float m_ZoomOutInRatio;
 
     Vector3 m_CameraOringPostion;
+    Quaternion m_CameraOriginRotation;
 
 
     public override bool Initialize()
@@ -92,8 +93,7 @@ public class CameraManager : Singleton<CameraManager>
         while(time < _duration)
         {
             m_Camera.transform.position = m_Camera.transform.position + Random.insideUnitSphere * intensity;
-            intensity -= Time.deltaTime;
-
+          
             time += Time.deltaTime;
             yield return null;
         }

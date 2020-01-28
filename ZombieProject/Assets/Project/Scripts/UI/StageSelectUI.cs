@@ -36,7 +36,7 @@ public class StageSelectUI : BaseUI
     void SetStageInfo()
     {
         m_StageInfoImage.texture = m_StageTextures[(int)1];
-        m_StageInfoText.text = SceneMaster.Instance.GetSceneName(m_CurretSelectedStage);
+        m_StageInfoText.text = "랜 덤";
     }
 
     public override void DeleteUI()
@@ -50,7 +50,7 @@ public class StageSelectUI : BaseUI
 
         if (m_CurretSelectedStage <= GAME_STAGE.NONE)
         {
-            m_CurretSelectedStage = GAME_STAGE.EVENT_DUNGEON;
+            m_CurretSelectedStage = GAME_STAGE.STAGE_1;
            
         }
 
@@ -63,7 +63,7 @@ public class StageSelectUI : BaseUI
 
         if(m_CurretSelectedStage >= GAME_STAGE.END)
         {
-            m_CurretSelectedStage = GAME_STAGE.STAGE_1;
+            m_CurretSelectedStage = GAME_STAGE.STAGE_4;
            
         }
 

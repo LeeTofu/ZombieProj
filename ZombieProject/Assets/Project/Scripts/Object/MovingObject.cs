@@ -427,6 +427,8 @@ public abstract class MovingObject : MonoBehaviour
     {
         m_Stat.CurHP -= _damage;
 
+        Debug.LogWarning(m_Stat.CurHP + " " + _damage);
+
         if (_isKnockBack)
             m_KnockBackAction?.Invoke(_knockBackTime);
     }

@@ -7,6 +7,8 @@ public class EffectObject : MovingObject
     ParticleSystem m_ParticleSystem;
     Coroutine m_Coroutine;
 
+    int m_EffectTypeID;
+
     public override void InGame_Initialize()
     {
         if (m_ParticleSystem != null)
@@ -28,14 +30,16 @@ public class EffectObject : MovingObject
         if (m_Coroutine != null)
             StopCoroutine(m_Coroutine);
 
-        m_Coroutine = StartCoroutine(DestoryTime_C(_time, _type));
+        m_EffectTypeID = _type;
+
+        m_Coroutine = StartCoroutine(DestoryTime_C(_time, m_EffectTypeID));
     }
 
     IEnumerator DestoryTime_C(float _time, int  _type)
     {
         yield return new WaitForSeconds(_time);
-
-        pushToMemory(_type);
+        pushToMemory(m_EffectTypeID);
     }
+
 
 }

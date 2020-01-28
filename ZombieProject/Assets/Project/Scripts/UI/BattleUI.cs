@@ -14,6 +14,12 @@ public class BattleUI : BaseUI
     TwinkleTextUI m_WaringText;
 
     [SerializeField]
+    TMPro.TextMeshProUGUI m_CurHPText;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI m_MaxHPText;
+
+    [SerializeField]
     TMPro.TextMeshProUGUI m_CountDown;
 
     [SerializeField]
@@ -97,6 +103,7 @@ public class BattleUI : BaseUI
         {
             if (m_HpDownCoroutine != null)
                 StopCoroutine(m_HpDownCoroutine);
+
             m_HpDownCoroutine = StartCoroutine(HpChange());
         });
 
@@ -184,6 +191,9 @@ public class BattleUI : BaseUI
 
     public IEnumerator HpChange()
     {
+        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
+        m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+
         float CurHpAmount = PlayerManager.Instance.m_Player.m_Stat.CurHP / PlayerManager.Instance.m_Player.m_Stat.MaxHP;
         float PrevHpAmount = m_HpImage.fillAmount;
         for (float i = 0f; m_HpImage.fillAmount * 100 != CurHpAmount * 100; i += 0.01f)

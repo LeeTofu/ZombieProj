@@ -84,6 +84,9 @@ public class PlayerObject : MovingObject
     {
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
         {
+            EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Quaternion.Euler(-90.0f, 0, 0),
+            Vector3.one * 1.0f);
+
             (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
             PlayerManager.Instance.m_Player.HitDamage(35f, true, 2f);
         }

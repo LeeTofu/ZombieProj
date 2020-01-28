@@ -29,9 +29,9 @@ public abstract class Bullet : MovingObject
 
     }
 
-    protected void SplashAttack(Vector3 _pos)
+    protected void SplashAttack(Vector3 _pos, float _rangeDistance)
     {
-        var zombies = EnemyManager.Instance.GetRangeZombies(_pos, 2.0f);
+        var zombies = EnemyManager.Instance.GetRangeZombies(_pos, 4.0f);
 
         foreach (MovingObject zombie in zombies)
         {

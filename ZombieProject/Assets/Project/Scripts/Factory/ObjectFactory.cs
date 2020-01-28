@@ -160,6 +160,7 @@ public class ObjectFactory : MonoBehaviour
             return;
         }
 
+        _object.gameObject.transform.SetParent(transform);
         _object.gameObject.SetActive(false);
         Q.Enqueue(_object);
     }

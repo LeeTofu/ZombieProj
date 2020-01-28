@@ -25,6 +25,8 @@ public class ZombieDeadAction : ActionNode
         for (int i = 0; i < ac.animationClips.Length; i++)
             if (ac.animationClips[i].name == "Zombie_Death_Forward_1_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
+
+        m_totalActionTime = 1.5f;
     }
 
     public override NODE_STATE Tick()
@@ -33,7 +35,7 @@ public class ZombieDeadAction : ActionNode
         if (m_Character.m_zombieState != ZOMBIE_STATE.DEAD)
         {
             m_Character.DeadAction();
-            m_Character.m_Animator.CrossFade("Dead", 0.1f);
+            m_Character.m_Animator.CrossFade("Dead" + Random.Range(0, 4).ToString(), 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.DEAD;
 
             return NODE_STATE.SUCCESS;

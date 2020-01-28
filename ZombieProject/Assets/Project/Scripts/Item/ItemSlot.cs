@@ -65,13 +65,13 @@ public class ItemSlot : MonoBehaviour
 
             if( InvenManager.Instance.ConvertSortToMainSort(_item.m_ItemStat.m_Sort) == MAIN_ITEM_SORT.QUICK)
             {
-                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120);
-                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120 * m_IconImage.rectTransform.localScale.x);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80 * m_IconImage.rectTransform.localScale.x);
             }
             else 
             {
-                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 210);
-                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 210 * m_IconImage.rectTransform.localScale.x);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 80 * m_IconImage.rectTransform.localScale.x);
             }
 
             if (m_ItemName != null)

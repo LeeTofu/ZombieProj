@@ -23,17 +23,9 @@ public enum GAME_STAGE
 {
     NONE, //IN_GAME 씬이 아니다.
     STAGE_1,
-    STAGE_1_HERO, // 어려운 모드
     STAGE_2,
-    STAGE_2_HERO,// 어려운 모드
     STAGE_3,
-    STAGE_3_HERO,// 어려운 모드
     STAGE_4,
-    STAGE_4_HERO,// 어려운 모드
-    MUGEN_ZOMBIE, // 무한 좀비 모드
-    CHALLENGE, // 도전 모드
-    MONEY_DUNGEON, // 골드 던전
-    EVENT_DUNGEON, // 이벤트 던전
     END
 }
 

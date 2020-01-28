@@ -8,8 +8,9 @@ public class ZombieWalkCondition : DecoratorNode
     {
         float distance = GetAttackObjectDistance();
 
-        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed <= 1.01f)
+        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed < 1.01f)
         {
+
          //   Debug.Log("WalkCondSuccess");
             return NODE_STATE.SUCCESS;
         }
@@ -30,6 +31,8 @@ public class ZombieWalkAction : ActionNode
         for (int i = 0; i < ac.animationClips.Length; i++)
             if (ac.animationClips[i].name == "Zombie_Walk_F_1_Full_Loop_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
+
+
     }
 
     public override NODE_STATE Tick()
@@ -39,6 +42,7 @@ public class ZombieWalkAction : ActionNode
         if (m_Character.m_zombieState != ZOMBIE_STATE.WALK)
         {
             m_Character.m_Animator.CrossFade("Walk", 0.1f);
+            m_Character.m_Animator.SetFloat("WalkSpeed", m_Character.m_Stat.MoveSpeed * 1.5f);
             //m_Character.m_Animator.CrossFadeInFixedTime("Walk", 0.1f);
             //m_Character.m_Animator.Play("Walk");
             m_Character.m_zombieState = ZOMBIE_STATE.WALK;

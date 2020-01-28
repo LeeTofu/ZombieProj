@@ -8,7 +8,7 @@ public class ZombieChaseCondition : DecoratorNode
     {
         float distance = GetAttackObjectDistance();
 
-        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed >= 0.8f)
+        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed >= 1.01f)
         {
             return NODE_STATE.SUCCESS;
         }
@@ -36,6 +36,7 @@ public class ZombieChaseAction : ActionNode
         if (m_Character.m_zombieState != ZOMBIE_STATE.CHASE)
         {
             m_Character.m_Animator.CrossFade("Chase", 0.1f);
+            m_Character.m_Animator.SetFloat("WalkSpeed", m_Character.m_Stat.MoveSpeed * 1.5f);
             m_Character.m_zombieState = ZOMBIE_STATE.CHASE;
             return NODE_STATE.RUNNING;
         }

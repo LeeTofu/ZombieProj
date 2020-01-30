@@ -57,4 +57,6 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     abstract public bool Initialize();
 
+    abstract public void DestroyManager();
+
 }

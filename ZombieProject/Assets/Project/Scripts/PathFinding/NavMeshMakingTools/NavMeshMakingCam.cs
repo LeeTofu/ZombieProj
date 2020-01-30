@@ -26,8 +26,10 @@ public class NavMeshMakingCam : Singleton<NavMeshMakingCam>
         m_cameraPitchRotSpd = 100f;
 
         return true;
-    }   
-
+    }
+    public override void DestroyManager()
+    {
+    }
     void LateUpdate()
     {
         //카메라 이동부분

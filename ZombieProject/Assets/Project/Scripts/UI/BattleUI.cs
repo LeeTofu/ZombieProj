@@ -44,7 +44,7 @@ public class BattleUI : BaseUI
         m_InputController = GetComponentInChildren<InputContoller>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         Debug.Log("Battle UI 불러옴");
         m_DamagedImage.gameObject.SetActive(false);
@@ -181,7 +181,9 @@ public class BattleUI : BaseUI
 
     public override void DeleteUI()
     {
-
+        StopCoroutine(CountDown_C());
+        m_HpImage.fillAmount = 1f;
+        m_CurHPText.text = "100";
     }
 
     public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot)

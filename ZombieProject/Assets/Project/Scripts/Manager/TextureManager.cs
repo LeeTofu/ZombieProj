@@ -29,6 +29,10 @@ public class TextureManager : Singleton<TextureManager>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
+
     public Sprite GetItemIcon(string _ItemString)
     {
         if (!m_ItemImageTable.ContainsKey(_ItemString))

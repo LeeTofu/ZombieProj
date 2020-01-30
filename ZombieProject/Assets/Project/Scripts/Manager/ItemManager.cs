@@ -24,6 +24,10 @@ public class ItemManager : Singleton<ItemManager>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
+
     public void LoadItemData()
     {
         if (m_isParsingCompelete) return;

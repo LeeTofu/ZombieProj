@@ -61,4 +61,23 @@ public class GameMaster : Singleton<GameMaster>
 
         return true;
     }
+
+    public override void DestroyManager()
+    {
+        TextureManager.Instance.DestroyManager();
+        EnemyManager.Instance.DestroyManager();
+        PlayerManager.Instance.DestroyManager();
+        UIManager.Instance.DestroyManager();
+        SoundManager.Instance.DestroyManager();
+        SceneMaster.Instance.DestroyManager();
+
+        ItemManager.Instance.DestroyManager();
+        InvenManager.Instance.DestroyManager();
+
+        CameraManager.Instance.DestroyManager();
+        BulletManager.Instance.DestroyManager();
+        EffectManager.Instance.DestroyManager();
+
+        BuffManager.Instance.DestroyManager();
+    }
 }

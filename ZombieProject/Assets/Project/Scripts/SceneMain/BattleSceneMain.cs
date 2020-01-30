@@ -17,7 +17,7 @@ public class BattleSceneMain : SceneMain
 
     Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
 
-    public IEnumerator Start()
+    public IEnumerator E_Start()
     {
         while (m_PlayerCreateZone == null)
             yield return null;
@@ -48,6 +48,7 @@ public class BattleSceneMain : SceneMain
 
     public override bool DeleteScene()
     {
+        StopCoroutine(E_Start());
         return true;
     }
 
@@ -79,6 +80,7 @@ public class BattleSceneMain : SceneMain
         EnemyManager.Instance.Initialize_InGame();
 
         Debug.Log("Battle init 불러옴");
+        StartCoroutine(E_Start());
         return true;
     }
 

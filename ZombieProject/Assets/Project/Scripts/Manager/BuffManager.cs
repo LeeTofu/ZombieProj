@@ -86,7 +86,9 @@ public class BuffManager : Singleton<BuffManager>
 
         m_IsParsing = true;
     }
-
+    public override void DestroyManager()
+    {
+    }
     Buff CloneBuff(Buff _buff, ItemStat _stat)
     {
         Buff newBuff = null;

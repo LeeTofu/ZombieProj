@@ -23,4 +23,7 @@ public class TestSceneMaster : Singleton<TestSceneMaster>
 
         return true;
     }
+    public override void DestroyManager()
+    {
+    }
 }

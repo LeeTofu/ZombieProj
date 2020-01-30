@@ -27,7 +27,9 @@ public class CameraManager : Singleton<CameraManager>
        
         return true;
     }
-
+    public override void DestroyManager()
+    {
+    }
     public void CameraInitialize(Vector3 _pos)
     {
         m_DefalutCameraOffset = new Vector3(0.0f, 15.5f, 0.0f);

@@ -188,7 +188,10 @@ public class EnemyManager : Singleton<EnemyManager>
         AllStopRespawnZombie();
         AllDeleteRespawnZombie();
         AllZombiePushToMemory();
+    }
 
+    public override void DestroyManager()
+    {
     }
 
     // 매니저 생성시 무조건 실행되는 초기화 함수입니다.

@@ -26,6 +26,9 @@ public class LoginManager : Singleton<LoginManager>
     {
         return true;
     }
+    public override void DestroyManager()
+    {
+    }
     ////DatabaseReference m_Reference;
     ////Firebase.Auth.FirebaseAuth m_Auth;
     ////public override bool Initialize()

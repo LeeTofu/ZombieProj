@@ -284,5 +284,11 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-
+    public override void DestroyManager()
+    {
+        foreach (MovingObject obj in m_PlayerFactory.m_ListAllMovingObject)
+        {
+            obj.pushToMemory((int)obj.m_Type);
+        }
+    }
 }

@@ -12,7 +12,9 @@ public class BehaviorManger : Singleton<BehaviorManger>
     {
 
     }
-
+    public override void DestroyManager()
+    {
+    }
     public void AddBehaviorNode(string key, BehaviorNode head)
     {
         if (m_BehaviorTable.ContainsKey(key)) return;

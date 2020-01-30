@@ -55,6 +55,10 @@ public class SceneMaster : Singleton<SceneMaster>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
+
     // 에디터에서 최초로 실행한 씬 초기화 해주는 함수.
     void StartSceneInitialize()
     {

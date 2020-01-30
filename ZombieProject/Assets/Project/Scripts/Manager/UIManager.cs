@@ -37,6 +37,9 @@ public class UIManager : Singleton<UIManager>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
     public void AllUISetActive(bool _active)
     {
         for(GAME_SCENE i = GAME_SCENE.MAIN; i < GAME_SCENE.END; i++)

@@ -457,6 +457,17 @@ public class DeathState : PlayerState
 
     public override void Update()
     {
+        while (!m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Death"))
+        {
+            return;
+        }
+        while (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        {
+            return;
+        }
+        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        GameMaster.Instance.DestroyManager();
+        m_StateContoller.InGame_Initialize();
     }
 
     public override void AddAction()

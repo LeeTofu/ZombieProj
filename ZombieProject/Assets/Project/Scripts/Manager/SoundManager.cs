@@ -65,6 +65,10 @@ public class SoundManager : Singleton<SoundManager>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
+
     public void StopCurrentBGM()
     {
         m_Audio.Stop();

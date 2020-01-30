@@ -9,4 +9,7 @@ public class XMLManager : Singleton<XMLManager>
     {
         return true;
     }
+    public override void DestroyManager()
+    {
+    }
 }

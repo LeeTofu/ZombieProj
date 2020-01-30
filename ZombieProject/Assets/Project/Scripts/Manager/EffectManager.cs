@@ -59,7 +59,13 @@ public class EffectManager : Singleton<EffectManager>
 
         return true;
     }
-
+    public override void DestroyManager()
+    {
+        foreach (MovingObject obj in m_EffectFactory.m_ListAllMovingObject)
+        {
+            obj.pushToMemory((int)obj.m_Type);
+        }
+    }
     public EffectObject PlayEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f )
     {
         if (m_EffectFactory == null) return null;

@@ -99,7 +99,9 @@ public class InvenManager : Singleton<InvenManager>
         LoadItemInvenFromXML();
         return true;
     }
-
+    public override void DestroyManager()
+    {
+    }
     public ItemSlot CreateInventoryItemSlot(Item _item)
     {
         GameObject newObj = Instantiate(m_ItemSlotPrefab);

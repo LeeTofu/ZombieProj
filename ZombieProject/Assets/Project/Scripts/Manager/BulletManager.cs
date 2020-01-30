@@ -48,6 +48,10 @@ public class BulletManager : Singleton<BulletManager>
         return true;
     }
 
+    public override void DestroyManager()
+    {
+    }
+
     public BULLET_TYPE GetBulletTypeFromItemStat(ItemStat _stat)
     {
         switch(_stat.m_Sort)

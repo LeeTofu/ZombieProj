@@ -92,7 +92,9 @@ public class NavMeshMakingTool : Singleton<NavMeshMakingTool>
 
         return true;
     }
-
+    public override void DestroyManager()
+    {
+    }
     public bool LoadNavMeshInfoFromFile(string _filePath)
     {
         

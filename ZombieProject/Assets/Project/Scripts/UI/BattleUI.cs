@@ -8,6 +8,9 @@ public class BattleUI : BaseUI
     Coroutine m_DamagedCoroutine;
 
     [SerializeField]
+    static Image m_DeathPanel;
+
+    [SerializeField]
     RawImage m_DamagedImage;
 
     [SerializeField]
@@ -42,12 +45,14 @@ public class BattleUI : BaseUI
     private void Awake()
     {
         m_InputController = GetComponentInChildren<InputContoller>();
+        m_DeathPanel = transform.Find("DeathPanel").GetComponent<Image>();
     }
 
     private void OnEnable()
     {
         Debug.Log("Battle UI 불러옴");
         m_DamagedImage.gameObject.SetActive(false);
+        m_DeathPanel.gameObject.SetActive(false);
         StartCoroutine(CountDown_C());
         m_WaringText.gameObject.SetActive(false);
     }
@@ -151,7 +156,6 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-
         for (int i = 0; i < buttons.Length; i++)
         {
             ITEM_SLOT_SORT type = buttons[i].m_slotType;
@@ -210,5 +214,10 @@ public class BattleUI : BaseUI
     {
         m_WaringText.gameObject.SetActive(true);
         m_WaringText.StartTextUITwinkle();
+    }
+
+    public static void SetDeathPanelActive(bool _is)
+    {
+        m_DeathPanel.gameObject.SetActive(_is);
     }
 }

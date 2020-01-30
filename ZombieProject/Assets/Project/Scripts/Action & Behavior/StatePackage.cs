@@ -465,8 +465,7 @@ public class DeathState : PlayerState
         {
             return;
         }
-        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
-        GameMaster.Instance.DestroyManager();
+        BattleUI.SetDeathPanelActive(true);
         m_StateContoller.InGame_Initialize();
     }
 

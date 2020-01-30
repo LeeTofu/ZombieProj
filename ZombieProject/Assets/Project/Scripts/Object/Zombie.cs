@@ -28,8 +28,8 @@ public class Zombie : MovingObject
         {
             MaxHP = 100,
             Range = 1.5f,
-            MoveSpeed = Random.Range(0.4f,0.6f),
-            alertRange = 10.0f,
+            MoveSpeed = Random.Range(0.55f,0.75f),
+            alertRange = 100.0f,
             isKnockBack = false,
         };
 

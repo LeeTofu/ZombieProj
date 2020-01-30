@@ -23,7 +23,6 @@ public class EnemyManager : Singleton<EnemyManager>
     // 좀비의 어그로가 될 오브젝트
     public MovingObject m_ZombieAttackObject { private set; get; }
 
-
     public int GetZombieCount()
     {
         return m_ZombieFactory.m_ListAllMovingObject.Count;
@@ -204,7 +203,7 @@ public class EnemyManager : Singleton<EnemyManager>
             m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
 
             m_ZombieFactory.Initialize("Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
-            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 10);
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 30);
         }
         
         return true;

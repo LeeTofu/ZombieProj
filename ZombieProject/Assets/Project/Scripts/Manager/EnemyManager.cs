@@ -10,19 +10,7 @@ public class EnemyManager : Singleton<EnemyManager>
     private Dictionary<int, STAT> m_NamedZombieStatTable = new Dictionary<int, STAT>();
     private Dictionary<int, STAT> m_BossZombieStatTable = new Dictionary<int, STAT>();
 
-    //// 좀비 각 페이즈마다 리스폰할 
-    //Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
-
     private ObjectFactory m_ZombieFactory;
-
-    ////[HideInInspector]
-    ////public GameObject m_ZombieCreateZone;
-
-    ////public int m_CurRespawnZombieCount { private set; get; }
-    ////public int m_CurWave { private set; get; }
-
-    ////public bool m_isGameOver;
-
 
     // 좀비의 어그로가 될 오브젝트
     public MovingObject m_ZombieAttackObject { private set; get; }

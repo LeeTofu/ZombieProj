@@ -27,7 +27,7 @@ public class ZombieRespawn : MonoBehaviour
 
     // 현재 웨이브에서 좀비를 다 소환했는지?
     // true면 좀비 리스폰을 다해서 이제 좀비 리스폰을 안하겠다는 뜻.
-    public bool m_isCompleteRespawn { private set; get; }
+    public bool m_isCompleteRespawn;
 
     // 리스폰 실행중인 코루틴.
     Coroutine m_Coroutine;
@@ -60,6 +60,7 @@ public class ZombieRespawn : MonoBehaviour
     // 리스폰을 시작하자
     public void StartRespawn()
     {
+        m_CurRespawnCount = 0;
         m_isCompleteRespawn = false;
 
         if (m_Coroutine == null)
@@ -76,13 +77,15 @@ public class ZombieRespawn : MonoBehaviour
         m_Coroutine = null;
     }
 
-
+    // 좀비를 리스폰하자.
     private void RespawnZombie()
     {
         EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, m_RespawnType);
+        RespawnManager.Instance.m_CurRespawnZombieCount++;
         m_CurRespawnCount++;
     }
 
+    // 리스폰을 코루틴 돌려 활성화하자.
     IEnumerator RespawnStartZombie()
     {
         yield return new WaitForSeconds(m_ZombieRespawnStartTime);
@@ -91,11 +94,15 @@ public class ZombieRespawn : MonoBehaviour
         {
             RespawnZombie();
 
-            if (m_CurRespawnCount >= m_ZombieMaxRespawnCount) yield break;
+            if (m_CurRespawnCount >= m_ZombieMaxRespawnCount)
+            {
+                m_isCompleteRespawn = true;
+                yield break;
+            }
             yield return new WaitForSeconds(Random.Range(m_minZombieRespawnTime, m_maxZombieRespawnTime));
         }
 
-        m_isCompleteRespawn = true;
+       
     }
 
 

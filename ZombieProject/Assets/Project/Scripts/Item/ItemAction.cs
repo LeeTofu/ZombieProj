@@ -72,7 +72,6 @@ public class SlotController : MonoBehaviour
         m_CurrentAttackSpeed = _AttackTime;
         m_AttackSpeedTime = 0.0f;
         m_OriginalAttackSpeed = _AttackTime;
-
     }
 
     // 쿨다운 틱당 도는 함수입ㄴ다.

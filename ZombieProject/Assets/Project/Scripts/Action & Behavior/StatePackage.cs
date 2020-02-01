@@ -465,6 +465,8 @@ public class DeathState : PlayerState
         {
             return;
         }
+
+        RespawnManager.Instance.GameOver();
         BattleUI.SetDeathPanelActive(true);
         m_StateContoller.InGame_Initialize();
     }

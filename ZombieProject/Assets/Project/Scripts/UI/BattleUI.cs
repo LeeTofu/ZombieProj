@@ -229,6 +229,7 @@ public class BattleUI : BaseUI
 
     public static void SetDeathPanelActive(bool _is)
     {
+
         m_DeathPanel.gameObject.SetActive(_is);
     }
 

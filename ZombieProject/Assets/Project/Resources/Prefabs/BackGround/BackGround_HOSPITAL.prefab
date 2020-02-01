@@ -203,7 +203,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 10
   m_maxZombieRespawnTime: 15
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &385236405157322759
 GameObject:
@@ -793,7 +793,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 10
   m_maxZombieRespawnTime: 15
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &2117736222226423799
 GameObject:
@@ -2131,7 +2131,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 5
   m_maxZombieRespawnTime: 15
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &4753007983756239825
 GameObject:
@@ -2987,7 +2987,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 4
   m_maxZombieRespawnTime: 12
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &6447854903713044959
 GameObject:
@@ -3192,7 +3192,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 5
   m_maxZombieRespawnTime: 12
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &6719979447481723306
 GameObject:
@@ -4971,7 +4971,7 @@ MonoBehaviour:
   m_ZombieRespawnStartTime: 2
   m_minZombieRespawnTime: 4
   m_maxZombieRespawnTime: 12
-  m_ZombieMaxRespawnCount: 5
+  m_ZombieMaxRespawnCount: 1
   m_RespawnType: 4
 --- !u!1 &8996599321523545512
 GameObject:

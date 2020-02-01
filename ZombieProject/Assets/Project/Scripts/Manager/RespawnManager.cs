@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RespawnManager : Singleton<RespawnManager>
 {
     public int m_EndPhase = 10;
@@ -10,7 +11,7 @@ public class RespawnManager : Singleton<RespawnManager>
     List<ZombieRespawn> m_ListZombiePhase = new List<ZombieRespawn>();
 
    // Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
-    public int m_CurRespawnZombieCount { private set; get; }
+    public int m_CurRespawnZombieCount { set; get; }
     public int m_CurWave { private set; get; }
 
     // 게임에서 패배했는가.
@@ -38,7 +39,9 @@ public class RespawnManager : Singleton<RespawnManager>
 
     private void Update()
     {
+#if UNITY_EDITOR
         ForceZombieClear();
+#endif
     }
 
 
@@ -95,20 +98,38 @@ public class RespawnManager : Singleton<RespawnManager>
     // 게임 처음 시작시 실행되는 함수.
     public void GameStartWave()
     {
-        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("15초 뒤 좀비가 몰려옵니다!");
-        StartCoroutine(WaveChange_C(15.0f));
+#if UNITY_EDITOR
+        StartCoroutine(WaveChange_C(3.0f));
+#elif UNITY_ANDROID
+            StartCoroutine(WaveChange_C(20.0f));
+#endif
     }
 
-    // 웨이브 변화 조건을 만족하면 다음 웨이브로 30초뒤에 진행됩니다.
+    // 웨이브 변화 조건을 만족하면 다음 웨이브로 15초뒤에 진행됩니다.
     public void WaveChangeFunction()
     {
         if (CheckCanNextWave())
         {
-            (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("정비 시간");
-
-            StartCoroutine(WaveChange_C(30.0f));
+            StartCoroutine(RestTime_C(10.0f));
         }
     }
+
+    // 웨이브마다 있는 쉬는 시간
+    IEnumerator RestTime_C(float _restTime)
+    {
+        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
+
+        yield return new WaitForSeconds(_restTime);
+
+#if UNITY_EDITOR
+        StartCoroutine(WaveChange_C(3.0f));
+#elif UNITY_ANDROID
+            StartCoroutine(WaveChange_C(5.0f));
+#endif
+
+    }
+
+
 
     // Zombie를 오브젝트 풀에 넣을때 실행되는 함수입니다.
     public void PushToPoolZombieAction()
@@ -119,23 +140,41 @@ public class RespawnManager : Singleton<RespawnManager>
         {
             m_CurRespawnZombieCount = 0;
         }
-        // 좀비 제거 시 
-        WaveChangeFunction();
+
+        if(m_CurRespawnZombieCount == 0)
+            WaveChangeFunction();
     }
 
     IEnumerator WaveChange_C(float _changeTime)
     {
-        yield return new WaitForSeconds(_changeTime);
+        float time = 0.0f;
+        while (time < _changeTime)
+        {
+            (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
-        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage(" ");
+            yield return new WaitForSeconds(1.0f);
+            time += 1.0f;
+        }
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("모든 좀비를 제거하고 생존하세요.");
 
         OccurZombiePhase(m_CurWave + 1);
     }
 
-    //게임 종료/클리어시 발동
+    //게임 클리어시 발동
     void GameClear()
     {
         (UIManager.Instance.m_CurrentUI as BattleUI).EndWaveAction();
+        m_isGameClear = true;
+
+        AllStopRespawnZombie();
+        AllDeleteRespawnZombie();
+    }
+
+    //게임 종료/클리어시 발동
+    public void GameOver()
+    {
+        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("생존 실패");
         m_isGameClear = true;
 
         AllStopRespawnZombie();
@@ -149,13 +188,12 @@ public class RespawnManager : Singleton<RespawnManager>
           {
               if (!respawn.m_isCompleteRespawn)
               {
-                  return false;
+                return false;
               }
           }
 
-          if (m_CurRespawnZombieCount == 0)
+        if (m_CurRespawnZombieCount == 0)
               return true;
-
         return false;
     }
 

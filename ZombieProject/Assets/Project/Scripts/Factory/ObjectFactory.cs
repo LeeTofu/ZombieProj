@@ -143,8 +143,11 @@ public class ObjectFactory : MonoBehaviour
     {
         if (_Q == null) return;
 
+        m_PushMemoryAction?.Invoke(null);
+
         _object.gameObject.SetActive(false);
         _Q.Enqueue(_object);
+
     }
 
 
@@ -159,6 +162,8 @@ public class ObjectFactory : MonoBehaviour
             Destroy(_object);
             return;
         }
+
+        m_PushMemoryAction?.Invoke(null);
 
         _object.gameObject.transform.SetParent(transform);
         _object.gameObject.SetActive(false);

@@ -7,7 +7,7 @@ public class EffectObject : MovingObject
     ParticleSystem m_ParticleSystem;
     Coroutine m_Coroutine;
 
-    int m_EffectTypeID;
+    public int m_EffectTypeID { private set; get; }
 
     public override void InGame_Initialize()
     {
@@ -27,6 +27,7 @@ public class EffectObject : MovingObject
 
     public void SetDestroyTime(float _time, int _type)
     {
+        if (!gameObject.activeSelf) return;
         if (m_Coroutine != null)
             StopCoroutine(m_Coroutine);
 

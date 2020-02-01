@@ -61,9 +61,9 @@ public class EffectManager : Singleton<EffectManager>
     }
     public override void DestroyManager()
     {
-        foreach (MovingObject obj in m_EffectFactory.m_ListAllMovingObject)
+        foreach (EffectObject obj in m_EffectFactory.m_ListAllMovingObject)
         {
-            obj.pushToMemory((int)obj.m_Type);
+            obj.pushToMemory((int)obj.m_EffectTypeID);
         }
     }
     public EffectObject PlayEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f )

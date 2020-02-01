@@ -24,8 +24,6 @@ public enum GAME_STAGE
     NONE, //IN_GAME 씬이 아니다.
     STAGE_1,
     STAGE_2,
-    STAGE_3,
-    STAGE_4,
     END
 }
 
@@ -42,8 +40,6 @@ public class GameMaster : Singleton<GameMaster>
     public override bool Initialize()
     {
         TextureManager.Instance.CreateManager();
-
-       // LoginManager.Instance.CreateManager();
         EnemyManager.Instance.CreateManager();
         PlayerManager.Instance.CreateManager();
         UIManager.Instance.CreateManager();
@@ -58,6 +54,7 @@ public class GameMaster : Singleton<GameMaster>
         EffectManager.Instance.CreateManager();
 
         BuffManager.Instance.CreateManager();
+        RespawnManager.Instance.CreateManager();
 
         return true;
     }
@@ -79,5 +76,6 @@ public class GameMaster : Singleton<GameMaster>
         EffectManager.Instance.DestroyManager();
 
         BuffManager.Instance.DestroyManager();
+        RespawnManager.Instance.DestroyManager();
     }
 }

@@ -38,13 +38,11 @@ public class BattleSceneMain : SceneMain
         }
 
         CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
-        StartRespawnPhaseZombie(0);
+
+        RespawnManager.Instance.GameStartWave();
+
     }
 
-    public void StartRespawnPhaseZombie(int _phase)
-    {
-        EnemyManager.Instance.RespawnPhaseZombie(_phase);
-    }
 
     public override bool DeleteScene()
     {

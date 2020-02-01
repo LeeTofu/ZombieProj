@@ -17,6 +17,9 @@ public class BattleUI : BaseUI
     TwinkleTextUI m_WaringText;
 
     [SerializeField]
+    TMPro.TextMeshProUGUI m_WaveText;
+
+    [SerializeField]
     TMPro.TextMeshProUGUI m_CurHPText;
 
     [SerializeField]
@@ -30,6 +33,9 @@ public class BattleUI : BaseUI
 
     [SerializeField]
     TMPro.TextMeshProUGUI m_PartsText;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI m_InfoText;
 
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
 
@@ -46,6 +52,8 @@ public class BattleUI : BaseUI
     {
         m_InputController = GetComponentInChildren<InputContoller>();
         m_DeathPanel = transform.Find("DeathPanel").GetComponent<Image>();
+
+        m_InfoText.text = " ";
     }
 
     private void OnEnable()
@@ -156,6 +164,7 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+
         for (int i = 0; i < buttons.Length; i++)
         {
             ITEM_SLOT_SORT type = buttons[i].m_slotType;
@@ -210,6 +219,8 @@ public class BattleUI : BaseUI
 
         m_HpImage.fillAmount = CurHpAmount;
     }
+
+    // 좀비가 몰려옵니다! 메세지 출력해줌.
     public void PlayWaringText()
     {
         m_WaringText.gameObject.SetActive(true);
@@ -219,5 +230,22 @@ public class BattleUI : BaseUI
     public static void SetDeathPanelActive(bool _is)
     {
         m_DeathPanel.gameObject.SetActive(_is);
+    }
+
+    public void ChangeWaveAction(int _wave)
+    {
+        PlayWaringText();
+        m_WaveText.text = "Wave " + _wave.ToString();
+    }
+
+    public void EndWaveAction()
+    {
+        m_CountDown.text = "생 존";
+    }
+
+    // 상단에 있는 노란색 글씨의 인포 메세지 셋팅
+    public void PlayInfoMessage(string _str)
+    {
+        m_InfoText.text = _str;
     }
 }

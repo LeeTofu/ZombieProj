@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class ZombieRespawn : MonoBehaviour
 {
-    // 좀비를 소환할 페이즈
-    [SerializeField]
-    int m_Phase;
-
     // 좀비 리스폰 시작 시간
     [SerializeField]
     float m_ZombieRespawnStartTime;
@@ -28,6 +24,10 @@ public class ZombieRespawn : MonoBehaviour
     int m_CurRespawnCount = 0;
 
     float m_CurTime = 0.0f;
+
+    // 현재 웨이브에서 좀비를 다 소환했는지?
+    // true면 좀비 리스폰을 다해서 이제 좀비 리스폰을 안하겠다는 뜻.
+    public bool m_isCompleteRespawn { private set; get; }
 
     // 리스폰 실행중인 코루틴.
     Coroutine m_Coroutine;
@@ -51,15 +51,18 @@ public class ZombieRespawn : MonoBehaviour
     // 처음 시작시 리스폰을 에너미매니저에 등록하자.
     private void Start()
     {
+        m_isCompleteRespawn = false;
         m_CurRespawnCount = 0;
         GetComponent<MeshRenderer>().enabled = false;
-        EnemyManager.Instance.InsertPhaseZombie(m_Phase, this);
+        RespawnManager.Instance.InsertPhaseZombie(this);
     }
 
     // 리스폰을 시작하자
     public void StartRespawn()
     {
-        if(m_Coroutine == null)
+        m_isCompleteRespawn = false;
+
+        if (m_Coroutine == null)
         m_Coroutine = StartCoroutine(RespawnStartZombie());
     }
 
@@ -84,17 +87,15 @@ public class ZombieRespawn : MonoBehaviour
     {
         yield return new WaitForSeconds(m_ZombieRespawnStartTime);
 
-        while (true)
+        while (m_CurRespawnCount < m_ZombieMaxRespawnCount)
         {
-            while(m_CurRespawnCount >= m_ZombieMaxRespawnCount)
-            {
-                yield return null;
-            }
-
             RespawnZombie();
 
+            if (m_CurRespawnCount >= m_ZombieMaxRespawnCount) yield break;
             yield return new WaitForSeconds(Random.Range(m_minZombieRespawnTime, m_maxZombieRespawnTime));
         }
+
+        m_isCompleteRespawn = true;
     }
 
 

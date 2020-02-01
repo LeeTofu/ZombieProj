@@ -164,14 +164,7 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (m_Player == null) return false;
 
-        //  Ray ray = Camera.main.ScreenPointToRay(_inputScreenPosition);
-        // RaycastHit castHit;
-        // if(Physics.Raycast(ray, out castHit, 100.0f, 1 << LayerMask.NameToLayer("Ground") ))
-        // {
-        //  Vector3 HitPositon = castHit.point;
-        //  HitPositon.y = m_Player.transform.position.y;
         Vector3 HitForward = _zombiePos - m_Player.transform.position;
-
         HitForward = HitForward.normalized;
 
         if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.85f)
@@ -179,10 +172,7 @@ public class PlayerManager : Singleton<PlayerManager>
             return true;
         }
         else return false;
-        //  }
-
     }
-
 
     // 화면 터치시 가장 가까운 좀비를 찾아내는 함수입니다.
     public MovingObject GetTouchNearestEnemy(Vector3 _inputScreenPosition, out Vector3 _hitPoint)
@@ -226,7 +216,6 @@ public class PlayerManager : Singleton<PlayerManager>
             return zombie;
         }
     }
-
 
     public void PlayerAttack()
     {
@@ -273,7 +262,6 @@ public class PlayerManager : Singleton<PlayerManager>
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
             case ITEM_SORT.GRENADE:
-
                 BulletManager.Instance.FireBullet(
                 m_Player.transform.position + new Vector3(0,1,0),
                 m_Player.transform.forward,

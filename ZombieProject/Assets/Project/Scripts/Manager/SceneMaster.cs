@@ -173,12 +173,8 @@ public class SceneMaster : Singleton<SceneMaster>
         switch (_gameStage)
         {
             case GAME_STAGE.STAGE_1:
-                return E_MAP.CITY1;
-            case GAME_STAGE.STAGE_2:
-                return E_MAP.SEWER;
-            case GAME_STAGE.STAGE_3:
                 return E_MAP.HOSPITAL;
-            case GAME_STAGE.STAGE_4:
+            case GAME_STAGE.STAGE_2:
                 return E_MAP.BUNKER;
             default:
                 return E_MAP.BUNKER;

@@ -63,7 +63,7 @@ public class StageSelectUI : BaseUI
 
         if(m_CurretSelectedStage >= GAME_STAGE.END)
         {
-            m_CurretSelectedStage = GAME_STAGE.STAGE_4;
+            m_CurretSelectedStage = GAME_STAGE.STAGE_1;
            
         }
 

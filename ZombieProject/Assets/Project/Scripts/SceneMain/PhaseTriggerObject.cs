@@ -28,7 +28,7 @@ public class PhaseTriggerObject : MonoBehaviour
         if (other.tag != "Player") return;
 
         m_Source.Play();
-        EnemyManager.Instance.OccurZombiePhase(m_IWillOccurPhase);
+        RespawnManager.Instance.OccurZombiePhase(m_IWillOccurPhase);
         m_UI.PlayWaringText();
 
         m_Collidier.enabled = false;

@@ -32,9 +32,6 @@ public class BattleUI : BaseUI
     TMPro.TextMeshProUGUI m_MoneyText;
 
     [SerializeField]
-    TMPro.TextMeshProUGUI m_PartsText;
-
-    [SerializeField]
     TMPro.TextMeshProUGUI m_InfoText;
 
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
@@ -192,6 +189,7 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+
         m_SupplyAmmoIcon = transform.Find("NpcShop").GetChild(0).gameObject;
         m_UpgradeWeaponRangeIcon = transform.Find("NpcShop").GetChild(1).gameObject;
         m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
@@ -294,5 +292,10 @@ public class BattleUI : BaseUI
         m_UpgradeWeaponRangeIcon.SetActive(_is);
         m_UpgradeWeaponAttackIcon.SetActive(_is);
         m_UpgradeWeaponAttackSpeedIcon.SetActive(_is);
+    }
+
+    public void UpdateMoney(int _money)
+    {
+        m_MoneyText.text = "$ " + _money.ToString();
     }
 }

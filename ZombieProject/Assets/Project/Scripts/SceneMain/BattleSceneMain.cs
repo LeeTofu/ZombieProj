@@ -23,6 +23,9 @@ public class BattleSceneMain : SceneMain
             yield return null;
         yield return new WaitForSeconds(0.1f);
 
+        PlayerManager.Instance.CurrentMoney = 0;
+
+
         CameraManager.Instance.CameraInitialize(m_PlayerCreateZone.position);
 
         yield return new WaitForSeconds(3.0f);

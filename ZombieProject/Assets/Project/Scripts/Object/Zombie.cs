@@ -74,6 +74,8 @@ public class Zombie : MovingObject
             if(m_Type == OBJECT_TYPE.ELITE_ZOMBIE)
                 BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
 
+            PlayerManager.Instance.CurrentMoney += 10;
+
             if (m_CollisionAction != null)
                 m_CollisionAction.SetCollisionActive(false);
         }

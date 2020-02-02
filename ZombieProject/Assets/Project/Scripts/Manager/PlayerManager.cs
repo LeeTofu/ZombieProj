@@ -48,6 +48,25 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public PlayerInfo m_PlayerInfo;
 
+    // 현재 가진 돈
+    private int m_CurrentMoney;
+
+    public int CurrentMoney
+    {
+        get => m_CurrentMoney;
+        set
+        {
+            m_CurrentMoney = value;
+
+            if(m_CurrentMoney < 0)
+            {
+                m_CurrentMoney = 0;
+            }
+
+            (UIManager.Instance.m_CurrentUI as BattleUI).UpdateMoney(m_CurrentMoney);
+        }
+    }
+
 
     public void LoadPlayerInfo()
     {
@@ -307,6 +326,8 @@ public class PlayerManager : Singleton<PlayerManager>
                 break;
         }
     }
+
+
 
     public override void DestroyManager()
     {

@@ -54,7 +54,7 @@ public class BattleItemSlotButton : UIPressSubject
         m_ItemButtonController.enabled = true;
        
         if (m_slotType != ITEM_SLOT_SORT.SECOND)
-            m_ItemButtonController.Initialized(_item);
+            m_ItemButtonController.Initialized(_item.m_ItemStat);
         else
         {
             m_ItemButtonController.Initialized(5.0f, true, 0.0f);
@@ -68,6 +68,15 @@ public class BattleItemSlotButton : UIPressSubject
 
         m_isInitialize = true;
     }
+
+    // 슬롯에 장착된 아이템 스탯 업데이트 해주는 함수.
+    public void UpdateItemStat(ItemStat _itemStat)
+    {
+        if (m_ItemButtonController != null)
+            m_ItemButtonController.Initialized(_itemStat);
+        else Debug.LogError("아이템 버튼을 컨트롤 해줄 놈이 없는데...?");
+    }
+
 
 
     private void Update()

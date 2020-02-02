@@ -114,7 +114,7 @@ public class BattleUI : BaseUI
 
         SoundManager.Instance.OneShotPlay((UI_SOUND)hurtSoundIdx);
 
-        CameraManager.Instance.ShakeCamera(0.5f, 0.2f);
+        CameraManager.Instance.ShakeCamera(0.4f, 0.1f);
         m_DamagedCoroutine = StartCoroutine(DamageEffect_C(2.0f));
     }
 

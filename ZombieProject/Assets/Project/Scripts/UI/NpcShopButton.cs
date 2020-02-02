@@ -9,10 +9,11 @@ public class NpcShopButton : UIPressSubject
     TMPro.TextMeshProUGUI m_StackCountText;
     public override void OnPointerDown(PointerEventData eventData)
     {
-        int current = PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_Count;
-        int max = PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Count;
+        int current = PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count;
+        int max = PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count;
+
         PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.plusItem(max - current);
-        m_StackCountText.text = PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_Count.ToString();
+        m_StackCountText.text = PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count.ToString();
     }
     public override void OnPointerUp(PointerEventData eventData)
     {

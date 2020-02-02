@@ -47,17 +47,17 @@ public class SlotController : MonoBehaviour
 
     bool m_isDownHover = false;
 
-    public void Initialized(Item _item)
+    public void Initialized(ItemStat _itemStat)
     {
-        m_isHaveCoolTime = _item.m_ItemStat.m_isHaveCoolTime;
+        m_isHaveCoolTime = _itemStat.m_isHaveCoolTime;
 
         m_CurrentCoolTime = 0.0f;
-        m_CurrentMaxCoolTime = _item.m_ItemStat.m_CoolTime;
-        m_OriginalMaxCoolTime = _item.m_ItemStat.m_CoolTime;
+        m_CurrentMaxCoolTime = _itemStat.m_CoolTime;
+        m_OriginalMaxCoolTime = _itemStat.m_CoolTime;
 
-        m_CurrentAttackSpeed = _item.m_ItemStat.m_AttackSpeed;
+        m_CurrentAttackSpeed = _itemStat.m_AttackSpeed;
         m_AttackSpeedTime = 0.0f;
-        m_OriginalAttackSpeed = _item.m_ItemStat.m_AttackSpeed;
+        m_OriginalAttackSpeed = _itemStat.m_AttackSpeed;
 
     }
 
@@ -73,6 +73,8 @@ public class SlotController : MonoBehaviour
         m_AttackSpeedTime = 0.0f;
         m_OriginalAttackSpeed = _AttackTime;
     }
+
+ 
 
     // 쿨다운 틱당 도는 함수입ㄴ다.
     public void TickItemCoolTime()

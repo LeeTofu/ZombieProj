@@ -143,6 +143,9 @@ public class PlayerManager : Singleton<PlayerManager>
         m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
 
         m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
+
+        SoundManager.Instance.OneShotPlay(UI_SOUND.WEAPON_CHANGE);
+
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
     }
 
@@ -224,8 +227,15 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
+    // 인게임상에서 현재 장착하고 있는 아이템을 업그레이드합니다.
     public void CurrentEquipedWeaponUpgrade(UPGRADE_TYPE _upgrade, float _value)
     {
+        if (m_CurrentEquipedItemObject == null)
+        {
+            Debug.LogError("현재 낀 아이템이 없는데?");
+            return;
+        }
+
         switch(_upgrade)
         {
             case UPGRADE_TYPE.ATTACK:
@@ -238,6 +248,8 @@ public class PlayerManager : Singleton<PlayerManager>
                 m_CurrentEquipedItemObject.UpgradeRange(_value);
                 break;
         }
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).UpdateItemStat(m_CurrentEquipedItemObject.m_CurrentStat);
     }
 
 

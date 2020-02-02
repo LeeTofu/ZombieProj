@@ -7,7 +7,7 @@ using UnityEngine;
 public class ItemObject : MonoBehaviour
 {
     // 이 Stat에 따라 아이템의 공격력, 공격스피드 결정.
-    ItemStat m_CurrentStat;
+    public ItemStat m_CurrentStat;
 
     const string m_FirePosString = "FirePos";
     public Transform m_FireTransform { get; private set; }
@@ -79,7 +79,7 @@ public class ItemObject : MonoBehaviour
     {
         PlaySound();
 
-        switch(ItemManager.Instance.GetItemActionType(m_Item))
+        switch (ItemManager.Instance.GetItemActionType(m_Item))
         {
             case ITEM_EVENT_TYPE.FIRE_BULLET:
             case ITEM_EVENT_TYPE.PIERCE:
@@ -87,9 +87,10 @@ public class ItemObject : MonoBehaviour
                 BulletManager.Instance.FireBullet(
                  m_FireTransform.position,
                 new Vector3(m_FireTransform.transform.forward.x, 0 , m_FireTransform.transform.forward.z),
-                m_Item.m_ItemStat);
+                m_CurrentStat);
                 break;
             case ITEM_EVENT_TYPE.SHOT_GUN:
+
                 for(int i = 0; i < 5; i++)
                 {
                     Vector3 forward = new Vector3(m_FireTransform.transform.forward.x , 0, m_FireTransform.transform.forward.z);
@@ -98,7 +99,7 @@ public class ItemObject : MonoBehaviour
                     BulletManager.Instance.FireBullet(
                     m_FireTransform.position,
                     dir,
-                    m_Item.m_ItemStat);
+                    m_CurrentStat);
                 }
                 break;
             case ITEM_EVENT_TYPE.MELEE:

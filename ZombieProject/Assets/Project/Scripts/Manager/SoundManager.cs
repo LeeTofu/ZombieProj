@@ -22,6 +22,11 @@ public enum UI_SOUND
    FAIL_MISSON,
    INCHANT_SUCCESS,
    INCHANT_FAIL,
+
+   WEAPON_CHANGE,
+   HURT1,
+    HURT2,
+    HURT3,
 }
 
 public class SoundManager : Singleton<SoundManager>

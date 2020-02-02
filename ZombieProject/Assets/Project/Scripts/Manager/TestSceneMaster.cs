@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TestSceneMaster : Singleton<TestSceneMaster>
 {
@@ -11,15 +12,21 @@ public class TestSceneMaster : Singleton<TestSceneMaster>
 
     public override bool Initialize()
     {
-        //EnemyManager.Instance.CreateManager();
-        //PlayerManager.Instance.CreateManager();
+        Resources.Load("");
 
-        //PlayerManager.Instance.CreatePlayer(Vector3.forward * 3f, Quaternion.identity);
-        //EnemyManager.Instance.CreateZombie(Vector3.zero, Quaternion.identity, OBJECT_TYPE.ZOMBIE);
+        GameObject bg = Instantiate(Resources.Load<GameObject>("Prefabs/BackGround/BackGround_HOSPITAL"));
 
-        //NavMeshMakingCam.Instance.CreateManager();
-        NavMeshMakingCam.Instance.CreateManager();
-        NavMeshMakingTool.Instance.CreateManager();
+        if (!bg)
+        {
+            Debug.LogError("맵을 만들다가 실패함. ");
+            return false;
+        }
+
+        bg.transform.position = Vector3.zero;
+        bg.transform.rotation = Quaternion.identity;
+
+        //맵 navmesh 만드는 코드
+        
 
         return true;
     }

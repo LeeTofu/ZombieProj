@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class RespawnManager : Singleton<RespawnManager>
 {
     public int m_EndPhase = 10;
@@ -44,7 +45,6 @@ public class RespawnManager : Singleton<RespawnManager>
 #endif
     }
 
-
     // 다음 웨이브로 넘어가는 함수.
     public void OccurZombiePhase(int _phase)
     {
@@ -61,7 +61,6 @@ public class RespawnManager : Singleton<RespawnManager>
     {
         m_ListZombiePhase.Add(_zombieRespawn);
     }
-
 
     // 현재 에너미 매니저에 등록된 모든 좀비 리스폰 오브젝트를 해제합니다.
     // 씬 변경시 꼭 실행합시다.
@@ -126,10 +125,7 @@ public class RespawnManager : Singleton<RespawnManager>
 #elif UNITY_ANDROID
             StartCoroutine(WaveChange_C(5.0f));
 #endif
-
     }
-
-
 
     // Zombie를 오브젝트 풀에 넣을때 실행되는 함수입니다.
     public void PushToPoolZombieAction()

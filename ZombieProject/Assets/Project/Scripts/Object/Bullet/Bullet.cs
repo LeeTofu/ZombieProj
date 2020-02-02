@@ -24,12 +24,14 @@ public abstract class Bullet : MovingObject
     protected float m_currentMoveDistance = 0.0f;
     protected float m_currentSpeed = 0.0f;
 
+    
+
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
 
     }
 
-    protected void SplashAttack(Vector3 _pos, float _rangeDistance)
+    public void SplashAttack(Vector3 _pos, float _rangeDistance)
     {
         var zombies = EnemyManager.Instance.GetRangeZombies(_pos, 4.0f);
 
@@ -109,4 +111,6 @@ public abstract class Bullet : MovingObject
             BulletMove();
         }
     }
+
+
 }

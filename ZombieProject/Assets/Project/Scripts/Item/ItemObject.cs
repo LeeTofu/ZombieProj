@@ -6,6 +6,9 @@ using UnityEngine;
 // InGame에 생성될 아이템 오브젝트임... 그냥 발사 위치나 이런거 알때 씀.
 public class ItemObject : MonoBehaviour
 {
+    // 이 Stat에 따라 아이템의 공격력, 공격스피드 결정.
+    ItemStat m_CurrentStat;
+
     const string m_FirePosString = "FirePos";
     public Transform m_FireTransform { get; private set; }
     AudioSource m_audio;
@@ -38,6 +41,7 @@ public class ItemObject : MonoBehaviour
         m_auidoClip = Resources.LoadAll<AudioClip>("Sound/WeaponSound/" + _item.m_ItemStat.m_Sort.ToString());
 
         m_Item = _item;
+        m_CurrentStat = m_Item.m_ItemStat;
         m_currentBulletCount = _item.m_Count;
         m_audio = GetComponent<AudioSource>();
 
@@ -53,6 +57,23 @@ public class ItemObject : MonoBehaviour
 
         else Debug.LogError("무기에 오디오 없습니다.");
     }
+
+    public void UpgradeRange(float _rangePlus)
+    {
+        m_CurrentStat.m_Range += _rangePlus;
+    }
+
+    public void UpgradeAttack(float _attackPlus)
+    {
+        m_CurrentStat.m_AttackPoint += _attackPlus;
+    }
+
+    public void UpgradeAttackSpeed(float _attackSpeed)
+    {
+        m_CurrentStat.m_AttackSpeed += _attackSpeed;
+    }
+
+
 
     public void ItemAction()
     {

@@ -2,6 +2,13 @@
 using System.Xml;
 using UnityEngine;
 
+enum UPGRADE_TYPE
+{
+    ATTACK,
+    RANGE,
+    ATTACK_SPEED
+}
+
 
 public class PlayerManager : Singleton<PlayerManager>
 {
@@ -216,6 +223,12 @@ public class PlayerManager : Singleton<PlayerManager>
             return zombie;
         }
     }
+
+    public void CurrentEquipedWeaponUpgrade()
+    {
+
+    }
+
 
     public void PlayerAttack()
     {

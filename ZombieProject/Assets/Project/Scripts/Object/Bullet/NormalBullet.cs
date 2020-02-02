@@ -40,25 +40,26 @@ public class NormalBullet : Bullet
 
     public override void CollisionEvent(GameObject _object)
     {
-        if (_object.tag == "Zombie")
-        {
-            MovingObject zombie = _object.GetComponent<MovingObject>();
-            zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
-            EffectManager.Instance.PlayEffect(
-                PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
-                Vector3.one * 0.8f, true, 1.0f);
-        }
-        else
-        {
 
-            EffectManager.Instance.PlayEffect(
-                PARTICLE_TYPE.BULLET_EXPLOSION,
-                transform.position,
-                Quaternion.LookRotation(-m_CurDirection),
-                 Vector3.one * 1.0f,
-                true, 1.0f);
-        }
+            if (_object.tag == "Zombie")
+            {
+                MovingObject zombie = _object.GetComponent<MovingObject>();
+                zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
+                EffectManager.Instance.PlayEffect(
+                    PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
+                    Vector3.one * 0.8f, true, 1.0f);
+            }
+            else
+            {
+                EffectManager.Instance.PlayEffect(
+                    PARTICLE_TYPE.BULLET_EXPLOSION,
+                    transform.position,
+                    Quaternion.LookRotation(-m_CurDirection),
+                     Vector3.one * 1.0f,
+                    true, 1.0f);
+            }
 
-        pushToMemory((int)m_BulletType);
-    }
+            pushToMemory((int)m_BulletType);
+        }
+    
 }

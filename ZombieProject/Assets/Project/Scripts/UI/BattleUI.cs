@@ -56,6 +56,24 @@ public class BattleUI : BaseUI
         m_InfoText.text = " ";
     }
 
+    public IEnumerator Start()
+    {
+        while (PlayerManager.Instance.m_Player == null)
+        {
+            yield return null;
+        }
+
+        while (PlayerManager.Instance.m_Player.m_Stat == null)
+        {
+            yield return null;
+        }
+
+        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
+        m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+    }
+
+
+
     private void OnEnable()
     {
         Debug.Log("Battle UI 불러옴");

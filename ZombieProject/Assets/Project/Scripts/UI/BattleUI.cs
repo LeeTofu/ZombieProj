@@ -48,6 +48,9 @@ public class BattleUI : BaseUI
     public TMPro.TextMeshProUGUI[] m_ListBuffText;
     public TMPro.TextMeshProUGUI[] m_ListDeBuffText;
 
+    Image m_SupplyAmmoImage;
+    Image m_UpgradeWeaponImage;
+
     private void Awake()
     {
         m_InputController = GetComponentInChildren<InputContoller>();
@@ -182,6 +185,10 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        m_SupplyAmmoImage = transform.Find("NpcShop").GetChild(0).GetComponent<Image>();
+        m_UpgradeWeaponImage = transform.Find("NpcShop").GetChild(1).GetComponent<Image>();
+        m_SupplyAmmoImage.enabled = false;
+        m_UpgradeWeaponImage.enabled = false;
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -266,5 +273,11 @@ public class BattleUI : BaseUI
     public void PlayInfoMessage(string _str)
     {
         m_InfoText.text = _str;
+    }
+
+    public void NpcCollision(bool _is)
+    {
+        m_SupplyAmmoImage.enabled = _is;
+        m_UpgradeWeaponImage.enabled = _is;
     }
 }

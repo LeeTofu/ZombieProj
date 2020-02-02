@@ -324,11 +324,13 @@ public abstract class MovingObject : MonoBehaviour
     public void AddBuff(Buff _buff)
     {
         if (_buff == null) return;
+
         m_ListBuff.Add(_buff);
+
         m_BuffAction?.Invoke(m_ListBuff);
-        Debug.Log(" 버프 갯수 : " + m_ListBuff.Count + " , " + _buff.m_BuffType);
 
         _buff.m_BuffExitAction = (Buff buff) => { DeleteBuff(buff); };
+        _buff.PlayBuffEffect(this);
 
         StartCoroutine(_buff.BuffCoroutine);
     }

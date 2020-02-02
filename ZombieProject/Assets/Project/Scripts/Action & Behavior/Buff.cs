@@ -35,6 +35,10 @@ public abstract class Buff : STAT
     // 버프 종료시 처리.
     protected abstract void BuffExitAction();
 
+    // 버프 처음 적용시 호출할 함수입니다.
+    // 이펙트 재생이나, 무슨 이벤트 플레이용.
+    public abstract void PlayBuffEffect(MovingObject _object);
+
     // 그냥 단일 버프
     public IEnumerator OnceCoroutine()
     {
@@ -42,7 +46,6 @@ public abstract class Buff : STAT
          yield return new WaitForSeconds(m_DurationTime);
          BuffExitAction();
     }
-
 
     // 시간에 맞추어 여러번 버프 주는 액션을 하는 버프
     public IEnumerator TimeTickCorotine()
@@ -73,18 +76,24 @@ public class Adrenaline : Buff
     {
         m_BuffType = BUFF_TYPE.ADRENALINE;
         m_Text = "속도 증가";
-        Debug.Log("아드레날린 분비");
         BuffCoroutine = OnceCoroutine();
     }
+
+    public override void PlayBuffEffect(MovingObject _object)
+    {
+        if (_object == null) return;
+        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ADRENALIN, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 0.6f, true, m_DurationTime - 0.2f);
+
+    }
+
+
     protected override void BuffAction()
      {
-        Debug.Log( MoveSpeed );
         m_Stat.MoveSpeed *= MoveSpeed;
      }
 
     protected override void BuffExitAction()
     {
-        Debug.Log("아드레날린 분비 끝");
         m_Stat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
@@ -99,12 +108,21 @@ public class Blessing : Buff
         m_Text = "치료중";
         BuffCoroutine = TimeTickCorotine();
     }
+
+    public override void PlayBuffEffect(MovingObject _object)
+    {
+        if (_object == null) return;
+
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, _object.transform.position, Quaternion.Euler(270, 0, 0),
+            Vector3.one * 1.2f, true, 10.0f);
+
+        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
+        
+    }
+
     protected override void BuffAction()
     {
         m_Stat.CurHP += Attack;
-        Debug.Log("Healing:" + m_Stat.CurHP);
-        Debug.Log(m_DurationTime);
-        Debug.Log(m_CurTimeDuration);
     }
     protected override void BuffExitAction()
     {
@@ -121,6 +139,13 @@ public class Poison : Buff
         m_Text = "독";
         BuffCoroutine = TimeTickCorotine();
     }
+    public override void PlayBuffEffect(MovingObject _object)
+    {
+        if (_object == null) return;
+
+        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+    }
+
     protected override void BuffAction()
     {
         m_Stat.CurHP -= Attack;

@@ -153,7 +153,7 @@ public class BuffManager : Singleton<BuffManager>
     // ======================== 추가 ========================
     public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, int _buffLevel )
     {
-       if(_object != null)
+        if (_object != null)
         {
             Buff buff = GetBuff(_bufftype, _buffLevel);
             buff.SetStat(_object.m_Stat);
@@ -175,7 +175,7 @@ public class BuffManager : Singleton<BuffManager>
     {
         if (_object != null)
         {
-            Buff buff = GetBuff(_bufftype, 0);
+            Buff buff = GetBuff(_bufftype, 1);
             buff.SetStat(_object.m_Stat);
 
             buff = CloneBuff(buff, _itemStat);
@@ -210,7 +210,7 @@ public class BuffManager : Singleton<BuffManager>
 
     public Buff GetItemBuff(BUFF_TYPE _bufftype, ItemStat _itemStat)
     {
-        Buff newBuff = GetBuff(_bufftype, 0);
+        Buff newBuff = GetBuff(_bufftype, 1);
         newBuff = CloneBuff(newBuff, _itemStat);
 
         return newBuff;
@@ -237,6 +237,8 @@ public class BuffManager : Singleton<BuffManager>
                 return buff;
             }
         }
+
+        Debug.LogError("그런 버프 없음" + _Level);
 
         return null;
     }

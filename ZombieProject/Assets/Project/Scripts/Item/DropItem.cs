@@ -16,7 +16,7 @@ public class DropItem : MovingObject
     EffectObject m_EffectObject;
     // ParticleSystem m_DropItemParticle;
 
-    AudioSource m_audioSource;
+    //AudioSource m_audioSource;
 
 
     public override void InGame_Initialize()
@@ -30,7 +30,7 @@ public class DropItem : MovingObject
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
-        m_audioSource = GetComponent<AudioSource>();
+      //  m_audioSource = GetComponent<AudioSource>();
 
         if(m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<DropItemCollisionAction>();
@@ -40,12 +40,8 @@ public class DropItem : MovingObject
     {
         if (_object == null) return;
 
-        Debug.Log("Buff 걸림" + m_BuffType);
+      //  Debug.Log("Buff 걸림" + m_BuffType);
         BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
-
-        m_audioSource.Play();
-        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 1.0f);
-      //  _object.AddBuff(m_Buff);
 
         pushToMemory((int)m_Type);
     }

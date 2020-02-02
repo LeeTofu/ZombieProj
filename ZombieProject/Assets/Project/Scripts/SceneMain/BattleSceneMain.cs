@@ -25,7 +25,6 @@ public class BattleSceneMain : SceneMain
 
         PlayerManager.Instance.CurrentMoney = 0;
 
-
         CameraManager.Instance.CameraInitialize(m_PlayerCreateZone.position);
 
         yield return new WaitForSeconds(3.0f);

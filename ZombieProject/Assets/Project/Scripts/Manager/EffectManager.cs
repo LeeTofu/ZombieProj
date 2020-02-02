@@ -20,6 +20,11 @@ public enum PARTICLE_TYPE
     DROP_ITEM, // 드랍 아이템 표시
 
     MUZZLE, // 총알 발사
+    HEAL,
+    ADRENALIN,
+
+    POISON, // 독 이펙트
+    FIRE, // 불 이펙트
 
     NONE
 }
@@ -37,7 +42,7 @@ public class EffectManager : Singleton<EffectManager>
          m_EffectFactory = gameObject.AddComponent<ObjectFactory>();
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Blood"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BLOOD, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BLOOD, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BuffEffect"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BUFF, 5);
@@ -49,13 +54,25 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletMuzzle"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 5);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 10);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletExplosion"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 10);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/ExplosionMedium"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 5);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 10);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Heal"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.HEAL, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Poison"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.POISON, 10);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Fire"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.FIRE, 10);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Adrenalin"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ADRENALIN, 5);
 
         return true;
     }
@@ -85,7 +102,7 @@ public class EffectManager : Singleton<EffectManager>
         return effect;
     }
 
-    public EffectObject AttachEffect(PARTICLE_TYPE _particleType, MovingObject _object, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f)
+    public EffectObject AttachEffect(PARTICLE_TYPE _particleType, MovingObject _object, Vector3 _offset, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f)
     {
         if (_object == null) return null;
         if (m_EffectFactory == null) return null;
@@ -103,6 +120,7 @@ public class EffectManager : Singleton<EffectManager>
 
         effect.transform.localScale = _scale;
         effect.transform.SetParent(_object.transform);
+        effect.transform.localPosition = _offset;
 
         return effect;
     }

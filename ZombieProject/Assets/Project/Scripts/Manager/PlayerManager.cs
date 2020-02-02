@@ -2,7 +2,7 @@
 using System.Xml;
 using UnityEngine;
 
-enum UPGRADE_TYPE
+public enum UPGRADE_TYPE
 {
     ATTACK,
     RANGE,
@@ -224,9 +224,20 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    public void CurrentEquipedWeaponUpgrade()
+    public void CurrentEquipedWeaponUpgrade(UPGRADE_TYPE _upgrade, float _value)
     {
-
+        switch(_upgrade)
+        {
+            case UPGRADE_TYPE.ATTACK:
+                m_CurrentEquipedItemObject.UpgradeAttack(_value);
+                break;
+            case UPGRADE_TYPE.ATTACK_SPEED:
+                m_CurrentEquipedItemObject.UpgradeAttackSpeed(_value);
+                break;
+            case UPGRADE_TYPE.RANGE:
+                m_CurrentEquipedItemObject.UpgradeRange(_value);
+                break;
+        }
     }
 
 

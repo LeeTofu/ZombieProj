@@ -48,8 +48,11 @@ public class BattleUI : BaseUI
     public TMPro.TextMeshProUGUI[] m_ListBuffText;
     public TMPro.TextMeshProUGUI[] m_ListDeBuffText;
 
-    Image m_SupplyAmmoImage;
-    Image m_UpgradeWeaponImage;
+    GameObject m_SupplyAmmoIcon;
+    GameObject m_UpgradeWeaponRangeIcon;
+    GameObject m_UpgradeWeaponAttackIcon;
+    GameObject m_UpgradeWeaponAttackSpeedIcon;
+
 
     private void Awake()
     {
@@ -189,10 +192,16 @@ public class BattleUI : BaseUI
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        m_SupplyAmmoImage = transform.Find("NpcShop").GetChild(0).GetComponent<Image>();
-        m_UpgradeWeaponImage = transform.Find("NpcShop").GetChild(1).GetComponent<Image>();
-        m_SupplyAmmoImage.enabled = false;
-        m_UpgradeWeaponImage.enabled = false;
+        m_SupplyAmmoIcon = transform.Find("NpcShop").GetChild(0).gameObject;
+        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop").GetChild(1).gameObject;
+        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
+        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop").GetChild(3).gameObject;
+
+        m_SupplyAmmoIcon.SetActive(false);
+        m_UpgradeWeaponRangeIcon.SetActive(false);
+        m_UpgradeWeaponAttackIcon.SetActive(false);
+        m_UpgradeWeaponAttackSpeedIcon.SetActive(false);
+
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -281,7 +290,9 @@ public class BattleUI : BaseUI
 
     public void NpcCollision(bool _is)
     {
-        m_SupplyAmmoImage.enabled = _is;
-        m_UpgradeWeaponImage.enabled = _is;
+        m_SupplyAmmoIcon.SetActive(_is);
+        m_UpgradeWeaponRangeIcon.SetActive(_is);
+        m_UpgradeWeaponAttackIcon.SetActive(_is);
+        m_UpgradeWeaponAttackSpeedIcon.SetActive(_is);
     }
 }

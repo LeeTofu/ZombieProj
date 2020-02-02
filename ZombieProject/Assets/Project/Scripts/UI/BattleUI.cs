@@ -107,6 +107,10 @@ public class BattleUI : BaseUI
         if (m_DamagedCoroutine != null)
             StopCoroutine(m_DamagedCoroutine);
 
+        int hurtSoundIdx = Random.Range((int)UI_SOUND.HURT1, (int)UI_SOUND.HURT3 + 1);
+
+        SoundManager.Instance.OneShotPlay((UI_SOUND)hurtSoundIdx);
+
         CameraManager.Instance.ShakeCamera(0.5f, 0.2f);
         m_DamagedCoroutine = StartCoroutine(DamageEffect_C(2.0f));
     }

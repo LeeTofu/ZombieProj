@@ -30,6 +30,8 @@ public enum ITEM_SORT
     HEALTH_PACK, // Quick
     AMMO,// Quick
     GRENADE,// Quick
+    FIRE_GRENADE,
+    INSTALL_BOMB,
 
     END
     

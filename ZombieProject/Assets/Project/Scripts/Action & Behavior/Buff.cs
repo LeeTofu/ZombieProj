@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Buff : STAT
 {
+    protected EffectObject m_EffectObject;
+
     public float m_DurationTime; // 버프가 전체 몇초간 지속되는가
     public float m_TickTime; // 이 버프가 지속적으로 무언가를 하는 버프라면 몇 초 간격으로 할것인가.
 
@@ -33,11 +35,13 @@ public abstract class Buff : STAT
     protected abstract void BuffAction();
 
     // 버프 종료시 처리.
-    protected abstract void BuffExitAction();
+    public abstract void BuffExitAction();
 
     // 버프 처음 적용시 호출할 함수입니다.
     // 이펙트 재생이나, 무슨 이벤트 플레이용.
     public abstract void PlayBuffEffect(MovingObject _object);
+
+    protected abstract void ExitBuffEffect();
 
     // 그냥 단일 버프
     public IEnumerator OnceCoroutine()
@@ -72,6 +76,8 @@ public abstract class Buff : STAT
 }
 public class Adrenaline : Buff
 {
+    
+
      public Adrenaline(STAT _stat) : base(_stat) 
     {
         m_BuffType = BUFF_TYPE.ADRENALINE;
@@ -82,8 +88,15 @@ public class Adrenaline : Buff
     public override void PlayBuffEffect(MovingObject _object)
     {
         if (_object == null) return;
-        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ADRENALIN, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 0.6f, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ADRENALIN, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 0.6f, true, m_DurationTime - 0.2f);
+    }
 
+    protected override void ExitBuffEffect()
+    {
+        if(m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
+            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+
+        m_EffectObject = null;
     }
 
 
@@ -92,8 +105,10 @@ public class Adrenaline : Buff
         m_Stat.MoveSpeed *= MoveSpeed;
      }
 
-    protected override void BuffExitAction()
+    public override void BuffExitAction()
     {
+        ExitBuffEffect();
+
         m_Stat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
@@ -116,16 +131,25 @@ public class Blessing : Buff
         EffectManager.Instance.PlayEffect(PARTICLE_TYPE.BUFF, _object.transform.position, Quaternion.Euler(270, 0, 0),
             Vector3.one * 1.2f, true, 10.0f);
 
-        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
         
+    }
+
+    protected override void ExitBuffEffect()
+    {
+        if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
+            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+
+        m_EffectObject = null;
     }
 
     protected override void BuffAction()
     {
         m_Stat.CurHP += Attack;
     }
-    protected override void BuffExitAction()
+    public override void BuffExitAction()
     {
+        ExitBuffEffect();
         m_BuffExitAction(this);
         return;
     }
@@ -143,7 +167,7 @@ public class Poison : Buff
     {
         if (_object == null) return;
 
-        EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
     }
 
     protected override void BuffAction()
@@ -153,9 +177,56 @@ public class Poison : Buff
         Debug.Log("PoisonDamage:" + Attack);
     }
 
-    protected override void BuffExitAction()
+    protected override void ExitBuffEffect()
     {
+        if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
+            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+
+        m_EffectObject = null;
+    }
+
+    public override void BuffExitAction()
+    {
+        ExitBuffEffect();
+
         m_Stat.MoveSpeed /= MoveSpeed;
+        m_BuffExitAction(this);
+        return;
+    }
+}
+
+public class Fire : Buff
+{
+    public Fire(STAT _stat) : base(_stat)
+    {
+        m_BuffType = BUFF_TYPE.FIRE;
+        m_Text = "화상";
+        BuffCoroutine = TimeTickCorotine();
+    }
+    public override void PlayBuffEffect(MovingObject _object)
+    {
+        if (_object == null) return;
+
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+    }
+
+    protected override void BuffAction()
+    {
+        m_Stat.CurHP -= Attack;
+    }
+
+    protected override void ExitBuffEffect()
+    {
+        if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
+            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+
+        m_EffectObject = null;
+    }
+
+    public override void BuffExitAction()
+    {
+        ExitBuffEffect();
+
         m_BuffExitAction(this);
         return;
     }

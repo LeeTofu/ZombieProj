@@ -19,9 +19,9 @@ public class NpcCollisionAction : CollisionAction
 
     protected override bool CollisionCondition(GameObject _defender)
     {
-        if (!RespawnManager.Instance.CheckCanNextWave()) return false;
         if (_defender.GetComponent<MovingObject>() == null) return false;
         if (_defender.tag != "Player") return false;
+        if (!RespawnManager.Instance.CheckCanNextWave()) return false;
 
         return true;
     }

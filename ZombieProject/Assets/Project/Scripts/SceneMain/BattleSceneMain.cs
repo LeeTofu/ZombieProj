@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
-
 public class BattleSceneMain : SceneMain
 {
     private BattleMapCreator m_BattleMapCreator;
@@ -14,6 +10,7 @@ public class BattleSceneMain : SceneMain
     Transform m_ZombieCreateZone;
 
     static ObjectFactory s_DropItemFactory;
+    static ObjectFactory s_FireFactory;
 
     Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
 
@@ -23,23 +20,30 @@ public class BattleSceneMain : SceneMain
             yield return null;
         yield return new WaitForSeconds(0.1f);
 
-        PlayerManager.Instance.CurrentMoney = 0;
-
         CameraManager.Instance.CameraInitialize(m_PlayerCreateZone.position);
 
         yield return new WaitForSeconds(3.0f);
-        
+
+        PlayerManager.Instance.CurrentMoney = 0;
+
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
         if (s_DropItemFactory == null)
         {
             s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();
-            s_DropItemFactory.Initialize("Prefabs/Item/ItemBox", Resources.LoadAll<GameObject>( "Prefabs/Item/Models"));
-            s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.DROPITEM, 10);
+            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/BoxItem"));
+            s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 
-        CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
+        if (s_FireFactory == null)
+        {
+            s_FireFactory = gameObject.AddComponent<ObjectFactory>();
+            s_FireFactory.Initialize("Prefabs/BuffGiver/FireArea", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/Fire"));
+            s_FireFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
+        }
+
+       // CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
 
         RespawnManager.Instance.GameStartWave();
 
@@ -49,6 +53,8 @@ public class BattleSceneMain : SceneMain
     public override bool DeleteScene()
     {
         StopCoroutine(E_Start());
+        s_DropItemFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
+        s_FireFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
         return true;
     }
 
@@ -86,7 +92,12 @@ public class BattleSceneMain : SceneMain
 
     static public void CreateBuffItem(Vector3 _pos, Quaternion _quat)
     {
-        s_DropItemFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.DROPITEM);
+        s_DropItemFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.BUFF_OBJECT);
+    }
+
+    static public void CreateFireArea(Vector3 _pos, Quaternion _quat)
+    {
+        s_FireFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.BUFF_OBJECT);
     }
 
 }

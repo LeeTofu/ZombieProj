@@ -226,6 +226,8 @@ public class InvenManager : Singleton<InvenManager>
             case ITEM_SORT.LAUNCHER:
                 sort = MAIN_ITEM_SORT.EQUIPMENT;
                 break;
+            case ITEM_SORT.INSTALL_BOMB:
+            case ITEM_SORT.FIRE_GRENADE:
             case ITEM_SORT.GRENADE:
             case ITEM_SORT.HEALTH_PACK:
             case ITEM_SORT.AMMO:

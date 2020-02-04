@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PierceBullet : Bullet
 {
+    int m_MaxPierceCount = 5;
+    int m_CurrentPierceCount = 0;
+
     public override void InGame_Initialize()
     {
         if (m_CollisionAction == null)
@@ -44,6 +47,13 @@ public class PierceBullet : Bullet
             EffectManager.Instance.PlayEffect(
                 PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
                 Vector3.one * 0.8f, true, 1.0f);
+
+            m_CurrentPierceCount++;
+
+            if(m_CurrentPierceCount >= m_MaxPierceCount)
+            {
+                pushToMemory((int)m_BulletType);
+            }
         }
         else
         {

@@ -16,7 +16,7 @@ public enum OBJECT_TYPE
     ZOMBIE_OBJECT, // 좀비들 오브젝트
 
     BULLET, // (불릿)
-    DROPITEM, // 드롭된 아이템 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
+    BUFF_OBJECT, // 버프주는 오브젝트 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
     EFFECT // 이펙트
 }
 
@@ -232,6 +232,12 @@ public abstract class MovingObject : MonoBehaviour
         m_Stat = _stat;
     }
 
+    public void SetTarget(MovingObject _object)
+    {
+        if(_object != null)
+            m_TargetingObject = _object;
+    }
+
 
     Transform FindChildObject(GameObject _baseObject, string _str)
     {
@@ -320,6 +326,9 @@ public abstract class MovingObject : MonoBehaviour
         _itemObject.SetActive(true);
     }
 
+
+
+
     // ============= 버프는 영래 당담 ===================
     public void AddBuff(Buff _buff)
     {
@@ -339,7 +348,9 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff == null) return;
 
-        StopCoroutine(_buff.BuffCoroutine);
+        if (_buff.BuffCoroutine != null)
+            StopCoroutine(_buff.BuffCoroutine);
+
         m_ListBuff.Remove(_buff);
         m_BuffAction?.Invoke(m_ListBuff);
     }
@@ -348,7 +359,11 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff != null) return;
 
-        StopCoroutine(_buff.BuffCoroutine);
+        if(_buff.BuffCoroutine != null)
+            StopCoroutine(_buff.BuffCoroutine);
+
+        //_buff.BuffExitAction();
+
         m_ListDeBuff.Remove(_buff);
         m_DeBuffAction?.Invoke(m_ListDeBuff);
     }
@@ -363,18 +378,24 @@ public abstract class MovingObject : MonoBehaviour
 
     public void AllDeleteBuff()
     {
-        foreach(Buff buff in m_ListBuff)
-        {
-            StopCoroutine(buff.BuffCoroutine);
-        }
+        //foreach(Buff buff in m_ListBuff)
+        //{
+        //    if (buff.BuffCoroutine != null)
+        //        StopCoroutine(buff.BuffCoroutine);
 
-        foreach (Buff buff in m_ListDeBuff)
-        {
-            StopCoroutine(buff.BuffCoroutine);
-        }
+        //    buff.BuffExitAction();
+        //}
 
-        m_ListBuff.Clear();
-        m_ListDeBuff.Clear();
+        //foreach (Buff buff in m_ListDeBuff)
+        //{
+        //    if (buff.BuffCoroutine != null)
+        //        StopCoroutine(buff.BuffCoroutine);
+
+        //    buff.BuffExitAction();
+        //}
+
+        //m_ListBuff.Clear();
+        //m_ListDeBuff.Clear();
 
     }
     //==============================================
@@ -421,6 +442,15 @@ public abstract class MovingObject : MonoBehaviour
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
             m_DeadActionCallBackFunc?.Invoke();
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("emfdjsmsrksek");
+            AllDeleteBuff();
         }
     }
 

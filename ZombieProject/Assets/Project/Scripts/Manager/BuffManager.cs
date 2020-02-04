@@ -10,6 +10,7 @@ public enum BUFF_TYPE
     ADRENALINE,
     BLESSING,
     POISON,
+    FIRE,
 
     END
 }
@@ -52,6 +53,9 @@ public class BuffManager : Singleton<BuffManager>
                     break;
                 case BUFF_TYPE.POISON:
                     buff = new Poison(stat);
+                    break;
+                case BUFF_TYPE.FIRE:
+                    buff = new Fire(stat);
                     break;
                 default:
                     Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + bufftype);
@@ -105,6 +109,12 @@ public class BuffManager : Singleton<BuffManager>
             case BUFF_TYPE.POISON:
                 newBuff = new Poison(stat);
                 break;
+            case BUFF_TYPE.FIRE:
+                newBuff = new Fire(stat);
+                break;
+            default:
+                Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + _buff.m_BuffType);
+                break;
         }
 
         newBuff.m_Level = 0;
@@ -135,6 +145,12 @@ public class BuffManager : Singleton<BuffManager>
                 break;
             case BUFF_TYPE.POISON:
                 newBuff = new Poison(_buff.m_Stat);
+                break;
+            case BUFF_TYPE.FIRE:
+                newBuff = new Fire(_buff.m_Stat);
+                break;
+            default:
+                Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + _buff.m_BuffType);
                 break;
         }
 

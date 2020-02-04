@@ -160,6 +160,8 @@ public class ItemManager : Singleton<ItemManager>
                 return ITEM_EVENT_TYPE.SHOT_GUN;
             case ITEM_SORT.SNIPER:
                 return ITEM_EVENT_TYPE.PIERCE;
+            case ITEM_SORT.FIRE_GRENADE:
+            case ITEM_SORT.INSTALL_BOMB:
             case ITEM_SORT.GRENADE:
                 return ITEM_EVENT_TYPE.THROW_ARK;
             default:

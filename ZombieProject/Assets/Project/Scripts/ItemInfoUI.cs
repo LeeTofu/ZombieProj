@@ -64,6 +64,8 @@ public class ItemInfoUI : MonoBehaviour
                 m_ItemInfo.text = _slot.m_Item.m_ItemStat.m_Info.ToString();
                 break;
             case ITEM_SORT.GRENADE:
+            case ITEM_SORT.FIRE_GRENADE:
+            case ITEM_SORT.INSTALL_BOMB:
                 m_ItemAttack.text = _slot.m_Item.m_ItemStat.m_AttackPoint.ToString();
                 m_ItemArmor.text = " ";
                 m_ItemAttackSpeed.text = " ";

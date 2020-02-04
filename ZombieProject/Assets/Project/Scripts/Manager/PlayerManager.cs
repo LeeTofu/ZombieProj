@@ -317,12 +317,18 @@ public class PlayerManager : Singleton<PlayerManager>
                 (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
             case ITEM_SORT.GRENADE:
+            case ITEM_SORT.FIRE_GRENADE:
                 BulletManager.Instance.FireBullet(
                 m_Player.transform.position + new Vector3(0,1,0),
                 m_Player.transform.forward,
                 item.m_ItemStat);
-
-                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
+                break;
+            case ITEM_SORT.INSTALL_BOMB:
+                BulletManager.Instance.FireBullet(
+                m_Player.transform.position,
+                m_Player.transform.forward,
+                item.m_ItemStat);
+                //(m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
         }
     }

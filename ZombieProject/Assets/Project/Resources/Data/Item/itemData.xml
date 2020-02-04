@@ -159,16 +159,16 @@
     <ItemName>설치형 폭탄</ItemName>
     <IconName>Other_icon_00</IconName>
     <ModelName>Bomb_01</ModelName>
-    <ItemSort>GRENADE</ItemSort>
+    <ItemSort>INSTALL_BOMB</ItemSort>
     <HP>0</HP>
-    <Attack>0</Attack>
+    <Attack>150</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>5</Range>
+    <Range>4</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
-    <BulletSpeed>50</BulletSpeed>
+    <BulletSpeed>1</BulletSpeed>
     <BulletString>Bomb</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
@@ -181,13 +181,13 @@
     <ItemName>화염병</ItemName>
     <IconName>Grenade_icon_05</IconName>
     <ModelName>Bomb_02</ModelName>
-    <ItemSort>GRENADE</ItemSort>
+    <ItemSort>FIRE_GRENADE</ItemSort>
     <HP>0</HP>
-    <Attack>50</Attack>
+    <Attack>25</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>20</HPRegenerate>
-    <Range>10</Range>
+    <Range>5</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
     <BulletSpeed>50</BulletSpeed>
@@ -196,7 +196,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>2</Count>
-    <Info>투척시, 벽이나 적을 적중한 경우, 그 자리에 화염 구덩이를 설치합니다.</Info>
+    <Info>투척시, 벽이나 적을 적중한 경우, 그 자리에 5초간 지속되는 화염 구덩이를 설치합니다.</Info>
   </text>
   <text>
     <ItemID>10</ItemID>
@@ -205,7 +205,7 @@
     <ModelName>HealthPack_01</ModelName>
     <ItemSort>BUFF</ItemSort>
     <HP>0</HP>
-    <Attack>1</Attack>
+    <Attack>35</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>20</HPRegenerate>
@@ -218,7 +218,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>15</CoolTime>
     <Count>3</Count>
-    <Info>자신의 모든 상태이상을 해제하고 이동속도를 증가시킵니다.</Info>
+    <Info>자신의 체력을 즉각 회복하고 이동속도를 증가시킵니다.</Info>
   </text>
   <text>
     <ItemID>100</ItemID>

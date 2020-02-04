@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class DropItem : MovingObject
+public class BuffArea : MovingObject
 {
     [SerializeField]
     BUFF_TYPE m_BuffType;
@@ -16,8 +16,9 @@ public class DropItem : MovingObject
     EffectObject m_EffectObject;
     // ParticleSystem m_DropItemParticle;
 
-    //AudioSource m_audioSource;
-
+    //일회성인가?
+    [SerializeField]
+    bool m_isInstance;
 
     public override void InGame_Initialize()
     {
@@ -33,27 +34,20 @@ public class DropItem : MovingObject
       //  m_audioSource = GetComponent<AudioSource>();
 
         if(m_CollisionAction == null)
-            m_CollisionAction = gameObject.AddComponent<DropItemCollisionAction>();
+            m_CollisionAction = gameObject.AddComponent<BuffAreaCollisionAction>();
     }
 
     public void ApplyBuff(MovingObject _object)
     {
         if (_object == null) return;
-
       //  Debug.Log("Buff 걸림" + m_BuffType);
         BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
 
-        pushToMemory((int)m_Type);
+        if (m_isInstance)
+        {
+            pushToMemory((int)m_Type);
+        }
     }
-
-    bool CollisionCondition(GameObject _defender)
-    {
-        if (_defender.GetComponent<MovingObject>() == null) return false;
-        if (_defender.tag != "Player") return false;
-
-        return true;
-    }
-
 
     private void OnDisable()
     {

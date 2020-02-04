@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 // 페이즈 발생 오브젝트
-public class PhaseTriggerObject : MonoBehaviour
+public class DebuffAreaCollisionArea : CollisionAction
 {
     [SerializeField]
     int m_IWillOccurPhase;
@@ -13,24 +13,16 @@ public class PhaseTriggerObject : MonoBehaviour
 
     BoxCollider m_Collidier;
 
-    BattleUI m_UI;
-
-
-    private void Start()
+    protected override void CollisionEvent(GameObject _object)
     {
-        m_Collidier = GetComponent<BoxCollider>();
-        m_Source = GetComponent<AudioSource>();
-        m_UI = UIManager.Instance.GetUIObject(GAME_SCENE.IN_GAME).GetComponent<BattleUI>();
+        (m_Character as BuffArea).ApplyBuff(_object.GetComponent<MovingObject>());
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override bool CollisionCondition(GameObject _defender)
     {
-        if (other.tag != "Player") return;
+        if (_defender.GetComponent<MovingObject>() == null) return false;
+        if (_defender.tag != "Zombie" && _defender.tag != "Player") return false;
 
-        m_Source.Play();
-        RespawnManager.Instance.OccurZombiePhase(m_IWillOccurPhase);
-        m_UI.PlayWaringText();
-
-        m_Collidier.enabled = false;
+        return true;
     }
 }

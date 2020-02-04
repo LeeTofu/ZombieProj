@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deea19a56adc6de43b2e1de16852f079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_slotType: 3
   m_StackCountText: {fileID: 6132323882153162064}
 --- !u!1 &638950830606222213
 GameObject:
@@ -2966,6 +2967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deea19a56adc6de43b2e1de16852f079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_slotType: 4
   m_StackCountText: {fileID: 6132323882153162064}
 --- !u!1 &4217657891618714018
 GameObject:
@@ -4228,6 +4230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deea19a56adc6de43b2e1de16852f079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_slotType: 2
   m_StackCountText: {fileID: 6132323882153162064}
 --- !u!1 &6720008786005971795
 GameObject:
@@ -6368,6 +6371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deea19a56adc6de43b2e1de16852f079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_slotType: 1
   m_StackCountText: {fileID: 6132323882153162064}
 --- !u!1 &7926702688825343513
 GameObject:
@@ -7031,11 +7035,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7141,6 +7140,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c648efd3b4f4d41a8208cc418f7eef, type: 3}
 --- !u!224 &3140578745503463481 stripped
@@ -7156,11 +7160,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI
-      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7281,6 +7280,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI
+      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7358,11 +7362,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7483,6 +7482,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7533,17 +7537,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -7563,11 +7567,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7688,6 +7687,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7733,15 +7737,15 @@ PrefabInstance:
       propertyPath: m_slotType
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7479254381921379244, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}

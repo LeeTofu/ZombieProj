@@ -204,7 +204,6 @@ public abstract class MovingObject : MonoBehaviour
     protected List<Buff> m_ListBuff = new List<Buff>();
     protected List<Buff> m_ListDeBuff = new List<Buff>();
 
-    public Coroutine m_BlinkCoroutine;
     public Coroutine m_KnocoBackCoroutine;
 
     [HideInInspector]
@@ -487,28 +486,10 @@ public abstract class MovingObject : MonoBehaviour
     {
         AddKnockBackFunction((float time) =>
         {
-            if (m_BlinkCoroutine != null)
-                StopCoroutine(m_BlinkCoroutine);
             if (m_KnocoBackCoroutine != null)
                 StopCoroutine(m_KnocoBackCoroutine);
-
-            m_BlinkCoroutine = StartCoroutine(Blink(time, _blinkterm));
             m_KnocoBackCoroutine = StartCoroutine(KnockBackRelease(time));
         });
-    }
-    //Renderer가 있는 게임오브젝트들을 true,false 줘서 깜빡이게하는 코루틴
-    public IEnumerator Blink(float _time, float _blinkterm)
-    {
-        yield return null;
-
-        //for (float i = 0; i < _time; i += _blinkterm)
-        //{
-        //    for (int j = 0; j < m_Renderers.Length; ++j)
-        //        m_Renderers[j].enabled = !m_Renderers[j].enabled;
-        //    yield return new WaitForSeconds(_blinkterm);
-        //}
-        //for (int i = 0; i < m_Renderers.Length; ++i)
-        //    m_Renderers[i].enabled = true;
     }
     //_time 받은 만큼 m_Stated의 isKnockBack을 true해준다
     public IEnumerator KnockBackRelease(float _time)

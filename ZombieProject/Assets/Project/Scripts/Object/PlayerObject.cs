@@ -6,13 +6,13 @@ using RootMotion.FinalIK;
 public class PlayerObject : MovingObject
 {
     public StateController m_StateController;
-    // MoveController m_Controller;
     private Coroutine m_Coroutine;
 
     public Buff m_ReservedBuff;
 
     public override void InGame_Initialize()
     {
+        m_CollisionAction.SetCollisionActive(true);
         SetStat(new STAT
         {
             MaxHP = 100f,
@@ -20,7 +20,11 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-
+        m_Stat.AddPropertyChangeAction(() =>
+        {
+            if (m_Stat.CheckIsDead())
+                DeadAction();
+        });
 
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
@@ -44,9 +48,6 @@ public class PlayerObject : MovingObject
             m_Animator = gameObject.GetComponentInChildren<Animator>();
             m_Animator.applyRootMotion = false;
         }
-
-        // m_Controller = gameObject.AddComponent<MoveController>();
-        // m_Controller.Initialize(this);
 
         if (m_StateController == null)
         {
@@ -79,10 +80,14 @@ public class PlayerObject : MovingObject
         _buff.SetStat(m_Stat);
         m_ReservedBuff = _buff;
     }
-
+    protected new void DeadAction()
+    {
+        base.DeadAction();
+        ChangeState(E_PLAYABLE_STATE.DEATH);
+    }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack && !PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
            // EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Quaternion.Euler(-90.0f, 0, 0),
            // Vector3.one * 1.0f);

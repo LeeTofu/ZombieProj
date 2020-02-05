@@ -13,8 +13,9 @@ public class ReturnMainButton : UIPressSubject
     }
     public override void OnPressed()
     {
-        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        (PlayerManager.Instance.m_Player as PlayerObject).m_StateController.InGame_Initialize();
         GameMaster.Instance.DestroyManager();
         BattleUI.SetDeathPanelActive(false);
+        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
     }
 }

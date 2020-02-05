@@ -363,9 +363,12 @@ public class KnockBackState : PlayerState
         m_PlayerObject.AddKnockBackAction(0.1f);
         m_PlayerObject.AddKnockBackFunction((float time) =>
         {
-            if (m_Coroutine != null)
-               m_StateContoller.StopCoroutine(m_Coroutine);
-            m_Coroutine = m_StateContoller.StartCoroutine(KnockBackChange(time, m_PlayerObject));
+            if (m_PlayerObject.m_Stat.CurHP > 0)
+            {
+                if (m_Coroutine != null)
+                    m_StateContoller.StopCoroutine(m_Coroutine);
+                m_Coroutine = m_StateContoller.StartCoroutine(KnockBackChange(time, m_PlayerObject));
+            }
         });
     }
     private IEnumerator KnockBackChange(float _time, MovingObject _movingObject)
@@ -379,9 +382,7 @@ public class KnockBackState : PlayerState
         {
             yield return null;
         }
-        if (_movingObject.m_Stat.CurHP <= 0f)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DEATH);
-        else if (_movingObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+        if (_movingObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         else
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
@@ -465,7 +466,6 @@ public class DeathState : PlayerState
 
         RespawnManager.Instance.GameOver();
         BattleUI.SetDeathPanelActive(true);
-        m_StateContoller.InGame_Initialize();
     }
 
     public override void AddAction()

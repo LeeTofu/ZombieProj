@@ -862,7 +862,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1057, y: -633.9}
+  m_AnchoredPosition: {x: 961, y: -633.9}
   m_SizeDelta: {x: 84.5, y: 73.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8335619999944001249
@@ -2346,7 +2346,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8031e31e3caf39c4ebf9c1f13cafb73d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 809103ee0df15514c8e794ac5d34e2c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3531,7 +3531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b445c3fc71c30814eba66cac677c4c29, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33eaa8104c9c8c449be4b4c22650ec83, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7035,6 +7035,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7140,11 +7145,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c648efd3b4f4d41a8208cc418f7eef, type: 3}
 --- !u!224 &3140578745503463481 stripped
@@ -7160,6 +7160,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7218,7 +7223,7 @@ PrefabInstance:
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1188
+      value: 1136
       objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7228,7 +7233,7 @@ PrefabInstance:
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 84.5
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7280,15 +7285,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI
-      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00002104
+      value: -26.53
       objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7298,7 +7298,7 @@ PrefabInstance:
     - target: {fileID: 8759748173440443173, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.37499988
+      value: 0.63
       objectReference: {fileID: 0}
     - target: {fileID: 8759748173440443173, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7308,7 +7308,7 @@ PrefabInstance:
     - target: {fileID: 8759748173440443173, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 70.45
+      value: 128.75
       objectReference: {fileID: 0}
     - target: {fileID: 8759748173440443173, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7324,6 +7324,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 58.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377226067100603898, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.62935
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377226067100603898, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 128.75
       objectReference: {fileID: 0}
     - target: {fileID: 4900071353243828599, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7362,6 +7372,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7482,11 +7502,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7537,17 +7552,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -7567,6 +7582,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2757092029828313078}
     m_Modifications:
+    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_Name
+      value: BattleItemSlotUI (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7625,7 +7645,7 @@ PrefabInstance:
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1057
+      value: 1056
       objectReference: {fileID: 0}
     - target: {fileID: 7676696144025118050, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
@@ -7687,11 +7707,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1755593153325971902, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_Name
-      value: BattleItemSlotUI (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 9152309254451822818, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7737,15 +7752,15 @@ PrefabInstance:
       propertyPath: m_slotType
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5789110303713487625, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3092480537987776505, guid: 79c648efd3b4f4d41a8208cc418f7eef,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7479254381921379244, guid: 79c648efd3b4f4d41a8208cc418f7eef,
         type: 3}

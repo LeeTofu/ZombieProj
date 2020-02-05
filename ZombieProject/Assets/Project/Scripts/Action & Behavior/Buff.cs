@@ -17,15 +17,15 @@ public abstract class Buff : STAT
     
     public string m_Text;
 
-    public STAT m_Stat;
+    public STAT m_CharacterStat;
     public Buff(STAT _stat)
-    { 
-        m_Stat = _stat;
+    {
+        m_CharacterStat = _stat;
     }
 
     public void SetStat(STAT _stat)
     {
-        m_Stat = _stat;
+        m_CharacterStat = _stat;
     }
 
     // 버프 종료 후 실행하는 액션 함수 
@@ -46,6 +46,8 @@ public abstract class Buff : STAT
     // 그냥 단일 버프
     public IEnumerator OnceCoroutine()
     {
+        if (m_CharacterStat == null) yield break;
+
          BuffAction();
          yield return new WaitForSeconds(m_DurationTime);
          BuffExitAction();
@@ -58,7 +60,7 @@ public abstract class Buff : STAT
         {
             BuffAction();
 
-            if (isDead)
+            if (m_CharacterStat.isDead)
                 yield break;
 
             m_CurTimeDuration += m_TickTime;
@@ -102,14 +104,14 @@ public class Adrenaline : Buff
 
     protected override void BuffAction()
      {
-        m_Stat.MoveSpeed *= MoveSpeed;
+        m_CharacterStat.MoveSpeed *= MoveSpeed;
      }
 
     public override void BuffExitAction()
     {
         ExitBuffEffect();
 
-        m_Stat.MoveSpeed /= MoveSpeed;
+        m_CharacterStat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
     }
@@ -145,7 +147,9 @@ public class Blessing : Buff
 
     protected override void BuffAction()
     {
-        m_Stat.CurHP += Attack;
+        if (m_CharacterStat.isDead) return;
+
+        m_CharacterStat.CurHP += Attack;
     }
     public override void BuffExitAction()
     {
@@ -168,12 +172,15 @@ public class Poison : Buff
         if (_object == null) return;
 
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+        m_CharacterStat.MoveSpeed *= MoveSpeed;
     }
 
     protected override void BuffAction()
     {
-        m_Stat.CurHP -= Attack;
-        m_Stat.MoveSpeed *= MoveSpeed;
+        if (m_CharacterStat.isDead) return;
+
+        m_CharacterStat.CurHP -= Attack;
+
         Debug.Log("PoisonDamage:" + Attack);
     }
 
@@ -189,7 +196,7 @@ public class Poison : Buff
     {
         ExitBuffEffect();
 
-        m_Stat.MoveSpeed /= MoveSpeed;
+        m_CharacterStat.MoveSpeed /= MoveSpeed;
         m_BuffExitAction(this);
         return;
     }
@@ -212,7 +219,9 @@ public class Fire : Buff
 
     protected override void BuffAction()
     {
-        m_Stat.CurHP -= Attack;
+        if (m_CharacterStat.isDead) return;
+
+        m_CharacterStat.CurHP -= Attack;
     }
 
     protected override void ExitBuffEffect()

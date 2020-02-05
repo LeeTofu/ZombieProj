@@ -138,16 +138,16 @@ public class BuffManager : Singleton<BuffManager>
         switch (_buff.m_BuffType)
         {
             case BUFF_TYPE.ADRENALINE:
-                newBuff = new Adrenaline(_buff.m_Stat);
+                newBuff = new Adrenaline(_buff.m_CharacterStat);
                 break;
             case BUFF_TYPE.BLESSING:
-                newBuff = new Blessing(_buff.m_Stat);
+                newBuff = new Blessing(_buff.m_CharacterStat);
                 break;
             case BUFF_TYPE.POISON:
-                newBuff = new Poison(_buff.m_Stat);
+                newBuff = new Poison(_buff.m_CharacterStat);
                 break;
             case BUFF_TYPE.FIRE:
-                newBuff = new Fire(_buff.m_Stat);
+                newBuff = new Fire(_buff.m_CharacterStat);
                 break;
             default:
                 Debug.LogError("Buff Parse Fail BuffType 확인할 것 : " + _buff.m_BuffType);

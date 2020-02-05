@@ -184,7 +184,7 @@ public class SlotController : MonoBehaviour
     public bool OnPointerDownConditon()
     {
         m_isDownHover = true;
-        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack || PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
             return false;
         }
@@ -201,7 +201,7 @@ public class SlotController : MonoBehaviour
     public bool OnPointerPressCondition()
     {
         if (!m_isDownHover) return false;
-        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack || PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
             return false;
         }
@@ -215,7 +215,7 @@ public class SlotController : MonoBehaviour
     // 버튼을 누르고 올릴때
     public bool OnPointerUpCondition()
     {
-        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack)
+        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack || PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
             return false;
         }

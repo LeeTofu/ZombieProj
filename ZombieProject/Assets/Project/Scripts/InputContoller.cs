@@ -178,6 +178,9 @@ public class InputContoller : UIDragSubject
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        if (m_Character == null) return;
+        if (m_Character.m_Stat.isDead) return;
+
 #if !UNITY_EDITOR
         if (m_LastFingerID != -1) return;
 
@@ -206,6 +209,9 @@ public class InputContoller : UIDragSubject
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (m_Character == null) return;
+        if (m_Character.m_Stat.isDead) return;
+
         UpdateObserver(BUTTON_ACTION.DRAG_EXIT);
 
       //  Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(m_LastFingerIndex).position);
@@ -221,6 +227,8 @@ public class InputContoller : UIDragSubject
 
     public override void OnDrag(PointerEventData eventData)
     {
+        if (m_Character == null) return;
+        if (m_Character.m_Stat.isDead) return;
 
 #if !UNITY_EDITOR
         if (m_LastFingerID == -1) return;
@@ -229,7 +237,7 @@ public class InputContoller : UIDragSubject
 
         if (GetCurrentMouseDragLength() < m_lengthlimit)
         {
-            Debug.Log("OnDrag 손가락 id : " + m_LastFingerID);
+         //   Debug.Log("OnDrag 손가락 id : " + m_LastFingerID);
 
 #if UNITY_EDITOR
             currentPos = Input.mousePosition;

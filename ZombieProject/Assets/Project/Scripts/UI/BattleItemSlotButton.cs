@@ -172,7 +172,9 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if(m_ItemButtonController != null && m_Item !=null )
+        if (PlayerManager.Instance.m_Player == null) return;
+
+        if (m_ItemButtonController != null && m_Item !=null )
         {
             if (m_ItemButtonController.OnPointerDownConditon())
                 UpdateObserver(BUTTON_ACTION.PRESS_ENTER);
@@ -181,6 +183,8 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPointerUp(PointerEventData eventData)
     {
+        if (PlayerManager.Instance.m_Player == null) return;
+
         if (m_ItemButtonController != null && m_Item != null )
         {
             if(m_ItemButtonController.OnPointerUpCondition())
@@ -190,6 +194,8 @@ public class BattleItemSlotButton : UIPressSubject
 
     public override void OnPressed()
     {
+        if (PlayerManager.Instance.m_Player == null) return;
+
         if (m_ItemButtonController != null && m_Item != null )
         {
             if (m_ItemButtonController.OnPointerPressCondition())

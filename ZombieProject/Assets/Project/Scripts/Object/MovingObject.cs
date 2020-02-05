@@ -126,6 +126,7 @@ public class STAT
 
             if (CheckIsDead())
             {
+                curHP = 0;
                 isDead = true;
             }
             else isDead = false;
@@ -233,7 +234,6 @@ public abstract class MovingObject : MonoBehaviour
 
     public void SetTarget(MovingObject _object)
     {
-        if(_object != null)
             m_TargetingObject = _object;
     }
 
@@ -377,24 +377,18 @@ public abstract class MovingObject : MonoBehaviour
 
     public void AllDeleteBuff()
     {
-        //foreach(Buff buff in m_ListBuff)
-        //{
-        //    if (buff.BuffCoroutine != null)
-        //        StopCoroutine(buff.BuffCoroutine);
+        for (int i = 0; i< m_ListBuff.Count; i++)
+        {
+            DeleteDeBuff(m_ListBuff[i]);
+        }
 
-        //    buff.BuffExitAction();
-        //}
+        for (int i = 0; i < m_ListDeBuff.Count; i++)
+        {
+            DeleteDeBuff(m_ListDeBuff[i]);
+        }
 
-        //foreach (Buff buff in m_ListDeBuff)
-        //{
-        //    if (buff.BuffCoroutine != null)
-        //        StopCoroutine(buff.BuffCoroutine);
-
-        //    buff.BuffExitAction();
-        //}
-
-        //m_ListBuff.Clear();
-        //m_ListDeBuff.Clear();
+        m_ListBuff.Clear();
+        m_ListDeBuff.Clear();
 
     }
     //==============================================

@@ -24,7 +24,7 @@ public class BattleSceneMain : SceneMain
 
         yield return new WaitForSeconds(3.0f);
 
-        PlayerManager.Instance.CurrentMoney = 0;
+        PlayerManager.Instance.CurrentMoney = 40;
 
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);

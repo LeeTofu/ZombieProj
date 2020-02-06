@@ -124,12 +124,18 @@ public class BattleItemSlotButton : UIPressSubject
         else
         {
             m_StackCountText.text = "<color=#ff0000>" + m_Item.m_Count.ToString() + "</color>";
+            m_ItemIcon.color = Color.red;
         }
     }
-    public void plusItemStackCount(int _acc)
+    public void plusItemStackCount(short _acc)
     {
         m_Item.plusItem(_acc);
         m_StackCountText.text = m_Item.m_Count.ToString();
+
+        if (m_Item.m_Count > 0)
+        {
+            m_ItemIcon.color = Color.white;
+        }
     }
 
 
@@ -148,10 +154,7 @@ public class BattleItemSlotButton : UIPressSubject
                     PlayerManager.Instance.PlayerUseItem(m_slotType);
                     SpendItemStackCount();
                     break;
-
-            }
-
-           
+            }      
         }
     }
 

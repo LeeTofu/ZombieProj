@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum UPGRADE_TYPE
 {
+    NONE,
     ATTACK,
     RANGE,
     ATTACK_SPEED
@@ -165,7 +166,12 @@ public class PlayerManager : Singleton<PlayerManager>
 
         SoundManager.Instance.OneShotPlay(UI_SOUND.WEAPON_CHANGE);
 
-        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
+        BattleItemSlotButton slot =  BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN);
+        
+        if(slot != null)
+            slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
+
+        BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
     }
 
 

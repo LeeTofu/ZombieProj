@@ -71,7 +71,7 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_isHaveCoolTime = bool.Parse(node.SelectSingleNode("isHaveCoolTime").InnerText);
             itemStat.m_CoolTime = float.Parse(node.SelectSingleNode("CoolTime").InnerText);
 
-            itemStat.m_Count = int.Parse(node.SelectSingleNode("Count").InnerText);
+            itemStat.m_Count = short.Parse(node.SelectSingleNode("Count").InnerText);
 
             itemStat.m_Info = node.SelectSingleNode("Info").InnerText;
 

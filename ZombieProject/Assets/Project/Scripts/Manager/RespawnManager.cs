@@ -21,10 +21,13 @@ public class RespawnManager : Singleton<RespawnManager>
     //게임에서 승리를 하셨나
     public bool m_isGameClear;
 
+    public bool m_isRest { private set; get; }
+
     public override bool Initialize()
     {
         m_isGameOver = false;
         m_isGameClear = false;
+        m_isRest = true;
         m_CurWave = 0;
 
         return true;
@@ -98,7 +101,7 @@ public class RespawnManager : Singleton<RespawnManager>
     public void GameStartWave()
     {
 #if UNITY_EDITOR
-        StartCoroutine(WaveChange_C(3.0f));
+        StartCoroutine(WaveChange_C(15.0f));
 #elif UNITY_ANDROID
             StartCoroutine(WaveChange_C(20.0f));
 #endif
@@ -118,6 +121,7 @@ public class RespawnManager : Singleton<RespawnManager>
     {
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
 
+        m_isRest = true;
         yield return new WaitForSeconds(_restTime);
 
 #if UNITY_EDITOR
@@ -153,6 +157,9 @@ public class RespawnManager : Singleton<RespawnManager>
         }
 
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("모든 좀비를 제거하고 생존하세요.");
+        m_isRest = false;
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).NpcCollision(false);
 
         OccurZombiePhase(m_CurWave + 1);
     }

@@ -6,6 +6,8 @@ using UnityEngine;
 // InGame에 생성될 아이템 오브젝트임... 그냥 발사 위치나 이런거 알때 씀.
 public class ItemObject : MonoBehaviour
 {
+    Dictionary<UPGRADE_TYPE, int> m_DicUpdateCount = new Dictionary<UPGRADE_TYPE, int>();
+
     // 이 Stat에 따라 아이템의 공격력, 공격스피드 결정.
     public ItemStat m_CurrentStat;
 
@@ -14,7 +16,7 @@ public class ItemObject : MonoBehaviour
     AudioSource m_audio;
     AudioClip[] m_auidoClip;
 
-    public int m_currentBulletCount;
+    public short m_currentBulletCount;
 
     public Item m_Item { private set; get; }
 
@@ -34,6 +36,8 @@ public class ItemObject : MonoBehaviour
 
         if (m_audio == null)
             m_audio = gameObject.AddComponent<AudioSource>();
+
+
     }
 
     public void Init(Item _item)
@@ -47,6 +51,11 @@ public class ItemObject : MonoBehaviour
 
         if (m_audio == null)
             m_audio = gameObject.AddComponent<AudioSource>();
+
+        m_DicUpdateCount.Clear();
+        m_DicUpdateCount.Add(UPGRADE_TYPE.ATTACK, 0);
+        m_DicUpdateCount.Add(UPGRADE_TYPE.ATTACK_SPEED, 0);
+        m_DicUpdateCount.Add(UPGRADE_TYPE.RANGE, 0);
     }
 
 
@@ -60,17 +69,50 @@ public class ItemObject : MonoBehaviour
 
     public void UpgradeRange(float _rangePlus)
     {
+        int count = 0;
+        if(m_DicUpdateCount.TryGetValue(UPGRADE_TYPE.RANGE, out count))
+        {
+            count++;
+            m_DicUpdateCount[UPGRADE_TYPE.RANGE] = count;
+        }
         m_CurrentStat.m_Range += _rangePlus;
     }
 
     public void UpgradeAttack(float _attackPlus)
     {
+        int count = 0;
+        if (m_DicUpdateCount.TryGetValue(UPGRADE_TYPE.ATTACK, out count))
+        {
+            count++;
+            m_DicUpdateCount[UPGRADE_TYPE.ATTACK] = count;
+        }
+        else
+        {
+            Debug.Log("그어ㅗㅄ");
+        }
+
         m_CurrentStat.m_AttackPoint += _attackPlus;
     }
 
     public void UpgradeAttackSpeed(float _attackSpeed)
     {
+        int count = 0;
+        if (m_DicUpdateCount.TryGetValue(UPGRADE_TYPE.ATTACK_SPEED, out count))
+        {
+            count++;
+            m_DicUpdateCount[UPGRADE_TYPE.ATTACK_SPEED] = count;
+        }
         m_CurrentStat.m_AttackSpeed += _attackSpeed;
+    }
+
+    public int GetUpgradeCount(UPGRADE_TYPE _type)
+    {
+        int count;
+        if(m_DicUpdateCount.TryGetValue(_type, out count))
+        {
+            return count;
+        }
+        return -1;
     }
 
 

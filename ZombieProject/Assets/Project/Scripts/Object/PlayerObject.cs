@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using RootMotion.FinalIK;
 
 public class PlayerObject : MovingObject
@@ -13,6 +14,8 @@ public class PlayerObject : MovingObject
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
+        m_HpImage.fillAmount = 1f;
+        m_HpUi.enabled = true;
         SetStat(new STAT
         {
             MaxHP = 100f,
@@ -24,8 +27,12 @@ public class PlayerObject : MovingObject
         {
             if (m_Stat.CheckIsDead())
                 DeadAction();
-        });
 
+            if (m_HpChangeCoroutine != null)
+                StopCoroutine(m_HpChangeCoroutine);
+
+            m_HpChangeCoroutine = StartCoroutine(HpChange());
+        });
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
             if (m_StateController == null)
@@ -43,6 +50,8 @@ public class PlayerObject : MovingObject
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
+        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
+        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         if (m_Animator == null)
         {
             m_Animator = gameObject.GetComponentInChildren<Animator>();
@@ -62,7 +71,6 @@ public class PlayerObject : MovingObject
             Defend = 100f,
             MoveSpeed = 3.0f
         });
-
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 

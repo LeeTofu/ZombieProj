@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using RootMotion.FinalIK;
 
 // 오브젝트 종류
@@ -227,6 +228,10 @@ public abstract class MovingObject : MonoBehaviour
     // 어그 끌리는 오브젝트
     public MovingObject m_TargetingObject { private set; get; }
 
+    protected Canvas m_HpUi;
+    protected Image m_HpImage;
+    public Coroutine m_HpChangeCoroutine;
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;
@@ -287,7 +292,6 @@ public abstract class MovingObject : MonoBehaviour
 
         SetRigidBodyState(false);
         StopRigidbody();
-
     }
     // --------------------------------------------------------------------
     // 내 앞에 벽이 있나? 
@@ -430,7 +434,7 @@ public abstract class MovingObject : MonoBehaviour
 
         if(m_Stat.isDead)
         {
-
+            m_HpUi.enabled = false;
             m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
@@ -491,5 +495,17 @@ public abstract class MovingObject : MonoBehaviour
         m_Stat.isKnockBack = true;
         yield return new WaitForSeconds(_time);
         m_Stat.isKnockBack = false;
+    }
+    public IEnumerator HpChange()
+    {
+        float CurHpAmount = m_Stat.CurHP / m_Stat.MaxHP;
+        float PrevHpAmount = m_HpImage.fillAmount;
+        for (float i = 0f; m_HpImage.fillAmount * 100 != CurHpAmount * 100; i += 0.01f)
+        {
+            m_HpImage.fillAmount = Mathf.Lerp(PrevHpAmount, CurHpAmount, i);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        m_HpImage.fillAmount = CurHpAmount;
     }
 }

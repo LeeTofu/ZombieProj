@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Zombie : MovingObject
 {
@@ -11,7 +11,20 @@ public class Zombie : MovingObject
 
     public override void InGame_Initialize()
     {
-        if(m_CollisionAction != null)
+        m_HpImage.fillAmount = 1f;
+        m_HpUi.enabled = false;
+        m_Stat.AddPropertyChangeAction(() =>
+        {
+            if (m_Stat.CurHP == 100f)
+                m_HpUi.enabled = false;
+            else
+                m_HpUi.enabled = true;
+            if (m_HpChangeCoroutine != null)
+                StopCoroutine(m_HpChangeCoroutine);
+
+            m_HpChangeCoroutine = StartCoroutine(HpChange());
+        });
+        if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
     }
 
@@ -20,10 +33,10 @@ public class Zombie : MovingObject
         if(_Model != null) m_Model = _Model;
 
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
-
         // Test //
         m_zombieState = ZOMBIE_STATE.IDLE;
-
+        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
+        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         m_Stat = new STAT
         {
             MaxHP = 100,
@@ -32,7 +45,6 @@ public class Zombie : MovingObject
             alertRange = 100.0f,
             isKnockBack = false,
         };
-
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
 

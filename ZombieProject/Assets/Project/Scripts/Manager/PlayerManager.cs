@@ -349,5 +349,7 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             obj.pushToMemory((int)obj.m_Type);
         }
+
+        CurrentMoney = 0;
     }
 }

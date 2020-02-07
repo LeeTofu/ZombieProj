@@ -55,6 +55,8 @@ public class BattleSceneMain : SceneMain
         StopCoroutine(E_Start());
         s_DropItemFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
         s_FireFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
+
+        PlayerManager.Instance.CurrentMoney = 0;
         return true;
     }
 

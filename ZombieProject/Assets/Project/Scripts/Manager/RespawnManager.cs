@@ -151,7 +151,10 @@ public class RespawnManager : Singleton<RespawnManager>
         float time = 0.0f;
         while (time < _changeTime)
         {
-            (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
+            BattleUI ui = (UIManager.Instance.m_CurrentUI as BattleUI);
+            if (ui == null) yield break;
+
+            ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
             yield return new WaitForSeconds(1.0f);
             time += 1.0f;
@@ -188,7 +191,10 @@ public class RespawnManager : Singleton<RespawnManager>
     // 다음 웨이브로 가도 되는지 조건을 계속 확인하는 함수.
     public bool CheckCanNextWave()
     {
-          foreach (ZombieRespawn respawn in m_ListZombiePhase)
+        if (PlayerManager.Instance.m_Player == null) return false;
+        if (PlayerManager.Instance.m_Player.m_Stat.isDead) return false;
+
+        foreach (ZombieRespawn respawn in m_ListZombiePhase)
           {
               if (!respawn.m_isCompleteRespawn)
               {

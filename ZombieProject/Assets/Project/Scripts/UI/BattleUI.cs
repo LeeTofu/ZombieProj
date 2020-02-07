@@ -34,6 +34,9 @@ public class BattleUI : BaseUI
     [SerializeField]
     TMPro.TextMeshProUGUI m_InfoText;
 
+    [SerializeField]
+    WeaponStatUI m_WeaponStatUI;
+
 
     static Dictionary<SHOP_SORT, NpcShopButton> m_DicNPCButton = new Dictionary<SHOP_SORT, NpcShopButton>();
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
@@ -323,10 +326,7 @@ public class BattleUI : BaseUI
         {
             npcButton.SetUpgradeWeapon(_object);
         }
-
     }
-
-
     public void UpdateMoney(int _money)
     {
         m_MoneyText.text = "$ " + _money.ToString();
@@ -340,5 +340,18 @@ public class BattleUI : BaseUI
         if (button.gameObject.activeSelf == false) return;
         
         GetItemSlot(_sort).plusItemStackCount(_acc);
+    }
+
+    public void UpdateWeapnStatUI(ItemObject _object)
+    {
+        if( _object == null)
+        {
+            Debug.LogError("무기가 없는대 뭘 업그레이드 할려 하나");
+            return;
+        }
+
+        if (m_WeaponStatUI == null) return;
+
+        m_WeaponStatUI.SetWeaponStat(_object);
     }
 }

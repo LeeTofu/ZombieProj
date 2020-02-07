@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class RespawnManager : Singleton<RespawnManager>
 {
-    public int m_EndPhase = 10;
+    public readonly int m_EndPhase = 10;
 
     // 좀비 각 페이즈마다 리스폰할 
     List<ZombieRespawn> m_ListZombiePhase = new List<ZombieRespawn>();
@@ -21,6 +21,7 @@ public class RespawnManager : Singleton<RespawnManager>
     //게임에서 승리를 하셨나
     public bool m_isGameClear;
 
+    // 쉬는 시간인가?
     public bool m_isRest { private set; get; }
 
     public override bool Initialize()

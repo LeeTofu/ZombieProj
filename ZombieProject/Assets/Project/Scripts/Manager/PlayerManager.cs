@@ -128,6 +128,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject)
             m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
 
@@ -172,6 +173,7 @@ public class PlayerManager : Singleton<PlayerManager>
             slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
 
         BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
 

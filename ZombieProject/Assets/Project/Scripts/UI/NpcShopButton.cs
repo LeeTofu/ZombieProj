@@ -125,20 +125,21 @@ public class NpcShopButton : UIPressSubject
                 break;
             case SHOP_SORT.RANGEUP:
                 float currentrange = m_CurrentUpgradedItem.m_CurrentStat.m_Range;
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, currentrange * 0.1f);
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, currentrange * 0.05f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.RANGE);
-
+                
                 break;
             case SHOP_SORT.ATTACKUP:
                 float currentattack = m_CurrentUpgradedItem.m_CurrentStat.m_AttackPoint;
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK, currentattack * 0.1f);
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK, currentattack * 0.05f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.ATTACK);
+                
                 break;
             case SHOP_SORT.ATTACKSPEEDUP:
                 float currentattackspeed = m_CurrentUpgradedItem.m_CurrentStat.m_AttackSpeed;
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK_SPEED, -currentattackspeed * 0.1f);
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK_SPEED, -currentattackspeed * 0.05f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.ATTACK_SPEED);
-
+                
                 break;
         }
         
@@ -163,6 +164,8 @@ public class NpcShopButton : UIPressSubject
             m_MoneyText.color = Color.green;
             m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
         }
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentUpgradedItem);
     }
 
 

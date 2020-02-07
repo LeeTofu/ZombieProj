@@ -115,9 +115,20 @@ public class ItemObject : MonoBehaviour
         return -1;
     }
 
+    public void ItemAction(MovingObject _object, Vector3 _dir)
+    {
+        if (_object == null)
+        {
+            ItemAction(m_FireTransform.transform.forward);
+        }
+        else
+        {
+            ItemAction(_dir);
+        }
+    }
 
 
-    public void ItemAction()
+    private void ItemAction(Vector3 _dir)
     {
         PlaySound();
 
@@ -128,14 +139,14 @@ public class ItemObject : MonoBehaviour
             case ITEM_EVENT_TYPE.THROW_ARK:
                 BulletManager.Instance.FireBullet(
                  m_FireTransform.position,
-                new Vector3(m_FireTransform.transform.forward.x, 0 , m_FireTransform.transform.forward.z),
+                new Vector3(_dir.x, 0 , _dir.z),
                 m_CurrentStat);
                 break;
             case ITEM_EVENT_TYPE.SHOT_GUN:
 
                 for(int i = 0; i < 5; i++)
                 {
-                    Vector3 forward = new Vector3(m_FireTransform.transform.forward.x , 0, m_FireTransform.transform.forward.z);
+                    Vector3 forward = new Vector3(_dir.x , 0, _dir.z);
                     Vector3 dir = Quaternion.Euler(0, -30.0f + i * 15.0f, 0) * forward;
 
                     BulletManager.Instance.FireBullet(

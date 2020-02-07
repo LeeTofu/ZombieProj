@@ -51,7 +51,7 @@ public class PlayerObject : MovingObject
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 
         if(m_PlayerEffect == null)
-            m_PlayerEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Vector3.up * 0.2f, Quaternion.Euler(90,0,0), Vector3.one);
+            m_PlayerEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.PLAYER, this, Vector3.up * 0.2f, Quaternion.Euler(90,0,0), Vector3.one);
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller)

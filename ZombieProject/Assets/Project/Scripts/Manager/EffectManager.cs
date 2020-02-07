@@ -23,6 +23,9 @@ public enum PARTICLE_TYPE
     HEAL,
     ADRENALIN,
 
+    PLAYER, // 플레이어
+    ENMETY_FOCUS, // 타겟팅된 적
+
     POISON, // 독 이펙트
     FIRE, // 불 이펙트
 
@@ -73,6 +76,12 @@ public class EffectManager : Singleton<EffectManager>
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Adrenalin"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ADRENALIN, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Player"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.PLAYER, 3);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Enemy_Focus"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ENMETY_FOCUS, 3);
 
         return true;
     }

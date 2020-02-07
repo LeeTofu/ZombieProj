@@ -24,7 +24,7 @@ public class BuffArea : MovingObject
     {
         if (m_EffectObject == null)
         {
-            m_EffectObject = EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position, Quaternion.Euler(-90.0f, 0, 0),
+            m_EffectObject = EffectManager.Instance.PlayEffect(PARTICLE_TYPE.DROP_ITEM, transform.position + Vector3.up * 0.45f, Quaternion.Euler(-90.0f, 0, 0),
             Vector3.one * 1.0f);
         }
     }

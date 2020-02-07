@@ -32,7 +32,7 @@ public class BattleSceneMain : SceneMain
         if (s_DropItemFactory == null)
         {
             s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();
-            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/BoxItem"));
+            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/ItemBox"));
             s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 

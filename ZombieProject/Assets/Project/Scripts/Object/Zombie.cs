@@ -83,8 +83,8 @@ public class Zombie : MovingObject
                 StopCoroutine(m_KnockBackCoroutine);
             }
 
-            if(m_Type == OBJECT_TYPE.ELITE_ZOMBIE)
-                BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+          //  if(m_Type == OBJECT_TYPE.ZOMBIE)
+          //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
 
             PlayerManager.Instance.CurrentMoney += 10;
 

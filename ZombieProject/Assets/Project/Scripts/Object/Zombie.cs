@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Zombie : MovingObject
 {
@@ -54,6 +55,12 @@ public class Zombie : MovingObject
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
 
+        if (m_NavAgent == null)
+        {
+            m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
+            m_NavAgent.stoppingDistance = m_Stat.Range;
+        }
+
     }
 
     private void KnockBackAction(float _time)
@@ -95,6 +102,10 @@ public class Zombie : MovingObject
 
     private void Update()
     {
+        //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
+
+
+        //플레이어가 일정거리 이내 있을때 BT실행
         m_zombieBehavior.Tick();
     }
 }

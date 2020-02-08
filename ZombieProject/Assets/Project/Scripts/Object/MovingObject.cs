@@ -30,6 +30,7 @@ public enum ZOMBIE_STATE
     RANGE_ATK,
     PATROL,
     CHASE,
+    PATHFIND,
     DEAD,
     KNOCK_BACK,
     NONE,

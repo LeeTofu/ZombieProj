@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ZombiePathFindCondition : DecoratorNode
+public class ZombieRunningPathFindCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
@@ -24,7 +24,7 @@ public class ZombiePathFindCondition : DecoratorNode
     }
 }
 
-public class ZombiePathFindAction : ActionNode
+public class ZombieRunningPathFindAction : ActionNode
 {
     public override void Initialize(MovingObject _character)
     {
@@ -40,7 +40,7 @@ public class ZombiePathFindAction : ActionNode
     public override NODE_STATE Tick()
     {
         //플레이 부분
-        if(GetAttackObjectDistance() <= m_Character.m_Stat.Range) //길찾기 탈출조건
+        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range) //길찾기 탈출조건
         {
             m_Character.m_NavAgent.isStopped = true;
 

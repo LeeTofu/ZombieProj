@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class NormalZombieBTwithPF : BehaviorNode
+class DashZombieBT : BehaviorNode
 {
     private BehaviorNode m_BTHead;
 
@@ -12,7 +12,7 @@ class NormalZombieBTwithPF : BehaviorNode
 
         SelectorNode sel = new SelectorNode();
 
-        /*
+       /*
         SequenceNode seqDead = new SequenceNode();
         seqDead.InsertAction(new ZombieDeadCondition());
         seqDead.InsertAction(new ZombieDeadAction());
@@ -29,7 +29,7 @@ class NormalZombieBTwithPF : BehaviorNode
         seqAtk.InsertAction(new ZombieAttackAction());
         sel.InsertAction(seqAtk);
 
-        /*
+       /*
         SequenceNode seqWalk = new SequenceNode();
         seqWalk.InsertAction(new ZombieWalkCondition());
         seqWalk.InsertAction(new ZombieWalkAction());

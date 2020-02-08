@@ -112,5 +112,8 @@ public class BulletManager : Singleton<BulletManager>
         bulletObject.FireBullet(_pos, _dir, _stat);
     }
 
-
+    public void FireBullet(Vector3 _pos, Vector3 _dir, BULLET_TYPE _bulleyType)
+    {
+        //좀비용 FireBullet, 아직 미구현
+    }
 }

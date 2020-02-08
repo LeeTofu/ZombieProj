@@ -54,7 +54,10 @@ public class Zombie : MovingObject
         //if (m_NavAgent == null)
         //{
         //    m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
+        //    m_NavAgent.updateRotation = true;
         //    m_NavAgent.stoppingDistance = m_Stat.Range;
+        //    m_NavAgent.speed = m_Stat.MoveSpeed;
+        //    m_NavAgent.acceleration = 0.6f;
         //}
 
     }

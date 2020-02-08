@@ -31,10 +31,7 @@ public class PlayerObject : MovingObject
             if (m_Stat.CheckIsDead())
                 DeadAction();
 
-            if (m_HpChangeCoroutine != null)
-                StopCoroutine(m_HpChangeCoroutine);
-
-            m_HpChangeCoroutine = StartCoroutine(HpChange());
+            HpChange();
         });
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {

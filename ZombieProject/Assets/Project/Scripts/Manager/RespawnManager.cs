@@ -38,7 +38,7 @@ public class RespawnManager : Singleton<RespawnManager>
     {
         m_isGameOver = false;
         m_isGameClear = false;
-        
+        m_isRest = true;
         GameClear();
     }
 

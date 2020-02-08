@@ -233,7 +233,6 @@ public abstract class MovingObject : MonoBehaviour
     protected Image m_HpImage;
     protected Image m_HpBar;
     protected Vector3 m_ScreenPos;
-    public Coroutine m_HpChangeCoroutine;
 
     //좀비들 길찾기용 NavMeshAgent
     public NavMeshAgent m_NavAgent;
@@ -502,16 +501,8 @@ public abstract class MovingObject : MonoBehaviour
         yield return new WaitForSeconds(_time);
         m_Stat.isKnockBack = false;
     }
-    public IEnumerator HpChange()
+    public void HpChange()
     {
-        float CurHpAmount = m_Stat.CurHP / m_Stat.MaxHP;
-        float PrevHpAmount = m_HpImage.fillAmount;
-        for (float i = 0f; m_HpImage.fillAmount * 100 != CurHpAmount * 100; i += 0.01f)
-        {
-            m_HpImage.fillAmount = Mathf.Lerp(PrevHpAmount, CurHpAmount, i);
-            yield return new WaitForSeconds(0.01f);
-        }
-
-        m_HpImage.fillAmount = CurHpAmount;
+        m_HpImage.fillAmount = m_Stat.CurHP / m_Stat.MaxHP;
     }
 }

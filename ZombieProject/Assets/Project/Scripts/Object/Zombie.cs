@@ -21,10 +21,7 @@ public class Zombie : MovingObject
                 m_HpUi.enabled = false;
             else
                 m_HpUi.enabled = true;
-            if (m_HpChangeCoroutine != null)
-                StopCoroutine(m_HpChangeCoroutine);
-
-            m_HpChangeCoroutine = StartCoroutine(HpChange());
+            HpChange();
         });
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
@@ -101,7 +98,7 @@ public class Zombie : MovingObject
 
     private void Update()
     {
-        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(this.transform.position);
+        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(m_Model.transform.position);
         m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y+30f, m_HpBar.transform.position.z);
         //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using RootMotion.FinalIK;
+using UnityEngine.AI;
 
 // 오브젝트 종류
 public enum OBJECT_TYPE
@@ -231,6 +232,9 @@ public abstract class MovingObject : MonoBehaviour
     protected Canvas m_HpUi;
     protected Image m_HpImage;
     public Coroutine m_HpChangeCoroutine;
+
+    //좀비들 길찾기용 NavMeshAgent
+    public NavMeshAgent m_NavAgent;
 
     public virtual void SetStat(STAT _stat)
     {

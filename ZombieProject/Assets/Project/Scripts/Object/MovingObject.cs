@@ -231,6 +231,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected Canvas m_HpUi;
     protected Image m_HpImage;
+    protected Image m_HpBar;
+    protected Vector3 m_ScreenPos;
     public Coroutine m_HpChangeCoroutine;
 
     //좀비들 길찾기용 NavMeshAgent

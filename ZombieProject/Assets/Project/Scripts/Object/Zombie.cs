@@ -12,8 +12,9 @@ public class Zombie : MovingObject
 
     public override void InGame_Initialize()
     {
-        m_HpImage.fillAmount = 1f;
-        m_HpUi.enabled = false;
+        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
+        m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
+        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         m_Stat.AddPropertyChangeAction(() =>
         {
             if (m_Stat.CurHP == 100f)
@@ -36,8 +37,6 @@ public class Zombie : MovingObject
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
         // Test //
         m_zombieState = ZOMBIE_STATE.IDLE;
-        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
-        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         m_Stat = new STAT
         {
             MaxHP = 100,
@@ -55,11 +54,11 @@ public class Zombie : MovingObject
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
 
-        if (m_NavAgent == null)
-        {
-            m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
-            m_NavAgent.stoppingDistance = m_Stat.Range;
-        }
+        //if (m_NavAgent == null)
+        //{
+        //    m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
+        //    m_NavAgent.stoppingDistance = m_Stat.Range;
+        //}
 
     }
 
@@ -102,6 +101,8 @@ public class Zombie : MovingObject
 
     private void Update()
     {
+        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(this.transform.position);
+        m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y+30f, m_HpBar.transform.position.z);
         //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
 
 

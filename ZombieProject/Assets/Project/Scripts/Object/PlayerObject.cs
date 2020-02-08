@@ -57,6 +57,7 @@ public class PlayerObject : MovingObject
     public override void Initialize(GameObject _model, MoveController _Controller)
     {
         m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
+        m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
         m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         if (m_Animator == null)
         {
@@ -107,6 +108,9 @@ public class PlayerObject : MovingObject
     }
     private void Update()
     {
+        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(this.transform.position);
+        m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, m_HpBar.transform.position.z);
+
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack && !PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
            // EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Quaternion.Euler(-90.0f, 0, 0),

@@ -34,6 +34,11 @@ public class BattleUI : BaseUI
     [SerializeField]
     TMPro.TextMeshProUGUI m_InfoText;
 
+    [SerializeField]
+    WeaponStatUI m_WeaponStatUI;
+
+
+    static Dictionary<SHOP_SORT, NpcShopButton> m_DicNPCButton = new Dictionary<SHOP_SORT, NpcShopButton>();
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
 
     public static InputContoller m_InputController { private set; get; }
@@ -75,7 +80,19 @@ public class BattleUI : BaseUI
         m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
     }
 
+    public void  InsertNPCUpgradeButton(NpcShopButton _button)
+    {
+        if(_button == null)
+        {
+            Debug.LogError("Button 이 없어 ");
+            return;
+        }
 
+        if (!m_DicNPCButton.ContainsKey(_button.m_slotType))
+        {
+            m_DicNPCButton.Add(_button.m_slotType, _button);
+        }
+    }
 
     private void OnEnable()
     {
@@ -195,6 +212,11 @@ public class BattleUI : BaseUI
         m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
         m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop").GetChild(3).gameObject;
 
+        InsertNPCUpgradeButton(m_SupplyAmmoIcon.GetComponent<NpcShopButton>());
+        InsertNPCUpgradeButton(m_UpgradeWeaponRangeIcon.GetComponent<NpcShopButton>());
+        InsertNPCUpgradeButton(m_UpgradeWeaponAttackIcon.GetComponent<NpcShopButton>());
+        InsertNPCUpgradeButton(m_UpgradeWeaponAttackSpeedIcon.GetComponent<NpcShopButton>());
+        
         m_SupplyAmmoIcon.SetActive(false);
         m_UpgradeWeaponRangeIcon.SetActive(false);
         m_UpgradeWeaponAttackIcon.SetActive(false);
@@ -292,10 +314,44 @@ public class BattleUI : BaseUI
         m_UpgradeWeaponRangeIcon.SetActive(_is);
         m_UpgradeWeaponAttackIcon.SetActive(_is);
         m_UpgradeWeaponAttackSpeedIcon.SetActive(_is);
+
+       SetUpgradeItem(PlayerManager.Instance.m_CurrentEquipedItemObject);
     }
 
+    public static void SetUpgradeItem(ItemObject _object)
+    {
+        if (_object == null) return;
+
+        foreach (var npcButton in m_DicNPCButton.Values)
+        {
+            npcButton.SetUpgradeWeapon(_object);
+        }
+    }
     public void UpdateMoney(int _money)
     {
         m_MoneyText.text = "$ " + _money.ToString();
+    }
+
+    public void UpdateCount(ITEM_SLOT_SORT _sort, short _acc)
+    {
+        BattleItemSlotButton button = GetItemSlot(_sort);
+
+        if (!button) return;
+        if (button.gameObject.activeSelf == false) return;
+        
+        GetItemSlot(_sort).plusItemStackCount(_acc);
+    }
+
+    public void UpdateWeapnStatUI(ItemObject _object)
+    {
+        if( _object == null)
+        {
+            Debug.LogError("무기가 없는대 뭘 업그레이드 할려 하나");
+            return;
+        }
+
+        if (m_WeaponStatUI == null) return;
+
+        m_WeaponStatUI.SetWeaponStat(_object);
     }
 }

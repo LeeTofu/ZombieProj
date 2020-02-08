@@ -31,10 +31,9 @@ public class EnemyManager : Singleton<EnemyManager>
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
 
-            float sqrlen = (zombie.transform.position - _pos).sqrMagnitude;
             float len = (zombie.transform.position - _pos).magnitude;
 
-            if (len > _maxDistance) continue;
+            if (len >= _maxDistance) continue;
 
             if (len < maxLen)
             {

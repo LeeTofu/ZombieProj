@@ -24,7 +24,7 @@ public class BattleSceneMain : SceneMain
 
         yield return new WaitForSeconds(3.0f);
 
-        PlayerManager.Instance.CurrentMoney = 0;
+        PlayerManager.Instance.CurrentMoney = 40;
 
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
@@ -32,7 +32,7 @@ public class BattleSceneMain : SceneMain
         if (s_DropItemFactory == null)
         {
             s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();
-            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/BoxItem"));
+            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/ItemBox"));
             s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 
@@ -55,6 +55,8 @@ public class BattleSceneMain : SceneMain
         StopCoroutine(E_Start());
         s_DropItemFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
         s_FireFactory.AllPushToMemoryPool((int)OBJECT_TYPE.BUFF_OBJECT);
+
+        PlayerManager.Instance.CurrentMoney = 0;
         return true;
     }
 

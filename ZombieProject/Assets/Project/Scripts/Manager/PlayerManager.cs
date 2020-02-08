@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum UPGRADE_TYPE
 {
+    NONE,
     ATTACK,
     RANGE,
     ATTACK_SPEED
@@ -50,6 +51,10 @@ public class PlayerManager : Singleton<PlayerManager>
 
     // 현재 가진 돈
     private int m_CurrentMoney;
+
+    EffectObject m_CurTargtingEffect;
+
+    MovingObject m_TargetingZombie;
 
     public int CurrentMoney
     {
@@ -98,6 +103,11 @@ public class PlayerManager : Singleton<PlayerManager>
     // Player 게임 시작시에 무기 셋팅 하는 부분.
     void PlayerWeaponInitialize()
     {
+        if (m_CurrentEquipedItemObject != null)
+        {
+            Destroy(m_CurrentEquipedItemObject);
+            m_CurrentEquipedItemObject = null;
+        }
         if (m_MainEquipedItemObject != null)
         {
             Destroy(m_MainEquipedItemObject);
@@ -127,6 +137,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject)
             m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
 
@@ -148,7 +159,6 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_Player == null) return;
         if (m_CurrentEquipedItemObject == null)
         {
-
             m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
             m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
@@ -160,14 +170,18 @@ public class PlayerManager : Singleton<PlayerManager>
         m_CurrentEquipedItemObject.gameObject.SetActive(false);
 
         m_CurrentEquipedItemObject = m_CurrentEquipedItemObject == m_MainEquipedItemObject ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
-
         m_Player.SetWeapon(m_CurrentEquipedItemObject.gameObject);
 
         SoundManager.Instance.OneShotPlay(UI_SOUND.WEAPON_CHANGE);
 
-        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).Init(m_Player, m_CurrentEquipedItemObject.m_Item);
-    }
+        BattleItemSlotButton slot =  BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN);
+        
+        if(slot != null)
+            slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
 
+        BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
+    }
 
     public override bool Initialize()
     {
@@ -196,7 +210,7 @@ public class PlayerManager : Singleton<PlayerManager>
         Vector3 HitForward = _zombiePos - m_Player.transform.position;
         HitForward = HitForward.normalized;
 
-        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.85f)
+        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.0f)
         {
             return true;
         }
@@ -275,27 +289,58 @@ public class PlayerManager : Singleton<PlayerManager>
     public void PlayerAttack()
     {
         if (m_CurrentEquipedItemObject == null) return;
+        if (m_Player == null) return;
+        if (m_Player.m_Stat.isDead) return;
 
         ItemStat itemStat = m_CurrentEquipedItemObject.m_Item.m_ItemStat;
-        MovingObject zombie = EnemyManager.Instance.GetNearestZombie(m_Player.transform.position, itemStat.m_Range);
+        MovingObject newTargetZombie = EnemyManager.Instance.GetNearestZombie(m_Player.transform.position, itemStat.m_Range - 0.1f);
 
-        if (zombie != null)
+        if (newTargetZombie != null)
         {
-            if (CheckCanAttack(zombie.transform.position))
+            if (CheckCanAttack(newTargetZombie.transform.position))
             {
-                Vector3 dir = zombie.transform.position - m_Player.transform.position;
+                if (newTargetZombie != m_TargetingZombie || m_TargetingZombie == null)
+                {
+                    PushEffectToPool();
+                    m_CurTargtingEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ENMETY_FOCUS, newTargetZombie, Vector3.up * 0.2f, Quaternion.Euler(90, 0, 0), Vector3.one);
+                }
+
+                m_TargetingZombie = newTargetZombie;
+
+                Vector3 dir = m_TargetingZombie.transform.position - m_Player.transform.position;
                 dir.y = 0.0f;
                 dir = dir.normalized;
 
-                m_Player.transform.rotation = Quaternion.LookRotation(dir);
+                m_Player.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+
+                m_CurrentEquipedItemObject.ItemAction(m_TargetingZombie, dir);
+            }
+            else
+            {
+                PushEffectToPool();
+                m_TargetingZombie = null;
+
+                m_CurrentEquipedItemObject.ItemAction(null, m_CurrentEquipedItemObject.m_FireTransform.forward);
             }
         }
         else
         {
-            //  m_Player.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+            PushEffectToPool();
+            m_TargetingZombie = null;
+
+            m_CurrentEquipedItemObject.ItemAction(null, m_CurrentEquipedItemObject.m_FireTransform.forward);
         }
 
-        m_CurrentEquipedItemObject.ItemAction();
+        
+    }
+
+    void PushEffectToPool()
+    {
+        if (m_CurTargtingEffect != null && m_CurTargtingEffect.gameObject.activeSelf)
+        {
+            m_CurTargtingEffect.pushToMemory(m_CurTargtingEffect.m_EffectTypeID);
+            m_CurTargtingEffect = null;
+        }
     }
 
     public void PlayerUseItem(ITEM_SLOT_SORT _type)
@@ -341,5 +386,27 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             obj.pushToMemory((int)obj.m_Type);
         }
+
+        PushEffectToPool();
+        m_Player = null;
+
+        if (m_CurrentEquipedItemObject != null)
+        {
+            Destroy(m_CurrentEquipedItemObject);
+            m_CurrentEquipedItemObject = null;
+        }
+        if (m_MainEquipedItemObject != null)
+        {
+            Destroy(m_MainEquipedItemObject);
+            m_MainEquipedItemObject = null;
+        }
+        if (m_SecondEquipedItemObject != null)
+        {
+            Destroy(m_SecondEquipedItemObject);
+            m_SecondEquipedItemObject = null;
+        }
+
+
+        CurrentMoney = 0;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class RespawnManager : Singleton<RespawnManager>
 {
-    public int m_EndPhase = 10;
+    public readonly int m_EndPhase = 10;
 
     // 좀비 각 페이즈마다 리스폰할 
     List<ZombieRespawn> m_ListZombiePhase = new List<ZombieRespawn>();
@@ -21,10 +21,14 @@ public class RespawnManager : Singleton<RespawnManager>
     //게임에서 승리를 하셨나
     public bool m_isGameClear;
 
+    // 쉬는 시간인가?
+    public bool m_isRest { private set; get; }
+
     public override bool Initialize()
     {
         m_isGameOver = false;
         m_isGameClear = false;
+        m_isRest = true;
         m_CurWave = 0;
 
         return true;
@@ -98,7 +102,7 @@ public class RespawnManager : Singleton<RespawnManager>
     public void GameStartWave()
     {
 #if UNITY_EDITOR
-        StartCoroutine(WaveChange_C(3.0f));
+        StartCoroutine(WaveChange_C(15.0f));
 #elif UNITY_ANDROID
             StartCoroutine(WaveChange_C(20.0f));
 #endif
@@ -118,6 +122,7 @@ public class RespawnManager : Singleton<RespawnManager>
     {
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
 
+        m_isRest = true;
         yield return new WaitForSeconds(_restTime);
 
 #if UNITY_EDITOR
@@ -146,13 +151,19 @@ public class RespawnManager : Singleton<RespawnManager>
         float time = 0.0f;
         while (time < _changeTime)
         {
-            (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
+            BattleUI ui = (UIManager.Instance.m_CurrentUI as BattleUI);
+            if (ui == null) yield break;
+
+            ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
             yield return new WaitForSeconds(1.0f);
             time += 1.0f;
         }
 
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("모든 좀비를 제거하고 생존하세요.");
+        m_isRest = false;
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).NpcCollision(false);
 
         OccurZombiePhase(m_CurWave + 1);
     }
@@ -180,7 +191,10 @@ public class RespawnManager : Singleton<RespawnManager>
     // 다음 웨이브로 가도 되는지 조건을 계속 확인하는 함수.
     public bool CheckCanNextWave()
     {
-          foreach (ZombieRespawn respawn in m_ListZombiePhase)
+        if (PlayerManager.Instance.m_Player == null) return false;
+        if (PlayerManager.Instance.m_Player.m_Stat.isDead) return false;
+
+        foreach (ZombieRespawn respawn in m_ListZombiePhase)
           {
               if (!respawn.m_isCompleteRespawn)
               {

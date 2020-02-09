@@ -22,12 +22,6 @@ public class InventoryUI: BaseUI
     public ItemInfoUI m_ItemInfoUI { private set; get; }
 
     [SerializeField]
-    TextMeshProUGUI m_Money;
-
-    [SerializeField]
-    TextMeshProUGUI m_Parts;
-
-    [SerializeField]
     TextMeshProUGUI PlayerLevel;
 
     [SerializeField]
@@ -53,8 +47,6 @@ public class InventoryUI: BaseUI
 
     public override void InitializeUI()
     {
-        m_Money.text = PlayerManager.Instance.m_PlayerInfo.Money.ToString();
-        m_Parts.text = PlayerManager.Instance.m_PlayerInfo.Parts.ToString();
         PlayerName.text = PlayerManager.Instance.m_PlayerInfo.playerName;
         PlayerLevel.text = "Lv " +PlayerManager.Instance.m_PlayerInfo.Lv.ToString();
 

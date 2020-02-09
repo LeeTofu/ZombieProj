@@ -4,13 +4,38 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
+    public Canvas m_UiCanvas;
+    public Camera m_UICamera { private set; get; }
     public BaseUI m_CurrentUI { get; private set; }
     private Dictionary<GAME_SCENE, GameObject> m_GameUITable = new Dictionary<GAME_SCENE, GameObject>();
 
+    EffectObject m_Particle;
+
     public void Update()
     {
+        if (m_UICamera == null) return;
+        
+      //   m_UICamera.transform.position = Camera.main.transform.position;
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+           MoveParticlePosition();
+        }
+    }
 
+    void MoveParticlePosition()
+    {
+        if (m_UICamera == null) return;
 
+        Vector3 mosuePoint = Input.mousePosition;
+        mosuePoint.z = m_UICamera.nearClipPlane + 0.01f;
+        Vector3 Pos = m_UICamera.ScreenToWorldPoint(mosuePoint);
+
+        m_Particle = EffectManager.Instance.PlayEffect(PARTICLE_TYPE.TOUCH_EFFECT, Pos, Quaternion.identity, Vector3.one * 0.05f, true, 0.5f);
+
+        m_Particle.transform.position = Pos;
+
+        Debug.Log(Pos);
 
     }
 
@@ -34,6 +59,7 @@ public class UIManager : Singleton<UIManager>
             obj.SetActive(false);
             m_GameUITable.Add(sceneUI.m_Scene, obj);
         }
+
         return true;
     }
 
@@ -98,6 +124,9 @@ public class UIManager : Singleton<UIManager>
         ui.InitializeUI();
 
         m_CurrentUI = ui;
+        Canvas canvas = m_CurrentUI.GetComponent<Canvas>();
+        m_UICamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        canvas.worldCamera = m_UICamera;
     }
 
 

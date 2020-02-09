@@ -58,7 +58,6 @@ public class GameMaster : Singleton<GameMaster>
 
         return true;
     }
-
     public override void DestroyManager()
     {
         TextureManager.Instance.DestroyManager();

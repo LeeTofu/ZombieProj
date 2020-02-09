@@ -12,6 +12,8 @@ public enum PARTICLE_TYPE
     EXPLOSION_HUGE,
     BULLET_EXPLOSION, // 총알이 뭔가에 부딫혀서 폭발
 
+    TOUCH_EFFECT, // 터치 이펙트
+
     BLOOD, // 피
 
     BUFF, //버프 이펙트
@@ -37,7 +39,7 @@ public class EffectManager : Singleton<EffectManager>
     ObjectFactory m_EffectFactory;
     Dictionary<PARTICLE_TYPE, List<GameObject>> m_ParticleTable = new Dictionary<PARTICLE_TYPE, List<GameObject>>();
     const string m_PrefabPath = "Prefabs/Effect&Particle/EffectPrefab";
-
+    const string m_UIPrefabPath = "Prefabs/Effect&Particle/UIEffectPrefab2";
 
     public override bool Initialize()
     {
@@ -57,7 +59,7 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.DUST, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletMuzzle"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletExplosion"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 10);
@@ -82,6 +84,9 @@ public class EffectManager : Singleton<EffectManager>
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Enemy_Focus"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ENMETY_FOCUS, 3);
+
+        m_EffectFactory.Initialize(m_UIPrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/TouchEffect"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.TOUCH_EFFECT, 5);
 
         return true;
     }

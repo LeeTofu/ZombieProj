@@ -46,4 +46,3 @@ MonoBehaviour:
   m_Type: 10
   m_zombieState: 0
   m_Animator: {fileID: 0}
-  m_CurrentEquipedItem: {fileID: 0}

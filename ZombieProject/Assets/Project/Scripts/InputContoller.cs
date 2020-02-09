@@ -26,10 +26,12 @@ public class InputContoller : UIDragSubject
     private MovingObject m_Character;
 
     // 입력 컨트롤러 배경 반지름.
-    static float s_ControllerBGRadius = 10.0f;
+    static float s_ControllerBGRadius = 30.0f;
 
     int m_LastFingerID = -1;
 
+
+    Vector3 m_CurMousePosition;
     // Drag 한 벡터
     public Vector3 m_DragDirectionVector { private set; get; }
     // 현재 캐릭터 이동할 벡터
@@ -45,8 +47,6 @@ public class InputContoller : UIDragSubject
         m_gr = m_canvas.GetComponent<GraphicRaycaster>();
         m_ped = new PointerEventData(null);
         m_InputControllerPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        //m_isHit = false;
-
 
         while (m_Character == null)
         {
@@ -66,7 +66,8 @@ public class InputContoller : UIDragSubject
     {
         Vector3 mousePosition = Vector3.zero;
 #if UNITY_EDITOR
-         mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+        mousePosition = m_CurMousePosition;
+      //  mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
 #elif UNITY_ANDROID
         if (Input.touchCount > 0 && m_LastFingerID != -1)
         {
@@ -88,7 +89,10 @@ public class InputContoller : UIDragSubject
     public Vector3 GetMousePosition()
     {
 #if UNITY_EDITOR
-        return new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+        Vector3 pos = Input.mousePosition;
+        pos.z = m_canvas.planeDistance;
+        Vector3 mousePosition = UIManager.Instance.m_UICamera.ScreenToWorldPoint(pos);
+        return mousePosition;
 #elif UNITY_ANDROID
         if (Input.touchCount > 0)
         {
@@ -108,7 +112,7 @@ public class InputContoller : UIDragSubject
 
     public Vector3 GetDirectionVec3()
     {
-        return -(GetMousePosition() - m_InputControllerPosition);
+        return -(m_CurMousePosition - m_InputControllerPosition);
     }
 
     // 벽 슬라이딩 만드는 함수.
@@ -153,18 +157,18 @@ public class InputContoller : UIDragSubject
 
         if (MoveControllerDir.sqrMagnitude > 0.0f)
         {
-            Camera cam = CameraManager.Instance.m_Camera;
-            MoveControllerDir = cam.transform.InverseTransformVector(new Vector3(MoveControllerDir.x, 0, MoveControllerDir.y));
+            Camera cam = UIManager.Instance.m_UICamera;
+           // MoveControllerDir = cam.transform.InverseTransformVector(new Vector3(MoveControllerDir.x, 0, MoveControllerDir.y));
 
-            float length = GetCurrentMouseDragLength();
-            float limitlength = m_lengthlimit;
-       //     Debug.Log(length);
-        //    Debug.Log(limitlength);
+       //     float length = GetCurrentMouseDragLength();
+       //     float limitlength = m_lengthlimit;
+       ////     Debug.Log(length);
+       // //    Debug.Log(limitlength);
 
-            if (length >= limitlength) 
-                length = limitlength;
+       //     if (length >= limitlength) 
+       //         length = limitlength;
 
-            m_DragDirectionVector = new Vector3(MoveControllerDir.x, 0.0f, MoveControllerDir.y).normalized;
+            m_DragDirectionVector = new Vector3(MoveControllerDir.y, 0.0f, -MoveControllerDir.x).normalized;
            
             // 벽에 막혀 슬라이딩 벡터를 만들어야 하나 함수.
            if( !CheckWallSliding(m_Character.transform.forward))
@@ -230,22 +234,13 @@ public class InputContoller : UIDragSubject
         if (m_Character == null) return;
         if (m_Character.m_Stat.isDead) return;
 
+        m_CurMousePosition = GetMousePosition();
 #if !UNITY_EDITOR
         if (m_LastFingerID == -1) return;
 #endif
-        Vector2 currentPos;
-
         if (GetCurrentMouseDragLength() < m_lengthlimit)
         {
-         //   Debug.Log("OnDrag 손가락 id : " + m_LastFingerID);
-
-#if UNITY_EDITOR
-            currentPos = Input.mousePosition;
-#elif UNITY_ANDROID
-            currentPos = GetMousePosition();
-#endif
-
-            this.transform.position = currentPos;
+            this.transform.position = m_CurMousePosition;
         }
         else
         {

@@ -42,6 +42,8 @@ public class Zombie : MovingObject
             alertRange = 100.0f,
             isKnockBack = false,
         };
+
+        //이부분은 자기 TYPE받아서 바꾸게 만들어야함
         m_zombieBehavior = new NormalZombieBT();
         m_zombieBehavior.Initialize(this);
 

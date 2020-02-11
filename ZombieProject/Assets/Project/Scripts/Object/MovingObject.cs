@@ -9,14 +9,12 @@ using UnityEngine.AI;
 public enum OBJECT_TYPE
 {
     PLAYER = 1, // 플레이어
-    PLAYER_MERCENARY, // 플레이어 용병
-    PLAYER_OBJECT, // 플레이어가 설치한 오브적트
-
+    
     ZOMBIE, // 좀비
-    ELITE_ZOMBIE, // 네임드 좀비
-    BOSS_ZOMBIE, // 보스 좀비
-    ZOMBIE_OBJECT, // 좀비들 오브젝트
-
+    RANGE_ZOMBIE, // 네임드 좀비
+    DASH_ZOMBIE, // 보스 좀비
+    BOMB_ZOMBIE, // 폭발 좀비
+    
     BULLET, // (불릿)
     BUFF_OBJECT, // 버프주는 오브젝트 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
     EFFECT // 이펙트
@@ -173,6 +171,27 @@ public class STAT
         return false;
     }
 
+    public STAT Clone()
+    {
+        STAT newStat = new STAT();
+        newStat.alertRange = alertRange;
+        newStat.attack = attack;
+        newStat.attackSpeed = attackSpeed;
+        newStat.curHP = curHP;
+        newStat.def = def;
+        newStat.isDead = isDead;
+        newStat.isKnockBack = isKnockBack;
+        newStat.maxHP = maxHP;
+        newStat.moveSpeed = moveSpeed;
+        newStat.OnPropertyChange = OnPropertyChange;
+        newStat.range = range;
+        newStat.rotSpeed = rotSpeed;
+
+        return newStat;
+    }
+
+
+
 }
 
 
@@ -182,7 +201,7 @@ public abstract class MovingObject : MonoBehaviour
     private ObjectFactory m_Factory;
     protected Rigidbody m_RigidBody;
 
-    protected GameObject m_Model;
+    public GameObject m_Model;
 
     public STAT m_Stat { protected set; get; }
     public OBJECT_TYPE m_Type;
@@ -230,16 +249,14 @@ public abstract class MovingObject : MonoBehaviour
     // 어그 끌리는 오브젝트
     public MovingObject m_TargetingObject { private set; get; }
 
-    protected Canvas m_HpUi;
-    protected Image m_HpImage;
-    protected Image m_HpBar;
-    protected Vector3 m_ScreenPos;
 
     //좀비들 길찾기용 NavMeshAgent
     public NavMeshAgent m_NavAgent;
 
     public virtual void SetStat(STAT _stat)
     {
+        if(_stat == null)
+            Debug.Log(_stat);
         m_Stat = _stat;
     }
 
@@ -440,7 +457,6 @@ public abstract class MovingObject : MonoBehaviour
 
         if(m_Stat.isDead)
         {
-            m_HpUi.enabled = false;
             m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
@@ -501,9 +517,5 @@ public abstract class MovingObject : MonoBehaviour
         m_Stat.isKnockBack = true;
         yield return new WaitForSeconds(_time);
         m_Stat.isKnockBack = false;
-    }
-    public void HpChange()
-    {
-        m_HpImage.fillAmount = m_Stat.CurHP / m_Stat.MaxHP;
     }
 }

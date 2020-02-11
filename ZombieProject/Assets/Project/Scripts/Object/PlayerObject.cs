@@ -14,13 +14,11 @@ public class PlayerObject : MovingObject
     // Player 표시해주는 이펙트
     public EffectObject m_PlayerEffect;
 
-    HUDHpBar m_HPBar;
-
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
-        //m_HpImage.fillAmount = 1f;
-        //m_HpUi.enabled = true;
+        m_HpImage.fillAmount = 1f;
+        m_HpUi.enabled = true;
         SetStat(new STAT
         {
             MaxHP = 100f,
@@ -33,8 +31,7 @@ public class PlayerObject : MovingObject
             if (m_Stat.CheckIsDead())
                 DeadAction();
 
-            if (m_HPBar == null)
-                m_HPBar.HPChange();
+            HpChange();
         });
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
@@ -47,14 +44,6 @@ public class PlayerObject : MovingObject
             m_StateController.InGame_Initialize();
         }
 
-        if (m_HPBar == null)
-        {
-            //m_HPBar = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/HPUI")).GetComponent<HUDHpBar>();
-             m_HPBar = GetComponentInChildren<HUDHpBar>();
-        }
-
-        m_HPBar.Initialize(this);
-
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 
@@ -62,8 +51,12 @@ public class PlayerObject : MovingObject
             m_PlayerEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.PLAYER, this, Vector3.up * 0.2f, Quaternion.Euler(90,0,0), Vector3.one);
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _Model, MoveController _Controller)
     {
+        if (_Model != null) m_Model = _Model;
+        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
+        m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
+        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
         if (m_Animator == null)
         {
             m_Animator = gameObject.GetComponentInChildren<Animator>();
@@ -75,7 +68,6 @@ public class PlayerObject : MovingObject
             m_StateController = gameObject.AddComponent<StateController>();
             m_StateController.Initialize(this);
         }
-
 
         SetStat(new STAT
         {
@@ -110,12 +102,13 @@ public class PlayerObject : MovingObject
         {
             m_PlayerEffect.pushToMemory(m_PlayerEffect.m_EffectTypeID);
             m_PlayerEffect = null;
-
         }
-
     }
     private void Update()
     {
+        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(transform.position);
+        m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, m_HpBar.transform.position.z);
+
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack && !PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
            // EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Quaternion.Euler(-90.0f, 0, 0),
@@ -125,5 +118,4 @@ public class PlayerObject : MovingObject
             PlayerManager.Instance.m_Player.HitDamage(35f, true, 2f);
         }
     }
-
 }

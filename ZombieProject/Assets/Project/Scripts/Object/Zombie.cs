@@ -15,7 +15,7 @@ public class Zombie : MovingObject
         m_HpUi.enabled = false;
         m_Stat.AddPropertyChangeAction(() =>
         {
-            if (m_Stat.CurHP == 100f)
+            if (m_Stat.CurHP == m_Stat.MaxHP)
                 m_HpUi.enabled = false;
             else
                 m_HpUi.enabled = true;
@@ -30,7 +30,7 @@ public class Zombie : MovingObject
         if(_Model != null) m_Model = _Model;
         m_Height = m_Model.transform.Find("Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head").transform.position.y;
 
-        
+
         m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
         m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
         m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();

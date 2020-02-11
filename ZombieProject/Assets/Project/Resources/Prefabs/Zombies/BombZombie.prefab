@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6011317497676947677}
   - component: {fileID: 1507712756754498902}
   - component: {fileID: 4348759955461665982}
-  m_Layer: 0
-  m_Name: EliteZombie
-  m_TagString: Untagged
+  - component: {fileID: 2515126487447506473}
+  m_Layer: 11
+  m_Name: BombZombie
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 780776903879633915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -22.258823, y: -30.574814, z: -0.3388369}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1194dd9ebd10624e9df9a5169e5f320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Type: 5
+  m_Type: 7
   m_zombieState: 0
   m_Animator: {fileID: 0}
   m_NavAgent: {fileID: 0}
@@ -70,3 +71,17 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &2515126487447506473
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780776903879633915}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}

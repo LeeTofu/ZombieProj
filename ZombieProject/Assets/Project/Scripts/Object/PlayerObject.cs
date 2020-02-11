@@ -105,7 +105,11 @@ public class PlayerObject : MovingObject
     }
     private void Update()
     {
-        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(this.transform.position);
+        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(new Vector3(
+            transform.position.x,
+            transform.position.y + m_Height,
+            transform.position.z
+            ));
         m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, m_HpBar.transform.position.z);
 
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack && !PlayerManager.Instance.m_Player.m_Stat.isDead)

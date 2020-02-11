@@ -239,6 +239,7 @@ public abstract class MovingObject : MonoBehaviour
     protected Image m_HpImage;
     protected Image m_HpBar;
     protected Vector3 m_ScreenPos;
+    protected float m_Height;
 
     //좀비들 길찾기용 NavMeshAgent
     public NavMeshAgent m_NavAgent;

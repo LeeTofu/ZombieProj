@@ -211,6 +211,9 @@ public abstract class MovingObject : MonoBehaviour
     public STAT m_Stat { protected set; get; }
     public OBJECT_TYPE m_Type;
 
+    // 이거 중요!!! 오브젝트 풀에 다시 집어넣을때 m_TypeKey로 집어넣는거임
+    public int m_TypeKey;
+
     [HideInInspector]
     public ZOMBIE_STATE m_zombieState;
 
@@ -243,7 +246,7 @@ public abstract class MovingObject : MonoBehaviour
     protected System.Action<List<Buff> > m_DeBuffAction;
 
     // 처음 오브젝트가 팩토리에서 만들어질 때 단 한번만 실행합니다.
-    public abstract void Initialize(GameObject _model, MoveController _Controller);
+    public abstract void Initialize(GameObject _model, MoveController _Controller, int _TypeKey);
 
     // 팩토리에서 오브젝트를 꺼내올때 마다 실행합니다.
     public abstract void InGame_Initialize();
@@ -270,9 +273,8 @@ public abstract class MovingObject : MonoBehaviour
 
     public void SetTarget(MovingObject _object)
     {
-            m_TargetingObject = _object;
+        m_TargetingObject = _object;
     }
-
 
     Transform FindChildObject(GameObject _baseObject, string _str)
     {
@@ -288,7 +290,7 @@ public abstract class MovingObject : MonoBehaviour
 
     // Factory에서 만들어진 MovingObject는 자동으로 오브젝트 풀링해서 쓴당.
     // 오브젝트 다 쓰고 나면 pushToMemory 필수로 실행해주세요.
-    public void pushToMemory(int _type)
+    public void pushToMemory()
     {
         if (!gameObject.activeSelf) return;
         if(m_Factory == null)
@@ -298,10 +300,10 @@ public abstract class MovingObject : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-        m_Factory.PushObjectToPooling(this, _type);
+        m_Factory.PushObjectToPooling(this, m_TypeKey);
     }
 
-    public void pushToMemory(ObjectFactory _factory, int _type)
+    public void pushToMemory(ObjectFactory _factory)
     {
         if (!gameObject.activeSelf) return;
         if (_factory == null)
@@ -311,7 +313,7 @@ public abstract class MovingObject : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-        _factory.PushObjectToPooling(this, _type);
+        _factory.PushObjectToPooling(this, m_TypeKey);
     }
 
 

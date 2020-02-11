@@ -14,9 +14,9 @@ public class FireBomb : Bullet
 
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller,int _typeKey)
     {
-        base.Initialize(_model, _Controller);
+        base.Initialize(_model, _Controller, _typeKey);
 
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
@@ -44,7 +44,7 @@ public class FireBomb : Bullet
 
         SplashAttack(transform.position, 4.0f);
 
-        pushToMemory((int)m_BulletType);
+        pushToMemory();
     }
 
 
@@ -65,6 +65,6 @@ public class FireBomb : Bullet
 
         SplashAttack(transform.position, 4.0f);
 
-        pushToMemory((int)m_BulletType);
+        pushToMemory();
     }
 }

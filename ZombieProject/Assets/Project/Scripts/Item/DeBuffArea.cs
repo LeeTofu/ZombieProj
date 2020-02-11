@@ -28,26 +28,27 @@ public class DeBuffArea : MovingObject
 
     void TimePushToMemoty()
     {
-        pushToMemory((int)m_Type);
+        pushToMemory();
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
     {
-      //  m_audioSource = GetComponent<AudioSource>();
+        m_TypeKey = _typeKey;
+        //  m_audioSource = GetComponent<AudioSource>();
 
-        if(m_CollisionAction == null)
+        if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<DeBuffAreaCollisionAction>();
     }
 
     public void ApplyBuff(MovingObject _object)
     {
         if (_object == null) return;
-      //  Debug.Log("Buff 걸림" + m_BuffType);
+        //  Debug.Log("Buff 걸림" + m_BuffType);
         BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
 
         if (m_isInstance)
         {
-            pushToMemory((int)m_Type);
+            pushToMemory();
         }
     }
 }

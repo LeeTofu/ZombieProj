@@ -73,14 +73,14 @@ public class ObjectFactory : MonoBehaviour
 
         // 팝을 했는데 이제 더이상 풀에서 활성화할 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
 
-        newObject = CreateObject();
+        newObject = CreateObject(_typeKey);
         newObject.transform.position = _pos;
         newObject.transform.rotation = _quat;
 
         return newObject;
     }
 
-    private MovingObject CreateObject()
+    private MovingObject CreateObject(int _typeKey)
     {
         MovingObject newObject = null;
 
@@ -98,7 +98,7 @@ public class ObjectFactory : MonoBehaviour
         Model.transform.localRotation = Quaternion.identity;
 
         newObject = newGameObject.GetComponent<MovingObject>();
-        newObject.Initialize(Model, null);
+        newObject.Initialize(Model, null, _typeKey);
         newObject.SetFactory(this);
         newObject.gameObject.SetActive(true);
 
@@ -113,7 +113,7 @@ public class ObjectFactory : MonoBehaviour
     {
         foreach( MovingObject mobj  in m_ListAllMovingObject)
         {
-            mobj.pushToMemory(this, _type);
+            mobj.pushToMemory(this);
         }
     }
 
@@ -133,7 +133,7 @@ public class ObjectFactory : MonoBehaviour
 
         for (int i = 0; i < _maxCount; i++)
         {
-            var mobject = CreateObject();
+            var mobject = CreateObject(_typeKey);
             PushObjectToPooling(mobject, _typeKey);
             mobject.transform.SetParent(transform);
         }

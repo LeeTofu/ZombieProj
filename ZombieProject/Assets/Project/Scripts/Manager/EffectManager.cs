@@ -94,7 +94,7 @@ public class EffectManager : Singleton<EffectManager>
     {
         foreach (EffectObject obj in m_EffectFactory.m_ListAllMovingObject)
         {
-            obj.pushToMemory((int)obj.m_EffectTypeID);
+            obj.pushToMemory();
         }
     }
     public EffectObject PlayEffect(PARTICLE_TYPE _particleType, Vector3 _pos, Quaternion _quat, Vector3 _scale, bool _isDestroy = false, float _DestroyTime = 0.0f )
@@ -110,9 +110,11 @@ public class EffectManager : Singleton<EffectManager>
         }
 
         if(_isDestroy)
-            effect.SetDestroyTime(_DestroyTime, (int)_particleType);
+            effect.SetDestroyTime(_DestroyTime);
+
         effect.m_MovingObject = null;
         effect.transform.localScale = _scale;
+        
         return effect;
     }
 
@@ -130,8 +132,9 @@ public class EffectManager : Singleton<EffectManager>
         }
 
         if (_isDestroy)
-            effect.SetDestroyTime(_DestroyTime, (int)_particleType);
+            effect.SetDestroyTime(_DestroyTime);
 
+       // effect.m_EffectTypeID = (int)_particleType;
         effect.m_MovingObject = _object;
         effect.transform.localScale = _scale;
         effect.transform.SetParent(_object.transform);

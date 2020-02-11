@@ -16,9 +16,10 @@ public class InstallBomb : Bullet
 
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey )
     {
-        base.Initialize(_model, _Controller);
+        m_TypeKey = _typeKey;
+        base.Initialize(_model, _Controller, _typeKey);
 
         m_Time = 0.0f;
 
@@ -52,7 +53,7 @@ public class InstallBomb : Bullet
         SplashAttack(transform.position, 4.0f);
 
         m_Time = 0.0f;
-        pushToMemory((int)m_BulletType);
+        pushToMemory();
     }
 
 

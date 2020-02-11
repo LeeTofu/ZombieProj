@@ -29,11 +29,11 @@ public class BuffArea : MovingObject
         }
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
     {
-      //  m_audioSource = GetComponent<AudioSource>();
-
-        if(m_CollisionAction == null)
+        //  m_audioSource = GetComponent<AudioSource>();
+        m_TypeKey = _typeKey;
+        if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<BuffAreaCollisionAction>();
     }
 
@@ -45,14 +45,14 @@ public class BuffArea : MovingObject
 
         if (m_isInstance)
         {
-            pushToMemory((int)m_Type);
+            pushToMemory();
         }
     }
 
     private void OnDisable()
     {
         if (m_EffectObject != null)
-            m_EffectObject.SetDestroyTime(0.0f, (int)PARTICLE_TYPE.DROP_ITEM);
+            m_EffectObject.SetDestroyTime(0.0f);
     }
 
 }

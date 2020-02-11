@@ -52,7 +52,7 @@ public class ZombieDeadAction : ActionNode
         m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
 
-        m_Character.pushToMemory((int)m_Character.m_Type);
+        m_Character.pushToMemory();
 
         return NODE_STATE.SUCCESS;
     }

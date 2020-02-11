@@ -13,9 +13,10 @@ public class PierceBullet : Bullet
             m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
     }
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
     {
-        base.Initialize(_model, _Controller);
+
+        base.Initialize(_model, _Controller, _typeKey);
 
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
@@ -35,7 +36,7 @@ public class PierceBullet : Bullet
                  Vector3.one * 1.0f,
                 true, 1.0f);
 
-        pushToMemory((int)m_BulletType);
+        pushToMemory();
     }
 
     public override void CollisionEvent(GameObject _object)
@@ -52,7 +53,7 @@ public class PierceBullet : Bullet
 
             if(m_CurrentPierceCount >= m_MaxPierceCount)
             {
-                pushToMemory((int)m_BulletType);
+                pushToMemory();
             }
         }
         else
@@ -64,7 +65,7 @@ public class PierceBullet : Bullet
                  Vector3.one * 1.0f,
                 true, 1.0f);
 
-            pushToMemory((int)m_BulletType);
+            pushToMemory();
         }
     }
 }

@@ -133,7 +133,7 @@ public class EnemyManager : Singleton<EnemyManager>
     {
        foreach(MovingObject obj in m_ZombieFactory.m_ListAllMovingObject  )
         {
-            obj.pushToMemory((int)obj.m_Type);
+            obj.pushToMemory();
         }
     }
 

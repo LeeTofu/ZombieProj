@@ -96,7 +96,7 @@ public class Adrenaline : Buff
     protected override void ExitBuffEffect()
     {
         if(m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
-            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+            m_EffectObject.pushToMemory();
 
         m_EffectObject = null;
     }
@@ -140,7 +140,7 @@ public class Blessing : Buff
     protected override void ExitBuffEffect()
     {
         if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
-            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+            m_EffectObject.pushToMemory();
 
         m_EffectObject = null;
     }
@@ -187,7 +187,7 @@ public class Poison : Buff
     protected override void ExitBuffEffect()
     {
         if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
-            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+            m_EffectObject.pushToMemory();
 
         m_EffectObject = null;
     }
@@ -227,7 +227,7 @@ public class Fire : Buff
     protected override void ExitBuffEffect()
     {
         if (m_EffectObject != null && m_EffectObject.gameObject.activeSelf)
-            m_EffectObject.pushToMemory(m_EffectObject.m_EffectTypeID);
+            m_EffectObject.pushToMemory();
 
         m_EffectObject = null;
     }

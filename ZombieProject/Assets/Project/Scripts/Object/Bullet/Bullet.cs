@@ -26,9 +26,9 @@ public abstract class Bullet : MovingObject
 
     
 
-    public override void Initialize(GameObject _model, MoveController _Controller)
+    public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
     {
-
+        m_TypeKey = _typeKey;
     }
 
     public void SplashAttack(Vector3 _pos, float _rangeDistance, int _maxCount = 5)

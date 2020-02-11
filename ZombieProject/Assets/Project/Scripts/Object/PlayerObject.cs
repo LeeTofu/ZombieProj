@@ -51,8 +51,10 @@ public class PlayerObject : MovingObject
             m_PlayerEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.PLAYER, this, Vector3.up * 0.2f, Quaternion.Euler(90,0,0), Vector3.one);
     }
 
-    public override void Initialize(GameObject _Model, MoveController _Controller)
+    public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
     {
+        m_TypeKey = _typeKey;
+
         if (_Model != null) m_Model = _Model;
         m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
         m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
@@ -100,7 +102,7 @@ public class PlayerObject : MovingObject
 
         if (m_PlayerEffect != null && m_PlayerEffect.gameObject.activeSelf)
         {
-            m_PlayerEffect.pushToMemory(m_PlayerEffect.m_EffectTypeID);
+            m_PlayerEffect.pushToMemory();
             m_PlayerEffect = null;
         }
     }

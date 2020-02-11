@@ -25,9 +25,11 @@ public class Zombie : MovingObject
             m_CollisionAction.SetCollisionActive(true);
     }
 
-    public override void Initialize(GameObject _Model, MoveController _Controller)
+    public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
     {
-        if(_Model != null) m_Model = _Model;
+        m_TypeKey = _typeKey;
+
+        if (_Model != null) m_Model = _Model;
         m_Height = m_Model.transform.Find("Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head").transform.position.y;
 
 

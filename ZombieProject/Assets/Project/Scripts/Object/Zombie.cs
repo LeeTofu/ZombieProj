@@ -28,10 +28,9 @@ public class Zombie : MovingObject
     public override void Initialize(GameObject _Model, MoveController _Controller)
     {
         if(_Model != null) m_Model = _Model;
-        m_Height = m_Model.transform.Find("Root")
-            .Find("Hips").Find("Spine_01").Find("Spine_02")
-            .Find("Spine_03").Find("Neck").Find("Head")
-            .transform.position.y;
+        m_Height = m_Model.transform.Find("Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head").transform.position.y;
+
+        
         m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
         m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
         m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
@@ -108,14 +107,19 @@ public class Zombie : MovingObject
 
     private void Update()
     {
-        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(new Vector3(
-            transform.position.x,
-            transform.position.y + m_Height,
-            transform.position.z
-            ));
-        m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y+30f, m_HpBar.transform.position.z);
-        //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
+        if (!gameObject.activeSelf) return;
+        if (m_zombieBehavior == null) return;
 
+        if (CameraManager.Instance.m_Camera != null)
+        {
+            m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(new Vector3(
+                transform.position.x,
+                transform.position.y + m_Height,
+                transform.position.z
+                ));
+            m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, m_HpBar.transform.position.z);
+            //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
+        }
 
         //플레이어가 일정거리 이내 있을때 BT실행
         m_zombieBehavior.Tick();

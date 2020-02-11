@@ -15,9 +15,8 @@ public enum OBJECT_TYPE
     ZOMBIE, // 좀비
     DASH_ZOMBIE,
     RANGE_ZOMBIE,
-    ELITE_ZOMBIE, // 네임드 좀비
-    BOSS_ZOMBIE, // 보스 좀비
-    ZOMBIE_OBJECT, // 좀비들 오브젝트
+    BOMB_ZOMBIE, // 네임드 좀비
+
 
     BULLET, // (불릿)
     BUFF_OBJECT, // 버프주는 오브젝트 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
@@ -176,6 +175,26 @@ public class STAT
             return true;
         }
         return false;
+    }
+
+    public STAT Clone()
+    {
+        STAT newStat = new STAT();
+        newStat.attack = attack;
+        newStat.def = def;
+        newStat.attackSpeed = attackSpeed;
+        newStat.curHP = curHP;
+        newStat.maxHP = maxHP;
+        newStat.OnPropertyChange = OnPropertyChange;
+        newStat.alertRange = alertRange;
+        newStat.range = range;
+        newStat.moveSpeed = moveSpeed;
+        newStat.isStunned = isStunned;
+        newStat.isKnockBack = isKnockBack;
+        newStat.isDead = isDead;
+        newStat.rotSpeed = rotSpeed;
+
+        return newStat;
     }
 
 }

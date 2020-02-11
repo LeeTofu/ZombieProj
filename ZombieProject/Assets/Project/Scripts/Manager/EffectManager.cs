@@ -83,7 +83,7 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.PLAYER, 3);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Enemy_Focus"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ENMETY_FOCUS, 3);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ENMETY_FOCUS, 1);
 
         m_EffectFactory.Initialize(m_UIPrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/TouchEffect"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.TOUCH_EFFECT, 5);
@@ -111,7 +111,7 @@ public class EffectManager : Singleton<EffectManager>
 
         if(_isDestroy)
             effect.SetDestroyTime(_DestroyTime, (int)_particleType);
-
+        effect.m_MovingObject = null;
         effect.transform.localScale = _scale;
         return effect;
     }
@@ -132,6 +132,7 @@ public class EffectManager : Singleton<EffectManager>
         if (_isDestroy)
             effect.SetDestroyTime(_DestroyTime, (int)_particleType);
 
+        effect.m_MovingObject = _object;
         effect.transform.localScale = _scale;
         effect.transform.SetParent(_object.transform);
         effect.transform.localPosition = _offset;

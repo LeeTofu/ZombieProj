@@ -65,22 +65,19 @@ public class InputContoller : UIDragSubject
     public float GetCurrentMouseDragLength()
     {
         Vector3 mousePosition = Vector3.zero;
-#if UNITY_EDITOR
         mousePosition = m_CurMousePosition;
-      //  mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
-#elif UNITY_ANDROID
-        if (Input.touchCount > 0 && m_LastFingerID != -1)
-        {
-            for (int i = 0; i < Input.touches.Length; i++)
-            {
-                if (Input.touches[i].fingerId == m_LastFingerID)
-                {
-                    mousePosition = Input.touches[i].position;
-                    break;
-                }
-            }
-        }
-#endif
+
+        //if (Input.touchCount > 0 && m_LastFingerID != -1)
+        //{
+        //    for (int i = 0; i < Input.touches.Length; i++)
+        //    {
+        //        if (Input.touches[i].fingerId == m_LastFingerID)
+        //        {
+        //            mousePosition = Input.touches[i].position;
+        //            break;
+        //        }
+        //    }
+        //}
 
         float length = Vector3.Magnitude(mousePosition - m_InputControllerPosition);
         return length;
@@ -94,13 +91,18 @@ public class InputContoller : UIDragSubject
         Vector3 mousePosition = UIManager.Instance.m_UICamera.ScreenToWorldPoint(pos);
         return mousePosition;
 #elif UNITY_ANDROID
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && m_LastFingerID != -1) 
         {
             for (int i = 0; i < Input.touches.Length; i++)
             {
                 if (Input.touches[i].fingerId == m_LastFingerID)
                 {
-                    return new Vector3(Input.touches[i].position.x, Input.touches[i].position.y, transform.position.z);
+                     Vector3 pos = Input.touches[i].position;
+                    pos.z = m_canvas.planeDistance;
+                    Vector3 mousePosition = UIManager.Instance.m_UICamera.ScreenToWorldPoint(pos);
+                    return mousePosition;
+
+                    //return new Vector3(Input.touches[i].position.x, Input.touches[i].position.y, transform.position.z);
                 }
             }
         }
@@ -125,7 +127,7 @@ public class InputContoller : UIDragSubject
 
         if (m_Character.CheckForwardWall(_forward, out hitCast, out characterCenter))
         {
-            Debug.DrawRay(hitCast.point, hitCast.normal, Color.white);
+          //  Debug.DrawRay(hitCast.point, hitCast.normal, Color.white);
 
             Vector3 directionToHit = hitCast.point - characterCenter;
 
@@ -133,7 +135,7 @@ public class InputContoller : UIDragSubject
             Vector3 dir = (directionToHit - ProjectionResult);
 
             dir.y = 0;
-            Debug.DrawRay(hitCast.point, dir, Color.yellow);
+          //  Debug.DrawRay(hitCast.point, dir, Color.yellow);
 
             m_MoveVector = dir;
             return true;
@@ -204,11 +206,7 @@ public class InputContoller : UIDragSubject
 #endif
 
         UpdateObserver(BUTTON_ACTION.DRAG_ENTER);
-
-        m_defaultPosition = this.transform.position;
         m_InputControllerPosition = m_defaultPosition;
-
-       // Debug.Log("BeginDrag");
     }
 
     public override void OnEndDrag(PointerEventData eventData)

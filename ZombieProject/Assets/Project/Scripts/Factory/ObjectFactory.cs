@@ -163,6 +163,7 @@ public class ObjectFactory : MonoBehaviour
             return;
         }
 
+
         m_PushMemoryAction?.Invoke(null);
 
         _object.gameObject.transform.SetParent(transform);

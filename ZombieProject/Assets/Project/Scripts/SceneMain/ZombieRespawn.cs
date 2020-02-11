@@ -27,13 +27,13 @@ public class ZombieRespawn : MonoBehaviour
 
     // 현재 웨이브에서 좀비를 다 소환했는지?
     // true면 좀비 리스폰을 다해서 이제 좀비 리스폰을 안하겠다는 뜻.
+    [HideInInspector]
     public bool m_isCompleteRespawn;
 
     // 리스폰 실행중인 코루틴.
     Coroutine m_Coroutine;
 
-    [SerializeField]
-    OBJECT_TYPE m_RespawnType;
+    public OBJECT_TYPE[] m_RespawnArray;
 
     public int CurRespawnCount
     {
@@ -57,14 +57,30 @@ public class ZombieRespawn : MonoBehaviour
         RespawnManager.Instance.InsertPhaseZombie(this);
     }
 
+
+
     // 리스폰을 시작하자
-    public void StartRespawn()
+    public void StartRespawn(int _phase)
     {
         m_CurRespawnCount = 0;
         m_isCompleteRespawn = false;
 
+
+        if(m_RespawnArray.Length - 1 < _phase)
+        {
+            _phase = m_RespawnArray.Length - 1;
+        }
+
         if (m_Coroutine == null)
-        m_Coroutine = StartCoroutine(RespawnStartZombie());
+        {
+            STAT stat = RespawnManager.Instance.GetZombieStat(m_RespawnArray[_phase], _phase);
+            if (stat == null)
+            {
+                Debug.LogError("Stat이 없다 wave : " + _phase);
+                return;
+            }
+            m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase], stat));
+        }
     }
 
 
@@ -78,21 +94,25 @@ public class ZombieRespawn : MonoBehaviour
     }
 
     // 좀비를 리스폰하자.
-    private void RespawnZombie()
+    private void RespawnZombie(OBJECT_TYPE _obj, STAT _stat)
     {
-        EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, m_RespawnType);
-        RespawnManager.Instance.m_CurRespawnZombieCount++;
+        if (_stat == null) return;
+
+        EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, _obj, _stat);
+        RespawnManager.Instance.m_CurZombieCount++;
         m_CurRespawnCount++;
     }
 
     // 리스폰을 코루틴 돌려 활성화하자.
-    IEnumerator RespawnStartZombie()
+    IEnumerator RespawnStartZombie(OBJECT_TYPE _type, STAT _stat)
     {
+        if (_stat == null) yield break;
+
         yield return new WaitForSeconds(m_ZombieRespawnStartTime);
 
         while (m_CurRespawnCount < m_ZombieMaxRespawnCount)
         {
-            RespawnZombie();
+            RespawnZombie(_type, _stat.Clone());
 
             if (m_CurRespawnCount >= m_ZombieMaxRespawnCount)
             {

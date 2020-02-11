@@ -295,15 +295,14 @@ public class PlayerManager : Singleton<PlayerManager>
         ItemStat itemStat = m_CurrentEquipedItemObject.m_Item.m_ItemStat;
         MovingObject newTargetZombie = EnemyManager.Instance.GetNearestZombie(m_Player.transform.position, itemStat.m_Range - 0.1f);
 
-        if (newTargetZombie != null)
+        if (newTargetZombie != null )
         {
             if (CheckCanAttack(newTargetZombie.transform.position))
             {
-                if (newTargetZombie != m_TargetingZombie || m_TargetingZombie == null)
-                {
+
                     PushEffectToPool();
                     m_CurTargtingEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ENMETY_FOCUS, newTargetZombie, Vector3.up * 0.2f, Quaternion.Euler(90, 0, 0), Vector3.one);
-                }
+                
 
                 m_TargetingZombie = newTargetZombie;
 
@@ -336,8 +335,9 @@ public class PlayerManager : Singleton<PlayerManager>
 
     void PushEffectToPool()
     {
-        if (m_CurTargtingEffect != null && m_CurTargtingEffect.gameObject.activeSelf)
+        if (m_CurTargtingEffect != null )
         {
+            Debug.Log("넣는다");
             m_CurTargtingEffect.pushToMemory(m_CurTargtingEffect.m_EffectTypeID);
             m_CurTargtingEffect = null;
         }

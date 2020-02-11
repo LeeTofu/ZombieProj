@@ -6,9 +6,6 @@ using System.Xml;
 
 public class EnemyManager : Singleton<EnemyManager>
 {
-    private Dictionary<int, STAT> m_NormalZombieStatTable = new Dictionary<int, STAT>();
-    private Dictionary<int, STAT> m_NamedZombieStatTable = new Dictionary<int, STAT>();
-    private Dictionary<int, STAT> m_BossZombieStatTable = new Dictionary<int, STAT>();
 
     private ObjectFactory m_ZombieFactory;
 
@@ -121,13 +118,15 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieAttackObject = _object;
     }
 
-    public void CreateZombie(Vector3 _pos, Quaternion _quat, OBJECT_TYPE _ZombieType)
+    public void CreateZombie(Vector3 _pos, Quaternion _quat, OBJECT_TYPE _ZombieType, STAT _stat)
     {
-        if(m_ZombieFactory )
+        if (m_ZombieFactory)
         {
-           m_ZombieFactory.PopObject(_pos, _quat, (int)_ZombieType);
+            MovingObject zombie = m_ZombieFactory.PopObject(_pos, _quat, (int)_ZombieType);
+            zombie.SetStat(_stat);
         }
     }
+
 
     // 좀비리스트에 있는 모든 좀비를 메모리에 집어넣습니다.
     public void AllZombiePushToMemory()
@@ -161,6 +160,15 @@ public class EnemyManager : Singleton<EnemyManager>
 
             m_ZombieFactory.Initialize("Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
             m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 30);
+
+            m_ZombieFactory.Initialize("Prefabs/Zombies/RangeZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.RANGE_ZOMBIE, 30);
+
+            m_ZombieFactory.Initialize("Prefabs/Zombies/DashZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.DASH_ZOMBIE, 30);
+
+          //  m_ZombieFactory.Initialize("Prefabs/Zombies/BombZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
+          //  m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.BOMB_ZOMBIE, 30);
         }
 
         m_ZombieFactory.m_PushMemoryAction =

@@ -7,6 +7,8 @@ public class EffectObject : MovingObject
     ParticleSystem m_ParticleSystem;
     Coroutine m_Coroutine;
 
+    public MovingObject m_MovingObject;
+
     public int m_EffectTypeID { private set; get; }
 
     public override void InGame_Initialize()
@@ -16,6 +18,7 @@ public class EffectObject : MovingObject
             m_ParticleSystem.Play();
         }
     }
+
 
     public override void Initialize(GameObject _model, MoveController _Controller)
     {

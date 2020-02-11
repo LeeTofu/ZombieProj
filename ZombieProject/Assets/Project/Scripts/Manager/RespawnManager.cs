@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class RespawnManager : Singleton<RespawnManager>
 {
-    public readonly int m_EndPhase = 10;
+    public readonly int m_EndPhase = 25;
 
     // 좀비 각 페이즈마다 리스폰할 
     List<ZombieRespawn> m_ListZombiePhase = new List<ZombieRespawn>();
 
-   // Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
-    public int m_CurRespawnZombieCount { set; get; }
+    Dictionary<int, Dictionary<OBJECT_TYPE, STAT>> m_DicZombieStat = new Dictionary<int, Dictionary<OBJECT_TYPE, STAT>>();
+
+    Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
+    public int m_CurZombieCount { set; get; }
     public int m_CurWave { private set; get; }
 
     // 게임에서 패배했는가.
@@ -31,6 +33,63 @@ public class RespawnManager : Singleton<RespawnManager>
         m_isRest = true;
         m_CurWave = 0;
 
+        for(int i = 0; i < m_EndPhase; i++)
+        {
+            Dictionary<OBJECT_TYPE, STAT> dic = new Dictionary<OBJECT_TYPE, STAT>();
+
+            for (OBJECT_TYPE type = OBJECT_TYPE.ZOMBIE; type != OBJECT_TYPE.BULLET; type++)
+            {
+                switch(type)
+                {
+                    case OBJECT_TYPE.ZOMBIE:
+                        dic.Add(type, new STAT
+                        {
+                            Attack = 10.0f + i,
+                            MaxHP = 100 + i * 5,
+                            Range = 1.5f,
+                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            alertRange = 100.0f,
+                            isKnockBack = false,
+                        }); ;
+                        break;
+                    case OBJECT_TYPE.RANGE_ZOMBIE:
+                        dic.Add(type, new STAT
+                        {
+                            Attack = 10.0f + i,
+                            MaxHP = 100 + i * 5,
+                            Range = 5.5f,
+                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            alertRange = 100.0f,
+                            isKnockBack = false,
+                        });
+                        break;
+                    case OBJECT_TYPE.DASH_ZOMBIE:
+                        dic.Add(type, new STAT
+                        {
+                            Attack = 10.0f + i,
+                            MaxHP = 100 + i * 5,
+                            Range = 1.5f,
+                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            alertRange = 100.0f,
+                            isKnockBack = false,
+                        });
+                        break;
+                    case OBJECT_TYPE.BOMB_ZOMBIE:
+                        dic.Add(type, new STAT
+                        {
+                            Attack = 10.0f + i,
+                            MaxHP = 100 + i * 5,
+                            Range = 1.5f,
+                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            alertRange = 100.0f,
+                            isKnockBack = false,
+                        });
+                        break;
+                }
+            }
+
+            m_DicZombieStat.Add(i, dic);
+        }
         return true;
     }
 
@@ -93,7 +152,7 @@ public class RespawnManager : Singleton<RespawnManager>
         {
             foreach (ZombieRespawn respawn in m_ListZombiePhase)
             {
-                respawn.StartRespawn();
+                respawn.StartRespawn(_phase);
             }
         }
     }
@@ -135,16 +194,40 @@ public class RespawnManager : Singleton<RespawnManager>
     // Zombie를 오브젝트 풀에 넣을때 실행되는 함수입니다.
     public void PushToPoolZombieAction()
     {
-        m_CurRespawnZombieCount--;
+        m_CurZombieCount--;
 
-        if (m_CurRespawnZombieCount < 0)
+        if (m_CurZombieCount < 0)
         {
-            m_CurRespawnZombieCount = 0;
+            m_CurZombieCount = 0;
         }
 
-        if(m_CurRespawnZombieCount == 0)
+        if(m_CurZombieCount == 0)
             WaveChangeFunction();
     }
+
+    public STAT GetZombieStat(OBJECT_TYPE _type, int _phase)
+    {
+        STAT stat = null;
+        Dictionary<OBJECT_TYPE, STAT> dic;
+        if(m_DicZombieStat.TryGetValue(_phase, out dic))
+        {
+            if (dic == null) return null;
+
+            if(dic.TryGetValue(_type, out stat))
+            {
+                return stat;
+            }
+        }
+        else
+        {
+            Debug.LogError("그런 Phase의 Dic은 없는데?" + _phase + " " + _type);
+        }
+
+
+
+        return null;
+    }
+
 
     IEnumerator WaveChange_C(float _changeTime)
     {
@@ -202,7 +285,7 @@ public class RespawnManager : Singleton<RespawnManager>
               }
           }
 
-        if (m_CurRespawnZombieCount == 0)
+        if (m_CurZombieCount == 0)
               return true;
         return false;
     }

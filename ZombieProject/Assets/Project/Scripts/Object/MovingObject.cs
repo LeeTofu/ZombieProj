@@ -13,6 +13,8 @@ public enum OBJECT_TYPE
     PLAYER_OBJECT, // 플레이어가 설치한 오브적트
 
     ZOMBIE, // 좀비
+    DASH_ZOMBIE,
+    RANGE_ZOMBIE,
     ELITE_ZOMBIE, // 네임드 좀비
     BOSS_ZOMBIE, // 보스 좀비
     ZOMBIE_OBJECT, // 좀비들 오브젝트
@@ -33,6 +35,7 @@ public enum ZOMBIE_STATE
     PATHFIND,
     DEAD,
     KNOCK_BACK,
+    STUN,
     NONE,
 }
 
@@ -56,6 +59,8 @@ public class STAT
     public bool isDead { get; private set; }
 
     public bool isKnockBack = false;
+
+    public bool isStunned = false;
 
     System.Action OnPropertyChange;
 

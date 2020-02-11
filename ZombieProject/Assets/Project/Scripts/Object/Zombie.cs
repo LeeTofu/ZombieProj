@@ -32,7 +32,7 @@ public class Zombie : MovingObject
         if(_Model != null) m_Model = _Model;
 
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
-        // Test //
+        // Test // -> 태그별로 각자 다르게 만들것
         m_zombieState = ZOMBIE_STATE.IDLE;
         m_Stat = new STAT
         {

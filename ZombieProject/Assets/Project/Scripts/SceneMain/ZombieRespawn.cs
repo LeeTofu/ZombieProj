@@ -71,10 +71,22 @@ public class ZombieRespawn : MonoBehaviour
             _phase = m_RespawnArray.Length - 1;
         }
 
-        if (m_Coroutine == null)
+        if (m_RespawnArray[_phase] == OBJECT_TYPE.NONE)
         {
-            m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase]));
+            StopRespawn();
+            return;
         }
+
+        STAT stat = RespawnManager.Instance.GetZombieStat(m_RespawnArray[_phase], _phase);
+
+        if (stat != null)
+        {
+            if (m_Coroutine == null)
+            {
+                m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase], stat));
+            }
+        }
+
     }
 
 
@@ -88,35 +100,35 @@ public class ZombieRespawn : MonoBehaviour
     }
 
     // 좀비를 리스폰하자.
-    private void RespawnZombie(OBJECT_TYPE _obj)
+    private void RespawnZombie(OBJECT_TYPE _obj, STAT _stat)
     {
         MovingObject zombie = EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, _obj);
 
         if (zombie != null)
         {
-            STAT stat = RespawnManager.Instance.GetZombieStat(_obj, RespawnManager.Instance.m_CurWave);
+            zombie.SetStat(_stat.Clone());
             
-            if(stat != null)
-                zombie.SetStat(stat.Clone());
-            else
-            {
-                Debug.LogError("설정하신 스탯이 없다");
-                return;
-            }
-
             RespawnManager.Instance.m_CurZombieCount++;
             m_CurRespawnCount++;
         }
     }
 
     // 리스폰을 코루틴 돌려 활성화하자.
-    IEnumerator RespawnStartZombie(OBJECT_TYPE _type)
+    IEnumerator RespawnStartZombie(OBJECT_TYPE _type, STAT _stat)
     {
         yield return new WaitForSeconds(m_ZombieRespawnStartTime);
 
         while (m_CurRespawnCount < m_ZombieMaxRespawnCount)
         {
-            RespawnZombie(_type);
+            if (_stat != null)
+            {
+                RespawnZombie(_type, _stat);
+            }
+            else
+            {
+                Debug.LogError("Stat이 없다 : " + _type );
+                yield break;
+            }
 
             if (m_CurRespawnCount >= m_ZombieMaxRespawnCount)
             {

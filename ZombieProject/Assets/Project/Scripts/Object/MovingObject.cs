@@ -20,7 +20,9 @@ public enum OBJECT_TYPE
 
     BULLET, // (불릿)
     BUFF_OBJECT, // 버프주는 오브젝트 ( 체력 회복, 아드레날린, 버프 걸어주는 떨어진 아이템 등등)
-    EFFECT // 이펙트
+    EFFECT, // 이펙트
+
+    NONE
 }
 
 public enum ZOMBIE_STATE

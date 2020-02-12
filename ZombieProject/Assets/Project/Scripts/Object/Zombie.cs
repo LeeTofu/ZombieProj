@@ -81,14 +81,6 @@ public class Zombie : MovingObject
         switch(_type)
         {
             case OBJECT_TYPE.ZOMBIE:
-                m_Stat = new STAT
-                {
-                    MaxHP = 100,
-                    Range = 1.5f,
-                    MoveSpeed = Random.Range(0.55f, 0.75f),
-                    alertRange = 100.0f,
-                    isKnockBack = false,
-                };
                 m_zombieBehavior = new NormalZombieBT();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;
@@ -98,14 +90,6 @@ public class Zombie : MovingObject
                     m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
                 break;
             case OBJECT_TYPE.RANGE_ZOMBIE:
-                m_Stat = new STAT
-                {
-                    MaxHP = 100,
-                    Range = 7f,
-                    MoveSpeed = Random.Range(0.55f, 0.75f),
-                    alertRange = 100.0f,
-                    isKnockBack = false,
-                };
                 m_zombieBehavior = new RangeZombieBT();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;
@@ -115,14 +99,6 @@ public class Zombie : MovingObject
                     m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
                 break;
             case OBJECT_TYPE.DASH_ZOMBIE:
-                m_Stat = new STAT
-                {
-                    MaxHP = 100,
-                    Range = 8f,
-                    MoveSpeed = Random.Range(0.55f, 0.75f),
-                    alertRange = 100.0f,
-                    isKnockBack = false,
-                };
                 m_zombieBehavior = new DashZombieBT();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;
@@ -132,14 +108,6 @@ public class Zombie : MovingObject
                     m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
                 break;
             case OBJECT_TYPE.BOMB_ZOMBIE:
-                m_Stat = new STAT
-                {
-                    MaxHP = 10,
-                    Range = 5f,
-                    MoveSpeed = Random.Range(0.55f, 0.75f),
-                    alertRange = 100.0f,
-                    isKnockBack = false,
-                };
                 m_zombieBehavior = new BombZombieBT();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;

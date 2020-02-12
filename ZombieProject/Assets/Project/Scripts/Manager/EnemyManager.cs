@@ -118,13 +118,14 @@ public class EnemyManager : Singleton<EnemyManager>
         m_ZombieAttackObject = _object;
     }
 
-    public void CreateZombie(Vector3 _pos, Quaternion _quat, OBJECT_TYPE _ZombieType, STAT _stat)
+    public MovingObject CreateZombie(Vector3 _pos, Quaternion _quat, OBJECT_TYPE _ZombieType)
     {
         if (m_ZombieFactory)
         {
-            MovingObject zombie = m_ZombieFactory.PopObject(_pos, _quat, (int)_ZombieType);
-            zombie.SetStat(_stat);
+            return m_ZombieFactory.PopObject(_pos, _quat, (int)_ZombieType);
         }
+
+        return null;
     }
 
 

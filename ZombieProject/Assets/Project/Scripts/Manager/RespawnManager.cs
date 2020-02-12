@@ -33,13 +33,13 @@ public class RespawnManager : Singleton<RespawnManager>
         m_isRest = true;
         m_CurWave = 0;
 
-        for(int i = 0; i < m_EndPhase; i++)
+        for (int i = 0; i < m_EndPhase; i++)
         {
             Dictionary<OBJECT_TYPE, STAT> dic = new Dictionary<OBJECT_TYPE, STAT>();
 
             for (OBJECT_TYPE type = OBJECT_TYPE.ZOMBIE; type != OBJECT_TYPE.BULLET; type++)
             {
-                switch(type)
+                switch (type)
                 {
                     case OBJECT_TYPE.ZOMBIE:
                         dic.Add(type, new STAT
@@ -57,7 +57,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
-                            Range = 5.5f,
+                            Range = 7.0f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
                             isKnockBack = false,
@@ -68,7 +68,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
-                            Range = 1.5f,
+                            Range = 8.0f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
                             isKnockBack = false,

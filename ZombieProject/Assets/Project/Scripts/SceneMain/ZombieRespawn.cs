@@ -73,13 +73,7 @@ public class ZombieRespawn : MonoBehaviour
 
         if (m_Coroutine == null)
         {
-            STAT stat = RespawnManager.Instance.GetZombieStat(m_RespawnArray[_phase], _phase);
-            if (stat == null)
-            {
-                Debug.LogError("Stat이 없다 wave : " + _phase);
-                return;
-            }
-            m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase], stat));
+            m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase]));
         }
     }
 
@@ -94,25 +88,35 @@ public class ZombieRespawn : MonoBehaviour
     }
 
     // 좀비를 리스폰하자.
-    private void RespawnZombie(OBJECT_TYPE _obj, STAT _stat)
+    private void RespawnZombie(OBJECT_TYPE _obj)
     {
-        if (_stat == null) return;
+        MovingObject zombie = EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, _obj);
 
-        EnemyManager.Instance.CreateZombie(transform.position, transform.rotation, _obj, _stat);
-        RespawnManager.Instance.m_CurZombieCount++;
-        m_CurRespawnCount++;
+        if (zombie != null)
+        {
+            STAT stat = RespawnManager.Instance.GetZombieStat(_obj, RespawnManager.Instance.m_CurWave);
+            
+            if(stat != null)
+                zombie.SetStat(stat.Clone());
+            else
+            {
+                Debug.LogError("설정하신 스탯이 없다");
+                return;
+            }
+
+            RespawnManager.Instance.m_CurZombieCount++;
+            m_CurRespawnCount++;
+        }
     }
 
     // 리스폰을 코루틴 돌려 활성화하자.
-    IEnumerator RespawnStartZombie(OBJECT_TYPE _type, STAT _stat)
+    IEnumerator RespawnStartZombie(OBJECT_TYPE _type)
     {
-        if (_stat == null) yield break;
-
         yield return new WaitForSeconds(m_ZombieRespawnStartTime);
 
         while (m_CurRespawnCount < m_ZombieMaxRespawnCount)
         {
-            RespawnZombie(_type, _stat.Clone());
+            RespawnZombie(_type);
 
             if (m_CurRespawnCount >= m_ZombieMaxRespawnCount)
             {

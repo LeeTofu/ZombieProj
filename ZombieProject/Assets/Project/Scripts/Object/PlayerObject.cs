@@ -17,22 +17,9 @@ public class PlayerObject : MovingObject
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
-        m_HpImage.fillAmount = 1f;
-        m_HpUi.enabled = true;
-        SetStat(new STAT
-        {
-            MaxHP = 100f,
-            CurHP = 100f,
-            Defend = 100f,
-            MoveSpeed = 3.0f
-        });
-        m_Stat.AddPropertyChangeAction(() =>
-        {
-            if (m_Stat.CheckIsDead())
-                DeadAction();
-
-            HpChange();
-        });
+        m_Stat.isKnockBack = false;
+        m_Stat.CurHP = m_Stat.MaxHP;
+        m_HpBarUI.InGame_Initialize();
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
             if (m_StateController == null)
@@ -56,9 +43,7 @@ public class PlayerObject : MovingObject
         m_TypeKey = _typeKey;
 
         if (_Model != null) m_Model = _Model;
-        m_HpUi = transform.Find("HPUI").GetComponent<Canvas>();
-        m_HpBar = transform.Find("HPUI").GetChild(0).GetComponent<Image>();
-        m_HpImage = transform.Find("HPUI").GetChild(0).GetChild(0).GetComponent<Image>();
+        if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null)
         {
             m_Animator = gameObject.GetComponentInChildren<Animator>();
@@ -77,6 +62,11 @@ public class PlayerObject : MovingObject
             CurHP = 100f,
             Defend = 100f,
             MoveSpeed = 3.0f
+        });
+        m_Stat.AddPropertyChangeAction(() =>
+        {
+            if (m_Stat.CheckIsDead())
+                DeadAction();
         });
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
@@ -108,9 +98,6 @@ public class PlayerObject : MovingObject
     }
     private void Update()
     {
-        m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(transform.position);
-        m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, m_HpBar.transform.position.z);
-
         if(Input.GetKeyDown(KeyCode.Backspace) && !PlayerManager.Instance.m_Player.m_Stat.isKnockBack && !PlayerManager.Instance.m_Player.m_Stat.isDead)
         {
            // EffectManager.Instance.AttachEffect(PARTICLE_TYPE.DROP_ITEM, this, Quaternion.Euler(-90.0f, 0, 0),

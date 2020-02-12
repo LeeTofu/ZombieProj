@@ -257,14 +257,10 @@ public abstract class MovingObject : MonoBehaviour
     // 어그 끌리는 오브젝트
     public MovingObject m_TargetingObject { private set; get; }
 
-    protected Canvas m_HpUi;
-    protected Image m_HpImage;
-    protected Image m_HpBar;
-    protected Vector3 m_ScreenPos;
-    protected float m_Height;
-
     //좀비들 길찾기용 NavMeshAgent
     public NavMeshAgent m_NavAgent;
+
+    public HpBarUI m_HpBarUI;
 
     public virtual void SetStat(STAT _stat)
     {
@@ -467,7 +463,6 @@ public abstract class MovingObject : MonoBehaviour
 
         if(m_Stat.isDead)
         {
-            m_HpUi.enabled = false;
             m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
@@ -529,8 +524,9 @@ public abstract class MovingObject : MonoBehaviour
         yield return new WaitForSeconds(_time);
         m_Stat.isKnockBack = false;
     }
-    public void HpChange()
+
+    public GameObject GetModel()
     {
-        m_HpImage.fillAmount = m_Stat.CurHP / m_Stat.MaxHP;
+        return m_Model;
     }
 }

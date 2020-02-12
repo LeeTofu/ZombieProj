@@ -25,25 +25,9 @@ public class Zombie : MovingObject
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
         // Test // -> 태그별로 각자 다르게 만들것
+
         m_zombieState = ZOMBIE_STATE.IDLE;
-        m_Stat = new STAT
-        {
-            MaxHP = 100,
-            Range = 1.5f,
-            MoveSpeed = Random.Range(0.55f,0.75f),
-            alertRange = 100.0f,
-            isKnockBack = false,
-        };
-
-        //이부분은 자기 TYPE받아서 바꾸게 만들어야함
-        m_zombieBehavior = new NormalZombieBT();
-        m_zombieBehavior.Initialize(this);
-
-        m_DeadActionCallBackFunc = DeadActionCallback;
-        m_KnockBackAction = (time) => { KnockBackAction(time); };
-
-        if (m_CollisionAction == null)
-            m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+        InitByZombieType(this.m_Type);
 
         //if (m_NavAgent == null)
         //{
@@ -53,7 +37,6 @@ public class Zombie : MovingObject
         //    m_NavAgent.speed = m_Stat.MoveSpeed;
         //    m_NavAgent.acceleration = 0.6f;
         //}
-
     }
 
     private void KnockBackAction(float _time)
@@ -83,8 +66,8 @@ public class Zombie : MovingObject
                 StopCoroutine(m_KnockBackCoroutine);
             }
 
-          //  if(m_Type == OBJECT_TYPE.ZOMBIE)
-          //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+            //  if(m_Type == OBJECT_TYPE.ZOMBIE)
+            //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
 
             PlayerManager.Instance.CurrentMoney += 10;
 
@@ -93,13 +76,90 @@ public class Zombie : MovingObject
         }
     }
 
+    private void InitByZombieType(OBJECT_TYPE _type)
+    {
+        switch(_type)
+        {
+            case OBJECT_TYPE.ZOMBIE:
+                m_Stat = new STAT
+                {
+                    MaxHP = 100,
+                    Range = 1.5f,
+                    MoveSpeed = Random.Range(0.55f, 0.75f),
+                    alertRange = 100.0f,
+                    isKnockBack = false,
+                };
+                m_zombieBehavior = new NormalZombieBT();
+
+                m_DeadActionCallBackFunc = DeadActionCallback;
+                m_KnockBackAction = (time) => { KnockBackAction(time); };
+
+                if (m_CollisionAction == null)
+                    m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+                break;
+            case OBJECT_TYPE.RANGE_ZOMBIE:
+                m_Stat = new STAT
+                {
+                    MaxHP = 100,
+                    Range = 7f,
+                    MoveSpeed = Random.Range(0.55f, 0.75f),
+                    alertRange = 100.0f,
+                    isKnockBack = false,
+                };
+                m_zombieBehavior = new RangeZombieBT();
+
+                m_DeadActionCallBackFunc = DeadActionCallback;
+                m_KnockBackAction = (time) => { KnockBackAction(time); };
+
+                if (m_CollisionAction == null)
+                    m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+                break;
+            case OBJECT_TYPE.DASH_ZOMBIE:
+                m_Stat = new STAT
+                {
+                    MaxHP = 100,
+                    Range = 8f,
+                    MoveSpeed = Random.Range(0.55f, 0.75f),
+                    alertRange = 100.0f,
+                    isKnockBack = false,
+                };
+                m_zombieBehavior = new DashZombieBT();
+
+                m_DeadActionCallBackFunc = DeadActionCallback;
+                m_KnockBackAction = (time) => { KnockBackAction(time); };
+
+                if (m_CollisionAction == null)
+                    m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+                break;
+            case OBJECT_TYPE.BOMB_ZOMBIE:
+                m_Stat = new STAT
+                {
+                    MaxHP = 10,
+                    Range = 5f,
+                    MoveSpeed = Random.Range(0.55f, 0.75f),
+                    alertRange = 100.0f,
+                    isKnockBack = false,
+                };
+                m_zombieBehavior = new BombZombieBT();
+
+                m_DeadActionCallBackFunc = DeadActionCallback;
+                m_KnockBackAction = (time) => { KnockBackAction(time); };
+
+                if (m_CollisionAction == null)
+                    m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+                break;
+            default:
+                break;
+        }
+
+        m_zombieBehavior.Initialize(this);
+    }
+
     private void Update()
     {
         if (!gameObject.activeSelf) return;
         if (m_zombieBehavior == null) return;
-        //플레이어와의 거리가 일정거리가 될때까지 navagent이용해서 찾아감
 
-        //플레이어가 일정거리 이내 있을때 BT실행
         m_zombieBehavior.Tick();
     }
 }

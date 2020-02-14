@@ -24,7 +24,7 @@ public class ZombieRangeAttackAction : ActionNode
 
         RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
         for (int i = 0; i < ac.animationClips.Length; i++)
-            if (ac.animationClips[i].name == "Zombie_Atk_Arms_3_Loop_IPC")
+            if (ac.animationClips[i].name == "Zombie_Atk_Arms_4A_SHORT_Loop_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
     }
 

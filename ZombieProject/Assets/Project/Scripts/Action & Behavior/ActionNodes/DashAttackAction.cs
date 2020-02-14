@@ -5,7 +5,7 @@ public class ZombieDashAttackCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
-        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range)
+        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range && !m_Character.m_Stat.isStunned)
         {
             //   Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;

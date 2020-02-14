@@ -10,7 +10,7 @@ public class ZombiePathFindCondition : DecoratorNode
         //생성 이후부터 플레이어와의 거리가 주어진 값 이내가 될 때까지 쫓아감
         float distance = GetAttackObjectDistance();
 
-        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range || m_Character.m_zombieState != ZOMBIE_STATE.PATHFIND)
+        if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range || m_Character.m_zombieState != ZOMBIE_STATE.PATHFIND && !m_Character.m_Stat.isStunned)
         {
             MovingObject mobject = GetAttackObject();
 

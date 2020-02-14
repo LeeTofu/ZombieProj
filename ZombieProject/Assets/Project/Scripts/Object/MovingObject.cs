@@ -264,6 +264,8 @@ public abstract class MovingObject : MonoBehaviour
 
     public HpBarUI m_HpBarUI;
 
+    public BuffRimLight m_BuffRimLight;
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;

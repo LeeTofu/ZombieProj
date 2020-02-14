@@ -43,6 +43,11 @@ public class PlayerObject : MovingObject
         m_TypeKey = _typeKey;
 
         if (_Model != null) m_Model = _Model;
+        if (m_BuffRimLight == null)
+        {
+            m_BuffRimLight = GetComponent<BuffRimLight>();
+            m_BuffRimLight.Initialize(_Model);
+        }
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null)
         {

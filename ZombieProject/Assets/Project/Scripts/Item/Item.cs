@@ -139,4 +139,9 @@ public class Item
         m_Count += _accum;
     }
 
+    public void FullChargeItemCount()
+    {
+        m_Count = m_ItemStat.m_Count;
+    }
+
 }

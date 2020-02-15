@@ -37,7 +37,7 @@ public class UIManager : Singleton<UIManager>
 
         m_Particle.transform.position = Pos;
 
-        Debug.Log(Pos);
+    //    Debug.Log(Pos);
 
     }
 

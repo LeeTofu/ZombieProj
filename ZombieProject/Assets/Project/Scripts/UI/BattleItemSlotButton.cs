@@ -42,6 +42,7 @@ public class BattleItemSlotButton : UIPressSubject
        
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
         m_ItemIcon.color = Color.white;
+        m_Item.FullChargeItemCount();
 
         m_StackCountText.text = _item.m_Count.ToString();
 

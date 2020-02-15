@@ -5,19 +5,19 @@ public class ZombieRangeAttackCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
-        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range)
+        if (GetAttackObjectDistance() <= m_Character.m_Stat.Range && !m_Character.m_Stat.isStunned)
         {
-            //   Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
         }
 
-        //  Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
 }
 
 public class ZombieRangeAttackAction : ActionNode
 {
+    bool m_isAttacked;
+
     public override void Initialize(MovingObject _character)
     {
         m_Character = _character;
@@ -26,6 +26,8 @@ public class ZombieRangeAttackAction : ActionNode
         for (int i = 0; i < ac.animationClips.Length; i++)
             if (ac.animationClips[i].name == "Zombie_Atk_Arms_4A_SHORT_Loop_IPC")
                 m_totalActionTime = ac.animationClips[i].length;
+
+        m_isAttacked = false;
     }
 
     public override NODE_STATE Tick()
@@ -34,11 +36,9 @@ public class ZombieRangeAttackAction : ActionNode
 
         if (m_Character.m_zombieState != ZOMBIE_STATE.ATTACK)
         {
-            m_Character.m_Animator.CrossFade("Attack", 0.1f);
-            //m_Character.m_Animator.CrossFadeInFixedTime("Attack", 0.1f);
-            //m_Character.m_Animator.Play("Attack");
+            m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed);
+            m_Character.m_Animator.CrossFade("RangeAttack", 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
-            // Debug.Log("AttackStart");
             return NODE_STATE.RUNNING;
         }
         else
@@ -49,35 +49,22 @@ public class ZombieRangeAttackAction : ActionNode
             m_Character.gameObject.transform.LookAt(mobject.transform.position, Vector3.up);
             if (m_nowActionTime < m_totalActionTime)
             {
-                // Debug.Log("Attacking");
+                if(m_nowActionTime / m_totalActionTime > 0.39)
+                {
+                    if(!m_isAttacked)
+                    {
+                        //발싸함수
+                        m_isAttacked = true;
+                    }
+
+                }
                 return NODE_STATE.RUNNING;
             }
         }
-        /*
-        if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
-            m_Character.m_Animator.CrossFade("Attack", 0.3f);
-            //m_Character.m_Animator.CrossFadeInFixedTime("Attack", 0.1f);
-            //m_Character.m_Animator.Play("Attack");
-            Debug.Log("AttackStart");
-            return NODE_STATE.RUNNING;
-        }
-        else
-        {
-            m_nowActionTime += Time.deltaTime;
-            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
-            if (m_nowActionTime < m_totalActionTime)
-            {
-                Debug.Log("Attacking");
-                return NODE_STATE.RUNNING;
-            }
-        }
-        */
 
-
+        m_isAttacked = false;
         m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
-        //  Debug.Log("Attack out");
         return NODE_STATE.FAIL;
     }
 }

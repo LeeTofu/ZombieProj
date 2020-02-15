@@ -7,11 +7,9 @@ public class ZombieDashAttackCondition : DecoratorNode
     {
         if (GetAttackObjectDistance() <= m_Character.m_Stat.Range && !m_Character.m_Stat.isStunned)
         {
-            //   Debug.Log("AttackCondSuccess");
             return NODE_STATE.SUCCESS;
         }
 
-        //  Debug.Log("AttackCondFail");
         return NODE_STATE.FAIL;
     }
 }
@@ -38,8 +36,8 @@ public class ZombieDashAttackAction : ActionNode
             m_targetPos = GetAttackObject().transform.position;
             m_Character.gameObject.transform.LookAt(m_targetPos, Vector3.up);
 
+            //m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed);
             m_Character.m_Animator.CrossFade("DashAttack", 0.1f);
-            //m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed * 1.5f); // -> 수치조정해야함
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
             return NODE_STATE.RUNNING;
         }

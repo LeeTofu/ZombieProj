@@ -22,6 +22,7 @@ public enum UI_SOUND
    FAIL_MISSON,
    INCHANT_SUCCESS,
    INCHANT_FAIL,
+    TOUCH_EFFECT,
 
    INSTALL_BOMB,
    WEAPON_CHANGE,
@@ -41,6 +42,7 @@ public class SoundManager : Singleton<SoundManager>
     public override bool Initialize()
     {
         m_Audio = gameObject.AddComponent<AudioSource>();
+        m_Audio.volume = 1.0f;
         AudioClip[] BGMAudioArray = Resources.LoadAll<AudioClip>("Sound/BGM");
         AudioClip[] UIAudioArray = Resources.LoadAll<AudioClip>("Sound/UI_Sound");
 

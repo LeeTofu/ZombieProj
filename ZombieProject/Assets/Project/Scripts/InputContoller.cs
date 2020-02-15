@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class InputContoller : UIDragSubject
 {
+   
 
     Touch m_CurrnetTouch;
     Dictionary<int, Touch> m_TouchhTable = new Dictionary<int, Touch>();
@@ -28,6 +29,8 @@ public class InputContoller : UIDragSubject
     // 입력 컨트롤러 배경 반지름.
     static float s_ControllerBGRadius = 30.0f;
 
+    float m_ControllerBGRadiusDivision;
+
     int m_LastFingerID = -1;
 
 
@@ -37,11 +40,16 @@ public class InputContoller : UIDragSubject
     // 현재 캐릭터 이동할 벡터
     public Vector3 m_MoveVector { private set; get; }
 
+    bool m_init = false;
+
     IEnumerator Start()
     {
-        m_touchCount = 0;
-        m_defaultPosition = transform.position;
+        if (m_init) yield break;
 
+        m_touchCount = 0;
+
+        m_defaultPosition = transform.position;
+        m_ControllerBGRadiusDivision = 1.0f / s_ControllerBGRadius;
         this.enabled = false;
         m_canvas = gameObject.GetComponentInParent<Canvas>();
         m_gr = m_canvas.GetComponent<GraphicRaycaster>();
@@ -54,11 +62,13 @@ public class InputContoller : UIDragSubject
             this.enabled = true;
             yield return null;
         }
+
+        m_init = true;
     }
 
     void Update()
     {
-        m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) / s_ControllerBGRadius;
+        m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) * m_ControllerBGRadiusDivision;
 
     }
 
@@ -108,8 +118,6 @@ public class InputContoller : UIDragSubject
         }
         return Vector3.zero;
 #endif
-
-
     }
 
     public Vector3 GetDirectionVec3()
@@ -180,8 +188,6 @@ public class InputContoller : UIDragSubject
         }
     }
 
-
-
     public override void OnBeginDrag(PointerEventData eventData)
     {
         if (m_Character == null) return;
@@ -212,7 +218,7 @@ public class InputContoller : UIDragSubject
     public override void OnEndDrag(PointerEventData eventData)
     {
         if (m_Character == null) return;
-        if (m_Character.m_Stat.isDead) return;
+    //    if (m_Character.m_Stat.isDead) return;
 
         UpdateObserver(BUTTON_ACTION.DRAG_EXIT);
 
@@ -248,7 +254,5 @@ public class InputContoller : UIDragSubject
         UpdateObserver(BUTTON_ACTION.DRAG);
      //   Debug.Log("OnDrag");
     }
-
-
 
 }

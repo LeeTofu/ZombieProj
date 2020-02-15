@@ -98,6 +98,7 @@ public class RespawnManager : Singleton<RespawnManager>
         m_isGameOver = false;
         m_isGameClear = false;
         m_isRest = true;
+
         GameClear();
     }
 
@@ -236,6 +237,9 @@ public class RespawnManager : Singleton<RespawnManager>
         {
             BattleUI ui = (UIManager.Instance.m_CurrentUI as BattleUI);
             if (ui == null) yield break;
+            if (PlayerManager.Instance.m_Player == null) yield break;
+            if (PlayerManager.Instance.m_Player.m_Stat == null) yield break;
+            if (PlayerManager.Instance.m_Player.m_Stat.isDead) yield break;
 
             ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
@@ -254,6 +258,10 @@ public class RespawnManager : Singleton<RespawnManager>
     //게임 클리어시 발동
     void GameClear()
     {
+        if (PlayerManager.Instance.m_Player == null) return;
+        if (PlayerManager.Instance.m_Player.m_Stat == null) return;
+        if (PlayerManager.Instance.m_Player.m_Stat.isDead) return;
+
         (UIManager.Instance.m_CurrentUI as BattleUI).EndWaveAction();
         m_isGameClear = true;
 

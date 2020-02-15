@@ -23,10 +23,10 @@ public class StageSelectUI : BaseUI
 
         if(m_StageTextures != null)
         {
-            for(int i = 0; i < m_StageTextures.Length; i++)
-            {
-                Debug.Log(m_StageTextures[i].name + "Success ");
-            }
+            //for(int i = 0; i < m_StageTextures.Length; i++)
+            //{
+            ////    Debug.Log(m_StageTextures[i].name + "Success ");
+            //}
 
         }
 

@@ -50,8 +50,9 @@ public abstract class Buff : STAT
         m_MovingObject = _object;
         if (m_MovingObject.m_BuffRimLight != null)
         {
-            m_MovingObject.m_BuffRimLight.SetColor(_color);
             m_MovingObject.m_BuffRimLight.SetRimLight();
+            m_MovingObject.m_BuffRimLight.SetColor(_color);
+
         }
     }
 
@@ -99,8 +100,6 @@ public abstract class Buff : STAT
 }
 public class Adrenaline : Buff
 {
-    
-
      public Adrenaline(STAT _stat) : base(_stat) 
     {
         m_BuffType = BUFF_TYPE.ADRENALINE;
@@ -126,11 +125,12 @@ public class Adrenaline : Buff
         SetStandard();
     }
 
-
     protected override void BuffAction()
-     {
+    {
+        if (m_CharacterStat == null) return;
+
         m_CharacterStat.MoveSpeed *= MoveSpeed;
-     }
+    }
 
     public override void BuffExitAction()
     {
@@ -175,6 +175,7 @@ public class Blessing : Buff
 
     protected override void BuffAction()
     {
+        if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
         m_CharacterStat.CurHP += Attack;
@@ -208,6 +209,7 @@ public class Poison : Buff
 
     protected override void BuffAction()
     {
+        if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
         m_CharacterStat.CurHP -= Attack;
@@ -254,6 +256,7 @@ public class Fire : Buff
 
     protected override void BuffAction()
     {
+        if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
         m_CharacterStat.CurHP -= Attack;

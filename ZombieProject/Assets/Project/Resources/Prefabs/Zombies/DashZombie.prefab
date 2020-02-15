@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5396240181037505595}
   - component: {fileID: 4097907694186957863}
   - component: {fileID: -7339632245931059027}
+  - component: {fileID: 7336631017470785870}
+  - component: {fileID: -733393798470161615}
   m_Layer: 11
   m_Name: DashZombie
   m_TagString: Zombie
@@ -89,6 +91,30 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7336631017470785870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203440520851769373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b891290bacdbd43aff3916561e739e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-733393798470161615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203440520851769373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f89d5ead57a4240ad6f057dbaf9eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4244725102679182778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,11 +131,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 163360101847028708, guid: 537378233b6c7144296d0da9a322749a,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5332709690138475736, guid: 537378233b6c7144296d0da9a322749a,
         type: 3}
@@ -250,6 +271,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 163360101847028708, guid: 537378233b6c7144296d0da9a322749a,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2788550449516632553, guid: 537378233b6c7144296d0da9a322749a,
         type: 3}

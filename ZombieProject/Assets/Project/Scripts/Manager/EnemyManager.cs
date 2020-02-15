@@ -25,6 +25,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         foreach(MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
         {
+            if (zombie.m_Stat == null) continue;
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
 
@@ -51,6 +52,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
         {
+            if (zombie.m_Stat == null) continue;
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
 
@@ -74,6 +76,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
         {
+            if (zombie.m_Stat == null) continue;
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
 
@@ -101,6 +104,7 @@ public class EnemyManager : Singleton<EnemyManager>
         
         foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
         {
+            if (zombie.m_Stat == null) continue;
             if (zombie.m_Stat.isDead) continue;
             if (!zombie.gameObject.activeSelf) continue;
 

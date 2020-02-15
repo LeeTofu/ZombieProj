@@ -264,6 +264,9 @@ public class BattleUI : BaseUI
 
     public IEnumerator HpChange()
     {
+        if (PlayerManager.Instance.m_Player == null) yield break;
+        if (PlayerManager.Instance.m_Player.m_Stat == null) yield break;
+
         m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
         m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
 

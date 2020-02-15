@@ -398,7 +398,7 @@ public abstract class MovingObject : MonoBehaviour
         if(_buff.BuffCoroutine != null)
             StopCoroutine(_buff.BuffCoroutine);
 
-        //_buff.BuffExitAction();
+        _buff.BuffExitAction();
 
         m_ListDeBuff.Remove(_buff);
         m_DeBuffAction?.Invoke(m_ListDeBuff);
@@ -416,7 +416,7 @@ public abstract class MovingObject : MonoBehaviour
     {
         for (int i = 0; i< m_ListBuff.Count; i++)
         {
-            DeleteDeBuff(m_ListBuff[i]);
+            DeleteBuff(m_ListBuff[i]);
         }
 
         for (int i = 0; i < m_ListDeBuff.Count; i++)

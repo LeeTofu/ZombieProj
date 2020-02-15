@@ -140,35 +140,29 @@ public class PlayerManager : Singleton<PlayerManager>
         (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
-    public MovingObject GetRangePlayers(Vector3 _pos, float _maxDistance, int _maxCount = 1)
+    public MovingObject GetRangePlayers(Vector3 _pos, float _maxDistance)
     {
         if (m_PlayerFactory == null) return null;
-
-        // List<MovingObject> target = new List<MovingObject>();
+        if (m_Player == null) return null;
+        if (m_Player.m_Stat == null) return null;
+        if (m_Player.m_Stat.isDead) return null;
+        if (!m_Player.gameObject.activeSelf) return null;
 
         MovingObject target = null;
 
-        foreach (MovingObject player in m_PlayerFactory.m_ListAllMovingObject)
+        float len = (m_Player.transform.position - _pos).magnitude;
+
+        if (len < _maxDistance)
         {
-            if (player.m_Stat == null) continue;
-            if (player.m_Stat.isDead) continue;
-            if (!player.gameObject.activeSelf) continue;
-
-            float len = (player.transform.position - _pos).magnitude;
-
-            if (len < _maxDistance)
-            {
-                target = player;
-                break;
-            }
+            return target;
         }
 
-        return target;
+        return null;
     }
 
     public void SplashAttackToPlayer(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, int _maxCount = 5)
     {
-        var player = GetRangePlayers(_pos, _rangeDistance, _maxCount);
+        var player = GetRangePlayers(_pos, _rangeDistance);
 
         if (player == null) return;
 

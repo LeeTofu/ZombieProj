@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6385797294002239117}
   - component: {fileID: 1434467471121247594}
   - component: {fileID: 5047585532669966859}
+  - component: {fileID: 1671723627034467145}
   m_Layer: 11
   m_Name: Zombie
   m_TagString: Zombie
@@ -31,7 +32,7 @@ Transform:
   m_LocalPosition: {x: -22.258823, y: -30.574814, z: -0.3388369}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children:
-  - {fileID: 8753292207646782875}
+  - {fileID: 8978456925560626297}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53,6 +54,7 @@ MonoBehaviour:
   m_Animator: {fileID: 0}
   m_NavAgent: {fileID: 0}
   m_HpBarUI: {fileID: 0}
+  m_BuffRimLight: {fileID: 0}
 --- !u!136 &6385797294002239117
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -101,6 +103,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b891290bacdbd43aff3916561e739e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1671723627034467145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780776903879633915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f89d5ead57a4240ad6f057dbaf9eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3708828467748899139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,6 +122,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6011317497676947677}
     m_Modifications:
+    - target: {fileID: 5756027860496700730, guid: 537378233b6c7144296d0da9a322749a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2431980850467236040, guid: 537378233b6c7144296d0da9a322749a,
         type: 3}
       propertyPath: m_Name
@@ -251,9 +270,9 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537378233b6c7144296d0da9a322749a, type: 3}
---- !u!224 &8753292207646782875 stripped
+--- !u!224 &8978456925560626297 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5332709690138475736, guid: 537378233b6c7144296d0da9a322749a,
+  m_CorrespondingSourceObject: {fileID: 5756027860496700730, guid: 537378233b6c7144296d0da9a322749a,
     type: 3}
   m_PrefabInstance: {fileID: 3708828467748899139}
   m_PrefabAsset: {fileID: 0}

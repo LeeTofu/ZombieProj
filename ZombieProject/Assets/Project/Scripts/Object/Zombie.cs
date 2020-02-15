@@ -25,6 +25,11 @@ public class Zombie : MovingObject
         m_TypeKey = _typeKey;
 
         if (_Model != null) m_Model = _Model;
+        if (m_BuffRimLight == null)
+        {
+            m_BuffRimLight = GetComponent<BuffRimLight>();
+            if (_Model != null && m_BuffRimLight != null) m_BuffRimLight.Initialize(_Model);
+        }
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
         // Test // -> 태그별로 각자 다르게 만들것

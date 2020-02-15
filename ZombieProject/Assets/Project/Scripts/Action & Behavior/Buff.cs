@@ -50,8 +50,9 @@ public abstract class Buff : STAT
         m_MovingObject = _object;
         if (m_MovingObject.m_BuffRimLight != null)
         {
-            m_MovingObject.m_BuffRimLight.SetColor(_color);
             m_MovingObject.m_BuffRimLight.SetRimLight();
+            m_MovingObject.m_BuffRimLight.SetColor(_color);
+
         }
     }
 

@@ -411,7 +411,8 @@ public class InvenManager : Singleton<InvenManager>
         }
         if(item.m_isEquiped)
         {
-           DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
+            //DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
+            return false;
         }
      //   if(item.m_isEquiped == true)
 

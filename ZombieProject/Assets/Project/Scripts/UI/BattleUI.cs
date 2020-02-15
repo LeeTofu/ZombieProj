@@ -140,7 +140,6 @@ public class BattleUI : BaseUI
         float time = 0.0f;
         while (time < _duration)
         {
-            
             m_DamagedImage.color = Color.Lerp(m_DamagedImage.color, new Color(1,0,0,0), Time.deltaTime * 2.0f);
             time += Time.deltaTime;
             yield return null;
@@ -148,9 +147,6 @@ public class BattleUI : BaseUI
 
         m_DamagedImage.gameObject.SetActive(false);
     }
-
-
-
 
     private void AddPlayerAction()
     {
@@ -222,7 +218,6 @@ public class BattleUI : BaseUI
         m_UpgradeWeaponAttackIcon.SetActive(false);
         m_UpgradeWeaponAttackSpeedIcon.SetActive(false);
 
-
         for (int i = 0; i < buttons.Length; i++)
         {
             ITEM_SLOT_SORT type = buttons[i].m_slotType;
@@ -259,7 +254,13 @@ public class BattleUI : BaseUI
 
     public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot)
     {
-        return m_ItemSlots[_itemSlot];
+        BattleItemSlotButton slotButton;
+        if (m_ItemSlots.TryGetValue(_itemSlot, out slotButton))
+        {
+            return slotButton;
+        }
+
+        return null;
     }
 
     public IEnumerator HpChange()
@@ -290,7 +291,6 @@ public class BattleUI : BaseUI
 
     public static void SetDeathPanelActive(bool _is)
     {
-
         m_DeathPanel.gameObject.SetActive(_is);
     }
 
@@ -330,6 +330,7 @@ public class BattleUI : BaseUI
             npcButton.SetUpgradeWeapon(_object);
         }
     }
+
     public void UpdateMoney(int _money)
     {
         m_MoneyText.text = "$ " + _money.ToString();

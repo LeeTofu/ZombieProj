@@ -172,7 +172,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_Player == null) return;
         if (m_Player.m_Stat == null) return;
         if (m_Player.m_Stat.isDead) return;
-
+        if (!m_Player.gameObject.activeSelf) return;
 
         (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
         m_Player.HitDamage(_damage, _canKnockBackDamage, 1.0f);

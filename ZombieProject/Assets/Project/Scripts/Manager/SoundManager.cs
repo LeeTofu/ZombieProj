@@ -23,6 +23,7 @@ public enum UI_SOUND
    INCHANT_SUCCESS,
    INCHANT_FAIL,
     TOUCH_EFFECT,
+    BATTLE_START,
 
    INSTALL_BOMB,
    WEAPON_CHANGE,
@@ -80,6 +81,11 @@ public class SoundManager : Singleton<SoundManager>
     public void StopCurrentBGM()
     {
         m_Audio.Stop();
+    }
+
+    public void PauseCurrentBGM()
+    {
+        m_Audio.Pause();
     }
 
     public void OneShotPlay(UI_SOUND _uiSound)

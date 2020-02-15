@@ -180,6 +180,7 @@ public class RespawnManager : Singleton<RespawnManager>
     // 웨이브마다 있는 쉬는 시간
     IEnumerator RestTime_C(float _restTime)
     {
+        SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_START);
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
 
         m_isRest = true;
@@ -247,6 +248,7 @@ public class RespawnManager : Singleton<RespawnManager>
             time += 1.0f;
         }
 
+        SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_START);
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("모든 좀비를 제거하고 생존하세요.");
         m_isRest = false;
 

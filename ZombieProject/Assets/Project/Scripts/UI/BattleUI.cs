@@ -37,6 +37,10 @@ public class BattleUI : BaseUI
     [SerializeField]
     WeaponStatUI m_WeaponStatUI;
 
+    [SerializeField]
+    GameObject m_NPCButtonObject;
+
+
 
     static Dictionary<SHOP_SORT, NpcShopButton> m_DicNPCButton = new Dictionary<SHOP_SORT, NpcShopButton>();
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
@@ -65,10 +69,10 @@ public class BattleUI : BaseUI
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
 
-        m_SupplyAmmoIcon = transform.Find("NpcShop").GetChild(0).gameObject;
-        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop").GetChild(1).gameObject;
-        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
-        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop").GetChild(3).gameObject;
+        m_SupplyAmmoIcon = transform.Find("NpcShop/NPCWindow/SupplyAmmo").gameObject;
+        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop/NPCWindow/RangeUp").gameObject;
+        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop/NPCWindow/AttackUp").gameObject;
+        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop/NPCWindow/AttackSpeedUp").gameObject;
 
         m_InfoText.text = " ";
     }
@@ -213,7 +217,8 @@ public class BattleUI : BaseUI
         InsertNPCUpgradeButton(m_UpgradeWeaponRangeIcon.GetComponent<NpcShopButton>());
         InsertNPCUpgradeButton(m_UpgradeWeaponAttackIcon.GetComponent<NpcShopButton>());
         InsertNPCUpgradeButton(m_UpgradeWeaponAttackSpeedIcon.GetComponent<NpcShopButton>());
-        
+
+        m_NPCButtonObject.SetActive(false);
         m_SupplyAmmoIcon.SetActive(false);
         m_UpgradeWeaponRangeIcon.SetActive(false);
         m_UpgradeWeaponAttackIcon.SetActive(false);
@@ -317,6 +322,7 @@ public class BattleUI : BaseUI
 
     public void NpcCollision(bool _is)
     {
+        m_NPCButtonObject.SetActive(_is);
         m_SupplyAmmoIcon.SetActive(_is);
         m_UpgradeWeaponRangeIcon.SetActive(_is);
         m_UpgradeWeaponAttackIcon.SetActive(_is);

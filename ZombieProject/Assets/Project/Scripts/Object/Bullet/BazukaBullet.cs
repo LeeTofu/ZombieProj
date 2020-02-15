@@ -29,13 +29,13 @@ public class BazukaBullet : Bullet
     protected override void BulletOverRangefunction()
     {
         EffectManager.Instance.PlayEffect(
-                    PARTICLE_TYPE.EXPLOSION_MEDIUM,
-                    transform.position,
+                    PARTICLE_TYPE.EXPLOSION_HUGE,
+                    transform.position + Vector3.up * 0.2f,
                     Quaternion.LookRotation(-transform.forward),
-                    Vector3.one * 1.4f,
+                    Vector3.one * 1.2f,
                     true, 1.0f);
 
-        SplashAttack(transform.position, 4.0f);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
         pushToMemory();
     }
@@ -52,10 +52,8 @@ public class BazukaBullet : Bullet
             Vector3.one * 1.4f,
             true, 1.0f);
 
-        Debug.LogWarning("틀");
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
-        SplashAttack(transform.position, 4.0f);
-       
         pushToMemory();
     }
 }

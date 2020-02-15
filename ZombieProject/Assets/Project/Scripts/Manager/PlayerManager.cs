@@ -140,6 +140,43 @@ public class PlayerManager : Singleton<PlayerManager>
         (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
+    public List<MovingObject> GetRangePlayer(Vector3 _pos, float _maxDistance, int _maxCount = 5)
+    {
+        if (m_PlayerFactory == null) return null;
+
+        List<MovingObject> target = new List<MovingObject>();
+
+        foreach (MovingObject zombie in m_PlayerFactory.m_ListAllMovingObject)
+        {
+            if (zombie.m_Stat == null) continue;
+            if (zombie.m_Stat.isDead) continue;
+            if (!zombie.gameObject.activeSelf) continue;
+
+            float len = (zombie.transform.position - _pos).magnitude;
+
+            if (len < _maxDistance)
+            {
+                target.Add(zombie);
+
+                if (target.Count >= _maxCount)
+                    break;
+            }
+        }
+
+        return target;
+    }
+
+    public void SplashAttackToPlayer(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, int _maxCount = 5)
+    {
+        var players = GetRangePlayer(_pos, _rangeDistance, _maxCount);
+
+        if (players == null) return;
+
+        foreach (MovingObject player in players)
+        {
+            player.HitDamage(_damage, _canKnockBackDamage, 1.0f);
+        }
+    }
 
     public MovingObject CreatePlayer(Vector3 _pos, Quaternion _quat)
     {

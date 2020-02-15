@@ -62,31 +62,34 @@ public class EffectManager : Singleton<EffectManager>
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.MUZZLE, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/BulletExplosion"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.BULLET_EXPLOSION, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/ExplosionMedium"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_MEDIUM, 5);
+
+        m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/ExplosionHuge"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.EXPLOSION_HUGE, 5);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Heal"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.HEAL, 5);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Poison"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.POISON, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.POISON, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Fire"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.FIRE, 10);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.FIRE, 15);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Adrenalin"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ADRENALIN, 5);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Player"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.PLAYER, 3);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.PLAYER, 2);
 
         m_EffectFactory.Initialize(m_PrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/Enemy_Focus"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.ENMETY_FOCUS, 1);
 
         m_EffectFactory.Initialize(m_UIPrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/TouchEffect"));
-        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.TOUCH_EFFECT, 5);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.TOUCH_EFFECT, 10);
 
         return true;
     }

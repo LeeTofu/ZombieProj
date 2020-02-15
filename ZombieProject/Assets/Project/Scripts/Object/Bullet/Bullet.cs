@@ -16,7 +16,7 @@ public abstract class Bullet : MovingObject
     TrailRenderer m_TrailRenderer;
 
     [SerializeField]
-    GameObject m_PointLight;
+    protected GameObject m_PointLight;
 
     public AudioClip[] m_GunSound;
     public BULLET_TYPE m_BulletType;
@@ -31,17 +31,6 @@ public abstract class Bullet : MovingObject
         m_TypeKey = _typeKey;
     }
 
-    public void SplashAttack(Vector3 _pos, float _rangeDistance, int _maxCount = 5)
-    {
-        var zombies = EnemyManager.Instance.GetRangeZombies(_pos, _rangeDistance, _maxCount);
-
-        if (zombies == null) return;
-
-        foreach (MovingObject zombie in zombies)
-        {
-            zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
-        }
-    }
 
     // Bullet이 사정거리까지 이동했을 떼 실행하는 함수.
     protected abstract void BulletOverRangefunction();

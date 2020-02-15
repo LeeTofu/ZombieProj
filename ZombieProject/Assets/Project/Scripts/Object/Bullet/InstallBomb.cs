@@ -7,6 +7,8 @@ public class InstallBomb : Bullet
     AudioSource m_AuidoSource;
     float m_Time = 0.0f;
 
+   
+
     public override void InGame_Initialize()
     {
         m_Time = 0.0f;
@@ -34,23 +36,27 @@ public class InstallBomb : Bullet
     {
         m_Time += Time.deltaTime;
 
-        if (m_Time > 0.5f)
+        if (m_Time > 0.75f)
         {
             EnemyManager.Instance.SetTargetingRangeZombies(this, transform.position, m_Stat.Range);
             SoundManager.Instance.OneShotPlay(UI_SOUND.INSTALL_BOMB);
+
+            m_PointLight.SetActive(m_PointLight.activeSelf == true ? false : true);
+
+            m_Time = 0.0f;
         }
     }
 
     protected override void BulletOverRangefunction()
     {
         EffectManager.Instance.PlayEffect(
-                    PARTICLE_TYPE.EXPLOSION_MEDIUM,
-                    transform.position,
+                    PARTICLE_TYPE.EXPLOSION_HUGE,
+                    transform.position + Vector3.up * 0.2f,
                     Quaternion.LookRotation(-transform.forward),
-                    Vector3.one * 1.4f,
+                    Vector3.one * 1.2f,
                     true, 1.0f);
 
-        SplashAttack(transform.position, 4.0f);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
         m_Time = 0.0f;
         pushToMemory();

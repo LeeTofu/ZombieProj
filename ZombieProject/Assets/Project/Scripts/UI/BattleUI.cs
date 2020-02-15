@@ -61,6 +61,15 @@ public class BattleUI : BaseUI
         m_InputController = GetComponentInChildren<InputContoller>();
         m_DeathPanel = transform.Find("DeathPanel").GetComponent<Image>();
 
+        m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
+        m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+
+        m_SupplyAmmoIcon = transform.Find("NpcShop").GetChild(0).gameObject;
+        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop").GetChild(1).gameObject;
+        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
+        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop").GetChild(3).gameObject;
+
         m_InfoText.text = " ";
     }
 
@@ -199,14 +208,6 @@ public class BattleUI : BaseUI
     public override void InitializeUI()
     {
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
-        m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
-        m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-
-        m_SupplyAmmoIcon = transform.Find("NpcShop").GetChild(0).gameObject;
-        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop").GetChild(1).gameObject;
-        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop").GetChild(2).gameObject;
-        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop").GetChild(3).gameObject;
 
         InsertNPCUpgradeButton(m_SupplyAmmoIcon.GetComponent<NpcShopButton>());
         InsertNPCUpgradeButton(m_UpgradeWeaponRangeIcon.GetComponent<NpcShopButton>());
@@ -227,6 +228,9 @@ public class BattleUI : BaseUI
             if (!m_ItemSlots.ContainsKey(type))
             {
                 var item = InvenManager.Instance.GetEquipedItemSlot(type);
+
+                if (item != null)
+                    item.FullChargeItemCount();
 
                 buttons[i].Init(PlayerManager.Instance.m_Player, item);
 

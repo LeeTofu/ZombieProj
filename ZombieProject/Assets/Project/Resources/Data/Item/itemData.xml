@@ -58,7 +58,7 @@
 		<Range>10</Range>
 		<isAccumulate>false</isAccumulate>
 		<AttackSpeed>0.5</AttackSpeed>
-    <BulletSpeed>6</BulletSpeed>
+    <BulletSpeed>14</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
@@ -187,10 +187,10 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>20</HPRegenerate>
-    <Range>5</Range>
+    <Range>8</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>2</AttackSpeed>
-    <BulletSpeed>50</BulletSpeed>
+    <BulletSpeed>14</BulletSpeed>
     <BulletString>Bomb</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>

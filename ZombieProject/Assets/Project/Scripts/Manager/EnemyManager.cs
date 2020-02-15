@@ -94,6 +94,17 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
+    public void SplashAttackToZombie(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, int _maxCount = 5)
+    {
+        var zombies = GetRangeZombies(_pos, _rangeDistance, _maxCount);
+
+        if (zombies == null) return;
+
+        foreach (MovingObject zombie in zombies)
+        {
+            zombie.HitDamage(_damage, _canKnockBackDamage, 1.0f);
+        }
+    }
 
 
     // w해당 범위의 좀비들의 어그로를 변경한당

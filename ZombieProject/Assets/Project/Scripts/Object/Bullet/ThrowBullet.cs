@@ -37,7 +37,7 @@ public class ThrowBullet : Bullet
                     Vector3.one * 1.4f,
                     true, 1.0f);
 
-        SplashAttack(transform.position, 4.0f);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
         pushToMemory();
     }
@@ -51,6 +51,22 @@ public class ThrowBullet : Bullet
         if (Physics.Raycast(ray, out rayCast, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
         {
             m_CurDirection = Vector3.Reflect(m_CurDirection, rayCast.normal);
+        }
+
+        if (_object.tag == "Zombie")
+        {
+            m_currentSpeed = 0.0f;
+
+            EffectManager.Instance.PlayEffect(
+                PARTICLE_TYPE.EXPLOSION_MEDIUM,
+                transform.position,
+                Quaternion.LookRotation(-transform.forward),
+                Vector3.one * 1.4f,
+                true, 1.0f);
+
+            EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+
+            pushToMemory();
         }
     }
 }

@@ -10,12 +10,15 @@ public class Zombie : MovingObject
 
     private Coroutine m_KnockBackCoroutine;
 
+   // public MeleeAttackCollision m_MeleeAttackCollision;
+
     public override void InGame_Initialize()
     {
         m_HpBarUI.InGame_Initialize();
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
     }
+
 
     public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
     {

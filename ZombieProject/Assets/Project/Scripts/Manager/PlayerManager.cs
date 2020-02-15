@@ -140,33 +140,42 @@ public class PlayerManager : Singleton<PlayerManager>
         (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
-    public MovingObject GetRangePlayers(Vector3 _pos, float _maxDistance)
+    public bool GetRangePlayers(Vector3 _pos, float _maxDistance)
     {
-        if (m_PlayerFactory == null) return null;
-        if (m_Player == null) return null;
-        if (m_Player.m_Stat == null) return null;
-        if (m_Player.m_Stat.isDead) return null;
-        if (!m_Player.gameObject.activeSelf) return null;
-
-        MovingObject target = null;
+        if (m_PlayerFactory == null) return false;
+        if (m_Player == null) return false;
+        if (m_Player.m_Stat == null) return false;
+        if (m_Player.m_Stat.isDead) return false;
+        if (!m_Player.gameObject.activeSelf) return false;
 
         float len = (m_Player.transform.position - _pos).magnitude;
 
         if (len < _maxDistance)
         {
-            return target;
+            return true;
         }
 
-        return null;
+        return false;
     }
 
     public void SplashAttackToPlayer(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, int _maxCount = 5)
     {
-        var player = GetRangePlayers(_pos, _rangeDistance);
+        if (GetRangePlayers(_pos, _rangeDistance))
+        {
+            (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
+            m_Player.HitDamage(_damage, _canKnockBackDamage, 1.0f);
+        }
+    }
 
-        if (player == null) return;
+    public void AttackToPlayer(float _damage, bool _canKnockBackDamage)
+    {
+        if (m_Player == null) return;
+        if (m_Player.m_Stat == null) return;
+        if (m_Player.m_Stat.isDead) return;
 
-        player.HitDamage(_damage, _canKnockBackDamage, 1.0f);
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
+        m_Player.HitDamage(_damage, _canKnockBackDamage, 1.0f);
     }
 
     public MovingObject CreatePlayer(Vector3 _pos, Quaternion _quat)

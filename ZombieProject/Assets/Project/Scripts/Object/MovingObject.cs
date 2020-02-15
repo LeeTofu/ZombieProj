@@ -172,7 +172,7 @@ public class STAT
 
     public bool CheckIsDead()
     {
-        if(curHP <= 0)
+        if(curHP <= 0.01f)
         {
             return true;
         }
@@ -276,7 +276,7 @@ public abstract class MovingObject : MonoBehaviour
         m_TargetingObject = _object;
     }
 
-    Transform FindChildObject(GameObject _baseObject, string _str)
+    public Transform FindChildObject(GameObject _baseObject, string _str)
     {
         Transform[] objects = _baseObject.GetComponentsInChildren<Transform>();
         foreach (Transform obj in objects)

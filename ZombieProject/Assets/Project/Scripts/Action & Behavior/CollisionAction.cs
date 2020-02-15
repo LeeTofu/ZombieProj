@@ -11,9 +11,11 @@ public abstract class CollisionAction : MonoBehaviour
 
     CheckCollisionCondition m_CheckCollisionCondition;
 
+
+    // 이 콜리전을 가진 캐릭터
     public MovingObject m_Character;
 
-    protected CapsuleCollider m_CapsuleCollider;
+    public CapsuleCollider m_CapsuleCollider;
 
     // ------------- 충돌 테스트용으로 만든 임시 함수들임 ----------------- 
     // 충돌 이벤트에 함수 등록해서 쓰는거임.
@@ -30,6 +32,9 @@ public abstract class CollisionAction : MonoBehaviour
 
         if (m_Character == null)
             m_Character = GetComponent<MovingObject>();
+
+        if (m_Character == null)
+            m_Character = GetComponentInParent<MovingObject>();
 
         AddCollisionFunction(CollisionEvent);
         AddCollisionCondtion(CollisionCondition);

@@ -40,7 +40,8 @@ public class BattleUI : BaseUI
     [SerializeField]
     GameObject m_NPCButtonObject;
 
-
+    [SerializeField]
+    NpcShopButton[] m_ShopButtons;
 
     static Dictionary<SHOP_SORT, NpcShopButton> m_DicNPCButton = new Dictionary<SHOP_SORT, NpcShopButton>();
     static Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton> m_ItemSlots = new Dictionary<ITEM_SLOT_SORT, BattleItemSlotButton>();
@@ -54,12 +55,6 @@ public class BattleUI : BaseUI
     public TMPro.TextMeshProUGUI[] m_ListBuffText;
     public TMPro.TextMeshProUGUI[] m_ListDeBuffText;
 
-    GameObject m_SupplyAmmoIcon;
-    GameObject m_UpgradeWeaponRangeIcon;
-    GameObject m_UpgradeWeaponAttackIcon;
-    GameObject m_UpgradeWeaponAttackSpeedIcon;
-
-
     private void Awake()
     {
         m_InputController = GetComponentInChildren<InputContoller>();
@@ -69,12 +64,23 @@ public class BattleUI : BaseUI
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
         m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
 
-        m_SupplyAmmoIcon = transform.Find("NpcShop/NPCWindow/SupplyAmmo").gameObject;
-        m_UpgradeWeaponRangeIcon = transform.Find("NpcShop/NPCWindow/RangeUp").gameObject;
-        m_UpgradeWeaponAttackIcon = transform.Find("NpcShop/NPCWindow/AttackUp").gameObject;
-        m_UpgradeWeaponAttackSpeedIcon = transform.Find("NpcShop/NPCWindow/AttackSpeedUp").gameObject;
+        if (m_ShopButtons != null)
+        {
+            foreach (var button in m_ShopButtons)
+            {
+                InsertShopButton(button);
+            }
+        }
 
         m_InfoText.text = " ";
+    }
+
+    public void InsertShopButton(NpcShopButton _button)
+    {
+        if (_button == null) return;
+        if(m_DicNPCButton.ContainsKey(_button.m_slotType)) return;
+
+        m_DicNPCButton.Add(_button.m_slotType, _button);
     }
 
     public IEnumerator Start()
@@ -91,20 +97,6 @@ public class BattleUI : BaseUI
 
         m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
         m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
-    }
-
-    public void  InsertNPCUpgradeButton(NpcShopButton _button)
-    {
-        if(_button == null)
-        {
-            Debug.LogError("Button 이 없어 ");
-            return;
-        }
-
-        if (!m_DicNPCButton.ContainsKey(_button.m_slotType))
-        {
-            m_DicNPCButton.Add(_button.m_slotType, _button);
-        }
     }
 
     private void OnEnable()
@@ -211,18 +203,9 @@ public class BattleUI : BaseUI
 
     public override void InitializeUI()
     {
+        ShowShopUI(false);
+
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
-
-        InsertNPCUpgradeButton(m_SupplyAmmoIcon.GetComponent<NpcShopButton>());
-        InsertNPCUpgradeButton(m_UpgradeWeaponRangeIcon.GetComponent<NpcShopButton>());
-        InsertNPCUpgradeButton(m_UpgradeWeaponAttackIcon.GetComponent<NpcShopButton>());
-        InsertNPCUpgradeButton(m_UpgradeWeaponAttackSpeedIcon.GetComponent<NpcShopButton>());
-
-        m_NPCButtonObject.SetActive(false);
-        m_SupplyAmmoIcon.SetActive(false);
-        m_UpgradeWeaponRangeIcon.SetActive(false);
-        m_UpgradeWeaponAttackIcon.SetActive(false);
-        m_UpgradeWeaponAttackSpeedIcon.SetActive(false);
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -320,15 +303,25 @@ public class BattleUI : BaseUI
         m_InfoText.text = _str;
     }
 
-    public void NpcCollision(bool _is)
+    public void ShowShopUI(bool _is)
     {
         m_NPCButtonObject.SetActive(_is);
-        m_SupplyAmmoIcon.SetActive(_is);
-        m_UpgradeWeaponRangeIcon.SetActive(_is);
-        m_UpgradeWeaponAttackIcon.SetActive(_is);
-        m_UpgradeWeaponAttackSpeedIcon.SetActive(_is);
 
-       SetUpgradeItem(PlayerManager.Instance.m_CurrentEquipedItemObject);
+       foreach (var button in m_DicNPCButton.Values)
+       {
+            button.gameObject.SetActive(_is);
+       }
+
+        if (PlayerManager.Instance.m_Player == null)
+        {
+            return;
+        }
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject == null)
+        {
+            return;
+        }
+
+        SetUpgradeItem(PlayerManager.Instance.m_CurrentEquipedItemObject);
     }
 
     public static void SetUpgradeItem(ItemObject _object)
@@ -342,7 +335,7 @@ public class BattleUI : BaseUI
     }
 
     public void UpdateMoney(int _money)
-    {
+    { 
         m_MoneyText.text = "$ " + _money.ToString();
     }
 
@@ -352,9 +345,22 @@ public class BattleUI : BaseUI
 
         if (!button) return;
         if (button.gameObject.activeSelf == false) return;
+        if (button.m_Item == null) return;
         
         GetItemSlot(_sort).plusItemStackCount(_acc);
     }
+
+    public void UpdateFullMaxCount(ITEM_SLOT_SORT _sort)
+    {
+        BattleItemSlotButton button = GetItemSlot(_sort);
+
+        if (!button) return;
+        if (button.gameObject.activeSelf == false) return;
+        if (button.m_Item == null) return;
+
+        GetItemSlot(_sort).MaxItemStackCount();
+    }
+
 
     public void UpdateWeapnStatUI(ItemObject _object)
     {

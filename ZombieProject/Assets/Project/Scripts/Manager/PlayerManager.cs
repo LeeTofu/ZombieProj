@@ -7,7 +7,8 @@ public enum UPGRADE_TYPE
     NONE,
     ATTACK,
     RANGE,
-    ATTACK_SPEED
+    ATTACK_SPEED,
+    HP
 }
 
 
@@ -222,7 +223,7 @@ public class PlayerManager : Singleton<PlayerManager>
             slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
 
         BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
-        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
+        //(UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
     }
 
     public override bool Initialize()
@@ -321,6 +322,9 @@ public class PlayerManager : Singleton<PlayerManager>
                 break;
             case UPGRADE_TYPE.RANGE:
                 m_CurrentEquipedItemObject.UpgradeRange(_value);
+                break;
+            case UPGRADE_TYPE.HP:
+                m_Player.m_Stat.MaxHP += _value;
                 break;
         }
 

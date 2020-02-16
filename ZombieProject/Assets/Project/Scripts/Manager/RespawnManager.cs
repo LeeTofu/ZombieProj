@@ -234,6 +234,7 @@ public class RespawnManager : Singleton<RespawnManager>
     IEnumerator WaveChange_C(float _changeTime)
     {
         float time = 0.0f;
+        
         while (time < _changeTime)
         {
             BattleUI ui = (UIManager.Instance.m_CurrentUI as BattleUI);
@@ -245,6 +246,9 @@ public class RespawnManager : Singleton<RespawnManager>
             ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
             yield return new WaitForSeconds(1.0f);
+
+            (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
+
             time += 1.0f;
         }
 
@@ -252,7 +256,7 @@ public class RespawnManager : Singleton<RespawnManager>
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("모든 좀비를 제거하고 생존하세요.");
         m_isRest = false;
 
-        (UIManager.Instance.m_CurrentUI as BattleUI).NpcCollision(false);
+        (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(false);
 
         OccurZombiePhase(m_CurWave + 1);
     }

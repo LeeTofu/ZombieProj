@@ -9,12 +9,12 @@ public class NpcCollisionAction : CollisionAction
         base.Awake();
         AddCollisionExitFunction((GameObject _gameObject)=>
         {
-            (UIManager.Instance.m_CurrentUI as BattleUI).NpcCollision(false);
+            (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(false);
         });
     }
     protected override void CollisionEvent(GameObject _object)
     {
-        (UIManager.Instance.m_CurrentUI as BattleUI).NpcCollision(true);
+        (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
     }
 
     protected override bool CollisionCondition(GameObject _defender)

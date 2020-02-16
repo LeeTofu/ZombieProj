@@ -140,6 +140,17 @@ public class BattleItemSlotButton : UIPressSubject
         }
     }
 
+    public void MaxItemStackCount()
+    {
+        m_Item.FullChargeItemCount();
+        m_StackCountText.text = m_Item.m_Count.ToString();
+
+        if (m_Item.m_Count > 0)
+        {
+            m_ItemIcon.color = Color.white;
+        }
+    }
+
 
     void PressEnterItemAction()
     {

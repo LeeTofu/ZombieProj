@@ -50,6 +50,9 @@ public class HpBarUI : MonoBehaviour
             m_ScreenPos = CameraManager.Instance.m_Camera.WorldToScreenPoint(m_TargetPos);
             m_HpBar.transform.position = new Vector3(m_ScreenPos.x, m_ScreenPos.y + 30f, 0);
         }
+
+        if (PlayerManager.Instance.m_Player == null) return;
+        if (PlayerManager.Instance.m_Player.m_Stat == null) return;
         if (PlayerManager.Instance.m_Player.m_Stat.CheckIsDead())
             m_HpUi.enabled = false;
     }

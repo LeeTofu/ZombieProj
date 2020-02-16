@@ -147,7 +147,6 @@ public class STAT
         get => maxHP;
         set
         {
-            curHP = value;
             maxHP = value;
             OnPropertyChange?.Invoke();
         }

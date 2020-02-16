@@ -17,6 +17,20 @@ public class PlayerObject : MovingObject
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
+
+        SetStat(new STAT
+        {
+            MaxHP = 100f,
+            CurHP = 100f,
+            Defend = 100f,
+            MoveSpeed = 3.0f
+        });
+        m_Stat.AddPropertyChangeAction(() =>
+        {
+            if (m_Stat.CheckIsDead())
+                DeadAction();
+        });
+
         m_Stat.isKnockBack = false;
         m_Stat.CurHP = m_Stat.MaxHP;
         m_HpBarUI.InGame_Initialize();
@@ -30,6 +44,8 @@ public class PlayerObject : MovingObject
 
             m_StateController.InGame_Initialize();
         }
+
+       
 
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
@@ -61,6 +77,7 @@ public class PlayerObject : MovingObject
             m_StateController.Initialize(this);
         }
 
+
         SetStat(new STAT
         {
             MaxHP = 100f,
@@ -73,6 +90,7 @@ public class PlayerObject : MovingObject
             if (m_Stat.CheckIsDead())
                 DeadAction();
         });
+
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 

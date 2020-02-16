@@ -240,8 +240,15 @@ public class BattleUI : BaseUI
     public override void DeleteUI()
     {
         StopCoroutine(CountDown_C());
+
         m_HpImage.fillAmount = 1f;
         m_CurHPText.text = "100";
+        m_MaxHPText.text = "100";
+
+        foreach (NpcShopButton button in m_DicNPCButton.Values)
+        {
+            button.DestroyButton();
+        }
     }
 
     public static BattleItemSlotButton GetItemSlot(ITEM_SLOT_SORT _itemSlot)

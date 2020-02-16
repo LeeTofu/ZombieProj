@@ -73,7 +73,6 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-
     public void LoadPlayerInfo()
     {
         TextAsset playerInvenList = (TextAsset)Resources.Load("Data/Player/PlayerInfo");

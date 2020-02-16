@@ -51,6 +51,7 @@ public class NpcShopButton : UIPressSubject
 
     private void Start()
     {
+        m_UpgLevel = 0;
         m_MoneyText.text = "$" + (m_StartCost + m_PlusCost * m_UpgLevel).ToString();
         m_MoneyText.color = Color.green;
 
@@ -122,26 +123,20 @@ public class NpcShopButton : UIPressSubject
 
     void UpdateUpgradeUI()
     {
-        if (m_slotType == SHOP_SORT.AMMO) return;
+        if (m_slotType == SHOP_SORT.AMMO || m_slotType == SHOP_SORT.QUICK) return;
 
         if(m_UpgLevel == -1 ) return;
 
-        if (m_slotType != SHOP_SORT.QUICK)
-        {
-            if (m_UpgLevel >= m_ButtonMaxLevel)
-            {
-                m_MoneyText.text = " ";
-                m_UpgLevelText.text = "Lv.MAX";
-            }
-            else
-            {
-                m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
-            }
-        }
-        else if (m_slotType == SHOP_SORT.QUICK)
-        {
-            m_UpgLevelText.text = " ";
-        }
+
+         if (m_UpgLevel >= m_ButtonMaxLevel)
+         {
+             m_MoneyText.text = " ";
+             m_UpgLevelText.text = "Lv.MAX";
+         }
+         else
+         {
+             m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
+         }
     }
 
     public override void OnPointerUp(PointerEventData eventData)
@@ -192,5 +187,18 @@ public class NpcShopButton : UIPressSubject
     }
     public override void OnPressed()
     {
+    }
+
+    public void DestroyButton()
+    {
+        m_UpgLevel = 0;
+        m_MoneyText.text = "$" + (m_StartCost + m_PlusCost * m_UpgLevel).ToString();
+        m_MoneyText.color = Color.green;
+
+        if (m_slotType != SHOP_SORT.AMMO && m_slotType != SHOP_SORT.QUICK)
+            m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
+        else m_UpgLevelText.text = " ";
+
+        m_CurrentUpgradedItem = null;
     }
 }

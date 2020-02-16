@@ -27,9 +27,17 @@ public enum UI_SOUND
 
    INSTALL_BOMB,
    WEAPON_CHANGE,
+    INVEN_SLOT_CHANGE,
    HURT1,
     HURT2,
     HURT3,
+
+    DRINK,
+    CASH_REGISTER,
+
+    BODY_HIT_BULLET1,
+    BODY_HIT_BULLET2,
+    BODY_HIT_BULLET3,
 }
 
 public class SoundManager : Singleton<SoundManager>
@@ -38,6 +46,10 @@ public class SoundManager : Singleton<SoundManager>
 
     public Dictionary<string, AudioClip> m_BGAudioClipTable = new Dictionary<string, AudioClip>();
     public Dictionary<string, AudioClip> m_UISoundAudioClipTable = new Dictionary<string, AudioClip>();
+
+    public Dictionary<string, AudioClip> m_ZombieSoundAudioClipTable = new Dictionary<string, AudioClip>();
+
+
     private AudioSource m_Audio;
 
     public override bool Initialize()
@@ -125,6 +137,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (m_CurrentSound == _BG) return;
 
+        m_Audio.volume = 0.7f;
         m_Audio.Stop();
 
         int random = (Random.Range(0, m_BGAudioClipTable.Count));

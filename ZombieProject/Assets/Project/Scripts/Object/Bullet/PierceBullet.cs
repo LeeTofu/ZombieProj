@@ -51,6 +51,8 @@ public class PierceBullet : Bullet
 
             m_CurrentPierceCount++;
 
+            SoundManager.Instance.OneShotPlay((UI_SOUND)(Random.Range((int)UI_SOUND.BODY_HIT_BULLET1, (int)UI_SOUND.BODY_HIT_BULLET3 + 1)));
+
             if(m_CurrentPierceCount >= m_MaxPierceCount)
             {
                 pushToMemory();

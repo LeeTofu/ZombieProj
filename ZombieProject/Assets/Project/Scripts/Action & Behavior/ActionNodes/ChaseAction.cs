@@ -35,6 +35,7 @@ public class ZombieChaseAction : ActionNode
 
         if (m_Character.m_zombieState != ZOMBIE_STATE.CHASE)
         {
+            (m_Character as Zombie).PlayIdleSound();
             m_Character.m_Animator.CrossFade("Chase", 0.1f);
             m_Character.m_Animator.SetFloat("WalkSpeed", m_Character.m_Stat.MoveSpeed * 1.5f);
             m_Character.m_zombieState = ZOMBIE_STATE.CHASE;

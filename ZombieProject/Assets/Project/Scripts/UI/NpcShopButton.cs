@@ -114,7 +114,7 @@ public class NpcShopButton : UIPressSubject
             return;
 
         PlayerManager.Instance.CurrentMoney -= m_StartCost + m_PlusCost * m_UpgLevel;
-       
+        SoundManager.Instance.OneShotPlay(UI_SOUND.CASH_REGISTER);
 
         switch (m_slotType)
         {

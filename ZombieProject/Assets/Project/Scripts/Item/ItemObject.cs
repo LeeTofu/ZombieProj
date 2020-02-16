@@ -37,6 +37,7 @@ public class ItemObject : MonoBehaviour
         if (m_audio == null)
             m_audio = gameObject.AddComponent<AudioSource>();
 
+        m_audio.volume = 1.0f;
 
     }
 

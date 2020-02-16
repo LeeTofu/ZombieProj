@@ -31,6 +31,8 @@ public enum PARTICLE_TYPE
     POISON, // 독 이펙트
     FIRE, // 불 이펙트
 
+    HIT_EFFECT, // 근접 공격 이펙트
+
     NONE
 }
 
@@ -90,6 +92,9 @@ public class EffectManager : Singleton<EffectManager>
 
         m_EffectFactory.Initialize(m_UIPrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/TouchEffect"));
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.TOUCH_EFFECT, 10);
+
+        m_EffectFactory.Initialize(m_UIPrefabPath, Resources.LoadAll<GameObject>("Prefabs/Effect&Particle/EffectModel/HitEffect"));
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.HIT_EFFECT, 15);
 
         return true;
     }

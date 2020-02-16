@@ -257,7 +257,7 @@ public abstract class MovingObject : MonoBehaviour
     protected CollisionAction m_CollisionAction;
 
     // 어그 끌리는 오브젝트
-    public MovingObject m_TargetingObject { private set; get; }
+    public MovingObject m_TargetingObject { protected set; get; }
 
     //좀비들 길찾기용 NavMeshAgent
     public NavMeshAgent m_NavAgent;
@@ -299,6 +299,7 @@ public abstract class MovingObject : MonoBehaviour
             return;
         }
 
+        m_TargetingObject = null;
         gameObject.SetActive(false);
         m_Factory.PushObjectToPooling(this, m_TypeKey);
     }
@@ -312,6 +313,7 @@ public abstract class MovingObject : MonoBehaviour
             return;
         }
 
+        m_TargetingObject = null;
         gameObject.SetActive(false);
         _factory.PushObjectToPooling(this, m_TypeKey);
     }

@@ -34,6 +34,9 @@ public abstract class BehaviorNode
         MovingObject mobject = GetAttackObject();
 
         if (mobject == null) return 10000.0f;
+        if (mobject.m_Stat == null) return 10000.0f;
+        if (mobject.m_Stat.isDead) return 10000.0f;
+        if (!mobject.gameObject.activeSelf) return 10000.0f;
 
         distance = Vector3.Distance(
             m_Character.transform.position,
@@ -44,18 +47,19 @@ public abstract class BehaviorNode
 
     protected MovingObject GetAttackObject()
     {
-        if (m_Character.m_TargetingObject != null)
+        if (m_Character.m_TargetingObject != null )
         {
-            return m_Character.m_TargetingObject;
+            if(m_Character.m_TargetingObject.gameObject.activeSelf)
+                return m_Character.m_TargetingObject;
         }
-        else if (EnemyManager.Instance.m_ZombieAttackObject)
+        if (EnemyManager.Instance.m_ZombieAttackObject)
         {
-            return EnemyManager.Instance.m_ZombieAttackObject;
+            if (EnemyManager.Instance.m_ZombieAttackObject.gameObject.activeSelf)
+                return EnemyManager.Instance.m_ZombieAttackObject;
         }
-        else
-        {
-            return PlayerManager.Instance.m_Player;
-        }
+
+        return PlayerManager.Instance.m_Player;
+        
     }
 }
 

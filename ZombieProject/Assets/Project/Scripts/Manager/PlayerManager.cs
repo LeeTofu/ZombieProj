@@ -162,6 +162,8 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (GetRangePlayers(_pos, _rangeDistance))
         {
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.HIT_EFFECT, m_Player.transform.position + Vector3.up * 0.75f, Quaternion.identity, Vector3.one * 1.35f, true, 0.5f);
+
             (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
             m_Player.HitDamage(_damage, _canKnockBackDamage, 1.0f);
         }
@@ -173,6 +175,8 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_Player.m_Stat == null) return;
         if (m_Player.m_Stat.isDead) return;
         if (!m_Player.gameObject.activeSelf) return;
+
+        EffectManager.Instance.PlayEffect(PARTICLE_TYPE.HIT_EFFECT, m_Player.transform.position + Vector3.up * 0.75f, Quaternion.identity,Vector3.one * 1.35f ,true, 0.5f);
 
         (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
         m_Player.HitDamage(_damage, _canKnockBackDamage, 1.0f);

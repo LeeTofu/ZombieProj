@@ -110,16 +110,19 @@ public class InventoryUI: BaseUI
 
     public void ClickEquipmentslot()
     {
+        SoundManager.Instance.OneShotPlay(UI_SOUND.INVEN_SLOT_CHANGE);
         SortItemslot(MAIN_ITEM_SORT.EQUIPMENT);
     }
 
     public void ClickETCSlot()
     {
+        SoundManager.Instance.OneShotPlay(UI_SOUND.INVEN_SLOT_CHANGE);
         SortItemslot(MAIN_ITEM_SORT.ETC);
     }
 
     public void ClickQuickSlot()
     {
+        SoundManager.Instance.OneShotPlay(UI_SOUND.INVEN_SLOT_CHANGE);
         SortItemslot(MAIN_ITEM_SORT.QUICK);
     }
 
@@ -184,6 +187,7 @@ public class InventoryUI: BaseUI
 
         if (m_SelectedSlot.m_isEquipmentItemSlot) return;
 
+        SoundManager.Instance.OneShotPlay(UI_SOUND.WEAPON_CHANGE);
         InvenManager.Instance.EquipItem(
           m_SelectedSlot.m_Item.m_UniqueItemID,
           _slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);

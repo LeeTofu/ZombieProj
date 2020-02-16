@@ -24,11 +24,15 @@ public abstract class Bullet : MovingObject
     protected float m_currentMoveDistance = 0.0f;
     protected float m_currentSpeed = 0.0f;
 
-    
+    protected AudioSource m_AudioSource;
+
+    [SerializeField]
+    protected AudioClip[] m_AudioHitSound;
 
     public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
     {
         m_TypeKey = _typeKey;
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
 
@@ -37,6 +41,16 @@ public abstract class Bullet : MovingObject
     protected abstract void BulletMove();
 
     public abstract void CollisionEvent(GameObject _object);
+
+    protected void PlayHitSound()
+    {
+        if (m_AudioHitSound == null) return;
+        if (m_AudioHitSound.Length == 0) return;
+
+        int idx = m_AudioHitSound.Length;
+        m_AudioSource.PlayOneShot(m_AudioHitSound[Random.Range(0, idx)]);
+
+    }
 
     public void FireBullet(Vector3 _pos, Vector3 _dir, STAT _stat )
     {

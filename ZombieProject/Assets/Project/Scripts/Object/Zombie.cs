@@ -10,13 +10,49 @@ public class Zombie : MovingObject
 
     private Coroutine m_KnockBackCoroutine;
 
-   // public MeleeAttackCollision m_MeleeAttackCollision;
+    private AudioSource m_AudioSource;
+
+    [SerializeField]
+    AudioClip[] m_AttackAudioSource;
+
+    [SerializeField]
+    AudioClip[] m_IdleAudioSource;
+
+    [SerializeField]
+    AudioClip[] m_HurtAudioSource;
+
+
+    // public MeleeAttackCollision m_MeleeAttackCollision;
 
     public override void InGame_Initialize()
     {
         m_HpBarUI.InGame_Initialize();
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
+    }
+
+    public void PlayAttackSound()
+    {
+        if (m_AudioSource == null) return;
+
+        int attackSoundIdx = m_AttackAudioSource.Length;
+        m_AudioSource.PlayOneShot(m_AttackAudioSource[Random.Range(0, attackSoundIdx)]);
+    }
+
+    public void PlayHurtSound()
+    {
+        if (m_AudioSource == null) return;
+
+        int hurtSoundIdx = m_HurtAudioSource.Length;
+        m_AudioSource.PlayOneShot(m_HurtAudioSource[Random.Range(0, hurtSoundIdx)]);
+    }
+
+    public void PlayIdleSound()
+    {
+        if (m_AudioSource == null) return;
+
+        int idleSoundIdx = m_IdleAudioSource.Length;
+        m_AudioSource.PlayOneShot(m_IdleAudioSource[Random.Range(0, idleSoundIdx)]);
     }
 
 
@@ -37,6 +73,8 @@ public class Zombie : MovingObject
         m_zombieState = ZOMBIE_STATE.IDLE;
         InitByZombieType(this.m_Type);
 
+        m_AudioSource = GetComponent<AudioSource>();
+
         //if (m_NavAgent == null)
         //{
         //    m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
@@ -47,6 +85,11 @@ public class Zombie : MovingObject
         //}
     }
 
+    private void OnDestroy()
+    {
+        m_TargetingObject = null;
+    }
+
     private void KnockBackAction(float _time)
     {
         m_Stat.isKnockBack = true;
@@ -55,6 +98,8 @@ public class Zombie : MovingObject
         {
             StopCoroutine(m_KnockBackCoroutine);
         }
+
+        PlayHurtSound();
 
         m_KnockBackCoroutine = StartCoroutine(ExitKnockBack(_time));
     }
@@ -73,6 +118,8 @@ public class Zombie : MovingObject
             {
                 StopCoroutine(m_KnockBackCoroutine);
             }
+
+            m_TargetingObject = null;
 
             //  if(m_Type == OBJECT_TYPE.ZOMBIE)
             //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);

@@ -405,6 +405,8 @@ public class DrinkState : PlayerState
         for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
             m_PlayerObject.m_Animator.CrossFade("Drink", 0.3f, i);
 
+        SoundManager.Instance.OneShotPlay(UI_SOUND.DRINK);
+
         m_Time = 0.0f;
     }
     public override void End()

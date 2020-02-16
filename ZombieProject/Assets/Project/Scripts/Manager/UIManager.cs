@@ -19,14 +19,15 @@ public class UIManager : Singleton<UIManager>
         
         if (Input.GetMouseButtonDown(0))
         {
-           MoveParticlePosition();
+            TouchParticlePosition();
         }
     }
 
-    void MoveParticlePosition()
+    void TouchParticlePosition()
     {
         if (m_UICamera == null) return;
-        if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.LOGIN || SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME) return;
+        if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.LOGIN || 
+            (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)) return;
 
         Vector3 mosuePoint = Input.mousePosition;
         mosuePoint.z = m_UICamera.nearClipPlane + 0.01f;
@@ -34,6 +35,8 @@ public class UIManager : Singleton<UIManager>
 
         SoundManager.Instance.OneShotPlay(UI_SOUND.TOUCH_EFFECT);
         m_Particle = EffectManager.Instance.PlayEffect(PARTICLE_TYPE.TOUCH_EFFECT, Pos, Quaternion.identity, Vector3.one * 0.05f, true, 0.5f);
+
+        if (m_Particle == null) return;
 
         m_Particle.transform.position = Pos;
 

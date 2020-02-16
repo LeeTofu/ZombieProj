@@ -73,9 +73,14 @@ public class InventoryUI: BaseUI
         }
 
         m_SelectedSlot = _slot;
-        m_SelectedSlot.SelectItem();
 
-        return true;
+        if (m_SelectedSlot != null)
+        {
+            m_SelectedSlot.SelectItem();
+
+            return true;
+        }
+        else return false;
 
     }
 
@@ -206,14 +211,15 @@ public class InventoryUI: BaseUI
             return;
         }
 
-        Debug.Log("들어가기 시작");
-
+       // Debug.Log("들어가기 시작");
+        SoundManager.Instance.OneShotPlay(UI_SOUND.WEAPON_CHANGE);
         InvenManager.Instance.DetachItem(_slotType, m_ItemEquipmentSlot[(int)_slotType - 1]);
         SetEuqipmentItemSlot(_slotType, m_ItemEquipmentSlot[(int)(_slotType) - 1]);
     }
 
     public override void DeleteUI()
     {
+        SelectItem(null);
         SortItemslot(MAIN_ITEM_SORT.NONE);
     }
 

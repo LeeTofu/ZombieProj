@@ -57,6 +57,8 @@ public class InstallBomb : Bullet
                     true, 1.0f);
 
         EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+        EnemyManager.Instance.SetTargetingRangeZombies(null, transform.position, m_Stat.Range);
+
 
         m_Time = 0.0f;
         pushToMemory();

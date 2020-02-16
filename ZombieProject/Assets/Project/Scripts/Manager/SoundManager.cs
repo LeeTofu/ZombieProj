@@ -38,6 +38,9 @@ public enum UI_SOUND
     BODY_HIT_BULLET1,
     BODY_HIT_BULLET2,
     BODY_HIT_BULLET3,
+
+    BODY_FALL,
+    HIT_METAL
 }
 
 public class SoundManager : Singleton<SoundManager>

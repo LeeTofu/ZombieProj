@@ -50,6 +50,9 @@ public class ThrowBullet : Bullet
 
         if (Physics.Raycast(ray, out rayCast, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
         {
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.HIT_EFFECT, rayCast.point, Quaternion.identity, Vector3.one * 1.2f, true, 0.5f);
+            SoundManager.Instance.OneShotPlay(UI_SOUND.HIT_METAL);
+
             m_CurDirection = Vector3.Reflect(m_CurDirection, rayCast.normal);
         }
 

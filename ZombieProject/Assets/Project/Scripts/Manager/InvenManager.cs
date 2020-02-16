@@ -356,6 +356,7 @@ public class InvenManager : Singleton<InvenManager>
     {
         return m_ItemSlotCount[_itemSort] >= MAX_INVEN_SLOT ? true : false;
     }
+
     public void CheckCurrentInvenTabFull()
     {
         CheckCurrentInvenTabFull(m_CurSelectedInventoryTab);
@@ -365,9 +366,9 @@ public class InvenManager : Singleton<InvenManager>
     {
         if (CheckCurrentInvenTabFull(_itemSort))
         {
-            Debug.LogError("sws");
             return null;
         }
+
         for(int i = 0; i < m_ItemInventorySlot[_itemSort].Count; i++)
         {
            if( m_ItemInventorySlot[_itemSort][i].m_Item == null)
@@ -375,7 +376,6 @@ public class InvenManager : Singleton<InvenManager>
                 return m_ItemInventorySlot[_itemSort][i];
             }
         }
-        Debug.LogError("sws");
         return null;
     }
 
@@ -442,7 +442,7 @@ public class InvenManager : Singleton<InvenManager>
     {
         Item preEquipItem = null;
 
-        Debug.Log("여기는 와애ㅑ지");
+
         if (isEquipedItemSlot(_slotSort))
         {
             preEquipItem = m_EquipedItemSlots[_slotSort];
@@ -459,15 +459,27 @@ public class InvenManager : Singleton<InvenManager>
 
                 if (item != null)
                 {
-                    Debug.Log("들오나");
-                    //  m_ItemEquipmentSlot[(int)_slotType].SetItem(null);
                     MAIN_ITEM_SORT sort = ConvertSortToMainSort(_slotSort);
                     ItemSlot itemSlot = GetItemSlot(sort, item.m_UniqueItemID);
+
+                    if (itemSlot == null)
+                    {
+                        Debug.LogError("아이템이 왜 없지?");
+                        return null;
+                    }
 
                     itemSlot.DetachItem();
                 }
 
-                m_ItemInventory[preEquipItem.m_UniqueItemID].m_isEquiped = false;
+                Item detachItem = null;
+                
+                if(m_ItemInventory.TryGetValue(preEquipItem.m_UniqueItemID, out detachItem))
+                {
+                    if (detachItem != null)
+                        detachItem.m_isEquiped = false;
+                    else
+                        Debug.LogError("Inven Table에 담았는데 아이템이 null이다? : " + preEquipItem.m_UniqueItemID.ToString());
+                }
             }
             else
             {

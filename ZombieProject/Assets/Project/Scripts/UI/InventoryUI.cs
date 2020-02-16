@@ -86,14 +86,20 @@ public class InventoryUI: BaseUI
 
     void SetEuqipmentItemSlot(ITEM_SLOT_SORT _slotType, ItemSlot _EquipmentSlot)
     {
+        if (_EquipmentSlot == null) return;
+        
         Item equipedItem = InvenManager.Instance.GetEquipedItemSlot(_slotType);
         if (equipedItem != null)
         {
             MAIN_ITEM_SORT slotType = InvenManager.Instance.ConvertSortToMainSort(_slotType);
 
-            ItemSlot slot = InvenManager.Instance.GetItemSlot(slotType, equipedItem.m_UniqueItemID);
-            slot.EquipItem();
+            if (slotType == MAIN_ITEM_SORT.END || slotType == MAIN_ITEM_SORT.NONE) return;
 
+            ItemSlot slot = InvenManager.Instance.GetItemSlot(slotType, equipedItem.m_UniqueItemID);
+
+            if (slot == null) return;
+
+            slot.EquipItem();
             _EquipmentSlot.SetItem(equipedItem);
         }
     }

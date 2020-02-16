@@ -26,8 +26,17 @@ public class WeaponStatUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI m_AttackSpeed;
 
+    [SerializeField]
+    GameObject m_RollObject;
+
+    ItemObject m_ItemObject;
+
+
     private void OnDisable()
     {
+        if (m_ItemObject == null) return;
+
+
         m_Attack.text = " ";
         m_AttackLv.text = " ";
 
@@ -36,11 +45,26 @@ public class WeaponStatUI : MonoBehaviour
 
         m_AttackSpeed.text = " ";
         m_AttackSpeedLv.text = " ";
+
+    }
+
+    public void RollUI()
+    {
+        m_RollObject.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+    
+        if(m_ItemObject != null)
+        {
+            SetWeaponStat(m_ItemObject);
+        }
+    
     }
 
 
     public void SetWeaponStat(ItemObject _object )
     {
+        m_ItemObject = _object;
+
         float attack = Mathf.Round(_object.m_CurrentStat.m_AttackPoint * 100) * 0.01f;
         float range = Mathf.Round(_object.m_CurrentStat.m_Range * 100) * 0.01f;
         float speed = Mathf.Round(_object.m_CurrentStat.m_AttackSpeed * 100) * 0.01f;

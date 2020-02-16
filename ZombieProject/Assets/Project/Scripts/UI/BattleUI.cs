@@ -23,9 +23,6 @@ public class BattleUI : BaseUI
     TMPro.TextMeshProUGUI m_CurHPText;
 
     [SerializeField]
-    TMPro.TextMeshProUGUI m_MaxHPText;
-
-    [SerializeField]
     TMPro.TextMeshProUGUI m_CountDown;
 
     [SerializeField]
@@ -39,6 +36,7 @@ public class BattleUI : BaseUI
 
     [SerializeField]
     GameObject m_NPCButtonObject;
+
 
     [SerializeField]
     NpcShopButton[] m_ShopButtons;
@@ -95,8 +93,8 @@ public class BattleUI : BaseUI
             yield return null;
         }
 
-        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
-        m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString() + "/" + PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+        
     }
 
     private void OnEnable()
@@ -242,12 +240,11 @@ public class BattleUI : BaseUI
         StopCoroutine(CountDown_C());
 
         m_HpImage.fillAmount = 1f;
-        m_CurHPText.text = "100";
-        m_MaxHPText.text = "100";
+        m_CurHPText.text = "100/100";
 
         foreach (NpcShopButton button in m_DicNPCButton.Values)
         {
-            button.DestroyButton();
+            button.InitializeButton();
         }
     }
 
@@ -267,8 +264,7 @@ public class BattleUI : BaseUI
         if (PlayerManager.Instance.m_Player == null) yield break;
         if (PlayerManager.Instance.m_Player.m_Stat == null) yield break;
 
-        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString();
-        m_MaxHPText.text = PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString() + "/" + PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
 
         float CurHpAmount = PlayerManager.Instance.m_Player.m_Stat.CurHP / PlayerManager.Instance.m_Player.m_Stat.MaxHP;
         float PrevHpAmount = m_HpImage.fillAmount;

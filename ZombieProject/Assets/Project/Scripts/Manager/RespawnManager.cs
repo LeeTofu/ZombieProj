@@ -46,6 +46,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
+                            CurHP = 100 + i * 5,
                             Range = 1.5f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
@@ -57,6 +58,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
+                            CurHP = 100 + i * 5,
                             Range = 7.0f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
@@ -68,6 +70,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
+                            CurHP = 100 + i * 5,
                             Range = 8.0f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
@@ -79,6 +82,7 @@ public class RespawnManager : Singleton<RespawnManager>
                         {
                             Attack = 10.0f + i,
                             MaxHP = 100 + i * 5,
+                            CurHP = 100 + i * 5,
                             Range = 1.5f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
@@ -161,6 +165,7 @@ public class RespawnManager : Singleton<RespawnManager>
     // 게임 처음 시작시 실행되는 함수.
     public void GameStartWave()
     {
+        
 #if UNITY_EDITOR
         StartCoroutine(WaveChange_C(15.0f));
 #elif UNITY_ANDROID
@@ -180,8 +185,10 @@ public class RespawnManager : Singleton<RespawnManager>
     // 웨이브마다 있는 쉬는 시간
     IEnumerator RestTime_C(float _restTime)
     {
-        SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_START);
+
+        SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_REST);
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
+        (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
 
         m_isRest = true;
         yield return new WaitForSeconds(_restTime);
@@ -246,6 +253,7 @@ public class RespawnManager : Singleton<RespawnManager>
             ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
 
             yield return new WaitForSeconds(1.0f);
+
 
             (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
 

@@ -51,13 +51,7 @@ public class NpcShopButton : UIPressSubject
 
     private void Start()
     {
-        m_UpgLevel = 0;
-        m_MoneyText.text = "$" + (m_StartCost + m_PlusCost * m_UpgLevel).ToString();
-        m_MoneyText.color = Color.green;
-
-        if(m_slotType != SHOP_SORT.AMMO)
-            m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
-        else m_UpgLevelText.text = " ";
+        InitializeButton();
     }
 
 
@@ -161,7 +155,7 @@ public class NpcShopButton : UIPressSubject
                 break;
             case SHOP_SORT.RANGEUP:
                 float currentrange = m_CurrentUpgradedItem.m_CurrentStat.m_Range;
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, currentrange * 0.05f);
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, 0.5f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.RANGE);
 
                 break;
@@ -176,7 +170,7 @@ public class NpcShopButton : UIPressSubject
                 m_UpgLevel++;
                 break;
             case SHOP_SORT.ATTACKSPEEDUP:
-                float currentattackspeed = m_CurrentUpgradedItem.m_CurrentStat.m_AttackSpeed;
+                float currentattackspeed = m_CurrentUpgradedItem.m_Item.m_ItemStat.m_AttackSpeed;
                 PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK_SPEED, -currentattackspeed * 0.05f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.ATTACK_SPEED);
 
@@ -189,7 +183,7 @@ public class NpcShopButton : UIPressSubject
     {
     }
 
-    public void DestroyButton()
+    public void InitializeButton()
     {
         m_UpgLevel = 0;
         m_MoneyText.text = "$" + (m_StartCost + m_PlusCost * m_UpgLevel).ToString();

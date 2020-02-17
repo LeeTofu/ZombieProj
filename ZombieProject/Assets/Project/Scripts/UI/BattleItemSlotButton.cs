@@ -142,8 +142,26 @@ public class BattleItemSlotButton : UIPressSubject
 
     public void MaxItemStackCount()
     {
-        m_Item.FullChargeItemCount();
-        m_StackCountText.text = m_Item.m_Count.ToString();
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject == null)
+        {
+            Debug.LogError("무기가 없는데? 뭘 충전하지");
+            return;
+        }
+
+        int count = 0;
+
+        if (m_slotType == ITEM_SLOT_SORT.MAIN)
+        {
+            m_Item.FullChargeItemCount(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count);
+            count = PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count;
+        }
+        else
+        {
+            m_Item.FullChargeItemCount(m_Item.m_ItemStat.m_Count);
+            count = m_Item.m_ItemStat.m_Count;
+        }
+
+        m_StackCountText.text = count.ToString();
 
         if (m_Item.m_Count > 0)
         {

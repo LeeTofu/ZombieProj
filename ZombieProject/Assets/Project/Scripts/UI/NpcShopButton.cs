@@ -80,6 +80,11 @@ public class NpcShopButton : UIPressSubject
                     Type = UPGRADE_TYPE.RANGE;
                 }
                 break;
+            case SHOP_SORT.AMMO:
+                {
+                    Type = UPGRADE_TYPE.AMMO;
+                }
+                break;
         }
 
         if(Type != UPGRADE_TYPE.NONE)
@@ -117,7 +122,7 @@ public class NpcShopButton : UIPressSubject
 
     void UpdateUpgradeUI()
     {
-        if (m_slotType == SHOP_SORT.AMMO || m_slotType == SHOP_SORT.QUICK) return;
+        if ( m_slotType == SHOP_SORT.QUICK) return;
 
         if(m_UpgLevel == -1 ) return;
 
@@ -146,6 +151,9 @@ public class NpcShopButton : UIPressSubject
         switch (m_slotType)
         {
             case SHOP_SORT.AMMO:
+                float currentCount = m_CurrentUpgradedItem.m_Item.m_ItemStat.m_Count;
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.AMMO, currentCount * 0.30f);
+                m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.AMMO);
                 (UIManager.Instance.m_CurrentUI as BattleUI).UpdateFullMaxCount(ITEM_SLOT_SORT.MAIN);
                 break;
             case SHOP_SORT.QUICK:
@@ -154,7 +162,6 @@ public class NpcShopButton : UIPressSubject
                 m_UpgLevel++;
                 break;
             case SHOP_SORT.RANGEUP:
-                float currentrange = m_CurrentUpgradedItem.m_CurrentStat.m_Range;
                 PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, 0.5f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.RANGE);
 
@@ -170,7 +177,7 @@ public class NpcShopButton : UIPressSubject
                 m_UpgLevel++;
                 break;
             case SHOP_SORT.ATTACKSPEEDUP:
-                float currentattackspeed = m_CurrentUpgradedItem.m_Item.m_ItemStat.m_AttackSpeed;
+                float currentattackspeed = m_CurrentUpgradedItem.m_CurrentStat.m_AttackSpeed;
                 PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.ATTACK_SPEED, -currentattackspeed * 0.05f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.ATTACK_SPEED);
 

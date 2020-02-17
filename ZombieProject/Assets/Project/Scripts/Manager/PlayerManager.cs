@@ -8,7 +8,8 @@ public enum UPGRADE_TYPE
     ATTACK,
     RANGE,
     ATTACK_SPEED,
-    HP
+    HP,
+    AMMO
 }
 
 
@@ -56,6 +57,13 @@ public class PlayerManager : Singleton<PlayerManager>
     EffectObject m_CurTargtingEffect;
 
     MovingObject m_TargetingZombie;
+
+    StateController m_PlayerStateContoller;
+
+    Ray m_HitRay = new Ray();
+    RaycastHit m_RayCastr = new RaycastHit();
+
+    int m_WallLayerMask;
 
     public int CurrentMoney
     {
@@ -193,6 +201,8 @@ public class PlayerManager : Singleton<PlayerManager>
         PlayerWeaponInitialize();
         PushEffectToPool();
 
+        m_PlayerStateContoller = (m_Player as PlayerObject).m_StateController;
+
         return m_Player;
     }
 
@@ -241,6 +251,8 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_PlayerCreateZone != null)
             m_PlayerCreateZone.GetComponent<MeshRenderer>().enabled = false;
 
+        m_WallLayerMask = 1 << LayerMask.NameToLayer("Wall");
+
         return true;
     }
 
@@ -254,6 +266,14 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.0f)
         {
+            m_HitRay.origin = m_Player.transform.position;
+            m_HitRay.direction = HitForward;
+
+            if (Physics.Raycast(m_HitRay, out m_RayCastr, m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_WallLayerMask))
+            {
+                return false;
+            }
+
             return true;
         }
         else return false;
@@ -324,6 +344,9 @@ public class PlayerManager : Singleton<PlayerManager>
                 break;
             case UPGRADE_TYPE.HP:
                 m_Player.m_Stat.MaxHP += _value;
+                break;
+            case UPGRADE_TYPE.AMMO:
+                m_CurrentEquipedItemObject.UpgradeAmmoCount((short)_value);
                 break;
         }
 
@@ -421,6 +444,14 @@ public class PlayerManager : Singleton<PlayerManager>
                 //(m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
                 break;
         }
+    }
+
+    public E_PLAYABLE_STATE GetPlayerState()
+    {
+        if (m_Player == null) return E_PLAYABLE_STATE.NONE;
+        if (m_PlayerStateContoller == null) return E_PLAYABLE_STATE.NONE;
+
+        return m_PlayerStateContoller.m_eCurrentState;
     }
 
 

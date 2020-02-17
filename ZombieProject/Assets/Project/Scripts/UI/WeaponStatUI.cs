@@ -27,6 +27,13 @@ public class WeaponStatUI : MonoBehaviour
     TextMeshProUGUI m_AttackSpeed;
 
     [SerializeField]
+    TextMeshProUGUI m_AmmoCountLv;
+
+
+    [SerializeField]
+    TextMeshProUGUI m_AmmoCount;
+
+    [SerializeField]
     GameObject m_RollObject;
 
     ItemObject m_ItemObject;
@@ -45,6 +52,9 @@ public class WeaponStatUI : MonoBehaviour
 
         m_AttackSpeed.text = " ";
         m_AttackSpeedLv.text = " ";
+
+        m_AmmoCountLv.text = " ";
+        m_AmmoCount.text = " ";
 
     }
 
@@ -68,6 +78,7 @@ public class WeaponStatUI : MonoBehaviour
         float attack = Mathf.Round(_object.m_CurrentStat.m_AttackPoint * 100) * 0.01f;
         float range = Mathf.Round(_object.m_CurrentStat.m_Range * 100) * 0.01f;
         float speed = Mathf.Round(_object.m_CurrentStat.m_AttackSpeed * 100) * 0.01f;
+        float ammo = Mathf.Round(_object.m_CurrentStat.m_Count);
 
         m_Attack.text = attack.ToString();
         m_AttackLv.text = "Lv" + _object.GetUpgradeCount(UPGRADE_TYPE.ATTACK).ToString();
@@ -77,6 +88,9 @@ public class WeaponStatUI : MonoBehaviour
 
         m_AttackSpeed.text = speed.ToString() + "s";
         m_AttackSpeedLv.text = "Lv" + _object.GetUpgradeCount(UPGRADE_TYPE.ATTACK_SPEED).ToString();
+
+        m_AmmoCount.text = ammo.ToString();
+        m_AmmoCountLv.text = "Lv" + _object.GetUpgradeCount(UPGRADE_TYPE.AMMO).ToString();
 
     }
 }

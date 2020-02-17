@@ -189,6 +189,9 @@ public class SlotController : MonoBehaviour
             return false;
         }
         if (!CheckCanActionPlay()) return false;
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+            return false;
+
 
         if(m_isHaveCoolTime)
             m_CurrentCoolTime = m_CurrentMaxCoolTime;
@@ -206,6 +209,8 @@ public class SlotController : MonoBehaviour
             return false;
         }
         if (!CheckCanActionPlay()) return false;
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+            return false;
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;
 
@@ -219,6 +224,8 @@ public class SlotController : MonoBehaviour
         {
             return false;
         }
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+            return false;
 
         m_isDownHover = false;
 

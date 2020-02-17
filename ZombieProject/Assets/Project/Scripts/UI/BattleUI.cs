@@ -8,7 +8,7 @@ public class BattleUI : BaseUI
     Coroutine m_DamagedCoroutine;
 
     [SerializeField]
-    static Image m_DeathPanel;
+    static DeadPanel m_DeathPanel;
 
     [SerializeField]
     RawImage m_DamagedImage;
@@ -56,7 +56,7 @@ public class BattleUI : BaseUI
     private void Awake()
     {
         m_InputController = GetComponentInChildren<InputContoller>();
-        m_DeathPanel = transform.Find("DeathPanel").GetComponent<Image>();
+        m_DeathPanel = transform.Find("DeathPanel").GetComponent<DeadPanel>();
 
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
@@ -216,7 +216,7 @@ public class BattleUI : BaseUI
                 var item = InvenManager.Instance.GetEquipedItemSlot(type);
 
                 if (item != null)
-                    item.FullChargeItemCount();
+                    item.FullChargeItemCount(item.m_ItemStat.m_Count);
 
                 buttons[i].Init(PlayerManager.Instance.m_Player, item);
 
@@ -231,7 +231,7 @@ public class BattleUI : BaseUI
                 var item = InvenManager.Instance.GetEquipedItemSlot(type);
 
                 if (item != null)
-                    item.FullChargeItemCount();
+                    item.FullChargeItemCount(item.m_ItemStat.m_Count);
 
                 m_ItemSlots[type].Init(PlayerManager.Instance.m_Player, item);
             }
@@ -291,6 +291,7 @@ public class BattleUI : BaseUI
     public static void SetDeathPanelActive(bool _is)
     {
         m_DeathPanel.gameObject.SetActive(_is);
+        m_DeathPanel.UpdateDead();
     }
 
     public void ChangeWaveAction(int _wave)
@@ -346,16 +347,6 @@ public class BattleUI : BaseUI
         m_MoneyText.text = "$ " + _money.ToString();
     }
 
-    public void UpdateCount(ITEM_SLOT_SORT _sort, short _acc)
-    {
-        BattleItemSlotButton button = GetItemSlot(_sort);
-
-        if (!button) return;
-        if (button.gameObject.activeSelf == false) return;
-        if (button.m_Item == null) return;
-        
-        GetItemSlot(_sort).plusItemStackCount(_acc);
-    }
 
     public void UpdateFullMaxCount(ITEM_SLOT_SORT _sort)
     {
@@ -365,7 +356,7 @@ public class BattleUI : BaseUI
         if (button.gameObject.activeSelf == false) return;
         if (button.m_Item == null) return;
 
-        GetItemSlot(_sort).MaxItemStackCount();
+        button.MaxItemStackCount();
     }
 
 

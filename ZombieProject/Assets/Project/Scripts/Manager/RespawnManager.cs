@@ -104,6 +104,7 @@ public class RespawnManager : Singleton<RespawnManager>
         m_isGameClear = false;
         m_isRest = true;
         m_CurWave = 0;
+        m_CurZombieCount = 0;
 
         GameClear();
 
@@ -194,6 +195,7 @@ public class RespawnManager : Singleton<RespawnManager>
         SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_REST);
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
         (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateFullMaxCount(ITEM_SLOT_SORT.MAIN);
 
         m_isRest = true;
         yield return new WaitForSeconds(_restTime);

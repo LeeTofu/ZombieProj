@@ -57,6 +57,7 @@ public class ItemObject : MonoBehaviour
         m_DicUpdateCount.Add(UPGRADE_TYPE.ATTACK, 0);
         m_DicUpdateCount.Add(UPGRADE_TYPE.ATTACK_SPEED, 0);
         m_DicUpdateCount.Add(UPGRADE_TYPE.RANGE, 0);
+        m_DicUpdateCount.Add(UPGRADE_TYPE.AMMO, 0);
     }
 
 
@@ -104,6 +105,20 @@ public class ItemObject : MonoBehaviour
             m_DicUpdateCount[UPGRADE_TYPE.ATTACK_SPEED] = count;
         }
         m_CurrentStat.m_AttackSpeed += _attackSpeed;
+    }
+
+    public void UpgradeAmmoCount(short _count)
+    {
+        int count = 0;
+        if (m_DicUpdateCount.TryGetValue(UPGRADE_TYPE.AMMO, out count))
+        {
+            count++;
+            m_DicUpdateCount[UPGRADE_TYPE.AMMO] = count;
+        }
+
+        if (_count == 0) _count = 1;
+
+        m_CurrentStat.m_Count += _count;
     }
 
     public int GetUpgradeCount(UPGRADE_TYPE _type)

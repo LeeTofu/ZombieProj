@@ -222,6 +222,7 @@ public class InventoryUI: BaseUI
     public override void DeleteUI()
     {
         SelectItem(null);
+        CloseItemInfoUI();
         SortItemslot(MAIN_ITEM_SORT.NONE);
     }
 

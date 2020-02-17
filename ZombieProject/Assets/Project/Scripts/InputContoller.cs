@@ -192,6 +192,8 @@ public class InputContoller : UIDragSubject
     {
         if (m_Character == null) return;
         if (m_Character.m_Stat.isDead) return;
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+            return;
 
 #if !UNITY_EDITOR
         if (m_LastFingerID != -1) return;
@@ -237,6 +239,8 @@ public class InputContoller : UIDragSubject
     {
         if (m_Character == null) return;
         if (m_Character.m_Stat.isDead) return;
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+            return;
 
         m_CurMousePosition = GetMousePosition();
 #if !UNITY_EDITOR

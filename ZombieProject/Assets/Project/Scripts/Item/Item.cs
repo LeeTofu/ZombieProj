@@ -139,9 +139,9 @@ public class Item
         m_Count += _accum;
     }
 
-    public void FullChargeItemCount()
+    public void FullChargeItemCount(short _count)
     {
-        m_Count = m_ItemStat.m_Count;
+        m_Count = _count;
     }
 
 }

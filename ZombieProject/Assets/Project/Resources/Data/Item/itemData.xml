@@ -19,7 +19,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>30</Count>
+    <Count>25</Count>
     <Info>일반 총기입니다.</Info>
 	</text>
 	<text>
@@ -73,7 +73,7 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SHOT_GUN</ItemSort>
     <HP>0</HP>
-    <Attack>20</Attack>
+    <Attack>25</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
@@ -85,7 +85,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>10</Count>
+    <Count>8</Count>
     <Info>사거리가 짧지만 5발의 총알을 부채꼴 모양으로 발사하는 산탄총입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
@@ -95,19 +95,19 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>LAUNCHER</ItemSort>
     <HP>0</HP>
-    <Attack>100</Attack>
+    <Attack>120</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
     <Range>8</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>3</AttackSpeed>
+    <AttackSpeed>3.5</AttackSpeed>
     <BulletSpeed>10</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>4</Count>
+    <Count>3</Count>
     <Info>강력한 범위 공격을 가진 로켓런처입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
@@ -123,13 +123,13 @@
     <HPRegenerate>0</HPRegenerate>
     <Range>7.5</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>0.15</AttackSpeed>
+    <AttackSpeed>0.2</AttackSpeed>
     <BulletSpeed>60</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>120</Count>
+    <Count>100</Count>
     <Info>빠른 연사를 가진 일반 총기입니다.</Info>
   </text>
   <text>
@@ -227,7 +227,7 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SNIPER</ItemSort>
     <HP>0</HP>
-    <Attack>75</Attack>
+    <Attack>85</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
@@ -239,7 +239,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>10</Count>
+    <Count>8</Count>
     <Info>적을 관통하며 긴 사거리를 가진 총기입니다. 적중시 적을 넉백합니다.</Info>
   </text>
 </Root>

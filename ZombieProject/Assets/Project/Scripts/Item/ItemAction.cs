@@ -220,13 +220,7 @@ public class SlotController : MonoBehaviour
     // 버튼을 누르고 올릴때
     public bool OnPointerUpCondition()
     {
-        if (PlayerManager.Instance.m_Player.m_Stat.isKnockBack || PlayerManager.Instance.m_Player.m_Stat.isDead)
-        {
-            return false;
-        }
-        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
-            return false;
-
+    
         m_isDownHover = false;
 
         return true;

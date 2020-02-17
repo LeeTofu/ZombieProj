@@ -41,9 +41,8 @@ public class BattleItemSlotButton : UIPressSubject
         m_Item = _item;
        
         m_ItemIcon.sprite = TextureManager.Instance.GetItemIcon(_item.m_ItemStat.m_IconTexrureID);
-        m_ItemIcon.color = Color.white;
-       
-        m_StackCountText.text = _item.m_Count.ToString();
+      //  m_ItemIcon.color = Color.white;
+        UpdateStackCountText();
 
         if (m_ItemButtonController == null)
             m_ItemButtonController = GetComponent<SlotController>();
@@ -119,15 +118,7 @@ public class BattleItemSlotButton : UIPressSubject
     {
         m_Item.spendItem();
 
-        if (m_Item.m_Count > 0)
-        {
-            m_StackCountText.text = m_Item.m_Count.ToString();
-        }
-        else
-        {
-            m_StackCountText.text = "<color=#ff0000>" + m_Item.m_Count.ToString() + "</color>";
-            m_ItemIcon.color = Color.red;
-        }
+        UpdateStackCountText();
     }
     public void plusItemStackCount(short _acc)
     {
@@ -161,11 +152,22 @@ public class BattleItemSlotButton : UIPressSubject
             count = m_Item.m_ItemStat.m_Count;
         }
 
-        m_StackCountText.text = count.ToString();
+        UpdateStackCountText();
+    }
+
+    public void UpdateStackCountText()
+    {
+        if (m_Item == null) return;
 
         if (m_Item.m_Count > 0)
         {
+            m_StackCountText.text = m_Item.m_Count.ToString();
             m_ItemIcon.color = Color.white;
+        }
+        else
+        {
+            m_StackCountText.text = "<color=#ff0000>" + m_Item.m_Count.ToString() + "</color>";
+            m_ItemIcon.color = Color.red;
         }
     }
 

@@ -454,6 +454,22 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_PlayerStateContoller.m_eCurrentState;
     }
 
+    public void FullChargeAllWeaponStackCount()
+    {
+        if (m_MainEquipedItemObject != null)
+        {
+            if (m_MainEquipedItemObject.m_Item != null)
+                m_MainEquipedItemObject.m_Item.FullChargeItemCount(m_MainEquipedItemObject.m_CurrentStat.m_Count);
+        }
+
+        if (m_SecondEquipedItemObject != null)
+        {
+            if(m_SecondEquipedItemObject.m_Item != null)
+            m_SecondEquipedItemObject.m_Item.FullChargeItemCount(m_SecondEquipedItemObject.m_CurrentStat.m_Count);
+        }
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).UpdateCurrentWeaponCountText();
+    }
 
 
     public override void DestroyManager()

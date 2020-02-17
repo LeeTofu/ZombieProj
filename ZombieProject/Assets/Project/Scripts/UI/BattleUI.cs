@@ -229,6 +229,10 @@ public class BattleUI : BaseUI
             else
             {
                 var item = InvenManager.Instance.GetEquipedItemSlot(type);
+
+                if (item != null)
+                    item.FullChargeItemCount();
+
                 m_ItemSlots[type].Init(PlayerManager.Instance.m_Player, item);
             }
         }

@@ -21,9 +21,9 @@ public class InvenManager : Singleton<InvenManager>
     // 게임내 장착된 아이템 
     public Dictionary<ITEM_SLOT_SORT, Item> m_EquipedItemSlots = new Dictionary<ITEM_SLOT_SORT, Item>();
 
-    public const int MAX_INVEN_SLOT = 30;
+    public const int MAX_INVEN_SLOT = 12;
 
-    public const int MAX_INVEN_ROW = 10;
+    public const int MAX_INVEN_ROW = 4;
     public const int MAX_INVEN_COL = 3;
 
  
@@ -405,15 +405,15 @@ public class InvenManager : Singleton<InvenManager>
             return false;
         }
 
+        if (item.m_isEquiped)
+        {
+            DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
+        }
         if (isEquipedItemSlot(_slotSort))
         {
            DetachItem(_slotSort, _EquipmentSlot);
         }
-        if(item.m_isEquiped)
-        {
-            //DetachItem(item.m_ItemSlotType, m_UI.m_ItemEquipmentSlot[(int)item.m_ItemSlotType - 1]);
-            return false;
-        }
+        
      //   if(item.m_isEquiped == true)
 
         m_EquipedItemSlots[_slotSort] = item;

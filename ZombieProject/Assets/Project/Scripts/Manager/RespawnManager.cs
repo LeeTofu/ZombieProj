@@ -97,13 +97,18 @@ public class RespawnManager : Singleton<RespawnManager>
         return true;
     }
 
+
     public override void DestroyManager()
     {
         m_isGameOver = false;
         m_isGameClear = false;
         m_isRest = true;
+        m_CurWave = 0;
 
         GameClear();
+
+        AllStopRespawnZombie();
+        AllDeleteRespawnZombie();
     }
 
     private void Update()

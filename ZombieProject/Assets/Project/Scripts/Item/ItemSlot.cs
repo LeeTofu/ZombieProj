@@ -85,6 +85,12 @@ public class ItemSlot : MonoBehaviour
             if (m_IconImage)
                 m_IconImage.sprite = m_NullImage;
 
+            if (m_isEquipmentItemSlot)
+            {
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 238);
+                m_IconImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 96);
+            }
+
             if (m_ItemName != null)
                 m_ItemName.text = "";
 

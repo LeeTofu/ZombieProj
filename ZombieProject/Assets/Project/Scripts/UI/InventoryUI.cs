@@ -27,6 +27,8 @@ public class InventoryUI: BaseUI
     [SerializeField]
     TextMeshProUGUI PlayerName;
 
+    ITEM_SLOT_SORT m_CurrentQuickItemEquipSlot = ITEM_SLOT_SORT.THIRD;
+
     public ItemSlot m_SelectedSlot { private set; get; }
 
     private void Awake()
@@ -56,7 +58,7 @@ public class InventoryUI: BaseUI
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.SECOND, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.SECOND - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.THIRD, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.THIRD - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.FOURTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FOURTH - 1)]);
-        SetEuqipmentItemSlot(ITEM_SLOT_SORT.FIFTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FIFTH - 1)]);
+  //B      SetEuqipmentItemSlot(ITEM_SLOT_SORT.FIFTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FIFTH - 1)]);
     }
 
     public bool SelectItem(ItemSlot _slot)
@@ -159,14 +161,8 @@ public class InventoryUI: BaseUI
                 EquipItem(ITEM_SLOT_SORT.MAIN);
                 break;
             case MAIN_ITEM_SORT.QUICK:
-                if(InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.THIRD) != null)
-                {
-                    EquipItem(ITEM_SLOT_SORT.FOURTH);
-                }
-                else
-                {
-                    EquipItem(ITEM_SLOT_SORT.THIRD);
-                }
+                EquipItem(m_CurrentQuickItemEquipSlot);
+                m_CurrentQuickItemEquipSlot = (m_CurrentQuickItemEquipSlot == ITEM_SLOT_SORT.THIRD) ? ITEM_SLOT_SORT.FOURTH : ITEM_SLOT_SORT.THIRD;
                 break;
         }
     }

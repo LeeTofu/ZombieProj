@@ -107,7 +107,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>5</Count>
+    <Count>4</Count>
     <Info>강력한 범위 공격을 가진 로켓런처입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
@@ -156,7 +156,7 @@
   </text>
   <text>
     <ItemID>8</ItemID>
-    <ItemName>설치형 폭탄</ItemName>
+    <ItemName>설치 폭탄</ItemName>
     <IconName>Other_icon_00</IconName>
     <ModelName>Bomb_01</ModelName>
     <ItemSort>INSTALL_BOMB</ItemSort>

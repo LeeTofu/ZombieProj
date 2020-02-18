@@ -195,7 +195,6 @@ public class RespawnManager : Singleton<RespawnManager>
         SoundManager.Instance.OneShotPlay(UI_SOUND.BATTLE_REST);
         (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage("다음 전투를 위해 정비하세요!");
         (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
-        PlayerManager.Instance.FullChargeAllWeaponStackCount();
 
         m_isRest = true;
         yield return new WaitForSeconds(_restTime);

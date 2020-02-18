@@ -33,7 +33,7 @@ public class PlayerObject : MovingObject
 
         m_Stat.isKnockBack = false;
         m_Stat.CurHP = m_Stat.MaxHP;
-        m_HpBarUI.InGame_Initialize();
+
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
             if (m_StateController == null)
@@ -45,13 +45,15 @@ public class PlayerObject : MovingObject
             m_StateController.InGame_Initialize();
         }
 
-       
-
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
 
         if(m_PlayerEffect == null)
             m_PlayerEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.PLAYER, this, Vector3.up * 0.2f, Quaternion.Euler(90,0,0), Vector3.one);
+
+
+        m_HpBarUI.InGame_Initialize();
+
     }
 
     public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
@@ -65,6 +67,7 @@ public class PlayerObject : MovingObject
             m_BuffRimLight.Initialize(_Model);
         }
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
+
         if (m_Animator == null)
         {
             m_Animator = gameObject.GetComponentInChildren<Animator>();
@@ -93,6 +96,8 @@ public class PlayerObject : MovingObject
 
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<PlayerCollisionAction>();
+
+        m_HpBarUI.Initialzie(this);
 
         return;
     }

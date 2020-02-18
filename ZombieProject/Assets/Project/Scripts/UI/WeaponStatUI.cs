@@ -41,8 +41,9 @@ public class WeaponStatUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (m_ItemObject == null) return;
+        SetWeaponStat(null);
 
+        if (m_ItemObject == null) return;
 
         m_Attack.text = " ";
         m_AttackLv.text = " ";
@@ -67,12 +68,17 @@ public class WeaponStatUI : MonoBehaviour
         {
             SetWeaponStat(m_ItemObject);
         }
-    
     }
 
 
     public void SetWeaponStat(ItemObject _object )
     {
+        if(_object == null)
+        {
+            m_ItemObject = null;
+            return;
+        }
+
         m_ItemObject = _object;
 
         float attack = Mathf.Round(_object.m_CurrentStat.m_AttackPoint * 100) * 0.01f;

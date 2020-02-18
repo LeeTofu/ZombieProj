@@ -26,7 +26,6 @@ public class Zombie : MovingObject
 
     public override void InGame_Initialize()
     {
-        m_HpBarUI.InGame_Initialize();
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
     }
@@ -74,6 +73,7 @@ public class Zombie : MovingObject
         InitByZombieType(this.m_Type);
 
         m_AudioSource = GetComponent<AudioSource>();
+        m_HpBarUI.Initialzie(this);
 
         //if (m_NavAgent == null)
         //{

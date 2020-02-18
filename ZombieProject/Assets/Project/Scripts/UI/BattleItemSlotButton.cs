@@ -131,25 +131,21 @@ public class BattleItemSlotButton : UIPressSubject
         }
     }
 
-    public void MaxItemStackCount()
+    public void ChargeMaxStackCount()
     {
-        if (PlayerManager.Instance.m_CurrentEquipedItemObject == null)
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject == null || m_Item == null)
         {
             Debug.LogError("무기가 없는데? 뭘 충전하지");
             return;
         }
 
-        int count = 0;
-
         if (m_slotType == ITEM_SLOT_SORT.MAIN)
         {
             m_Item.FullChargeItemCount(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count);
-            count = PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Count;
         }
         else
         {
             m_Item.FullChargeItemCount(m_Item.m_ItemStat.m_Count);
-            count = m_Item.m_ItemStat.m_Count;
         }
 
         UpdateStackCountText();

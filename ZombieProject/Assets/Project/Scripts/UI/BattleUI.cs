@@ -347,7 +347,7 @@ public class BattleUI : BaseUI
         m_MoneyText.text = "$ " + _money.ToString();
     }
 
-    public void UpdateFullMaxCount(ITEM_SLOT_SORT _sort)
+    public void ChargeFullMaxStackCount(ITEM_SLOT_SORT _sort)
     {
         BattleItemSlotButton button = GetItemSlot(_sort);
 
@@ -355,7 +355,7 @@ public class BattleUI : BaseUI
         if (button.gameObject.activeSelf == false) return;
         if (button.m_Item == null) return;
 
-        button.MaxItemStackCount();
+        button.ChargeMaxStackCount();
     }
 
     public void UpdateCurrentWeaponCountText()

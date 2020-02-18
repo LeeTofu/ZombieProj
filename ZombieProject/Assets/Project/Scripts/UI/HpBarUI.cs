@@ -20,25 +20,11 @@ public class HpBarUI : MonoBehaviour
         m_HpBar = transform.Find("HPUI/HPBar").GetComponent<Image>();
         m_HpImage = transform.Find("HPUI/HPBar/HP").GetComponent<Image>();
     }
-    private void Start()
+    public void Initialzie(MovingObject _object)
     {
-        m_Height = m_MovingObject.GetModel().transform.Find("Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head").transform.position.y;
-        switch (m_MovingObject.tag)
-        {
-            case "Zombie":
-                m_MovingObject.m_Stat.AddPropertyChangeAction(() =>
-                {
-                    if (m_MovingObject.m_Stat.CurHP == m_MovingObject.m_Stat.MaxHP)
-                        m_HpUi.enabled = false;
-                    else
-                        m_HpUi.enabled = true;
-                });
-                break;
-        }
-        m_MovingObject.m_Stat.AddPropertyChangeAction(() =>
-        {
-            HpChange();
-        });
+        if (m_MovingObject == null) m_MovingObject = _object;
+        if (m_MovingObject.GetModel() != null) 
+            m_Height = m_MovingObject.GetModel().transform.Find("Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head").transform.position.y;
     }
 
     private void Update()
@@ -63,6 +49,9 @@ public class HpBarUI : MonoBehaviour
 
     public void InGame_Initialize()
     {
+        if (m_MovingObject == null) return;
+        if (m_MovingObject.m_Stat == null) return;
+
         switch (m_MovingObject.tag)
         {
             case "Player":
@@ -70,8 +59,19 @@ public class HpBarUI : MonoBehaviour
                 m_HpUi.enabled = true;
                 break;
             case "Zombie":
-                m_HpUi.enabled = false;
+                m_HpImage.fillAmount = 1f;
+                m_MovingObject.m_Stat.AddPropertyChangeAction(() =>
+                {
+                    if (m_MovingObject.m_Stat.CurHP >= m_MovingObject.m_Stat.MaxHP)
+                        m_HpUi.enabled = false;
+                    else
+                        m_HpUi.enabled = true;
+                });
                 break;
         }
+        m_MovingObject.m_Stat.AddPropertyChangeAction(() =>
+        {
+            HpChange();
+        });
     }
 }

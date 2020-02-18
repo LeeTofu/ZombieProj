@@ -122,7 +122,7 @@ public class NpcShopButton : UIPressSubject
 
     void UpdateUpgradeUI()
     {
-        if ( m_slotType == SHOP_SORT.QUICK) return;
+        if ( m_slotType == SHOP_SORT.QUICK || m_slotType == SHOP_SORT.AMMO) return;
 
         if(m_UpgLevel == -1 ) return;
 
@@ -151,14 +151,11 @@ public class NpcShopButton : UIPressSubject
         switch (m_slotType)
         {
             case SHOP_SORT.AMMO:
-                float currentCount = m_CurrentUpgradedItem.m_Item.m_ItemStat.m_Count;
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.AMMO, currentCount * 0.30f);
-                m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.AMMO);
-                (UIManager.Instance.m_CurrentUI as BattleUI).UpdateFullMaxCount(ITEM_SLOT_SORT.MAIN);
+                (UIManager.Instance.m_CurrentUI as BattleUI).ChargeFullMaxStackCount(ITEM_SLOT_SORT.MAIN);
                 break;
             case SHOP_SORT.QUICK:
-                (UIManager.Instance.m_CurrentUI as BattleUI).UpdateFullMaxCount(ITEM_SLOT_SORT.THIRD);
-                (UIManager.Instance.m_CurrentUI as BattleUI).UpdateFullMaxCount(ITEM_SLOT_SORT.FOURTH);
+                (UIManager.Instance.m_CurrentUI as BattleUI).ChargeFullMaxStackCount(ITEM_SLOT_SORT.THIRD);
+                (UIManager.Instance.m_CurrentUI as BattleUI).ChargeFullMaxStackCount(ITEM_SLOT_SORT.FOURTH);
                 m_UpgLevel++;
                 break;
             case SHOP_SORT.RANGEUP:

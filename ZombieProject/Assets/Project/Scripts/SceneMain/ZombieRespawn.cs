@@ -107,7 +107,10 @@ public class ZombieRespawn : MonoBehaviour
         if (zombie != null)
         {
             zombie.SetStat(_stat.Clone());
-            
+
+            if(zombie.m_HpBarUI != null)
+                zombie.m_HpBarUI.InGame_Initialize();
+
             RespawnManager.Instance.m_CurZombieCount++;
             m_CurRespawnCount++;
         }

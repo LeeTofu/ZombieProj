@@ -266,14 +266,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.0f)
         {
-            m_HitRay.origin = m_Player.transform.position;
-            m_HitRay.direction = HitForward;
-
-            if (Physics.Raycast(m_HitRay, out m_RayCastr, m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_WallLayerMask))
-            {
-                return false;
-            }
-
             return true;
         }
         else return false;

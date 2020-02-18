@@ -22,10 +22,15 @@ public class Zombie : MovingObject
     AudioClip[] m_HurtAudioSource;
 
 
+    int m_ModelIndex;
+
     // public MeleeAttackCollision m_MeleeAttackCollision;
 
     public override void InGame_Initialize()
     {
+        
+
+
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
     }
@@ -60,14 +65,28 @@ public class Zombie : MovingObject
         m_TypeKey = _typeKey;
 
         if (_Model != null) m_Model = _Model;
+
+        SkinnedMeshRenderer[] skin = m_Model.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+        skin[Random.Range(0, skin.Length)].gameObject.SetActive(true);
+
+        for(int i = 0; i < skin.Length; i++)
+        {
+            if (skin[i].gameObject.activeSelf) continue;
+
+            skin[i].transform.SetParent(null);
+            Destroy(skin[i].gameObject);
+        }
+
         if (m_BuffRimLight == null)
         {
             m_BuffRimLight = GetComponent<BuffRimLight>();
-            if (_Model != null && m_BuffRimLight != null) m_BuffRimLight.Initialize(_Model);
+            if (_Model != null && m_BuffRimLight != null) m_BuffRimLight.Initialize(m_Model);
         }
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
         // Test // -> 태그별로 각자 다르게 만들것
+
+
 
         m_zombieState = ZOMBIE_STATE.IDLE;
         InitByZombieType(this.m_Type);

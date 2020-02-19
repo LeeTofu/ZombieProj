@@ -45,6 +45,12 @@ public class BattleMapCreator : MonoBehaviour
         if (m_PlayerCreateZone == null)
             Debug.LogError("x");
 
+        //맵 navmesh 만드는 코드
+        NavMeshSurface surface = bg.gameObject.GetComponentInChildren<NavMeshSurface>();
+
+        NavMeshBaker.Instance.AddNavSurface(surface);
+
+        NavMeshBaker.Instance.BakeNavMeshes();
 
         return true;
 

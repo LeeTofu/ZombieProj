@@ -39,6 +39,8 @@ public class GameMaster : Singleton<GameMaster>
 
     public override bool Initialize()
     {
+        NavMeshBaker.Instance.CreateManager();
+
         TextureManager.Instance.CreateManager();
         EnemyManager.Instance.CreateManager();
         PlayerManager.Instance.CreateManager();
@@ -60,6 +62,8 @@ public class GameMaster : Singleton<GameMaster>
     }
     public override void DestroyManager()
     {
+        NavMeshBaker.Instance.DestroyManager();
+
         TextureManager.Instance.DestroyManager();
         EnemyManager.Instance.DestroyManager();
         PlayerManager.Instance.DestroyManager();

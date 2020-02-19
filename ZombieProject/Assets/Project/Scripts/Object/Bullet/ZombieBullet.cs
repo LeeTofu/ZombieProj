@@ -41,10 +41,10 @@ public class ZombieBullet : Bullet
     public override void CollisionEvent(GameObject _object)
     {
 
-        if (_object.tag == "Zombie")
+        if (_object.tag == "Player")
         {
-            MovingObject zombie = _object.GetComponent<MovingObject>();
-            zombie.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
+            MovingObject player = _object.GetComponent<MovingObject>();
+            player.HitDamage(m_Stat.Attack, m_Stat.isKnockBack, 1.0f);
             EffectManager.Instance.PlayEffect(
                 PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
                 Vector3.one * 0.8f, true, 1.0f);
@@ -52,7 +52,7 @@ public class ZombieBullet : Bullet
         else
         {
             EffectManager.Instance.PlayEffect(
-                PARTICLE_TYPE.BULLET_EXPLOSION,
+                PARTICLE_TYPE.BLOOD,
                 transform.position,
                 Quaternion.LookRotation(-m_CurDirection),
                  Vector3.one * 1.0f,

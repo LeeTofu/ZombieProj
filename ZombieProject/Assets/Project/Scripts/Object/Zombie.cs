@@ -143,6 +143,9 @@ public class Zombie : MovingObject
             //  if(m_Type == OBJECT_TYPE.ZOMBIE)
             //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
 
+            if (m_Type == OBJECT_TYPE.BOMB_ZOMBIE)
+                BattleSceneMain.CreateFireArea(transform.position, transform.rotation);
+
             PlayerManager.Instance.CurrentMoney += 10;
 
             if (m_CollisionAction != null)

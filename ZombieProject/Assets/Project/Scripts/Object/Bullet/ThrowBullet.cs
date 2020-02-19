@@ -8,8 +8,6 @@ public class ThrowBullet : Bullet
     RaycastHit rayCast;
     Vector3 m_ReflectedVector;
 
-
-
     public override void InGame_Initialize()
     {
        
@@ -22,10 +20,24 @@ public class ThrowBullet : Bullet
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
     }
+    protected override void BulletInitialize()
+    {
+        m_currentSpeed = m_Stat.MoveSpeed;
+        m_currentMoveDistance = 0.0f;
+
+        if (m_RigidBody == null)
+            m_RigidBody = GetComponent<Rigidbody>();
+
+
+        SetRigidBodyState(true);
+    }
+
 
     protected override void BulletMove()
     {
-        transform.position += (m_CurDirection * Time.deltaTime * m_Stat.MoveSpeed);
+        m_currentSpeed = Mathf.Lerp(m_currentSpeed, 0, Time.deltaTime * 7.0f);
+
+        transform.position += (m_CurDirection * Time.deltaTime * m_currentSpeed);
     }
 
     protected override void BulletOverRangefunction()

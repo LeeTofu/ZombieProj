@@ -20,8 +20,9 @@ public class BazukaBullet : Bullet
 
     protected override void BulletMove()
     {
-  
-        transform.position += (transform.forward * Time.deltaTime * m_Stat.MoveSpeed);
+
+        m_currentSpeed = Mathf.Lerp(0, m_Stat.MoveSpeed, Time.deltaTime * m_Stat.MoveSpeed * 13.0f);
+        transform.position += (transform.forward * Time.deltaTime * m_currentSpeed);
 
        // Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
     }
@@ -35,7 +36,7 @@ public class BazukaBullet : Bullet
                     Vector3.one * 1.2f,
                     true, 1.0f);
 
-        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 5.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
         pushToMemory();
     }
@@ -46,13 +47,13 @@ public class BazukaBullet : Bullet
         m_currentSpeed = 0.0f;
 
         EffectManager.Instance.PlayEffect(
-            PARTICLE_TYPE.EXPLOSION_MEDIUM, 
+             PARTICLE_TYPE.EXPLOSION_HUGE, 
             transform.position, 
             Quaternion.LookRotation(-transform.forward), 
             Vector3.one * 1.4f,
             true, 1.0f);
 
-        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 5.0f, m_Stat.Attack, m_Stat.isKnockBack);
 
         pushToMemory();
     }

@@ -141,7 +141,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.99215686, b: 0.8138285, a: 1}
+      key0: {r: 0.99215686, g: 0.5112696, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -190,13 +190,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Type: 8
+  m_TypeKey: 0
   m_zombieState: 0
   m_Animator: {fileID: 0}
+  m_NavAgent: {fileID: 0}
+  m_HpBarUI: {fileID: 0}
+  m_BuffRimLight: {fileID: 0}
   m_TrailEffect: {fileID: 0}
   m_TrailRenderer: {fileID: 5074707578911681952}
   m_PointLight: {fileID: 4632659000271002556}
   m_GunSound: []
   m_BulletType: 6
+  m_AudioHitSound: []
 --- !u!1 &4632659000271002556
 GameObject:
   m_ObjectHideFlags: 0

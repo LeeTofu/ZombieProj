@@ -40,6 +40,12 @@ public abstract class Bullet : MovingObject
     protected abstract void BulletOverRangefunction();
     protected abstract void BulletMove();
 
+    protected virtual void BulletInitialize()
+    {
+        m_currentSpeed = 0.0f;
+        m_currentMoveDistance = 0.0f;
+    }
+
     public abstract void CollisionEvent(GameObject _object);
 
     protected void PlayHitSound()
@@ -63,13 +69,11 @@ public abstract class Bullet : MovingObject
             m_TrailEffect.Play();
         }
 
-        m_currentSpeed = 0.0f;
-        m_currentMoveDistance = 0.0f;
-
         m_CurDirection = _dir;
         m_isFire = true;
 
         SetStat(_stat);
+        BulletInitialize();
 
         if (m_TrailRenderer == null)
             m_TrailRenderer = GetComponent<TrailRenderer>();

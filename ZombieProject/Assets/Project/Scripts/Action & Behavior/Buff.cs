@@ -249,7 +249,7 @@ public class Fire : Buff
     {
         if (_object == null) return;
 
-        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.3f, Quaternion.identity, Vector3.one * 1.5f, true, m_DurationTime - 0.2f);
 
         SetRimLight(_object, new Color(1f, 0f, 0f));
     }

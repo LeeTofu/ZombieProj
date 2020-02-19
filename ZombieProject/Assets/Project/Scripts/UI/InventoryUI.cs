@@ -19,7 +19,7 @@ public class InventoryUI: BaseUI
 
     public ItemSlot[] m_ItemEquipmentSlot;
 
-    public ItemInfoUI m_ItemInfoUI { private set; get; }
+    public ItemInfoUI m_ItemInfoUI;
 
     [SerializeField]
     TextMeshProUGUI PlayerLevel;

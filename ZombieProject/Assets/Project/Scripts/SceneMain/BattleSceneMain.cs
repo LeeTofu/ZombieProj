@@ -20,6 +20,20 @@ public class BattleSceneMain : SceneMain
             yield return null;
         yield return new WaitForSeconds(0.1f);
 
+
+        if (SceneMaster.Instance.m_CurrentGameStage == GAME_STAGE.STAGE_2 )
+        {
+            RenderSettings.ambientSkyColor = new Color(0.41f, 0.41f, 1.0f);
+            RenderSettings.ambientEquatorColor = new Color(0.33f, 0.46f, 1.0f);
+            RenderSettings.ambientGroundColor = new Color(0, 0.086f, 1.0f);
+        }
+        else
+        {
+            RenderSettings.ambientSkyColor = new Color(0.95f, 0.85f, 0.45f);
+            RenderSettings.ambientEquatorColor = new Color(1, 1, 1.0f);
+            RenderSettings.ambientGroundColor = new Color(1, 0.968f, 0.79f);
+        }
+
         CameraManager.Instance.CameraInitialize(m_PlayerCreateZone.position);
 
         yield return new WaitForSeconds(3.0f);

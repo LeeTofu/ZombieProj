@@ -896,14 +896,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 314047916}
     m_Modifications:
-    - target: {fileID: 138130, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 138130, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 488732, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5
@@ -939,6 +931,14 @@ PrefabInstance:
     - target: {fileID: 488732, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 138130, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 138130, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0905f433939f9074fac0c86b6e83af23, type: 3}

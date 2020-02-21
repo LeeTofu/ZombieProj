@@ -403,6 +403,16 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
+    public void PlayReservedAction()
+    {
+        if (m_Player == null) return;
+        if ((m_Player as PlayerObject).m_ReservedAction == null) return;
+
+        (m_Player as PlayerObject).m_ReservedAction.Invoke();
+        (m_Player as PlayerObject).ReserveAction(null);
+    }
+
+
     public void PlayerUseItem(ITEM_SLOT_SORT _type)
     {
         if (_type == ITEM_SLOT_SORT.MAIN || _type == ITEM_SLOT_SORT.SECOND) return;
@@ -423,17 +433,26 @@ public class PlayerManager : Singleton<PlayerManager>
                 break;
             case ITEM_SORT.GRENADE:
             case ITEM_SORT.FIRE_GRENADE:
-                BulletManager.Instance.FireBullet(
-                m_Player.transform.position + new Vector3(0,1,0),
-                m_Player.transform.forward,
-                item.m_ItemStat);
+                (m_Player as PlayerObject).ReserveAction(
+                    ()=>
+                    {
+                        BulletManager.Instance.FireBullet(
+                        m_Player.transform.position + new Vector3(0, 1, 0),
+                        m_Player.transform.forward,
+                        item.m_ItemStat);
+                    });
+                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.USE_QUICK);
                 break;
             case ITEM_SORT.INSTALL_BOMB:
-                BulletManager.Instance.FireBullet(
-                m_Player.transform.position,
-                m_Player.transform.forward,
-                item.m_ItemStat);
-                //(m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.DRINK);
+                (m_Player as PlayerObject).ReserveAction(
+                    () =>
+                    {
+                        BulletManager.Instance.FireBullet(
+                        m_Player.transform.position,
+                        m_Player.transform.forward,
+                        item.m_ItemStat);
+                    });
+                (m_Player as PlayerObject).ChangeState(E_PLAYABLE_STATE.PICK_UP);
                 break;
         }
     }

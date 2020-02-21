@@ -189,7 +189,9 @@ public class SlotController : MonoBehaviour
             return false;
         }
         if (!CheckCanActionPlay()) return false;
-        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK 
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.USE_QUICK
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP)
             return false;
 
 
@@ -209,7 +211,9 @@ public class SlotController : MonoBehaviour
             return false;
         }
         if (!CheckCanActionPlay()) return false;
-        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK)
+        if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK 
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.USE_QUICK
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP)
             return false;
 
         m_AttackSpeedTime = m_CurrentAttackSpeed;

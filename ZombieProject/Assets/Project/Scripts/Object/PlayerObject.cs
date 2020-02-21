@@ -10,6 +10,7 @@ public class PlayerObject : MovingObject
     private Coroutine m_Coroutine;
 
     public Buff m_ReservedBuff;
+    public System.Action m_ReservedAction;
 
     // Player 표시해주는 이펙트
     public EffectObject m_PlayerEffect;
@@ -113,6 +114,12 @@ public class PlayerObject : MovingObject
         _buff.SetStat(m_Stat);
         m_ReservedBuff = _buff;
     }
+
+    public void ReserveAction (System.Action _action)
+    {
+        m_ReservedAction = _action;
+    }
+
     protected new void DeadAction()
     {
         base.DeadAction();

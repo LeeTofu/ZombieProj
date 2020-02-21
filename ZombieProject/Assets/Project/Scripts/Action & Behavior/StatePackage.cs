@@ -122,19 +122,22 @@ public class MovingAttackState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
-            {
-                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+
+                if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
                 {
-                    m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
-                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                    if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+                    {
+                        m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
+                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                    }
+                    else
+                    {
+                        m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, 0);
+                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                    }
                 }
-                else
-                {
-                    m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, 0);
-                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
-                }
-            }
+            
+
         });
     }
 }
@@ -201,19 +204,22 @@ public class AttackState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
-            {
-                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+
+                if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
                 {
-                    m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
-                    m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                    if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+                    {
+                        m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
+                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+                            m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, i);
+                    }
                 }
-                else
-                {
-                    for(int i=0; i<m_PlayerObject.m_Animator.layerCount; i++)
-                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, i);
-                }
-            }
+            
+           
         });
     }
 }
@@ -449,6 +455,8 @@ public class DeathState : PlayerState
         {
             m_PlayerObject.m_Animator.CrossFade("Death", 0.3f, i);
         }
+
+        SoundManager.Instance.OneShotPlay(UI_SOUND.DRINK);
     }
 
     public override void End()
@@ -468,6 +476,104 @@ public class DeathState : PlayerState
 
         RespawnManager.Instance.GameOver();
         BattleUI.SetDeathPanelActive(true);
+    }
+
+    public override void AddAction()
+    {
+    }
+}
+
+public class UseQuickState : PlayerState
+{
+    public UseQuickState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    private float m_Time = 0.0f;
+
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("UseQuick", 0.1f, i);
+        }
+
+        m_Time = 0.0f;
+    }
+
+    public override void End()
+    {
+        m_Time = 0.0f;
+    }
+
+    public override void Update()
+    {
+        if (m_Time < 0.4f)
+        {
+            m_Time += Time.deltaTime;
+            return;
+        }
+
+        PlayerManager.Instance.PlayReservedAction();
+
+        if (m_Time < 1.0f)
+        {
+            m_Time += Time.deltaTime;
+            return;
+        }
+
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+
+    }
+
+    public override void AddAction()
+    {
+    }
+}
+
+public class PickUpState : PlayerState
+{
+    public PickUpState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    private float m_Time = 0.0f;
+
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("Pickup", 0.1f, i);
+        }
+
+        m_Time = 0.0f;
+    }
+
+    public override void End()
+    {
+        m_Time = 0.0f;
+    }
+
+    public override void Update()
+    {
+        if (m_Time < 0.5f)
+        {
+            m_Time += Time.deltaTime;
+            return;
+        }
+
+        PlayerManager.Instance.PlayReservedAction();
+
+        if (m_Time < 1.1f)
+        {
+            m_Time += Time.deltaTime;
+            return;
+        }
+
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+
     }
 
     public override void AddAction()

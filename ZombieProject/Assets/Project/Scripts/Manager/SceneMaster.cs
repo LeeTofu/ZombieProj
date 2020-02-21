@@ -197,6 +197,8 @@ public class SceneMaster : Singleton<SceneMaster>
 
         while(!op.isDone)
         {
+            op.allowSceneActivation = false;
+
             Debug.Log("Scene Loading...");
 
             if (op.progress >= 0.9f)
@@ -230,6 +232,8 @@ public class SceneMaster : Singleton<SceneMaster>
 
             yield return null;
         }
+
+     //   op.allowSceneActivation = true;
 
         UIManager.Instance.LoadUI(m_NextScene);
         SoundManager.Instance.PlayBGM(m_NextScene);

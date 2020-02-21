@@ -21,22 +21,24 @@ public class StageSelectUI : BaseUI
         if(m_StageTextures == null)
         m_StageTextures = Resources.LoadAll<Texture>("Image/StageInfo");
 
-        if(m_StageTextures != null)
-        {
-            //for(int i = 0; i < m_StageTextures.Length; i++)
-            //{
-            ////    Debug.Log(m_StageTextures[i].name + "Success ");
-            //}
-
-        }
-
         SetStageInfo();
     }
 
     void SetStageInfo()
     {
-        m_StageInfoImage.texture = m_StageTextures[(int)1];
-        m_StageInfoText.text = "랜 덤";
+        m_StageInfoImage.texture = m_StageTextures[(int)(m_CurretSelectedStage) - 1];
+
+        switch(m_CurretSelectedStage)
+        {
+            case GAME_STAGE.STAGE_1:
+                m_StageInfoText.text = "병 원";
+                break;
+            case GAME_STAGE.STAGE_2:
+                m_StageInfoText.text = "벙 커";
+                break;
+        }
+
+       
     }
 
     public override void DeleteUI()

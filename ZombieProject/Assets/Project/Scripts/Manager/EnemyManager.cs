@@ -43,29 +43,29 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
-    // _pos 에서 _maxDistance 안에 있는 모든 좀비 찾아낸다.
-    public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance)
-    {
-        if (m_ZombieFactory == null) return null;
+    //// _pos 에서 _maxDistance 안에 있는 모든 좀비 찾아낸다.
+    //public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance)
+    //{
+    //    if (m_ZombieFactory == null) return null;
 
-        List<MovingObject> target = new List<MovingObject>();
+    //    List<MovingObject> target = new List<MovingObject>();
 
-        foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
-        {
-            if (zombie.m_Stat == null) continue;
-            if (zombie.m_Stat.isDead) continue;
-            if (!zombie.gameObject.activeSelf) continue;
+    //    foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
+    //    {
+    //        if (zombie.m_Stat == null) continue;
+    //        if (zombie.m_Stat.isDead) continue;
+    //        if (!zombie.gameObject.activeSelf) continue;
 
-            float len = (zombie.transform.position - _pos).magnitude;
+    //        float len = (zombie.transform.position - _pos).magnitude;
 
-            if (len < _maxDistance)
-            {
-                target.Add(zombie);
-            }
-        }
+    //        if (len < _maxDistance)
+    //        {
+    //            target.Add(zombie);
+    //        }
+    //    }
 
-        return target;
-    }
+    //    return target;
+    //}
 
     // _maxCount 만큼 범위에 있는 좀비 객체들을 가져온다.
     public List<MovingObject> GetRangeZombies(Vector3 _pos, float _maxDistance,int _maxCount = 5)

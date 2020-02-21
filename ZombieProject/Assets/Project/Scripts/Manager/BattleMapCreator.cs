@@ -25,7 +25,7 @@ public class BattleMapCreator : MonoBehaviour
 
     public bool CreateMap(GAME_STAGE _Stage, E_MAP _map)
     {
-        Resources.Load("");
+       
 
         GameObject bg = Instantiate(Resources.Load<GameObject>("Prefabs/BackGround/BackGround_" + _map.ToString()));
 

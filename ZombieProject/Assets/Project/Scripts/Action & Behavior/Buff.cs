@@ -20,6 +20,8 @@ public abstract class Buff : STAT
     public STAT m_CharacterStat;
 
     public MovingObject m_MovingObject;
+
+    public string m_ImageName;
     public Buff(STAT _stat)
     {
         m_CharacterStat = _stat;
@@ -71,7 +73,12 @@ public abstract class Buff : STAT
         if (m_CharacterStat == null) yield break;
 
          BuffAction();
-         yield return new WaitForSeconds(m_DurationTime);
+        m_CurTimeDuration -= 1f;
+        for (int i=0; i< m_DurationTime; i++)
+        {
+            m_CurTimeDuration++;
+            yield return new WaitForSeconds(1f);
+        }
          BuffExitAction();
     }
 
@@ -97,6 +104,11 @@ public abstract class Buff : STAT
 
         BuffExitAction();
     }
+
+    public float GetTimeRemaining()
+    {
+        return m_DurationTime - m_CurTimeDuration;
+    }
 }
 public class Adrenaline : Buff
 {
@@ -104,6 +116,7 @@ public class Adrenaline : Buff
     {
         m_BuffType = BUFF_TYPE.ADRENALINE;
         m_Text = "속도 증가";
+        m_ImageName = "Ach45";
         BuffCoroutine = OnceCoroutine();
     }
 
@@ -148,6 +161,7 @@ public class Blessing : Buff
     {
         m_BuffType = BUFF_TYPE.BLESSING;
         m_Text = "치료중";
+        m_ImageName = "Ach346";
         BuffCoroutine = TimeTickCorotine();
     }
 
@@ -194,6 +208,7 @@ public class Poison : Buff
     {
         m_BuffType = BUFF_TYPE.POISON;
         m_Text = "독";
+        m_ImageName = "Ach123";
         BuffCoroutine = TimeTickCorotine();
     }
     public override void PlayBuffEffect(MovingObject _object)
@@ -243,6 +258,7 @@ public class Fire : Buff
     {
         m_BuffType = BUFF_TYPE.FIRE;
         m_Text = "화상";
+        m_ImageName = "Ach85";
         BuffCoroutine = TimeTickCorotine();
     }
     public override void PlayBuffEffect(MovingObject _object)

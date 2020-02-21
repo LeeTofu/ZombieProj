@@ -17,7 +17,7 @@ public class PlayerObject : MovingObject
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
-
+        if (m_BuffRimLight != null) m_BuffRimLight.SetStandard();
         SetStat(new STAT
         {
             MaxHP = 100f,

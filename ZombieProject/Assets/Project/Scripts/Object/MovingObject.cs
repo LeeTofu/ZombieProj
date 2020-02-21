@@ -265,6 +265,8 @@ public abstract class MovingObject : MonoBehaviour
 
     public BuffRimLight m_BuffRimLight;
 
+    protected Coroutine m_DeadCoroutine;
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;
@@ -477,6 +479,9 @@ public abstract class MovingObject : MonoBehaviour
             m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
+            if (m_DeadCoroutine != null)
+                StopCoroutine(m_DeadCoroutine);
+            m_DeadCoroutine = StartCoroutine(DeadCoroutine());
             m_DeadActionCallBackFunc?.Invoke();
         }
     }
@@ -539,5 +544,18 @@ public abstract class MovingObject : MonoBehaviour
     public GameObject GetModel()
     {
         return m_Model;
+    }
+
+    public IEnumerator DeadCoroutine()
+    {
+        m_BuffRimLight.SetDissolve();
+        m_BuffRimLight.SetDissolveColor(new Color(1f,0,0));
+        m_BuffRimLight.SetDissolveEmission(0f);
+        for (float i=0; i<1; i+=0.005f)
+        {
+            m_BuffRimLight.SetDissolveAmount(i);
+            yield return new WaitForSeconds(0.001f);
+        }
+        if(!CompareTag("Player"))m_BuffRimLight.SetStandard();
     }
 }

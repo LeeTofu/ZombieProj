@@ -7,10 +7,12 @@ public class BuffRimLight : MonoBehaviour
     private Material m_Material;
     private Shader m_Standard;
     private Shader m_Rim;
+    private Shader m_Dissolve;
 
     private void Awake()
     {
         m_Rim = Shader.Find("Custom/RimLightShader");
+        m_Dissolve = Shader.Find("Custom/DissolveShader");
     }
 
     public void Initialize(GameObject _Go)
@@ -31,5 +33,23 @@ public class BuffRimLight : MonoBehaviour
     public void SetStandard()
     {
         m_Material.shader = m_Standard;
+    }
+
+    public void SetDissolve()
+    {
+        m_Material.shader = m_Dissolve;
+    }
+
+    public void SetDissolveAmount(float _Amount)
+    {
+        m_Material.SetFloat("_SliceAmount", _Amount);
+    }
+    public void SetDissolveColor(Color _Color)
+    {
+        m_Material.SetColor("_DissolveColor", _Color);
+    }
+    public void SetDissolveEmission(float _Amount)
+    {
+        m_Material.SetFloat("_DissolveEmission", _Amount);
     }
 }

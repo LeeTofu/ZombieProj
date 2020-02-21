@@ -50,8 +50,7 @@ public class BattleUI : BaseUI
 
     public Coroutine m_HpDownCoroutine;
 
-    public TMPro.TextMeshProUGUI[] m_ListBuffText;
-    public TMPro.TextMeshProUGUI[] m_ListDeBuffText;
+    public BuffUI[] m_ListBuff;
 
     private void Awake()
     {
@@ -59,8 +58,12 @@ public class BattleUI : BaseUI
         m_DeathPanel = transform.Find("DeathPanel").GetComponent<DeadPanel>();
 
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
-        m_ListBuffText = transform.Find("BuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
-        m_ListDeBuffText = transform.Find("DeBuffList").GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        m_ListBuff = transform.Find("BuffQ/BuffList").GetComponentsInChildren<BuffUI>();
+
+        for (int i = 0; i < m_ListBuff.Length; i++)
+        {
+            m_ListBuff[i].Initialize();
+        }
 
         if (m_ShopButtons != null)
         {
@@ -165,34 +168,22 @@ public class BattleUI : BaseUI
         {
             int lastnum = 0, num = -1;
             Dictionary<BUFF_TYPE, int> buffNumTable = new Dictionary<BUFF_TYPE, int>();
-            for (int i=0; i< m_ListBuffText.Length; i++)
+            for (int i=0; i< m_ListBuff.Length; i++)
             {
-                m_ListBuffText[i].text = null;
+                m_ListBuff[i].m_BuffText.text = null;
+                m_ListBuff[i].m_TimeText.text = null;
+                m_ListBuff[i].m_Buff = null;
+                m_ListBuff[i].m_BuffImage.enabled = false;
             }
             for (int i = 0; i < _listbuff.Count; i++)
             {
                 if(!buffNumTable.TryGetValue(_listbuff[i].m_BuffType, out num))
                 {
                     buffNumTable.Add(_listbuff[i].m_BuffType, lastnum);
-                    m_ListBuffText[lastnum].text = _listbuff[i].m_Text;
-                    lastnum++;
-                }
-            }
-        });
-        PlayerManager.Instance.m_Player.AddDeBuffFunction((List<Buff> _listdebuff) =>
-        {
-            int lastnum = 0, num = -1;
-            Dictionary<BUFF_TYPE, int> buffNumTable = new Dictionary<BUFF_TYPE, int>();
-            for (int i = 0; i < m_ListDeBuffText.Length; i++)
-            {
-                m_ListDeBuffText[i].text = null;
-            }
-            for (int i = 0; i < _listdebuff.Count; i++)
-            {
-                if (!buffNumTable.TryGetValue(_listdebuff[i].m_BuffType, out num))
-                {
-                    buffNumTable.Add(_listdebuff[i].m_BuffType, lastnum);
-                    m_ListDeBuffText[lastnum].text = _listdebuff[i].m_Text;
+                    m_ListBuff[lastnum].m_Buff = _listbuff[i];
+                    m_ListBuff[lastnum].m_BuffImage.enabled = true;
+                    m_ListBuff[lastnum].m_BuffImage.sprite = TextureManager.Instance.GetUIIcon(_listbuff[i].m_ImageName);
+                    m_ListBuff[lastnum].m_BuffText.text = _listbuff[i].m_Text;
                     lastnum++;
                 }
             }

@@ -13,7 +13,7 @@ public class TextureManager : Singleton<TextureManager>
     public override bool Initialize()
     {
         Sprite[] sprites = Resources.LoadAll<Sprite>("Image/ItemIcon");
-       // Sprite[] UISprites = Resources.LoadAll<Sprite>("Images/UIImage");
+        Sprite[] UISprites = Resources.LoadAll<Sprite>("Image/UIIcon");
 
         foreach (Sprite sprite in sprites)
         {
@@ -21,10 +21,10 @@ public class TextureManager : Singleton<TextureManager>
             m_ItemImageTable.Add(sprite.name , sprite);
         }
 
-    //    foreach (Sprite sprite in UISprites)
-    //    {
-    //        m_UIImageTable.Add(sprite.name, sprite);
-   //     }
+        foreach (Sprite sprite in UISprites)
+        {
+            m_UIImageTable.Add(sprite.name, sprite);
+        }
 
         return true;
     }

@@ -9,13 +9,11 @@ public class BuffRimLight : MonoBehaviour
     private Shader m_Standard;
     private Shader m_Rim;
     private Shader m_Dissolve;
-    private Texture m_DissolveTexture;
 
     private void Awake()
     {
         m_Rim = Shader.Find("Custom/RimLightShader");
         m_Dissolve = Shader.Find("Custom/DissolveShader");
-        m_DissolveTexture = AssetDatabase.LoadAssetAtPath("Assets/Shader/dissolve.png", typeof(Texture)) as Texture;
     }
 
     public void Initialize(GameObject _Go)
@@ -41,7 +39,7 @@ public class BuffRimLight : MonoBehaviour
     public void SetDissolve()
     {
         m_Material.shader = m_Dissolve;
-        m_Material.SetTexture("_SliceGuide", m_DissolveTexture);
+        m_Material.SetTexture("_SliceGuide", TextureManager.Instance.GetTextures("dissolve"));
     }
 
     public void SetDissolveAmount(float _Amount)

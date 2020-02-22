@@ -70,7 +70,7 @@ public class Zombie : MovingObject
     public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
     {
         m_TypeKey = _typeKey;
-
+      //  m_Type = (OBJECT_TYPE)_typeKey;
         if (_Model != null) m_Model = _Model;
 
         SkinnedMeshRenderer[] skin = m_Model.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
@@ -92,8 +92,6 @@ public class Zombie : MovingObject
         if (m_HpBarUI == null) m_HpBarUI = GetComponent<HpBarUI>();
         if (m_Animator == null) m_Animator = gameObject.GetComponentInChildren<Animator>();
         // Test // -> 태그별로 각자 다르게 만들것
-
-
 
         m_zombieState = ZOMBIE_STATE.IDLE;
         InitByZombieType(this.m_Type);
@@ -203,7 +201,11 @@ public class Zombie : MovingObject
                 break;
         }
 
-        m_zombieBehavior.Initialize(this);
+
+        if (m_zombieBehavior != null)
+            m_zombieBehavior.Initialize(this);
+        else
+            Debug.LogError(_type + "없" );
     }
 
     protected void Update()

@@ -174,17 +174,17 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             m_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
 
-            m_ZombieFactory.Initialize("Prefabs/Zombies/Zombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
-            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 20);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/Zombie", ("Prefabs/Zombies/Models/Normal"), (int)OBJECT_TYPE.ZOMBIE);
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.ZOMBIE, 15);
 
-            m_ZombieFactory.Initialize("Prefabs/Zombies/RangeZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
-            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.RANGE_ZOMBIE, 20);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/RangeZombie", ("Prefabs/Zombies/Models/Normal"), (int)OBJECT_TYPE.RANGE_ZOMBIE);
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.RANGE_ZOMBIE, 15);
 
-            m_ZombieFactory.Initialize("Prefabs/Zombies/DashZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
-            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.DASH_ZOMBIE, 20);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/DashZombie", ("Prefabs/Zombies/Models/Normal"), (int)OBJECT_TYPE.DASH_ZOMBIE);
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.DASH_ZOMBIE, 15);
 
-          //  m_ZombieFactory.Initialize("Prefabs/Zombies/BombZombie", Resources.LoadAll<GameObject>("Prefabs/Zombies/Models/Normal"));
-          //  m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.BOMB_ZOMBIE, 30);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/BombZombie", ("Prefabs/Zombies/Models/Normal") , (int)OBJECT_TYPE.BOMB_ZOMBIE);
+            m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.BOMB_ZOMBIE, 15);
         }
 
         m_ZombieFactory.m_PushMemoryAction =

@@ -46,14 +46,14 @@ public class BattleSceneMain : SceneMain
         if (s_DropItemFactory == null)
         {
             s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();
-            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/ItemBox"));
+            s_DropItemFactory.Initialize("Prefabs/BuffGiver/ItemBox", ("Prefabs/BuffGiver/Models/ItemBox"), (int)OBJECT_TYPE.BUFF_OBJECT);
             s_DropItemFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 
         if (s_FireFactory == null)
         {
             s_FireFactory = gameObject.AddComponent<ObjectFactory>();
-            s_FireFactory.Initialize("Prefabs/BuffGiver/FireArea", Resources.LoadAll<GameObject>("Prefabs/BuffGiver/Models/Fire"));
+            s_FireFactory.Initialize("Prefabs/BuffGiver/FireArea",("Prefabs/BuffGiver/Models/Fire"), (int)OBJECT_TYPE.BUFF_OBJECT);
             s_FireFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 

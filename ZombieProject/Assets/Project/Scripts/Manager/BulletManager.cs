@@ -30,25 +30,25 @@ public class BulletManager : Singleton<BulletManager>
         {
             m_BulletFactory = gameObject.AddComponent<ObjectFactory>();
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/BulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/BulletPrefab", "Prefabs/Bullet/Models/NormalBullet", (int)BULLET_TYPE.NORMAL_BULLET);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.NORMAL_BULLET, 5);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/ShotGunBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/NormalBullet"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/ShotGunBulletPrefab", "Prefabs/Bullet/Models/NormalBullet", (int)BULLET_TYPE.SHOT_GUN_BULLET);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.SHOT_GUN_BULLET, 25);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/BazukaBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/Bazuka"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/BazukaBulletPrefab", "Prefabs/Bullet/Models/Bazuka", (int)BULLET_TYPE.BAZUKA);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.BAZUKA, 5);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/PierceBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/PierceBullet"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/PierceBulletPrefab", ("Prefabs/Bullet/Models/PierceBullet"), (int)BULLET_TYPE.SNIPER_BULLET);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.SNIPER_BULLET, 5);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/ThrowBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/Grenade"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/ThrowBulletPrefab", ("Prefabs/Bullet/Models/Grenade") , (int)BULLET_TYPE.THROW_BULLET);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.THROW_BULLET, 5);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/FireThrowBulletPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/FireGrenade"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/FireThrowBulletPrefab",("Prefabs/Bullet/Models/FireGrenade"), (int)BULLET_TYPE.FIRE_THROW_BULLET);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.FIRE_THROW_BULLET, 5);
 
-            m_BulletFactory.Initialize("Prefabs/Bullet/InstallBombPrefab", Resources.LoadAll<GameObject>("Prefabs/Bullet/Models/InstallBomb"));
+            m_BulletFactory.Initialize("Prefabs/Bullet/InstallBombPrefab",("Prefabs/Bullet/Models/InstallBomb"), (int)BULLET_TYPE.INSTALL_BOMB);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.INSTALL_BOMB, 5);
 
         }

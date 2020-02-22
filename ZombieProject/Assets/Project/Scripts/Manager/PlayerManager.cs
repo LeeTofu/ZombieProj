@@ -242,7 +242,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_PlayerFactory == null)
         {
             m_PlayerFactory = gameObject.AddComponent<ObjectFactory>();
-            m_PlayerFactory.Initialize("Prefabs/Players/Player", Resources.LoadAll<GameObject>("Prefabs/Players/Models/Normal"));
+            m_PlayerFactory.Initialize("Prefabs/Players/Player", ("Prefabs/Players/Models/Normal"), (int)OBJECT_TYPE.PLAYER);
             m_PlayerFactory.CreateObjectPool((int)OBJECT_TYPE.PLAYER, 1);
         }
 

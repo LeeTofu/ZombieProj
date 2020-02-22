@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct PrefabPath
+{
+    public string m_ModelPath;
+    public string m_PrefabPath;
+}
+
 public class ObjectFactory : MonoBehaviour 
 {
     protected GameObject[] m_ModelPrefabs;
@@ -9,6 +15,11 @@ public class ObjectFactory : MonoBehaviour
 
     protected Dictionary<int,Queue<MovingObject>> m_ListSleepingMovingObject = new Dictionary<int,Queue<MovingObject>>();
     public List<MovingObject> m_ListAllMovingObject { get; protected set; }
+
+    protected Dictionary<int, PrefabPath> m_DicPrefabPath = new Dictionary<int, PrefabPath>();
+
+    int m_curCreateSettingTypeKey = -1;
+
 
     // 메모리에 푸시하고서 발생할 이벤트가 있다면 이 액션에 함수를 할당해서 쓰세요.
     // 안써도 무방.
@@ -22,6 +33,24 @@ public class ObjectFactory : MonoBehaviour
 
         m_MovingObejctPrefabs = Resources.Load<GameObject>(_prefabPath);
         m_ModelPrefabs = _models;
+    }
+
+    public void Initialize(string _prefabPath, string _modelPath, int _keyType)
+    {
+        if (m_ListAllMovingObject == null)
+            m_ListAllMovingObject = new List<MovingObject>();
+
+        if (!m_DicPrefabPath.ContainsKey(_keyType))
+        {
+            PrefabPath path;
+            path.m_ModelPath = _modelPath;
+            path.m_PrefabPath = _prefabPath;
+
+            m_DicPrefabPath.Add(_keyType, path);
+        }
+
+        m_MovingObejctPrefabs = Resources.Load<GameObject>(_prefabPath);
+        m_ModelPrefabs = Resources.LoadAll<GameObject>(_modelPath);
     }
 
     private Queue<MovingObject> GetObjectQ(int _keyType)
@@ -74,15 +103,36 @@ public class ObjectFactory : MonoBehaviour
         // 팝을 했는데 이제 더이상 풀에서 활성화할 오브젝트가 없다...? 그럼 새로 오브젝트 만들자.
 
         newObject = CreateObject(_typeKey);
-        newObject.transform.position = _pos;
-        newObject.transform.rotation = _quat;
+
+        if (newObject != null)
+        {
+            newObject.InGame_Initialize();
+            newObject.transform.position = _pos;
+            newObject.transform.rotation = _quat;
+        }
 
         return newObject;
+    }
+
+    private void SettingPrefabPath(int _typeKey)
+    {
+        if (m_curCreateSettingTypeKey == _typeKey) return;
+
+        m_curCreateSettingTypeKey = _typeKey;
+
+        PrefabPath path;
+        if(m_DicPrefabPath.TryGetValue(_typeKey, out path))
+        {
+            m_MovingObejctPrefabs = Resources.Load<GameObject>(path.m_PrefabPath);
+            m_ModelPrefabs = Resources.LoadAll<GameObject>(path.m_ModelPath);
+        }
     }
 
     private MovingObject CreateObject(int _typeKey)
     {
         MovingObject newObject = null;
+
+        SettingPrefabPath(_typeKey);
 
         GameObject Model = Instantiate(
             m_ModelPrefabs[Random.Range(0, m_ModelPrefabs.Length)]);
@@ -129,7 +179,7 @@ public class ObjectFactory : MonoBehaviour
             return;
         }
 
-        var Q = CreateObjectQ(_typeKey);
+         CreateObjectQ(_typeKey);
 
         for (int i = 0; i < _maxCount; i++)
         {

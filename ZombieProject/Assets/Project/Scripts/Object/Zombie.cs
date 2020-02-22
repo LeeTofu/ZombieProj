@@ -28,7 +28,7 @@ public class Zombie : MovingObject
     AudioClip[] m_HurtAudioSource;
 
     [SerializeField]
-    [Range(0, 99)]
+    [Range(0, 999)]
     int m_ItemDropPercentage;
 
     int m_ModelIndex;
@@ -149,7 +149,7 @@ public class Zombie : MovingObject
 
             PlayerManager.Instance.CurrentMoney += (m_StartMoney + RespawnManager.Instance.m_CurWave * m_StepMoney);
 
-            if (m_ItemDropPercentage > Random.Range(0, 100))
+            if (m_ItemDropPercentage > Random.Range(0, 1000))
             {
                 BattleSceneMain.CreateBuffItem(transform.position, Quaternion.identity);
             }

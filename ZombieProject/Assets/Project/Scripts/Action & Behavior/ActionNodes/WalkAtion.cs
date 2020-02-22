@@ -10,12 +10,9 @@ public class ZombieWalkCondition : DecoratorNode
 
         if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range && m_Character.m_Stat.MoveSpeed < 1.01f)
         {
-
-         //   Debug.Log("WalkCondSuccess");
             return NODE_STATE.SUCCESS;
         }
 
-       // Debug.Log("WalkCondFail");
         return NODE_STATE.FAIL;
     }
 }
@@ -38,15 +35,11 @@ public class ZombieWalkAction : ActionNode
     public override NODE_STATE Tick()
     {
         //플레이 부분
-
         if (m_Character.m_zombieState != ZOMBIE_STATE.WALK)
         {
             m_Character.m_Animator.CrossFade("Walk", 0.1f);
             m_Character.m_Animator.SetFloat("WalkSpeed", m_Character.m_Stat.MoveSpeed * 1.5f);
-            //m_Character.m_Animator.CrossFadeInFixedTime("Walk", 0.1f);
-            //m_Character.m_Animator.Play("Walk");
             m_Character.m_zombieState = ZOMBIE_STATE.WALK;
-          //  Debug.Log("WalkStart");
             return NODE_STATE.RUNNING;
         }
         else
@@ -58,35 +51,12 @@ public class ZombieWalkAction : ActionNode
             m_Character.gameObject.transform.position += m_Character.transform.forward * m_Character.m_Stat.MoveSpeed * Time.deltaTime;
             if (m_nowActionTime < m_totalActionTime)
             {
-              //  Debug.Log("Walking");
                 return NODE_STATE.RUNNING;
             }
         }
-        /*
-        if (!m_Character.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-        {
-            m_Character.m_Animator.CrossFade("Walk", 0.3f);
-            //m_Character.m_Animator.CrossFadeInFixedTime("Walk", 0.1f);
-            //m_Character.m_Animator.Play("Walk");
-            Debug.Log("WalkStart");
-            return NODE_STATE.RUNNING;
-        }
-        else
-        {
-            m_nowActionTime += Time.deltaTime;
-            m_Character.gameObject.transform.LookAt(PlayerManager.Instance.m_Player.gameObject.transform.position, Vector3.up);
-            m_Character.gameObject.transform.position += m_Character.transform.forward * 0.5f * Time.deltaTime;
-            if(m_nowActionTime < m_totalActionTime)
-            {
-                Debug.Log("Walking");
-                return NODE_STATE.RUNNING;
-            }
-        }
-        */
 
         m_Character.m_zombieState = ZOMBIE_STATE.NONE;
         m_nowActionTime = 0f;
-     //   Debug.Log("Walk out");
         return NODE_STATE.FAIL;
     }
 }

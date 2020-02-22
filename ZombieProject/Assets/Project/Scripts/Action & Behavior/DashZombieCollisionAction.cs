@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashZombieTestCollisionAction : CollisionAction
+public class DashZombieCollisionAction : CollisionAction
 {
     protected override bool CollisionCondition(GameObject _defender)
     {
@@ -13,7 +13,7 @@ public class DashZombieTestCollisionAction : CollisionAction
 
     protected override void CollisionEvent(GameObject _object)
     {
-        if (_object.tag == "Wall" && !m_Character.m_Stat.isStunned && m_Character.m_zombieState == ZOMBIE_STATE.ATTACK)
+        if ((_object.tag == "Wall" || _object.tag == "Bullet") && !m_Character.m_Stat.isStunned && m_Character.m_zombieState == ZOMBIE_STATE.ATTACK)
         {
             m_Character.m_Stat.isStunned = true;
             m_Character.m_NavAgent.isStopped = true;

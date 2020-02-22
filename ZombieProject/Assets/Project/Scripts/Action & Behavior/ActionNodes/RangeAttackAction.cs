@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ZombieRangeAttackCondition : DecoratorNode
+public class RangeZombieAttackCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
@@ -14,8 +14,9 @@ public class ZombieRangeAttackCondition : DecoratorNode
     }
 }
 
-public class ZombieRangeAttackAction : ActionNode
+public class RangeZombieAttackAction : ActionNode
 {
+    Vector3 m_targetPos;
     bool m_isAttacked;
 
     public override void Initialize(MovingObject _character)
@@ -36,6 +37,9 @@ public class ZombieRangeAttackAction : ActionNode
 
         if (m_Character.m_zombieState != ZOMBIE_STATE.ATTACK)
         {
+            m_targetPos = GetAttackObject().transform.position;
+            m_Character.gameObject.transform.LookAt(m_targetPos, Vector3.up);
+
             m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed);
             m_Character.m_Animator.CrossFade("RangeAttack", 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;

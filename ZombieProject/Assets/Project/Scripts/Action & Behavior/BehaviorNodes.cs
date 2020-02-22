@@ -17,6 +17,8 @@ public abstract class BehaviorNode
 
     protected MovingObject m_Character;
 
+    protected BehaviorNode m_HeadNode;
+
     virtual public void Initialize(MovingObject _character)
     {
         m_Character = _character;
@@ -25,6 +27,11 @@ public abstract class BehaviorNode
     virtual public NODE_STATE Tick()
     {
         return NODE_STATE.SUCCESS;
+    }
+
+    protected void SetHeadNode(BehaviorNode _node)
+    {
+        m_HeadNode = _node;
     }
 
     protected float GetAttackObjectDistance()

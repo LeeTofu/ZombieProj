@@ -99,14 +99,12 @@ public class Zombie : MovingObject
         m_AudioSource = GetComponent<AudioSource>();
         m_HpBarUI.Initialzie(this);
 
-        //if (m_NavAgent == null)
-        //{
-        //    m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
-        //    m_NavAgent.updateRotation = true;
-        //    m_NavAgent.stoppingDistance = m_Stat.Range;
-        //    m_NavAgent.speed = m_Stat.MoveSpeed;
-        //    m_NavAgent.acceleration = 0.6f;
-        //}
+        if (m_NavAgent == null)
+        {
+            m_NavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
+            m_NavAgent.updateRotation = true;
+            m_NavAgent.acceleration = 10f;
+        }
     }
 
     protected void OnDestroy()
@@ -162,7 +160,7 @@ public class Zombie : MovingObject
         switch(_type)
         {
             case OBJECT_TYPE.ZOMBIE:
-                m_zombieBehavior = new NormalZombieBT();
+                m_zombieBehavior = new NormalZombieBTwithPF();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;
                 m_KnockBackAction = (time) => { KnockBackAction(time); };

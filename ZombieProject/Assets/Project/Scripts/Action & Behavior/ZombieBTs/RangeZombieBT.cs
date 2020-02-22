@@ -13,8 +13,8 @@ class RangeZombieBT : BehaviorNode
         SelectorNode sel = new SelectorNode();
 
         SequenceNode seqRangeAtk = new SequenceNode();
-        seqRangeAtk.InsertAction(new ZombieRangeAttackCondition());
-        seqRangeAtk.InsertAction(new ZombieRangeAttackAction());
+        seqRangeAtk.InsertAction(new RangeZombieAttackCondition());
+        seqRangeAtk.InsertAction(new RangeZombieAttackAction());
         sel.InsertAction(seqRangeAtk);
 
         SequenceNode seqPF = new SequenceNode();

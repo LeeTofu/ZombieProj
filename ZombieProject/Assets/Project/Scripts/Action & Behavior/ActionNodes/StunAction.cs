@@ -18,11 +18,7 @@ public class ZombieStunAction : ActionNode
     {
         m_Character = _character;
 
-        m_totalActionTime = 1f;
-        //RuntimeAnimatorController ac = m_Character.m_Animator.runtimeAnimatorController;
-        //for (int i = 0; i < ac.animationClips.Length; i++)
-        //    if (ac.animationClips[i].name == "Zombie_Idle_4_IPC")
-        //        m_totalActionTime = ac.animationClips[i].length;    //totalactionTime을 좀비 스턴시간으로 사용함
+        m_totalActionTime = 1f; //totalactionTime을 좀비 스턴시간으로 사용함
     }
 
     public override NODE_STATE Tick()

@@ -12,11 +12,6 @@ class BombZombieBT : BehaviorNode
 
         SelectorNode sel = new SelectorNode();
 
-        SequenceNode seqAtk = new SequenceNode();
-        seqAtk.InsertAction(new ZombieAttackCondition());
-        seqAtk.InsertAction(new ZombieAttackAction());
-        sel.InsertAction(seqAtk);
-
         SequenceNode seqPF = new SequenceNode();
         seqPF.InsertAction(new ZombiePathFindCondition());
         seqPF.InsertAction(new ZombiePathFindAction());

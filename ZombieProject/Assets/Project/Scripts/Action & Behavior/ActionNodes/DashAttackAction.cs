@@ -1,8 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ZombieDashAttackCondition : DecoratorNode
+public class DashZombieAttackCondition : DecoratorNode
 {
+    Ray checkingRay;
+
+    private bool CheckObstacle()    //좀비와 플레이어 사이에 장애물이 없는지 체크 없으면 True, 잇으면 false
+    {
+        RaycastHit hit;
+
+        checkingRay.origin = m_Character.gameObject.transform.position;
+        checkingRay.direction = (GetAttackObject().transform.position -
+            m_Character.gameObject.transform.position).normalized;
+
+        if (Physics.Raycast(checkingRay, out hit, m_Character.m_Stat.Range))
+        {
+            if (hit.transform.tag.Equals("Player"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public override NODE_STATE Tick()
     {
         if (GetAttackObjectDistance() <= m_Character.m_Stat.Range && !m_Character.m_Stat.isStunned)
@@ -14,9 +35,11 @@ public class ZombieDashAttackCondition : DecoratorNode
     }
 }
 
-public class ZombieDashAttackAction : ActionNode
+public class DashZombieAttackAction : ActionNode
 {
-    Vector3 m_targetPos;
+    Vector3 m_originForward;
+    Vector3 m_targetForward;
+    float t;
 
     public override void Initialize(MovingObject _character)
     {
@@ -30,29 +53,43 @@ public class ZombieDashAttackAction : ActionNode
 
     public override NODE_STATE Tick()
     {
-        //플레이 부분 -> 공격 시작 전 인식한 플레이어의 방향으로 대쉬어택(레포데 차져처럼)
         if (m_Character.m_zombieState != ZOMBIE_STATE.ATTACK) //대쉬 방향지정
         {
-            m_targetPos = GetAttackObject().transform.position;
-            m_Character.gameObject.transform.LookAt(m_targetPos, Vector3.up);
+            m_originForward = m_Character.transform.forward;
+            m_targetForward = (GetAttackObject().transform.position - m_Character.transform.position).normalized;
+            t = 0f;
 
-            //m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed);
-            m_Character.m_Animator.CrossFade("DashAttack", 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
             return NODE_STATE.RUNNING;
         }
-        else //개돌
+        else 
         {
-            if (!m_Character.m_Stat.isStunned) //조건을 벽에 박을때까지로 바꿔야함
+            if(t < 1f)
             {
-                m_Character.gameObject.transform.position +=
-                    m_Character.transform.forward * m_Character.m_Stat.AttackSpeed * Time.deltaTime * 3f; // -> 수치조정 이것도
+                //돌진 전 플레이어 방향으로까지의 회전
+                t += Time.deltaTime;
+                if (t > 1f)
+                {
+                    t = 1f;
+                    m_Character.m_Animator.SetFloat("AttackSpeed", m_Character.m_Stat.AttackSpeed);
+                    m_Character.m_Animator.CrossFade("DashAttack", 0.1f);
+                }
+                m_Character.transform.forward = Vector3.Slerp(m_originForward, m_targetForward, t);
                 return NODE_STATE.RUNNING;
             }
-            else //벽에 박으면
+            else
             {
-                m_Character.m_zombieState = ZOMBIE_STATE.NONE;
-                return NODE_STATE.FAIL;
+                if (!m_Character.m_Stat.isStunned) //개돌
+                {
+                    m_Character.transform.position +=
+                        m_Character.transform.forward * m_Character.m_Stat.AttackSpeed * Time.deltaTime * 2f; // -> 수치조정 이것도
+                    return NODE_STATE.RUNNING;
+                }
+                else //stun상태일 때
+                {
+                    m_Character.m_zombieState = ZOMBIE_STATE.NONE;
+                    return NODE_STATE.FAIL;
+                }
             }
         }
     }

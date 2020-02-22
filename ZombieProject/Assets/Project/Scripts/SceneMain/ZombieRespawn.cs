@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ZombieRespawn : MonoBehaviour
 {
     // 좀비 리스폰 시작 시간
@@ -110,6 +111,13 @@ public class ZombieRespawn : MonoBehaviour
 
             if(zombie.m_HpBarUI != null)
                 zombie.m_HpBarUI.InGame_Initialize();
+
+            if(zombie.m_NavAgent != null)
+            {
+                zombie.m_NavAgent.stoppingDistance = zombie.m_Stat.Range;
+                zombie.m_NavAgent.speed = zombie.m_Stat.MoveSpeed;
+            }
+            
 
             RespawnManager.Instance.m_CurZombieCount++;
             m_CurRespawnCount++;

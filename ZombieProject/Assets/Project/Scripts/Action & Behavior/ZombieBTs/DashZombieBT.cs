@@ -12,15 +12,15 @@ class DashZombieBT : BehaviorNode
 
         SelectorNode sel = new SelectorNode();
 
-        SequenceNode seqDashAtk = new SequenceNode();
-        seqDashAtk.InsertAction(new ZombieDashAttackCondition());
-        seqDashAtk.InsertAction(new ZombieDashAttackAction());
-        sel.InsertAction(seqDashAtk);
-
         SequenceNode seqStun = new SequenceNode();
         seqStun.InsertAction(new ZombieStunCondition());
         seqStun.InsertAction(new ZombieStunAction());
         sel.InsertAction(seqStun);
+
+        SequenceNode seqDashAtk = new SequenceNode();
+        seqDashAtk.InsertAction(new DashZombieAttackCondition());
+        seqDashAtk.InsertAction(new DashZombieAttackAction());
+        sel.InsertAction(seqDashAtk);
 
         SequenceNode seqPF = new SequenceNode();
         seqPF.InsertAction(new ZombiePathFindCondition());

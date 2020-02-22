@@ -60,6 +60,7 @@ public class HpBarUI : MonoBehaviour
                 break;
             case "Zombie":
                 m_HpImage.fillAmount = 1f;
+                m_HpUi.enabled = false;
                 m_MovingObject.m_Stat.AddPropertyChangeAction(() =>
                 {
                     if (m_MovingObject.m_Stat.CurHP >= m_MovingObject.m_Stat.MaxHP)

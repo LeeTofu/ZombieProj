@@ -57,8 +57,6 @@ public class FireBomb : Bullet
             Vector3.one * 1.4f,
             true, 1.0f);
 
-        Debug.LogWarning("틀");
-
         BattleSceneMain.CreateFireArea(transform.position, Quaternion.identity);
 
         EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);

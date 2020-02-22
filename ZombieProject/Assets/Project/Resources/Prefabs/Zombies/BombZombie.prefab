@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6011317497676947677}
-  - component: {fileID: 1507712756754498902}
   - component: {fileID: 4348759955461665982}
   - component: {fileID: 2515126487447506473}
   - component: {fileID: -8128880748348714170}
   - component: {fileID: -7292891313969226160}
   - component: {fileID: -8235804736104086415}
+  - component: {fileID: 6264992769820289125}
   m_Layer: 11
   m_Name: BombZombie
   m_TagString: Zombie
@@ -36,25 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1507712756754498902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 780776903879633915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1194dd9ebd10624e9df9a5169e5f320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 7
-  m_TypeKey: 0
-  m_zombieState: 0
-  m_Animator: {fileID: 0}
-  m_NavAgent: {fileID: 0}
-  m_HpBarUI: {fileID: 0}
-  m_BuffRimLight: {fileID: 0}
 --- !u!195 &4348759955461665982
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -211,3 +192,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6264992769820289125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780776903879633915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42db093e792e2e04b8d5aed1c524e1a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 0
+  m_TypeKey: 0
+  m_zombieState: 0
+  m_Animator: {fileID: 0}
+  m_NavAgent: {fileID: 0}
+  m_HpBarUI: {fileID: 0}
+  m_BuffRimLight: {fileID: 0}
+  m_StartMoney: 0
+  m_StepMoney: 0
+  m_AttackAudioSource:
+  - {fileID: 8300000, guid: c5e72c14120434b7d8c3248afc4851b6, type: 3}
+  - {fileID: 8300000, guid: 2e0680160a6414c50821ce2b3586bedf, type: 3}
+  - {fileID: 8300000, guid: 7666bab29b4a04b149e8f5cefdf0c6e6, type: 3}
+  m_IdleAudioSource:
+  - {fileID: 8300000, guid: d254381ee39254b86b2ad79941106ced, type: 3}
+  - {fileID: 8300000, guid: 51481181258134093b3ac957766db260, type: 3}
+  - {fileID: 8300000, guid: c9bd2da8e9aef4886a02e17824e44eb1, type: 3}
+  m_HurtAudioSource:
+  - {fileID: 8300000, guid: 118b38df64aa147568f2e291e18e1713, type: 3}
+  - {fileID: 8300000, guid: 7795e8b6c77494ac6beedc8fb493a1b6, type: 3}
+  - {fileID: 8300000, guid: 840ba502ba2cf48688fa3eed24c5ffd7, type: 3}
+  m_ItemDropPercentage: 35

@@ -49,13 +49,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1194dd9ebd10624e9df9a5169e5f320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Type: 6
+  m_Type: 4
   m_TypeKey: 0
   m_zombieState: 0
   m_Animator: {fileID: 0}
   m_NavAgent: {fileID: 0}
   m_HpBarUI: {fileID: 0}
   m_BuffRimLight: {fileID: 0}
+  m_StartMoney: 10
+  m_StepMoney: 2
+  m_AttackAudioSource:
+  - {fileID: 8300000, guid: 2628db55e50fe41cc9879051d359847a, type: 3}
+  - {fileID: 8300000, guid: 94e452828af664292a97c95ec9452126, type: 3}
+  - {fileID: 8300000, guid: 2c706f39dc7b645e0a17766d7757d4c5, type: 3}
+  m_IdleAudioSource:
+  - {fileID: 8300000, guid: 90d342cf6f89440b9aa6c6ef4af6af88, type: 3}
+  - {fileID: 8300000, guid: 8c8b4012f639545b2a1f70a2082307b3, type: 3}
+  - {fileID: 8300000, guid: ad7b6eb3c723442b483e6b280fa02230, type: 3}
+  m_HurtAudioSource:
+  - {fileID: 8300000, guid: 137bb003119aa47dfb5ed791d840d650, type: 3}
+  - {fileID: 8300000, guid: 0e84038961d6c4b72af49c11e1553b9e, type: 3}
+  - {fileID: 8300000, guid: 931523c039e8648f2ae2785389e68571, type: 3}
+  m_ItemDropPercentage: 35
 --- !u!195 &3306763953137438081
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -219,6 +234,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 236356988272944720}
     m_Modifications:
+    - target: {fileID: 5756027860496700730, guid: 537378233b6c7144296d0da9a322749a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2431980850467236040, guid: 537378233b6c7144296d0da9a322749a,
         type: 3}
       propertyPath: m_Name

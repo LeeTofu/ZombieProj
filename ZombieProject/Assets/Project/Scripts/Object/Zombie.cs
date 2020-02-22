@@ -8,9 +8,15 @@ public class Zombie : MovingObject
 {
     protected BehaviorNode m_zombieBehavior;
 
-    private Coroutine m_KnockBackCoroutine;
+    protected Coroutine m_KnockBackCoroutine;
 
     private AudioSource m_AudioSource;
+
+    [SerializeField]
+    protected int m_StartMoney;
+
+    [SerializeField]
+    protected int m_StepMoney;
 
     [SerializeField]
     AudioClip[] m_AttackAudioSource;
@@ -21,6 +27,9 @@ public class Zombie : MovingObject
     [SerializeField]
     AudioClip[] m_HurtAudioSource;
 
+    [SerializeField]
+    [Range(0, 99)]
+    int m_ItemDropPercentage;
 
     int m_ModelIndex;
 
@@ -28,9 +37,7 @@ public class Zombie : MovingObject
 
     public override void InGame_Initialize()
     {
-        
-
-
+       
         if (m_CollisionAction != null)
             m_CollisionAction.SetCollisionActive(true);
     }
@@ -104,12 +111,12 @@ public class Zombie : MovingObject
         //}
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         m_TargetingObject = null;
     }
 
-    private void KnockBackAction(float _time)
+    protected void KnockBackAction(float _time)
     {
         m_Stat.isKnockBack = true;
 
@@ -129,7 +136,7 @@ public class Zombie : MovingObject
         m_Stat.isKnockBack = false;
     }
 
-    private void DeadActionCallback()
+    protected virtual void DeadActionCallback()
     {
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
@@ -140,20 +147,19 @@ public class Zombie : MovingObject
 
             m_TargetingObject = null;
 
-            //  if(m_Type == OBJECT_TYPE.ZOMBIE)
-            //      BattleSceneMain.CreateBuffItem(transform.position + Vector3.up * 0.1f, Quaternion.identity);
+            PlayerManager.Instance.CurrentMoney += (m_StartMoney + RespawnManager.Instance.m_CurWave * m_StepMoney);
 
-            if (m_Type == OBJECT_TYPE.BOMB_ZOMBIE)
-                BattleSceneMain.CreateFireArea(transform.position, transform.rotation);
-
-            PlayerManager.Instance.CurrentMoney += 10;
+            if (m_ItemDropPercentage > Random.Range(0, 100))
+            {
+                BattleSceneMain.CreateBuffItem(transform.position, Quaternion.identity);
+            }
 
             if (m_CollisionAction != null)
                 m_CollisionAction.SetCollisionActive(false);
         }
     }
 
-    private void InitByZombieType(OBJECT_TYPE _type)
+    protected void InitByZombieType(OBJECT_TYPE _type)
     {
         switch(_type)
         {
@@ -200,7 +206,7 @@ public class Zombie : MovingObject
         m_zombieBehavior.Initialize(this);
     }
 
-    private void Update()
+    protected void Update()
     {
         if (!gameObject.activeSelf) return;
         if (m_zombieBehavior == null) return;

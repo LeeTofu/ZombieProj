@@ -56,6 +56,8 @@ MonoBehaviour:
   m_NavAgent: {fileID: 0}
   m_HpBarUI: {fileID: 0}
   m_BuffRimLight: {fileID: 0}
+  m_StartMoney: 8
+  m_StepMoney: 1
   m_AttackAudioSource:
   - {fileID: 8300000, guid: 2628db55e50fe41cc9879051d359847a, type: 3}
   - {fileID: 8300000, guid: 94e452828af664292a97c95ec9452126, type: 3}
@@ -68,6 +70,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 137bb003119aa47dfb5ed791d840d650, type: 3}
   - {fileID: 8300000, guid: 0e84038961d6c4b72af49c11e1553b9e, type: 3}
   - {fileID: 8300000, guid: 931523c039e8648f2ae2785389e68571, type: 3}
+  m_ItemDropPercentage: 5
 --- !u!136 &6385797294002239117
 CapsuleCollider:
   m_ObjectHideFlags: 0

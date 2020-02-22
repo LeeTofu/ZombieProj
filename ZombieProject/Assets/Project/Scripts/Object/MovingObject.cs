@@ -479,9 +479,12 @@ public abstract class MovingObject : MonoBehaviour
             m_CollisionAction.SetCollisionActive(false);
             //걸린 모든 버프 제거하고
             AllDeleteBuff();
-            if (m_DeadCoroutine != null)
-                StopCoroutine(m_DeadCoroutine);
-            m_DeadCoroutine = StartCoroutine(DeadCoroutine());
+            if (CompareTag("Zombie"))
+            {
+                if (m_DeadCoroutine != null)
+                    StopCoroutine(m_DeadCoroutine);
+                m_DeadCoroutine = StartCoroutine(DeadCoroutine());
+            }
             m_DeadActionCallBackFunc?.Invoke();
         }
     }
@@ -556,6 +559,6 @@ public abstract class MovingObject : MonoBehaviour
             m_BuffRimLight.SetDissolveAmount(i);
             yield return new WaitForSeconds(0.001f);
         }
-        if(!CompareTag("Player"))m_BuffRimLight.SetStandard();
+        m_BuffRimLight.SetStandard();
     }
 }

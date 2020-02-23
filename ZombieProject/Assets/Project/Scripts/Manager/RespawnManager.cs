@@ -61,7 +61,7 @@ public class RespawnManager : Singleton<RespawnManager>
                             MaxHP = 100 + i * 5,
                             CurHP = 100 + i * 5,
                             Range = 7.0f,
-                            AttackSpeed = 3f,
+                            AttackSpeed = 1f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
                             isKnockBack = false,

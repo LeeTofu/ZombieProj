@@ -51,6 +51,8 @@ public class BulletManager : Singleton<BulletManager>
             m_BulletFactory.Initialize("Prefabs/Bullet/InstallBombPrefab",("Prefabs/Bullet/Models/InstallBomb"), (int)BULLET_TYPE.INSTALL_BOMB);
             m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.INSTALL_BOMB, 5);
 
+            m_BulletFactory.Initialize("Prefabs/Bullet/ZombieBulletPrefab", ("Prefabs/Bullet/Models/ZombieBullet"), (int)BULLET_TYPE.ZOMBIE_RANGE_ATTACK_BULLET1);
+            m_BulletFactory.CreateObjectPool((int)BULLET_TYPE.ZOMBIE_RANGE_ATTACK_BULLET1, 10);
         }
 
         return true;
@@ -110,10 +112,5 @@ public class BulletManager : Singleton<BulletManager>
         }
 
         bulletObject.FireBullet(_pos, _dir, _stat);
-    }
-
-    public void FireBullet(Vector3 _pos, Vector3 _dir, BULLET_TYPE _bulleyType)
-    {
-        //좀비용 FireBullet, 아직 미구현
     }
 }

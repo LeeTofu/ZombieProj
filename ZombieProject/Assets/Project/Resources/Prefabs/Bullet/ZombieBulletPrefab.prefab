@@ -55,3 +55,4 @@ MonoBehaviour:
   m_PointLight: {fileID: 0}
   m_GunSound: []
   m_BulletType: 0
+  m_AudioHitSound: []

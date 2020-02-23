@@ -5,7 +5,7 @@ public class ZombieStunCondition : DecoratorNode
 {
     public override NODE_STATE Tick()
     {
-        if (m_Character.m_Stat.isStunned || m_Character.m_zombieState == ZOMBIE_STATE.STUN)
+        if (m_Character.m_Stat.isStunned)
             return NODE_STATE.SUCCESS;
 
         return NODE_STATE.FAIL;
@@ -18,7 +18,7 @@ public class ZombieStunAction : ActionNode
     {
         m_Character = _character;
 
-        m_totalActionTime = 1f; //totalactionTime을 좀비 스턴시간으로 사용함
+        m_totalActionTime = 5f; //totalactionTime을 좀비 스턴시간으로 사용함
     }
 
     public override NODE_STATE Tick()
@@ -27,6 +27,8 @@ public class ZombieStunAction : ActionNode
 
         if (m_Character.m_zombieState != ZOMBIE_STATE.STUN)
         {
+            if (m_Character.m_NavAgent != null)
+                m_Character.m_NavAgent.isStopped = true;
             m_Character.m_Animator.CrossFade("Stun", 0.1f);
             m_Character.m_zombieState = ZOMBIE_STATE.STUN;
             return NODE_STATE.RUNNING;

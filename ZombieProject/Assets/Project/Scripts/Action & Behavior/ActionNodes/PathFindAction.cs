@@ -12,7 +12,7 @@ public class ZombiePathFindCondition : DecoratorNode
         float distance = GetAttackObjectDistance();
 
         if (distance < m_Character.m_Stat.alertRange && distance > m_Character.m_Stat.Range || 
-            m_Character.m_zombieState != ZOMBIE_STATE.PATHFIND && !m_Character.m_Stat.isStunned)
+            m_Character.m_zombieState != ZOMBIE_STATE.PATHFIND)
         {
             MovingObject mobject = GetAttackObject();
 

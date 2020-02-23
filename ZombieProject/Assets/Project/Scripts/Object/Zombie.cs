@@ -184,7 +184,7 @@ public class Zombie : MovingObject
                 m_KnockBackAction = (time) => { KnockBackAction(time); };
 
                 if (m_CollisionAction == null)
-                    m_CollisionAction = gameObject.AddComponent<ZombieCollisionAction>();
+                    m_CollisionAction = gameObject.AddComponent<DashZombieCollisionAction>();
                 break;
             case OBJECT_TYPE.BOMB_ZOMBIE:
                 m_zombieBehavior = new BombZombieBT();

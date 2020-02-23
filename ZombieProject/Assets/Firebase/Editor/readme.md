@@ -162,6 +162,23 @@ Support
 
 Release Notes
 -------------
+### 6.8.1
+  - Overview
+     - Fixed Crashlytics and core editor plugin.
+  - Changes
+    - Crashlytics (Editor): Fixed Crashlytics editor plugin so that it loads
+      without the iOS Unity extension installed.
+    - Editor: Fixed core editor plugin so that it loads without the iOS Unity
+      extension installed.
+
+### 6.8.0
+  - Overview
+    - Updated dependencies and fixed resource generation issue with python3.
+  - Changes
+    - Editor: Fixed an issue where resource generation from
+      google-services.json or GoogleService-Info.plist would fail if python3
+      was used to execute the resource generation script.
+
 ### 6.7.0
   - Overview
     - Updated dependencies, fixed issues in Analytics, Database, Dynamic Links,

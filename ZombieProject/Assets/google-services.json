@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "298169832378",
+    "firebase_url": "https://zombieproject-982d9.firebaseio.com",
+    "project_id": "zombieproject-982d9",
+    "storage_bucket": "zombieproject-982d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298169832378:android:a331b2809b4e5f1b234383",
+        "android_client_info": {
+          "package_name": "com.zombieProject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298169832378-sup2ej4e821hhhkuqvba6qvj8749iqs7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAezY0VbYO5eBYlPLGxax8XVjO2lUXqOOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298169832378-sup2ej4e821hhhkuqvba6qvj8749iqs7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

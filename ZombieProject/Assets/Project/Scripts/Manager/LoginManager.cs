@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+
 //using Firebase;
 //using Firebase.Database;
 //using Firebase.Unity.Editor;
@@ -20,12 +23,43 @@ public class USER_DATA
 
 public class LoginManager : Singleton<LoginManager>
 {
-
+    public bool m_isAuther;
 
     public override bool Initialize()
     {
+        PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder().Build());
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+
         return true;
     }
+
+    private void Start()
+    {
+        if(!Social.localUser.authenticated)
+        {
+            m_isAuther = true;
+            Social.localUser.Authenticate(AuthernticateCallBack);
+        }
+        else
+        {
+            Debug.LogError("LoginError");
+        }
+    }
+
+    void AuthernticateCallBack(bool success)
+    {
+        if(success)
+        {
+            Debug.Log("Success");
+        }
+        else
+        {
+            Debug.Log("Fail");
+        }
+    }
+
+
     public override void DestroyManager()
     {
     }

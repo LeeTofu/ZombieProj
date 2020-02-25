@@ -22,6 +22,10 @@ public abstract class Buff : STAT
     public MovingObject m_MovingObject;
 
     public string m_ImageName;
+
+    public Color m_Color;
+
+    public COLOR_TYPE m_ColorType;
     public Buff(STAT _stat)
     {
         m_CharacterStat = _stat;
@@ -52,15 +56,17 @@ public abstract class Buff : STAT
         m_MovingObject = _object;
         if (m_MovingObject.m_BuffRimLight != null)
         {
+            m_MovingObject.m_BuffRimLight.SetMovingObject(_object);
             m_MovingObject.m_BuffRimLight.SetRimLight();
             m_MovingObject.m_BuffRimLight.SetColor(_color);
-
+            m_MovingObject.m_BuffRimLight.SetColorMask(m_ColorType);
         }
     }
 
     protected void SetStandard()
     {
         if (m_MovingObject == null) return;
+        if (m_MovingObject.GetListBuff().Count != 1) return;
         if (m_MovingObject.m_BuffRimLight != null)
         {
             m_MovingObject.m_BuffRimLight.SetStandard();
@@ -117,6 +123,8 @@ public class Adrenaline : Buff
         m_BuffType = BUFF_TYPE.ADRENALINE;
         m_Text = "속도 증가";
         m_ImageName = "Ach45";
+        m_Color = new Color(1f, 1f, 0f);
+        m_ColorType = COLOR_TYPE.YELLOW;
         BuffCoroutine = OnceCoroutine();
     }
 
@@ -125,7 +133,7 @@ public class Adrenaline : Buff
         if (_object == null) return;
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ADRENALIN, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 0.6f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, new Color(1f, 1f, 0f));
+        SetRimLight(_object, m_Color);
     }
 
     protected override void ExitBuffEffect()
@@ -162,6 +170,8 @@ public class Blessing : Buff
         m_BuffType = BUFF_TYPE.BLESSING;
         m_Text = "치료중";
         m_ImageName = "Ach346";
+        m_Color = new Color(0, 1f, 0f);
+        m_ColorType = COLOR_TYPE.GREEN;
         BuffCoroutine = TimeTickCorotine();
     }
 
@@ -174,7 +184,7 @@ public class Blessing : Buff
 
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, new Color(0f, 1f, 0f));
+        SetRimLight(_object, m_Color);
     }
 
     protected override void ExitBuffEffect()
@@ -209,6 +219,8 @@ public class Poison : Buff
         m_BuffType = BUFF_TYPE.POISON;
         m_Text = "독";
         m_ImageName = "Ach123";
+        m_Color = new Color(1f, 0, 1f);
+        m_ColorType = COLOR_TYPE.PURPLE;
         BuffCoroutine = TimeTickCorotine();
     }
     public override void PlayBuffEffect(MovingObject _object)
@@ -219,7 +231,7 @@ public class Poison : Buff
         m_CharacterStat.MoveSpeed *= MoveSpeed;
 
 
-        SetRimLight(_object, new Color(1f, 0f, 1f));
+        SetRimLight(_object, m_Color);
     }
 
     protected override void BuffAction()
@@ -259,6 +271,8 @@ public class Fire : Buff
         m_BuffType = BUFF_TYPE.FIRE;
         m_Text = "화상";
         m_ImageName = "Ach85";
+        m_Color = new Color(1f, 0, 0);
+        m_ColorType = COLOR_TYPE.RED;
         BuffCoroutine = TimeTickCorotine();
     }
     public override void PlayBuffEffect(MovingObject _object)
@@ -267,7 +281,7 @@ public class Fire : Buff
 
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.3f, Quaternion.identity, Vector3.one * 1.5f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, new Color(1f, 0f, 0f));
+        SetRimLight(_object, m_Color);
     }
 
     protected override void BuffAction()

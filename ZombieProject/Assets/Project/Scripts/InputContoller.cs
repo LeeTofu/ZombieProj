@@ -21,13 +21,13 @@ public class InputContoller : UIDragSubject
     private Canvas m_canvas;
     private GraphicRaycaster m_gr;
     private PointerEventData m_ped;
-    private float m_lengthlimit;
+    private float m_lengthlimit =  20.0f;
 
     // 제어하는 캐릭터
     private MovingObject m_Character;
 
     // 입력 컨트롤러 배경 반지름.
-    static float s_ControllerBGRadius = 30.0f;
+    static float s_ControllerBGRadius = 70.0f;
 
     float m_ControllerBGRadiusDivision;
 
@@ -64,12 +64,6 @@ public class InputContoller : UIDragSubject
         }
 
         m_init = true;
-    }
-
-    void Update()
-    {
-        m_lengthlimit = Mathf.Sqrt(Screen.width * Screen.width + Screen.height * Screen.height) * m_ControllerBGRadiusDivision;
-
     }
 
     public float GetCurrentMouseDragLength()

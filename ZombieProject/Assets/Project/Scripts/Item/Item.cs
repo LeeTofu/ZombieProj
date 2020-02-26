@@ -81,6 +81,8 @@ public struct ItemStat
 
     public string m_Info;
 
+    public int m_Lv;
+
 }
 
 public class Item

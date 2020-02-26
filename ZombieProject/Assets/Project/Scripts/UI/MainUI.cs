@@ -19,10 +19,15 @@ public class MainUI : BaseUI
     GameObject m_WarningWindow;
 
 
+
+
     private void Start()
     {
         m_WarningWindow.SetActive(false);
         Debug.Log("Main UI 불러옴");
+
+        USER_DATA data = LoginManager.Instance.GetUserData();
+
     }
 
     public override void InitializeUI()

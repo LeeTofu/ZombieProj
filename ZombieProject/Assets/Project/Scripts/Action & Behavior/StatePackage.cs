@@ -86,7 +86,10 @@ public class MovingAttackState : PlayerState
         CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
         BattleUI.m_InputController.CalculateMoveVector();
-       // m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+
+        if(PlayerManager.Instance.m_TargetingZombie == null)
+            m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.4f; //* 1.0f;
     }
     public override void End()

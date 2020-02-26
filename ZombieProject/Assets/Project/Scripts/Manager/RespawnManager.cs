@@ -187,8 +187,15 @@ public class RespawnManager : Singleton<RespawnManager>
     {
         if (CheckCanNextWave())
         {
-            StartCoroutine(RestTime_C(10.0f));
+            WaveClear();
         }
+    }
+
+
+    void WaveClear()
+    {
+        PlayerManager.Instance.ClearWave();
+        StartCoroutine(RestTime_C(10.0f));
     }
 
     // 웨이브마다 있는 쉬는 시간

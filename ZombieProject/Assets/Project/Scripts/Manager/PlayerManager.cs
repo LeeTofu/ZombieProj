@@ -56,9 +56,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
     EffectObject m_CurTargtingEffect;
 
-    MovingObject m_TargetingZombie;
+    public MovingObject m_TargetingZombie { private set; get; }
 
     StateController m_PlayerStateContoller;
+
+    public int m_MaxClearWave { private set; get; }
 
     Ray m_HitRay = new Ray();
     RaycastHit m_RayCastr = new RaycastHit();
@@ -78,6 +80,14 @@ public class PlayerManager : Singleton<PlayerManager>
             }
 
             (UIManager.Instance.m_CurrentUI as BattleUI).UpdateMoney(m_CurrentMoney);
+        }
+    }
+
+    public void ClearWave()
+    {
+        if (m_MaxClearWave > RespawnManager.Instance.m_CurWave)
+        {
+            m_MaxClearWave = RespawnManager.Instance.m_CurWave;
         }
     }
 
@@ -238,6 +248,12 @@ public class PlayerManager : Singleton<PlayerManager>
     public override bool Initialize()
     {
         LoadPlayerInfo();
+
+#if UNITY_EDITOR
+        m_MaxClearWave = 25;
+#elif UNITY_ANDROID
+        m_MaxClearWave = 1;
+#endif
 
         if (m_PlayerFactory == null)
         {

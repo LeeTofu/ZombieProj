@@ -29,6 +29,9 @@ public enum GAME_STAGE
 
 public class GameMaster : Singleton<GameMaster>
 {
+
+    public bool m_isFireBaseAsnc = false;
+
     private void Awake()
     {
       //  Debug.Log( "가로 : "  + Screen.width);
@@ -48,6 +51,8 @@ public class GameMaster : Singleton<GameMaster>
                 //   app = Firebase.FirebaseApp.DefaultInstance;
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
+                Debug.Log("Success");
+
             }
             else
             {
@@ -56,6 +61,8 @@ public class GameMaster : Singleton<GameMaster>
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+
+
     }
 
     public override bool Initialize()

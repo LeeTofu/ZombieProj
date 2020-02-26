@@ -20,6 +20,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>25</Count>
+    <Level>1</Level>
     <Info>일반 총기입니다.</Info>
 	</text>
 	<text>
@@ -42,6 +43,7 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>-1</Count>
+    <Level>1</Level>
     <Info>근거리 공격이 가능합니다.</Info>
 	</text>
 	<text>
@@ -64,6 +66,7 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>3</Count>
+    <Level>1</Level>
     <Info>벽을 한번 튕긴 후 폭발하는 투척형 폭탄입니다.</Info>
 	</text>
   <text>
@@ -86,6 +89,7 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>8</Count>
+    <Level>10</Level>
     <Info>사거리가 짧지만 5발의 총알을 부채꼴 모양으로 발사하는 산탄총입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
@@ -108,6 +112,7 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>3</Count>
+    <Level>20</Level>
     <Info>강력한 범위 공격을 가진 로켓런처입니다. 넉백 효과를 가집니다.</Info>
   </text>
   <text>
@@ -130,6 +135,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>100</Count>
+    <Level>5</Level>
     <Info>빠른 연사를 가진 일반 총기입니다.</Info>
   </text>
   <text>
@@ -152,6 +158,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>3</Count>
+    <Level>1</Level>
     <Info>자신의 체력을 서서히 치료합니다.</Info>
   </text>
   <text>
@@ -174,6 +181,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>2</Count>
+    <Level>10</Level>
     <Info>자신의 자리에 주변 적을 유도하는 폭탄을 설치 합니다.</Info>
   </text>
   <text>
@@ -196,6 +204,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>10</CoolTime>
     <Count>2</Count>
+    <Level>15</Level>
     <Info>투척시, 벽이나 적을 적중한 경우, 그 자리에 5초간 지속되는 화염 구덩이를 설치합니다.</Info>
   </text>
   <text>
@@ -218,6 +227,7 @@
     <isKnockBack>false</isKnockBack>
     <CoolTime>15</CoolTime>
     <Count>3</Count>
+    <Level>3</Level>
     <Info>자신의 체력을 즉각 회복하고 이동속도를 증가시킵니다.</Info>
   </text>
   <text>
@@ -240,6 +250,7 @@
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
     <Count>8</Count>
+    <Level>10</Level>
     <Info>적을 관통하며 긴 사거리를 가진 총기입니다. 적중시 적을 넉백합니다.</Info>
   </text>
 </Root>

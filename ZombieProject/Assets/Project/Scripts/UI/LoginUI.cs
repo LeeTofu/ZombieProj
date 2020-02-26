@@ -10,7 +10,6 @@ public class LoginUI : BaseUI
     [SerializeField]
     TMPro.TMP_InputField m_PWInput;
 
-
     private void Start()
     {
         Debug.Log("Login UI 불러옴");
@@ -29,11 +28,16 @@ public class LoginUI : BaseUI
     public void PressStartButton()
     {
         SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+#if UNITY_EDITOR
+        //SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+#else
+       // LoginManager.Instance.LoginToGoogle();
+#endif
     }
 
     public void JoinToTheFireBase()
     {
-       // LoginManager.Instance.JointToFireBase(m_IDInput.text, m_PWInput.text);
+       LoginManager.Instance.LoginToFireBase(m_IDInput.text, m_PWInput.text);
     }
 
 

@@ -100,6 +100,7 @@ public class InventoryUI: BaseUI
             ItemSlot slot = InvenManager.Instance.GetItemSlot(slotType, equipedItem.m_UniqueItemID);
 
             if (slot == null) return;
+            if (!slot.m_CanUse) return;
 
             slot.EquipItem();
             _EquipmentSlot.SetItem(equipedItem);
@@ -144,6 +145,7 @@ public class InventoryUI: BaseUI
         if (m_SelectedSlot == null) return;
         if (m_SelectedSlot.m_Item == null) return;
         if (!m_SelectedSlot.m_Item.m_isEquiped) return;
+        if (!m_SelectedSlot.m_CanUse) return;
 
         DetachItem(m_SelectedSlot.m_Item.m_ItemSlotType);
     }
@@ -152,7 +154,8 @@ public class InventoryUI: BaseUI
     {
         if (m_SelectedSlot == null) return;
         if (m_SelectedSlot.m_Item == null) return;
-      
+        if (!m_SelectedSlot.m_CanUse) return;
+
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
         switch (sort)
@@ -171,6 +174,8 @@ public class InventoryUI: BaseUI
     {
         if (m_SelectedSlot == null) return;
         if (m_SelectedSlot.m_Item == null) return;
+        if (!m_SelectedSlot.m_CanUse) return;
+
 
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 

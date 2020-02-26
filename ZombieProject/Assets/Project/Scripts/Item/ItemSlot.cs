@@ -30,7 +30,15 @@ public class ItemSlot : MonoBehaviour
     TextMeshProUGUI m_ItemName;
 
     [SerializeField]
+    Image m_NotUsedImage;
+
+    [SerializeField]
     TextMeshProUGUI m_ItemLv;
+
+    [SerializeField]
+    TextMeshProUGUI m_WaveInfo;
+
+    public bool m_CanUse { private set; get; }
 
     public ItemSlot m_SelectedSlot { get; private set; }
 
@@ -77,8 +85,31 @@ public class ItemSlot : MonoBehaviour
             if (m_ItemName != null)
                 m_ItemName.text = m_Item.m_ItemStat.m_ItemName;
 
-            if(m_ItemLv != null)
-                m_ItemLv.text = "Lv " + m_Item.m_Lv.ToString();
+           
+            if (m_Item.m_ItemStat.m_Lv > PlayerManager.Instance.m_MaxClearWave)
+            {
+                m_CanUse = false;
+
+                if (m_NotUsedImage != null)
+                    m_NotUsedImage.gameObject.SetActive(true);
+                if (m_WaveInfo != null)
+                {
+                    m_WaveInfo.gameObject.SetActive(true);
+                    m_WaveInfo.text = "Wave '" + m_Item.m_ItemStat.m_Lv.ToString() + "' 이상 \n 클리어";
+                }
+            }
+            else
+            {
+                m_CanUse = true;
+
+                if(m_NotUsedImage != null)
+                    m_NotUsedImage.gameObject.SetActive(false);
+
+                if (m_WaveInfo != null)
+                    m_WaveInfo.gameObject.SetActive(false);
+            }
+
+
         }
         else
         {
@@ -98,6 +129,8 @@ public class ItemSlot : MonoBehaviour
                 m_ItemLv.text = "";
 
             m_Item = null;
+
+            m_NotUsedImage.gameObject.SetActive(false);
         }
 
     }

@@ -74,6 +74,7 @@ public class ItemManager : Singleton<ItemManager>
             itemStat.m_Count = short.Parse(node.SelectSingleNode("Count").InnerText);
 
             itemStat.m_Info = node.SelectSingleNode("Info").InnerText;
+            itemStat.m_Lv = int.Parse(node.SelectSingleNode("Level").InnerText);
 
             m_ItemTable.Add(itemStat.m_ItemID, itemStat);
             Debug.Log(itemStat.m_ItemID);

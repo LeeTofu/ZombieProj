@@ -249,6 +249,7 @@ public class InputContoller : UIDragSubject
             transform.position = m_InputControllerPosition + Vector3.Normalize(-GetDirectionVec3()) * m_lengthlimit;
         }
 
+
         UpdateObserver(BUTTON_ACTION.DRAG);
      //   Debug.Log("OnDrag");
     }

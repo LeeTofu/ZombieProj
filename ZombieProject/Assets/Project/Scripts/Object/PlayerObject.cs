@@ -15,6 +15,8 @@ public class PlayerObject : MovingObject
     // Player 표시해주는 이펙트
     public EffectObject m_PlayerEffect;
 
+    public DrawRange m_DrawRander { get; private set; }
+
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
@@ -55,6 +57,7 @@ public class PlayerObject : MovingObject
 
         m_HpBarUI.InGame_Initialize();
 
+
     }
 
     public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
@@ -81,6 +84,7 @@ public class PlayerObject : MovingObject
             m_StateController.Initialize(this);
         }
 
+        m_DrawRander = gameObject.AddComponent<DrawRange>();
 
         SetStat(new STAT
         {

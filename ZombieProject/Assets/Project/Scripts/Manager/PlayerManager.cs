@@ -213,6 +213,9 @@ public class PlayerManager : Singleton<PlayerManager>
 
         m_PlayerStateContoller = (m_Player as PlayerObject).m_StateController;
 
+        if(m_CurrentEquipedItemObject != null)
+            (m_Player as PlayerObject).m_DrawRander.SetRangeCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+
         return m_Player;
     }
 
@@ -240,6 +243,9 @@ public class PlayerManager : Singleton<PlayerManager>
         
         if(slot != null)
             slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
+
+        (m_Player as PlayerObject).m_DrawRander.SetRangeCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+            
 
         BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
         //(UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
@@ -280,7 +286,7 @@ public class PlayerManager : Singleton<PlayerManager>
         Vector3 HitForward = _zombiePos - m_Player.transform.position;
         HitForward = HitForward.normalized;
 
-        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.0f)
+        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.8f)
         {
             return true;
         }

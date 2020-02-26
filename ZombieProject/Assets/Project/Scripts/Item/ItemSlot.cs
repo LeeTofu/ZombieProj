@@ -130,7 +130,8 @@ public class ItemSlot : MonoBehaviour
 
             m_Item = null;
 
-            m_NotUsedImage.gameObject.SetActive(false);
+            if (m_NotUsedImage != null)
+                m_NotUsedImage.gameObject.SetActive(false);
         }
 
     }

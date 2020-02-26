@@ -49,6 +49,13 @@ public class IdleState : PlayerState
              m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
         });
 
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.IDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+        });
+
 
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
@@ -90,6 +97,7 @@ public class MovingAttackState : PlayerState
         if(PlayerManager.Instance.m_TargetingZombie == null)
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
 
+        (m_PlayerObject as PlayerObject).m_DrawRander.DrawRender();
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.4f; //* 1.0f;
     }
     public override void End()
@@ -249,6 +257,8 @@ public class WalkState : PlayerState
         BattleUI.m_InputController.CalculateMoveVector();
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
+
+        (m_PlayerObject as PlayerObject).m_DrawRander.DrawRender();
     }
     public override void End()
     {
@@ -301,6 +311,13 @@ public class InjuredIdleState : PlayerState
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
         });
 
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        });
+
 
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
@@ -324,11 +341,13 @@ public class InjuredWalkState : PlayerState
     }
     public override void Update()
     {
-                CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
         BattleUI.m_InputController.CalculateMoveVector();
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
+
+        (m_PlayerObject as PlayerObject).m_DrawRander.DrawRender();
     }
     public override void AddAction()
     {

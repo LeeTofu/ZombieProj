@@ -191,7 +191,6 @@ public class RespawnManager : Singleton<RespawnManager>
         }
     }
 
-
     void WaveClear()
     {
         PlayerManager.Instance.ClearWave();
@@ -247,9 +246,6 @@ public class RespawnManager : Singleton<RespawnManager>
         {
             Debug.LogError("그런 Phase의 Dic은 없는데?" + _phase + " " + _type);
         }
-
-
-
         return null;
     }
 

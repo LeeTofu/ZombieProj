@@ -43,6 +43,7 @@ public class BattleSceneMain : SceneMain
         PlayerManager.Instance.CreatePlayer(m_PlayerCreateZone.position, m_PlayerCreateZone.rotation);
         CameraManager.Instance.SetTargeting(PlayerManager.Instance.m_Player.gameObject);
 
+
         if (s_DropItemFactory == null)
         {
             s_DropItemFactory = gameObject.AddComponent<ObjectFactory>();

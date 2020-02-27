@@ -155,6 +155,16 @@ public class RespawnManager : Singleton<RespawnManager>
         m_ListZombiePhase.Clear();
     }
 
+    // 이번 웨이브에서 생성할 좀비의 수를 리턴합니다/.
+    int SelectRespawnZombieCount(int _phase)
+    {
+        int zombieRespawnCount = (int)(_phase * 0.2f);
+        zombieRespawnCount = Mathf.Clamp(zombieRespawnCount, 1, 4);
+
+        return zombieRespawnCount;
+    }
+
+
     // 해당 _phase에 등록된 좀비 리스폰을 시작합니다.
     private void RespawnPhaseZombie(int _phase)
     {
@@ -164,9 +174,11 @@ public class RespawnManager : Singleton<RespawnManager>
         }
         else
         {
+            int count = SelectRespawnZombieCount(_phase);
+
             foreach (ZombieRespawn respawn in m_ListZombiePhase)
             {
-                respawn.StartRespawn(_phase);
+                respawn.StartRespawn(_phase, count);
             }
         }
     }
@@ -263,9 +275,8 @@ public class RespawnManager : Singleton<RespawnManager>
             if (PlayerManager.Instance.m_Player.m_Stat.isDead) yield break;
 
             ui.PlayInfoMessage((int)(_changeTime - time) + "초 뒤 좀비가 몰려옵니다!");
-
+            
             yield return new WaitForSeconds(1.0f);
-
 
             (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
 

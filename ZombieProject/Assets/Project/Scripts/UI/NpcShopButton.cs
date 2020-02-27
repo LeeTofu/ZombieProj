@@ -41,19 +41,23 @@ public class NpcShopButton : UIPressSubject
     static ItemObject m_CurrentUpgradedItem;
 
     GameObject m_NoMoneyImage;
+    GameObject m_CanNotUpgradeImage;
+
+    bool m_CanUpgrade = true;
 
     private void Awake()
     {
         m_NoMoneyImage = transform.Find("NoMoney").gameObject;
         m_NoMoneyImage.SetActive(false);
-    }
 
+        m_CanNotUpgradeImage = transform.Find("CanNotUse").gameObject;
+        m_CanNotUpgradeImage.SetActive(false);
+    }
 
     private void Start()
     {
         InitializeButton();
     }
-
 
     public void SetUpgradeWeapon(ItemObject _item)
     {
@@ -95,7 +99,7 @@ public class NpcShopButton : UIPressSubject
 
         UpdateUpgradeUI();
         UpdateMoneyText();
-
+       
     }
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -103,8 +107,30 @@ public class NpcShopButton : UIPressSubject
 
     }
 
+    bool CanUpgrade()
+    {
+        if (m_CurrentUpgradedItem.m_CurrentStat.m_Range >= 19.99f && m_slotType == SHOP_SORT.RANGEUP)
+        {
+            return false;
+        }
+        
+        if (m_CurrentUpgradedItem.m_CurrentStat.m_AttackSpeed <= 0.201f && m_slotType == SHOP_SORT.ATTACKSPEEDUP)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
     public void UpdateMoneyText()
     {
+        if (!m_CanUpgrade)
+        {
+            m_MoneyText.text = " ";
+            return;
+        }
+
         m_MoneyText.text = "$" + (m_StartCost + m_PlusCost * m_UpgLevel).ToString();
 
         if(PlayerManager.Instance.CurrentMoney < (m_StartCost + m_PlusCost * m_UpgLevel))
@@ -127,21 +153,36 @@ public class NpcShopButton : UIPressSubject
         if(m_UpgLevel == -1 ) return;
 
 
-         if (m_UpgLevel >= m_ButtonMaxLevel)
+         if (m_UpgLevel >= m_ButtonMaxLevel )
          {
-             m_MoneyText.text = " ";
-             m_UpgLevelText.text = "Lv.MAX";
+            m_CanUpgrade = false;
+            m_MoneyText.text = " ";
+            m_CanNotUpgradeImage.SetActive(true);
+            m_UpgLevelText.text = "Lv.MAX";
          }
-         else
+         else if(m_UpgLevel < m_ButtonMaxLevel)
          {
-             m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
-         }
+            if(!CanUpgrade())
+            {
+                m_CanUpgrade = false;
+                m_MoneyText.text = " ";
+                m_CanNotUpgradeImage.SetActive(true);
+                m_UpgLevelText.text = "Lv.MAX";
+                return;
+            }
+
+
+            m_CanUpgrade = true;
+            m_UpgLevelText.text = "Lv." + m_UpgLevel.ToString();
+            m_CanNotUpgradeImage.SetActive(false);
+        }
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
         if (PlayerManager.Instance.CurrentMoney < m_StartCost + m_PlusCost * m_UpgLevel) return;
         if (m_UpgLevel >= m_ButtonMaxLevel && m_slotType != SHOP_SORT.QUICK) return;
+        if (!m_CanUpgrade) return;
         if (PlayerManager.Instance.m_CurrentEquipedItemObject == null) return;
         if (m_CurrentUpgradedItem == null) return;
 

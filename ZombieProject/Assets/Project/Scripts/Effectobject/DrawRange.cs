@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DrawRange : MonoBehaviour
 {
-    public float ThetaScale = 0.02f;
+    public float ThetaScale = 0.04f;
     public float radius = 3f;
     private int Size;
     private LineRenderer m_LineRenderer;

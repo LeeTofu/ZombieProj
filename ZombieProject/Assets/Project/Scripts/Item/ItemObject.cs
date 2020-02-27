@@ -18,6 +18,8 @@ public class ItemObject : MonoBehaviour
 
     public short m_currentBulletCount;
 
+    Coroutine m_ItemFireCoroutine;
+
     public Item m_Item { private set; get; }
 
     private void Awake()
@@ -133,6 +135,14 @@ public class ItemObject : MonoBehaviour
 
     public void ItemAction(MovingObject _object, Vector3 _dir)
     {
+        StopAllCoroutines();
+        StartCoroutine(StartFireCoroutine(_object, _dir));
+    }
+
+    IEnumerator StartFireCoroutine(MovingObject _object, Vector3 _dir)
+    {
+        yield return new WaitForSeconds(0.14f);
+
         if (_object == null)
         {
             ItemAction(m_FireTransform.transform.forward);
@@ -141,7 +151,10 @@ public class ItemObject : MonoBehaviour
         {
             ItemAction(_dir);
         }
+
     }
+
+
 
 
     private void ItemAction(Vector3 _dir)

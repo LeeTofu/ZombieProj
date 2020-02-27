@@ -58,36 +58,34 @@ public class ZombieRespawn : MonoBehaviour
         RespawnManager.Instance.InsertPhaseZombie(this);
     }
 
+    // 리스폰할 좀비 타입 고르기.
+    OBJECT_TYPE SelectZombieType(int _phase)
+    {
+        int NormalZombieRespawn = Mathf.Max(250, 1000 - ((_phase - 1) * 25));
 
+        if(Random.Range(1000,1000) < NormalZombieRespawn)
+        {
+            return OBJECT_TYPE.ZOMBIE;
+        }
+        else
+        {
+            int EliteZombieRespawn = Random.Range((int)OBJECT_TYPE.DASH_ZOMBIE, (int)OBJECT_TYPE.BULLET);
+            return (OBJECT_TYPE)EliteZombieRespawn;
+        }
+    }
 
     // 리스폰을 시작하자
-    public void StartRespawn(int _phase)
+    public void StartRespawn(int _phase, int _respawnZombieCount)
     {
         m_CurRespawnCount = 0;
         m_isCompleteRespawn = false;
+        m_ZombieMaxRespawnCount = _respawnZombieCount;
 
-
-        if(m_RespawnArray.Length - 1 < _phase)
+        if (m_Coroutine == null)
         {
-            _phase = m_RespawnArray.Length - 1;
+              m_Coroutine = StartCoroutine(RespawnStartZombie(_phase));
         }
-
-        if (m_RespawnArray[_phase] == OBJECT_TYPE.NONE)
-        {
-            StopRespawn();
-            return;
-        }
-
-        STAT stat = RespawnManager.Instance.GetZombieStat(m_RespawnArray[_phase], _phase);
-
-        if (stat != null)
-        {
-            if (m_Coroutine == null)
-            {
-                m_Coroutine = StartCoroutine(RespawnStartZombie(m_RespawnArray[_phase], stat));
-            }
-        }
-
+     
     }
 
 
@@ -148,8 +146,39 @@ public class ZombieRespawn : MonoBehaviour
             }
             yield return new WaitForSeconds(Random.Range(m_minZombieRespawnTime, m_maxZombieRespawnTime));
         }
+    }
 
-       
+    IEnumerator RespawnStartZombie(int _phase)
+    {
+        yield return new WaitForSeconds(m_ZombieRespawnStartTime);
+
+        while (m_CurRespawnCount < m_ZombieMaxRespawnCount)
+        {
+            OBJECT_TYPE objectType = SelectZombieType(_phase);
+            STAT stat = RespawnManager.Instance.GetZombieStat(objectType, _phase);
+
+            if(objectType == OBJECT_TYPE.NONE )
+            {
+                Debug.LogError("이런 좀비 타입은 없다 " + objectType);
+                yield break;
+            }
+            if (stat != null)
+            {
+                RespawnZombie(objectType, stat);
+            }
+            else
+            {
+                Debug.LogError("Stat이 없다 : " + objectType);
+                yield break;
+            }
+
+            if (m_CurRespawnCount >= m_ZombieMaxRespawnCount)
+            {
+                m_isCompleteRespawn = true;
+                yield break;
+            }
+            yield return new WaitForSeconds(Random.Range(m_minZombieRespawnTime, m_maxZombieRespawnTime));
+        }
     }
 
 

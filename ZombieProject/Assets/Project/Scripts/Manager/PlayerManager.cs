@@ -381,11 +381,11 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             if (CheckCanAttack(newTargetZombie.transform.position))
             {
-                if (m_TargetingZombie != newTargetZombie || m_TargetingZombie == null)
-                {
-                    PushEffectToPool();
-                    m_CurTargtingEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ENMETY_FOCUS, newTargetZombie, Vector3.up * 0.2f, Quaternion.Euler(90, 0, 0), Vector3.one);
-                }
+                //if (m_TargetingZombie != newTargetZombie || m_TargetingZombie == null)
+                //{
+                //    PushEffectToPool();
+                //    m_CurTargtingEffect = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ENMETY_FOCUS, newTargetZombie, Vector3.up * 0.2f, Quaternion.Euler(90, 0, 0), Vector3.one);
+                //}
 
                 m_TargetingZombie = newTargetZombie;
 

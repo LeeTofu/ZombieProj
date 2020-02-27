@@ -12,6 +12,11 @@ class DashZombieBT : BehaviorNode
 
         SelectorNode sel = new SelectorNode();
 
+        SequenceNode seqDead = new SequenceNode();
+        seqDead.InsertAction(new ZombieDeadCondition());
+        seqDead.InsertAction(new ZombieDeadAction());
+        sel.InsertAction(seqDead);
+
         SequenceNode seqStun = new SequenceNode();
         seqStun.InsertAction(new ZombieStunCondition());
         seqStun.InsertAction(new ZombieStunAction());

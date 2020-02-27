@@ -160,7 +160,7 @@ public class Zombie : MovingObject
         switch(_type)
         {
             case OBJECT_TYPE.ZOMBIE:
-                m_zombieBehavior = new NormalZombieBTwithPF();
+                m_zombieBehavior = new NormalZombieBT();
 
                 m_DeadActionCallBackFunc = DeadActionCallback;
                 m_KnockBackAction = (time) => { KnockBackAction(time); };

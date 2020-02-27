@@ -10,7 +10,7 @@ public class ZombieBullet : Bullet
     public override void InGame_Initialize()
     {
         if (m_CollisionAction == null)
-            m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
+            m_CollisionAction = gameObject.AddComponent<ZombieBulletCollisionAction>();
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey)
@@ -18,7 +18,7 @@ public class ZombieBullet : Bullet
         base.Initialize(_model, _Controller, _typeKey);
 
         if (m_CollisionAction == null)
-            m_CollisionAction = gameObject.AddComponent<BulletCollisionAction>();
+            m_CollisionAction = gameObject.AddComponent<ZombieBulletCollisionAction>();
     }
 
     protected override void BulletMove()

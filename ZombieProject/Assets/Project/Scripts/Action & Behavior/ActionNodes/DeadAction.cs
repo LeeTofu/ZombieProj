@@ -54,6 +54,6 @@ public class ZombieDeadAction : ActionNode
 
         m_Character.pushToMemory();
 
-        return NODE_STATE.FAIL;
+        return NODE_STATE.SUCCESS;
     }
 }

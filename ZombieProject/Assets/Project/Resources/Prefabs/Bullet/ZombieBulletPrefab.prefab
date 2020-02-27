@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec79ecbbbf28de44c9d7879079157269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Type: 0
+  m_Type: 8
   m_TypeKey: 0
   m_zombieState: 0
   m_Animator: {fileID: 0}
@@ -54,5 +54,5 @@ MonoBehaviour:
   m_TrailRenderer: {fileID: 0}
   m_PointLight: {fileID: 0}
   m_GunSound: []
-  m_BulletType: 0
+  m_BulletType: 8
   m_AudioHitSound: []

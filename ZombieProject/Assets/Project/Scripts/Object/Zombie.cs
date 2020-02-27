@@ -152,6 +152,12 @@ public class Zombie : MovingObject
 
             if (m_CollisionAction != null)
                 m_CollisionAction.SetCollisionActive(false);
+
+            if (m_NavAgent != null)
+            {
+                m_NavAgent.enabled = true;
+
+            }
         }
     }
 

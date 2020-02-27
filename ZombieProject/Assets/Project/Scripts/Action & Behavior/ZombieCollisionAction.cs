@@ -13,7 +13,7 @@ public class ZombieCollisionAction : CollisionAction
 
     protected override bool CollisionCondition(GameObject _defender)
     {
-        if (_defender.gameObject.layer != LayerMask.NameToLayer("Bullet") ) return false;
+        if (_defender.gameObject.layer != LayerMask.NameToLayer("Bullet")) return false;
 
         return true;
     }

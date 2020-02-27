@@ -116,6 +116,8 @@ public class ZombieRespawn : MonoBehaviour
             {
                 zombie.m_NavAgent.stoppingDistance = zombie.m_Stat.Range;
                 zombie.m_NavAgent.speed = zombie.m_Stat.MoveSpeed;
+                if (!zombie.m_NavAgent.enabled)
+                    zombie.m_NavAgent.enabled = true;
             }
             
 

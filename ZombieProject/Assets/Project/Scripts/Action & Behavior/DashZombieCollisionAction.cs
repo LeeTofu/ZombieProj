@@ -19,6 +19,11 @@ public class DashZombieCollisionAction : CollisionAction
             m_Character.m_NavAgent.isStopped = true;
         }
 
+        if((_object.tag == "Player"))
+        {
+            PlayerManager.Instance.AttackToPlayer(m_Character.m_Stat.Attack, true);
+        }
+
         m_Character.m_Stat.alertRange = 1000.0f;
         m_Character.m_Stat.MoveSpeed = 2.5f;
     }

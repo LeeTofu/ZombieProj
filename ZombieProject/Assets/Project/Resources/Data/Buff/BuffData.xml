@@ -63,4 +63,13 @@
     <MoveSpeed>0.0</MoveSpeed>
     <Level>1</Level>
   </Buff>
+  <Buff>
+    <BUFFTYPE>FIRE</BUFFTYPE>
+    <DurationTime>5</DurationTime>
+    <TickTime>1</TickTime>
+    <Attack>5</Attack>
+    <AttackSpeed>0.0</AttackSpeed>
+    <MoveSpeed>0.0</MoveSpeed>
+    <Level>2</Level>
+  </Buff>
 </BuffInfo>

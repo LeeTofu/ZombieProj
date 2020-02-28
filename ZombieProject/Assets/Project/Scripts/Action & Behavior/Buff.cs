@@ -239,7 +239,7 @@ public class Poison : Buff
         if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
-        m_CharacterStat.CurHP -= Attack;
+        m_MovingObject.HitDamage(Attack, false, 0.0f);
 
         Debug.Log("PoisonDamage:" + Attack);
     }
@@ -279,7 +279,7 @@ public class Fire : Buff
     {
         if (_object == null) return;
 
-        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.3f, Quaternion.identity, Vector3.one * 1.5f, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.3f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
 
         SetRimLight(_object, m_Color);
     }
@@ -289,7 +289,7 @@ public class Fire : Buff
         if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
-        m_CharacterStat.CurHP -= Attack;
+        m_MovingObject.HitDamage(Attack, false, 0.0f);
     }
 
     protected override void ExitBuffEffect()

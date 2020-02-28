@@ -20,6 +20,9 @@ public class BuffArea : MovingObject
     [SerializeField]
     bool m_isInstance;
 
+    [SerializeField]
+    string[] m_TagArray;
+
     public override void InGame_Initialize()
     {
         if (m_EffectObject == null)
@@ -35,11 +38,18 @@ public class BuffArea : MovingObject
         m_TypeKey = _typeKey;
         if (m_CollisionAction == null)
             m_CollisionAction = gameObject.AddComponent<BuffAreaCollisionAction>();
+
+
+        for (int i = 0; i < m_TagArray.Length; i++)
+        {
+            m_CollisionAction.InsertCollisionTag(m_TagArray[i]);
+        }
     }
 
     public void ApplyBuff(MovingObject _object)
     {
         if (_object == null) return;
+
       //  Debug.Log("Buff 걸림" + m_BuffType);
         BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
 

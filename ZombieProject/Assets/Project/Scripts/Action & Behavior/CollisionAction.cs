@@ -11,6 +11,7 @@ public abstract class CollisionAction : MonoBehaviour
 
     CheckCollisionCondition m_CheckCollisionCondition;
 
+    List<string> m_TagArray = new List<string>();
 
     // 이 콜리전을 가진 캐릭터
     public MovingObject m_Character;
@@ -40,6 +41,22 @@ public abstract class CollisionAction : MonoBehaviour
         AddCollisionCondtion(CollisionCondition);
     }
 
+    public void InsertCollisionTag(string _tag)
+    {
+        m_TagArray.Add(_tag);
+    }
+
+    public bool CheckTagCollision(string _tag)
+    {
+        for(int i = 0; i < m_TagArray.Count; i++)
+        {
+            if (m_TagArray[i] == _tag) return true;
+        }
+
+        return false;
+
+
+    }
 
     protected abstract void CollisionEvent(GameObject _object);
     protected abstract bool CollisionCondition(GameObject _defender);

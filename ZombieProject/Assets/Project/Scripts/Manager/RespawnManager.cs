@@ -83,11 +83,11 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.BOMB_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 10.0f + i,
-                            MaxHP = 100 + i * 5,
-                            CurHP = 100 + i * 5,
+                            Attack = 25.0f + i * 3,
+                            MaxHP = 30 + i * 5,
+                            CurHP = 30 + i * 5,
                             Range = 1.5f,
-                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            MoveSpeed = Random.Range(0.25f, 0.45f),
                             alertRange = 100.0f,
                             isKnockBack = false,
                         });

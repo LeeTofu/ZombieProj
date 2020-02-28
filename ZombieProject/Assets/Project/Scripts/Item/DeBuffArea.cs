@@ -18,12 +18,19 @@ public class DeBuffArea : MovingObject
     [SerializeField]
     float m_Time;
 
+    [SerializeField]
+    string[] m_TagArray;
+
+    float m_DebuffDamage;
+
+
     public override void InGame_Initialize()
     {
         if (m_Time > 0.01f)
         {
             Invoke("TimePushToMemoty", m_Time);
         }
+
     }
 
     void TimePushToMemoty()
@@ -37,14 +44,20 @@ public class DeBuffArea : MovingObject
         //  m_audioSource = GetComponent<AudioSource>();
 
         if (m_CollisionAction == null)
-            m_CollisionAction = gameObject.AddComponent<DeBuffAreaCollisionAction>();
+             m_CollisionAction = gameObject.AddComponent<DeBuffAreaCollisionAction>();
+
+       for (int i = 0; i < m_TagArray.Length; i++)
+       {
+           m_CollisionAction.InsertCollisionTag(m_TagArray[i]);
+       }
+        
     }
 
     public void ApplyBuff(MovingObject _object)
     {
         if (_object == null) return;
-        //  Debug.Log("Buff 걸림" + m_BuffType);
-        BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level);
+
+        BuffManager.Instance.ApplyBuff(m_BuffType, _object, 1);
 
         if (m_isInstance)
         {

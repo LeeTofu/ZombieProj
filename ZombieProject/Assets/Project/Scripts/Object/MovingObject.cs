@@ -365,9 +365,6 @@ public abstract class MovingObject : MonoBehaviour
         _itemObject.SetActive(true);
     }
 
-
-
-
     // ============= 버프는 영래 당담 ===================
     public void AddBuff(Buff _buff)
     {

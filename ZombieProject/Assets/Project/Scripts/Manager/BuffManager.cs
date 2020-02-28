@@ -167,6 +167,28 @@ public class BuffManager : Singleton<BuffManager>
     }
 
     // ======================== 추가 ========================
+    public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, int _buffLevel, float _buffDamage)
+    {
+        if (_object != null)
+        {
+            Buff buff = GetBuff(_bufftype, _buffLevel);
+
+            buff.Attack = _buffDamage;
+            buff.SetStat(_object.m_Stat);
+
+            buff = CloneBuff(buff);
+
+            if (buff == null) return;
+
+            if (buff.m_BuffType == BUFF_TYPE.END || buff.m_BuffType == BUFF_TYPE.NONE)
+            {
+                Debug.LogError("End나 None이 왜");
+                return;
+            }
+            _object.AddBuff(buff);
+        }
+    }
+
     public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, int _buffLevel )
     {
         if (_object != null)
@@ -187,11 +209,11 @@ public class BuffManager : Singleton<BuffManager>
         }
     }
 
-    public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, ItemStat _itemStat)
+    public void ApplyBuff(BUFF_TYPE _bufftype, MovingObject _object, int _buffLevel, ItemStat _itemStat)
     {
         if (_object != null)
         {
-            Buff buff = GetBuff(_bufftype, 1);
+            Buff buff = GetBuff(_bufftype, _buffLevel);
             buff.SetStat(_object.m_Stat);
 
             buff = CloneBuff(buff, _itemStat);

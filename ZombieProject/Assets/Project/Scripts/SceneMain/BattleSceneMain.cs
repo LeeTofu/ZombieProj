@@ -11,6 +11,7 @@ public class BattleSceneMain : SceneMain
 
     static ObjectFactory s_DropItemFactory;
     static ObjectFactory s_FireFactory;
+    static ObjectFactory s_Fire_ZombieFactory;
 
     Dictionary<int, List<ZombieRespawn>> m_ZombiePhaseTable = new Dictionary<int, List<ZombieRespawn>>();
 
@@ -58,7 +59,14 @@ public class BattleSceneMain : SceneMain
             s_FireFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
         }
 
-       // CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
+        if (s_Fire_ZombieFactory == null)
+        {
+            s_Fire_ZombieFactory = gameObject.AddComponent<ObjectFactory>();
+            s_Fire_ZombieFactory.Initialize("Prefabs/BuffGiver/FireArea_Zombie", ("Prefabs/BuffGiver/Models/Fire"), (int)OBJECT_TYPE.BUFF_OBJECT);
+            s_Fire_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.BUFF_OBJECT, 10);
+        }
+
+        // CreateBuffItem(m_PlayerCreateZone.position + Vector3.forward * 5.0f, m_PlayerCreateZone.rotation);
 
         RespawnManager.Instance.GameStartWave();
 
@@ -115,6 +123,11 @@ public class BattleSceneMain : SceneMain
     static public void CreateFireArea(Vector3 _pos, Quaternion _quat)
     {
         s_FireFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.BUFF_OBJECT);
+    }
+
+    static public void CreateFireArea_Zombie(Vector3 _pos, Quaternion _quat)
+    {
+        s_Fire_ZombieFactory.PopObject(_pos, _quat, (int)OBJECT_TYPE.BUFF_OBJECT);
     }
 
 }

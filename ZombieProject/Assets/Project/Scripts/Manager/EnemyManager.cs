@@ -180,10 +180,10 @@ public class EnemyManager : Singleton<EnemyManager>
             m_ZombieFactory.Initialize("Prefabs/Zombies/RangeZombie", ("Prefabs/Zombies/Models/Normal"), (int)OBJECT_TYPE.RANGE_ZOMBIE);
             m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.RANGE_ZOMBIE, 15);
 
-            m_ZombieFactory.Initialize("Prefabs/Zombies/DashZombie", ("Prefabs/Zombies/Models/Normal"), (int)OBJECT_TYPE.DASH_ZOMBIE);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/DashZombie", ("Prefabs/Zombies/Models/DashZombie"), (int)OBJECT_TYPE.DASH_ZOMBIE);
             m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.DASH_ZOMBIE, 15);
 
-            m_ZombieFactory.Initialize("Prefabs/Zombies/BombZombie", ("Prefabs/Zombies/Models/Normal") , (int)OBJECT_TYPE.BOMB_ZOMBIE);
+            m_ZombieFactory.Initialize("Prefabs/Zombies/BombZombie", ("Prefabs/Zombies/Models/BombZombie") , (int)OBJECT_TYPE.BOMB_ZOMBIE);
             m_ZombieFactory.CreateObjectPool((int)OBJECT_TYPE.BOMB_ZOMBIE, 15);
         }
 

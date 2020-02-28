@@ -57,10 +57,10 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.RANGE_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 10.0f + i,
-                            MaxHP = 100 + i * 5,
-                            CurHP = 100 + i * 5,
-                            Range = 7.0f,
+                            Attack = 12.0f + i,
+                            MaxHP = 80 + i * 5,
+                            CurHP = 80 + i * 5,
+                            Range = 8.0f,
                             AttackSpeed = 1f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
                             alertRange = 100.0f,
@@ -279,6 +279,7 @@ public class RespawnManager : Singleton<RespawnManager>
             yield return new WaitForSeconds(1.0f);
 
             (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
+            PlayerManager.Instance.HealPlayer((int)(PlayerManager.Instance.m_Player.m_Stat.MaxHP * 0.15f));
 
             time += 1.0f;
         }

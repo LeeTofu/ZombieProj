@@ -43,8 +43,7 @@ public class ZombieBullet : Bullet
 
         if (_object.tag == "Player")
         {
-            MovingObject player = _object.GetComponent<MovingObject>();
-            player.HitDamage(m_Stat.Attack);
+            PlayerManager.Instance.AttackToPlayer(m_Stat.Attack, false);
             EffectManager.Instance.PlayEffect(
                 PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
                 Vector3.one * 0.8f, true, 1.0f);
@@ -52,7 +51,7 @@ public class ZombieBullet : Bullet
         else
         {
             EffectManager.Instance.PlayEffect(
-                PARTICLE_TYPE.BLOOD,
+                PARTICLE_TYPE.HIT_EFFECT,
                 transform.position,
                 Quaternion.LookRotation(-m_CurDirection),
                  Vector3.one * 1.0f,

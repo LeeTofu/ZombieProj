@@ -219,6 +219,14 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_Player;
     }
 
+    public void HealPlayer(int _heal)
+    {
+        if (m_Player == null) return;
+        if (m_Player.m_Stat == null) return;
+
+        m_Player.m_Stat.CurHP += _heal;
+    }
+
     public void ChangeWeapon()
     {
         if (m_Player == null) return;

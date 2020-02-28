@@ -173,10 +173,10 @@ public class BuffManager : Singleton<BuffManager>
         {
             Buff buff = GetBuff(_bufftype, _buffLevel);
 
-            buff.Attack = _buffDamage;
             buff.SetStat(_object.m_Stat);
 
             buff = CloneBuff(buff);
+            buff.Attack = _buffDamage;
 
             if (buff == null) return;
 

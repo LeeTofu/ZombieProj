@@ -21,8 +21,13 @@ public class DeBuffArea : MovingObject
     [SerializeField]
     string[] m_TagArray;
 
+    [SerializeField]
     float m_DebuffDamage;
 
+    [SerializeField]
+    float m_StepDamage;
+
+    static float MAX_DAMAGE = 30f;
 
     public override void InGame_Initialize()
     {
@@ -57,7 +62,10 @@ public class DeBuffArea : MovingObject
     {
         if (_object == null) return;
 
-        BuffManager.Instance.ApplyBuff(m_BuffType, _object, 1);
+        if(_object.m_Type == OBJECT_TYPE.PLAYER)
+            BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level, Mathf.Min(m_DebuffDamage + RespawnManager.Instance.m_CurWave * m_StepDamage, MAX_DAMAGE));
+        else
+            BuffManager.Instance.ApplyBuff(m_BuffType, _object, m_Level, Mathf.Min( m_DebuffDamage + RespawnManager.Instance.m_CurWave * m_StepDamage, MAX_DAMAGE));
 
         if (m_isInstance)
         {

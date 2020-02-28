@@ -153,3 +153,5 @@ MonoBehaviour:
   m_Time: 5
   m_TagArray:
   - Player
+  m_DebuffDamage: 6
+  m_StepDamage: 2

@@ -115,6 +115,8 @@ public class PlayerObject : MovingObject
 
     public void ReserveBuff(Buff _buff)
     {
+        
+
         _buff.SetStat(m_Stat);
         m_ReservedBuff = _buff;
     }

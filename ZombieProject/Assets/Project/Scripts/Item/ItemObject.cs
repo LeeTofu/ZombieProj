@@ -176,7 +176,7 @@ public class ItemObject : MonoBehaviour
                 for(int i = 0; i < 5; i++)
                 {
                     Vector3 forward = new Vector3(_dir.x , 0, _dir.z);
-                    Vector3 dir = Quaternion.Euler(0, -30.0f + i * 15.0f, 0) * forward;
+                    Vector3 dir = Quaternion.Euler(0, -16.0f + i * 8.0f, 0) * forward;
 
                     BulletManager.Instance.FireBullet(
                     m_FireTransform.position,

@@ -69,7 +69,7 @@ public class ItemInfoUI : MonoBehaviour
                 m_ItemAttack.text = _slot.m_Item.m_ItemStat.m_AttackPoint.ToString();
                 m_ItemArmor.text = " ";
                 m_ItemAttackSpeed.text = " ";
-                m_ItemRange.text = _slot.m_Item.m_ItemStat.m_Range.ToString();
+                m_ItemRange.text = " ";
 
                 m_ItemCoolTime.text = _slot.m_Item.m_ItemStat.m_CoolTime.ToString();
                 m_ItemStackCount.text = _slot.m_Item.m_ItemStat.m_Count.ToString();

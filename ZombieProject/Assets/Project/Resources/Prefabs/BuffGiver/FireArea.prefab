@@ -153,3 +153,5 @@ MonoBehaviour:
   m_Time: 5
   m_TagArray:
   - Zombie
+  m_DebuffDamage: 13
+  m_StepDamage: 2

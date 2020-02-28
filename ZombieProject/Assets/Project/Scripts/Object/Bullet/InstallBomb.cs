@@ -56,7 +56,8 @@ public class InstallBomb : Bullet
                     Vector3.one * 1.2f,
                     true, 1.0f);
 
-        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+        float attack = Mathf.Min(m_Stat.Attack + RespawnManager.Instance.m_CurWave * 3.0f, 200);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, attack, m_Stat.isKnockBack);
         EnemyManager.Instance.SetTargetingRangeZombies(null, transform.position, m_Stat.Range);
 
 

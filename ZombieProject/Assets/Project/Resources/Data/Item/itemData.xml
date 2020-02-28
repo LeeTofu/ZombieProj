@@ -19,7 +19,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>25</Count>
+    <Count>30</Count>
     <Level>1</Level>
     <Info>일반 총기입니다.</Info>
 	</text>
@@ -76,19 +76,19 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SHOT_GUN</ItemSort>
     <HP>0</HP>
-    <Attack>25</Attack>
+    <Attack>30</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>4.0</Range>
+    <Range>4.5</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>2</AttackSpeed>
-    <BulletSpeed>60</BulletSpeed>
+    <AttackSpeed>1.8</AttackSpeed>
+    <BulletSpeed>50</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>8</Count>
+    <Count>12</Count>
     <Level>10</Level>
     <Info>사거리가 짧지만 5발의 총알을 부채꼴 모양으로 발사하는 산탄총입니다. 넉백 효과를 가집니다.</Info>
   </text>
@@ -134,7 +134,7 @@
     <isHaveCoolTime>false</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>0</CoolTime>
-    <Count>100</Count>
+    <Count>120</Count>
     <Level>5</Level>
     <Info>빠른 연사를 가진 일반 총기입니다.</Info>
   </text>
@@ -156,10 +156,10 @@
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
-    <CoolTime>10</CoolTime>
-    <Count>3</Count>
+    <CoolTime>12</CoolTime>
+    <Count>2</Count>
     <Level>1</Level>
-    <Info>자신의 체력을 서서히 치료합니다.</Info>
+    <Info>5초간 자신의 체력을 초마다 10% 회복합니다.</Info>
   </text>
   <text>
     <ItemID>8</ItemID>
@@ -217,7 +217,7 @@
     <Attack>35</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
-    <HPRegenerate>20</HPRegenerate>
+    <HPRegenerate>0</HPRegenerate>
     <Range>5.0</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>0</AttackSpeed>
@@ -226,9 +226,9 @@
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>false</isKnockBack>
     <CoolTime>15</CoolTime>
-    <Count>3</Count>
+    <Count>2</Count>
     <Level>3</Level>
-    <Info>자신의 체력을 즉각 회복하고 이동속도를 증가시킵니다.</Info>
+    <Info>최대 체력의 15%를 회복하고 이동속도를 증가시킵니다.</Info>
   </text>
   <text>
     <ItemID>100</ItemID>
@@ -237,13 +237,13 @@
     <ModelName>Rifle_01</ModelName>
     <ItemSort>SNIPER</ItemSort>
     <HP>0</HP>
-    <Attack>85</Attack>
+    <Attack>75</Attack>
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
     <Range>20</Range>
     <isAccumulate>false</isAccumulate>
-    <AttackSpeed>2</AttackSpeed>
+    <AttackSpeed>3.0</AttackSpeed>
     <BulletSpeed>100</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>false</isHaveCoolTime>

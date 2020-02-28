@@ -33,7 +33,7 @@ public class RangeZombieAttackAction : ActionNode
 
         m_bulletStat = new STAT
         {
-            MoveSpeed = 1f,
+            MoveSpeed = 3f,
             Attack = 1f,
             Range = 10f,
             isKnockBack = false,
@@ -66,6 +66,9 @@ public class RangeZombieAttackAction : ActionNode
                 {
                     if(!m_isAttacked)
                     {
+                        m_bulletStat.Attack = m_Character.m_Stat.Attack;
+                        m_bulletStat.Range = m_Character.m_Stat.Range;
+
                         //발싸함수
                         m_isAttacked = true;
                         BulletManager.Instance.FireBullet((m_Character.transform.position + m_Character.transform.forward * 1f + Vector3.up * 1f),

@@ -49,7 +49,8 @@ public class ThrowBullet : Bullet
                     Vector3.one * 1.4f,
                     true, 1.0f);
 
-        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+        float attack = Mathf.Min(m_Stat.Attack + RespawnManager.Instance.m_CurWave * 3.0f, 150);
+        EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, attack, m_Stat.isKnockBack);
 
         pushToMemory();
     }
@@ -79,7 +80,8 @@ public class ThrowBullet : Bullet
                 Vector3.one * 1.4f,
                 true, 1.0f);
 
-            EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, m_Stat.Attack, m_Stat.isKnockBack);
+            float attack = Mathf.Min(m_Stat.Attack + RespawnManager.Instance.m_CurWave * 3.0f, 150);
+            EnemyManager.Instance.SplashAttackToZombie(transform.position, 4.0f, attack, m_Stat.isKnockBack);
 
             pushToMemory();
         }

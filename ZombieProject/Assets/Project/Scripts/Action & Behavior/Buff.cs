@@ -150,6 +150,7 @@ public class Adrenaline : Buff
     {
         if (m_CharacterStat == null) return;
 
+        m_CharacterStat.CurHP += m_CharacterStat.MaxHP * 0.15f;
         m_CharacterStat.MoveSpeed *= MoveSpeed;
     }
 
@@ -202,7 +203,7 @@ public class Blessing : Buff
         if (m_CharacterStat == null) return;
         if (m_CharacterStat.isDead) return;
 
-        m_CharacterStat.CurHP += Attack;
+        m_CharacterStat.CurHP += m_CharacterStat.MaxHP * 0.1f;
     }
     public override void BuffExitAction()
     {

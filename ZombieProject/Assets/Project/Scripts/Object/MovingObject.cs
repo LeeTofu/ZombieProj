@@ -374,8 +374,23 @@ public abstract class MovingObject : MonoBehaviour
     {
         if (_buff == null) return;
         if (m_Stat.isDead) return;
+        bool ischeck = false;
+        for (int i=0; i<m_ListBuff.Count; i++)
+        {
+            if(m_ListBuff[i].m_BuffType == _buff.m_BuffType)
+            {
+                if (!_buff.m_IsDuplicated)
+                {
+                    m_ListBuff[i].BuffExitAction();
+                    m_ListBuff.Insert(i, _buff);
+                    ischeck = true;
+                    break;
+                }
+            }
+        }
 
-        m_ListBuff.Add(_buff);
+        if (!ischeck)
+            m_ListBuff.Add(_buff);
 
         m_BuffAction?.Invoke(m_ListBuff);
 

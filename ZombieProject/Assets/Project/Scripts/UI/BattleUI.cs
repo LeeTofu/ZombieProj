@@ -167,7 +167,8 @@ public class BattleUI : BaseUI
         PlayerManager.Instance.m_Player.AddBuffFunction((List<Buff> _listbuff) =>
         {
             int lastnum = 0, num = -1;
-            Dictionary<BUFF_TYPE, int> buffNumTable = new Dictionary<BUFF_TYPE, int>();
+            Dictionary<BUFF_TYPE, List<int> > buffNumTable = new Dictionary<BUFF_TYPE, List<int> >();
+            List<int> numList = null;
             for (int i=0; i< m_ListBuff.Length; i++)
             {
                 m_ListBuff[i].m_BuffText.text = null;
@@ -177,14 +178,43 @@ public class BattleUI : BaseUI
             }
             for (int i = 0; i < _listbuff.Count; i++)
             {
-                if(!buffNumTable.TryGetValue(_listbuff[i].m_BuffType, out num))
+                if (m_ListBuff.Length <= lastnum)
+                    return;
+                if (!buffNumTable.TryGetValue(_listbuff[i].m_BuffType, out numList))
                 {
-                    buffNumTable.Add(_listbuff[i].m_BuffType, lastnum);
+                    numList = new List<int>();
+                    numList.Add(lastnum);
+                    buffNumTable.Add(_listbuff[i].m_BuffType, numList);
                     m_ListBuff[lastnum].m_Buff = _listbuff[i];
                     m_ListBuff[lastnum].m_BuffImage.enabled = true;
                     m_ListBuff[lastnum].m_BuffImage.sprite = TextureManager.Instance.GetUIIcon(_listbuff[i].m_ImageName);
                     m_ListBuff[lastnum].m_BuffText.text = _listbuff[i].m_Text;
+                    numList = null;
                     lastnum++;
+                }
+                if(numList!=null)
+                {
+                    int n = numList.Count;
+                    n = numList[n - 1];
+                    if (_listbuff[n].m_IsDuplicated)
+                    {
+                        numList.Add(lastnum);
+                        buffNumTable.Remove(_listbuff[i].m_BuffType);
+                        buffNumTable.Add(_listbuff[i].m_BuffType, numList);
+                        m_ListBuff[lastnum].m_Buff = _listbuff[i];
+                        m_ListBuff[lastnum].m_BuffImage.enabled = true;
+                        m_ListBuff[lastnum].m_BuffImage.sprite = TextureManager.Instance.GetUIIcon(_listbuff[i].m_ImageName);
+                        m_ListBuff[lastnum].m_BuffText.text = _listbuff[i].m_Text;
+                        lastnum++;
+                    }
+                    else if (!_listbuff[n].m_IsDuplicated)
+                    {
+                        m_ListBuff[n].m_Buff = _listbuff[i];
+                        m_ListBuff[n].m_BuffImage.enabled = true;
+                        m_ListBuff[n].m_BuffImage.sprite = TextureManager.Instance.GetUIIcon(_listbuff[i].m_ImageName);
+                        m_ListBuff[n].m_BuffText.text = _listbuff[i].m_Text;
+                    }
+
                 }
             }
         });

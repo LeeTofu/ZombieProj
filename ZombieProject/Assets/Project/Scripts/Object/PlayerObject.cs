@@ -140,5 +140,17 @@ public class PlayerObject : MovingObject
             (UIManager.Instance.m_CurrentUI as BattleUI).OnDamagedEffect();
             PlayerManager.Instance.m_Player.HitDamage(35f, true, 2f);
         }
+        if(Input.GetKeyDown(KeyCode.F1))//화상
+        {
+            BuffManager.Instance.ApplyBuff(BUFF_TYPE.FIRE, this, 1);
+        }
+        else if(Input.GetKeyDown(KeyCode.F2))//독
+        {
+            BuffManager.Instance.ApplyBuff(BUFF_TYPE.POISON, this, 1, (int)(3f));
+        }
+        else if(Input.GetKeyDown(KeyCode.F3))//치료
+        {
+            BuffManager.Instance.ApplyBuff(BUFF_TYPE.BLESSING, this, 1);
+        }
     }
 }

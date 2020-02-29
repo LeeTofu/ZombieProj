@@ -159,6 +159,7 @@ public class BuffManager : Singleton<BuffManager>
         newBuff.m_BuffExitAction = _buff.m_BuffExitAction;
         newBuff.m_DurationTime = _buff.m_DurationTime;
         newBuff.m_TickTime = _buff.m_TickTime;
+        newBuff.m_IsDuplicated = _buff.m_IsDuplicated;
 
         newBuff.Attack = _buff.Attack;
         newBuff.MoveSpeed = _buff.MoveSpeed;

@@ -8,6 +8,7 @@
     <AttackSpeed>1.2</AttackSpeed>
     <MoveSpeed>2.0</MoveSpeed>
     <Level>1</Level>
+    <Duplicated>false</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>ADRENALINE</BUFFTYPE>
@@ -17,6 +18,7 @@
     <AttackSpeed>1.4</AttackSpeed>
     <MoveSpeed>2.0</MoveSpeed>
     <Level>2</Level>
+    <Duplicated>false</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>BLESSING</BUFFTYPE>
@@ -26,6 +28,7 @@
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>1</Level>
+    <Duplicated>true</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>BLESSING</BUFFTYPE>
@@ -35,6 +38,7 @@
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>2</Level>
+    <Duplicated>true</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>POISON</BUFFTYPE>
@@ -44,6 +48,7 @@
     <AttackSpeed>0.7</AttackSpeed>
     <MoveSpeed>0.7</MoveSpeed>
     <Level>1</Level>
+    <Duplicated>false</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>POISON</BUFFTYPE>
@@ -53,6 +58,7 @@
     <AttackSpeed>0.5</AttackSpeed>
     <MoveSpeed>0.5</MoveSpeed>
     <Level>2</Level>
+    <Duplicated>false</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>FIRE</BUFFTYPE>
@@ -62,6 +68,7 @@
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>1</Level>
+    <Duplicated>true</Duplicated>
   </Buff>
   <Buff>
     <BUFFTYPE>FIRE</BUFFTYPE>
@@ -71,5 +78,6 @@
     <AttackSpeed>0.0</AttackSpeed>
     <MoveSpeed>0.0</MoveSpeed>
     <Level>2</Level>
+    <Duplicated>true</Duplicated>
   </Buff>
 </BuffInfo>

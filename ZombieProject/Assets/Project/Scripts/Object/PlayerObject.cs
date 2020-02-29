@@ -15,8 +15,6 @@ public class PlayerObject : MovingObject
     // Player 표시해주는 이펙트
     public EffectObject m_PlayerEffect;
 
-    public DrawRange m_DrawRander { get; private set; }
-
     public override void InGame_Initialize()
     {
         m_CollisionAction.SetCollisionActive(true);
@@ -49,6 +47,7 @@ public class PlayerObject : MovingObject
 
     }
 
+
     public override void Initialize(GameObject _Model, MoveController _Controller, int _typeKey)
     {
         m_TypeKey = _typeKey;
@@ -73,7 +72,7 @@ public class PlayerObject : MovingObject
             m_StateController.Initialize(this);
         }
 
-        m_DrawRander = gameObject.AddComponent<DrawRange>();
+        m_DrawRender = gameObject.AddComponent<DrawRange>();
 
         SetStat(new STAT
         {
@@ -98,6 +97,8 @@ public class PlayerObject : MovingObject
 
         return;
     }
+
+    
 
     public void ChangeState(E_PLAYABLE_STATE _state)
     {

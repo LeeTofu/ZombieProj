@@ -269,6 +269,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected Coroutine m_DeadCoroutine;
 
+    public DrawRange m_DrawRender { get; set; }
+
     public virtual void SetStat(STAT _stat)
     {
         m_Stat = _stat;
@@ -371,6 +373,7 @@ public abstract class MovingObject : MonoBehaviour
     public void AddBuff(Buff _buff)
     {
         if (_buff == null) return;
+        if (m_Stat.isDead) return;
 
         m_ListBuff.Add(_buff);
 
@@ -502,7 +505,7 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     //데미지를 입다.
-    public void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
+    public virtual void HitDamage(float _damage, bool _isKnockBack = false, float _knockBackTime = 0.0f)
     {
         m_Stat.CurHP -= _damage;
 
@@ -557,11 +560,27 @@ public abstract class MovingObject : MonoBehaviour
         m_BuffRimLight.SetDissolve();
         m_BuffRimLight.SetDissolveColor(new Color(1f,0,0));
         m_BuffRimLight.SetDissolveEmission(0f);
-        for (float i=0; i<1; i+=0.005f)
+
+        float DissolveAmount = 0.0f;
+
+        while(DissolveAmount <= 1.0f)
         {
-            m_BuffRimLight.SetDissolveAmount(i);
-            yield return new WaitForSeconds(0.001f);
+            m_BuffRimLight.SetDissolveAmount(DissolveAmount);
+            DissolveAmount += Time.deltaTime * 10.0f;
+            yield return null;
+
         }
+
         m_BuffRimLight.SetStandard();
     }
+
+    public void DrawCircle(float _range)
+    {
+
+        if(m_DrawRender)
+            m_DrawRender.SetRangeCircle(_range);
+    }
+
+
+
 }

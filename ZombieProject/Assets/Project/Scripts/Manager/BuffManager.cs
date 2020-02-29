@@ -171,6 +171,10 @@ public class BuffManager : Singleton<BuffManager>
     {
         if (_object != null)
         {
+            if (_object.m_Stat == null) return;
+            if (_object.m_Stat.isDead) return;
+
+
             Buff buff = GetBuff(_bufftype, _buffLevel);
 
             buff.SetStat(_object.m_Stat);
@@ -193,6 +197,9 @@ public class BuffManager : Singleton<BuffManager>
     {
         if (_object != null)
         {
+            if (_object.m_Stat == null) return;
+            if (_object.m_Stat.isDead) return;
+
             Buff buff = GetBuff(_bufftype, _buffLevel);
             buff.SetStat(_object.m_Stat);
 
@@ -213,6 +220,9 @@ public class BuffManager : Singleton<BuffManager>
     {
         if (_object != null)
         {
+            if (_object.m_Stat == null) return;
+            if (_object.m_Stat.isDead) return;
+
             Buff buff = GetBuff(_bufftype, _buffLevel);
             buff.SetStat(_object.m_Stat);
 
@@ -233,6 +243,9 @@ public class BuffManager : Singleton<BuffManager>
     {
         if (_object != null)
         {
+            if (_object.m_Stat == null) return;
+            if (_object.m_Stat.isDead) return;
+
             _buff.SetStat(_object.m_Stat);
             Buff newBuff = CloneBuff(_buff);
 

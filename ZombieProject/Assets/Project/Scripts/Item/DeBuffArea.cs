@@ -36,6 +36,7 @@ public class DeBuffArea : MovingObject
             Invoke("TimePushToMemoty", m_Time);
         }
 
+         DrawCircle(3.0f);
     }
 
     void TimePushToMemoty()
@@ -55,7 +56,10 @@ public class DeBuffArea : MovingObject
        {
            m_CollisionAction.InsertCollisionTag(m_TagArray[i]);
        }
+
+        m_DrawRender = gameObject.AddComponent<DrawRange>();
         
+
     }
 
     public void ApplyBuff(MovingObject _object)

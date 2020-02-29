@@ -16,6 +16,8 @@ public class InstallBomb : Bullet
         if (m_AuidoSource == null)
             m_AuidoSource = GetComponent<AudioSource>();
 
+
+
     }
 
     public override void Initialize(GameObject _model, MoveController _Controller, int _typeKey )
@@ -30,6 +32,8 @@ public class InstallBomb : Bullet
 
         if (m_AuidoSource == null)
             m_AuidoSource = gameObject.AddComponent<AudioSource>();
+
+        m_DrawRender = gameObject.AddComponent<DrawRange>();
     }
 
     protected override void BulletMove()
@@ -42,6 +46,9 @@ public class InstallBomb : Bullet
             SoundManager.Instance.OneShotPlay(UI_SOUND.INSTALL_BOMB);
 
             m_PointLight.SetActive(m_PointLight.activeSelf == true ? false : true);
+
+            if (m_Stat != null)
+                DrawCircle(m_Stat.Range);
 
             m_Time = 0.0f;
         }

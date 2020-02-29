@@ -220,7 +220,7 @@ public class Poison : Buff
         m_BuffType = BUFF_TYPE.POISON;
         m_Text = "독";
         m_ImageName = "Ach123";
-        m_Color = new Color(1f, 0, 1f);
+        m_Color = new Color(1f, 0.2f, 1f);
         m_ColorType = COLOR_TYPE.PURPLE;
         BuffCoroutine = TimeTickCorotine();
     }
@@ -228,7 +228,7 @@ public class Poison : Buff
     {
         if (_object == null) return;
 
-        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 0.2f, Quaternion.identity, Vector3.one, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.POISON, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 1.2f, true, m_DurationTime - 0.2f);
         m_CharacterStat.MoveSpeed *= MoveSpeed;
 
 
@@ -241,8 +241,6 @@ public class Poison : Buff
         if (m_CharacterStat.isDead) return;
 
         m_MovingObject.HitDamage(Attack, false, 0.0f);
-
-        Debug.Log("PoisonDamage:" + Attack);
     }
 
     protected override void ExitBuffEffect()
@@ -280,7 +278,7 @@ public class Fire : Buff
     {
         if (_object == null) return;
 
-        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 0.3f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
 
         SetRimLight(_object, m_Color);
     }

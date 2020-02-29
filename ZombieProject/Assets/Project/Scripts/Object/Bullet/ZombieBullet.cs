@@ -43,10 +43,14 @@ public class ZombieBullet : Bullet
 
         if (_object.tag == "Player")
         {
+            if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DEATH) return;
+
             PlayerManager.Instance.AttackToPlayer(m_Stat.Attack, false);
             EffectManager.Instance.PlayEffect(
                 PARTICLE_TYPE.BLOOD, transform.position, Quaternion.LookRotation(-m_CurDirection),
                 Vector3.one * 0.8f, true, 1.0f);
+
+            BuffManager.Instance.ApplyBuff(BUFF_TYPE.POISON, PlayerManager.Instance.m_Player, 1, (int)( m_Stat.Attack * 0.3f));
         }
         else
         {

@@ -21,20 +21,9 @@ public class PlayerObject : MovingObject
     {
         m_CollisionAction.SetCollisionActive(true);
         if (m_BuffRimLight != null) m_BuffRimLight.SetStandard();
-        SetStat(new STAT
-        {
-            MaxHP = 100f,
-            CurHP = 100f,
-            Defend = 100f,
-            MoveSpeed = 3.0f
-        });
-        m_Stat.AddPropertyChangeAction(() =>
-        {
-            if (m_Stat.CheckIsDead())
-                DeadAction();
-        });
 
         m_Stat.isKnockBack = false;
+        m_Stat.isCheckDeadAction = false;
         m_Stat.CurHP = m_Stat.MaxHP;
 
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
@@ -95,8 +84,11 @@ public class PlayerObject : MovingObject
         });
         m_Stat.AddPropertyChangeAction(() =>
         {
-            if (m_Stat.CheckIsDead())
+            if (m_Stat.CheckIsDead() && !m_Stat.isCheckDeadAction)
+            {
+                m_Stat.isCheckDeadAction = true;
                 DeadAction();
+            }
         });
 
         if (m_CollisionAction == null)

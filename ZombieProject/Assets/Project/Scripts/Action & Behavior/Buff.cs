@@ -67,7 +67,7 @@ public abstract class Buff : STAT
     {
         if (m_MovingObject == null) return;
         if (m_MovingObject.GetListBuff().Count != 1) return;
-        if (m_MovingObject.m_BuffRimLight != null)
+        if (m_MovingObject.m_BuffRimLight != null || m_MovingObject.m_Stat.CheckIsDead())
         {
             m_MovingObject.m_BuffRimLight.SetStandard();
         }

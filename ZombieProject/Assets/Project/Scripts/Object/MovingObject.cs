@@ -383,8 +383,8 @@ public abstract class MovingObject : MonoBehaviour
         _buff.PlayBuffEffect(this);
 
         StartCoroutine(_buff.BuffCoroutine);
-        //if(m_BuffRimLight != null && m_ListBuff.Count == 1)
-        //    StartCoroutine(m_BuffRimLight.m_Coroutine);
+        if (m_BuffRimLight != null && m_ListBuff.Count == 1)
+            StartCoroutine(m_BuffRimLight.m_Coroutine);
     }
 
     public void DeleteBuff(Buff _buff)
@@ -393,8 +393,8 @@ public abstract class MovingObject : MonoBehaviour
 
         if (_buff.BuffCoroutine != null)
             StopCoroutine(_buff.BuffCoroutine);
-        //if (m_BuffRimLight != null && m_BuffRimLight.m_Coroutine != null && m_ListBuff.Count == 1)
-        //    StopCoroutine(m_BuffRimLight.m_Coroutine);
+        if ((m_BuffRimLight != null && m_BuffRimLight.m_Coroutine != null && m_ListBuff.Count == 1) || m_Stat.isDead)
+            StopCoroutine(m_BuffRimLight.m_Coroutine);
 
 
         // _buff.BuffExitAction();

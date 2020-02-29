@@ -263,10 +263,13 @@ public class BattleUI : BaseUI
 
         float CurHpAmount = PlayerManager.Instance.m_Player.m_Stat.CurHP / PlayerManager.Instance.m_Player.m_Stat.MaxHP;
         float PrevHpAmount = m_HpImage.fillAmount;
-        for (float i = 0f; m_HpImage.fillAmount * 100 != CurHpAmount * 100; i += 0.01f)
+
+        float i = 0f;
+        while(i <= 1.0f)
         {
             m_HpImage.fillAmount = Mathf.Lerp(PrevHpAmount, CurHpAmount, i);
-            yield return new WaitForSeconds(0.01f);
+            i += Time.deltaTime ;
+            yield return null;
         }
 
         m_HpImage.fillAmount = CurHpAmount;

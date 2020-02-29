@@ -71,6 +71,7 @@ public class BuffManager : Singleton<BuffManager>
             buff.MoveSpeed = float.Parse(node.SelectSingleNode("MoveSpeed").InnerText);
             buff.AttackSpeed = float.Parse(node.SelectSingleNode("AttackSpeed").InnerText);
             buff.m_Level = int.Parse(node.SelectSingleNode("Level").InnerText);
+            buff.m_IsDuplicated = bool.Parse(node.SelectSingleNode("Duplicated").InnerText);
 
             List<Buff> buffList;
 

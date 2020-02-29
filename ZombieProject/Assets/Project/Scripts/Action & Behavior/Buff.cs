@@ -26,6 +26,8 @@ public abstract class Buff : STAT
     public Color m_Color;
 
     public COLOR_TYPE m_ColorType;
+
+    public bool m_IsDuplicated;
     public Buff(STAT _stat)
     {
         m_CharacterStat = _stat;

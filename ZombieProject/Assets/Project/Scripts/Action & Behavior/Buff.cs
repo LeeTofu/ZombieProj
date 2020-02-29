@@ -228,7 +228,7 @@ public class Poison : Buff
     {
         if (_object == null) return;
 
-        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.POISON, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 1.2f, true, m_DurationTime - 0.2f);
+        m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.POISON, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.6f, true, m_DurationTime - 0.2f);
         m_CharacterStat.MoveSpeed *= MoveSpeed;
 
 

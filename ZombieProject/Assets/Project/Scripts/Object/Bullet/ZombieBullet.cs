@@ -43,7 +43,7 @@ public class ZombieBullet : Bullet
 
         if (_object.tag == "Player")
         {
-            if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DEATH) return;
+            if (PlayerManager.Instance.m_Player.m_Stat.CheckIsDead()) return;
 
             PlayerManager.Instance.AttackToPlayer(m_Stat.Attack, false);
             EffectManager.Instance.PlayEffect(

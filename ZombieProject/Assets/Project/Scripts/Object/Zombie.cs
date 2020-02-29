@@ -143,12 +143,16 @@ public class Zombie : MovingObject
 
             m_TargetingObject = null;
 
-            PlayerManager.Instance.CurrentMoney += (m_StartMoney + RespawnManager.Instance.m_CurWave * m_StepMoney);
-
-            if (m_ItemDropPercentage > Random.Range(0, 1000))
+            if(!PlayerManager.Instance.m_Player.m_Stat.isDead)
             {
-                BattleSceneMain.CreateBuffItem(transform.position, Quaternion.identity);
+                PlayerManager.Instance.CurrentMoney += (m_StartMoney + RespawnManager.Instance.m_CurWave * m_StepMoney);
+
+                if (m_ItemDropPercentage > Random.Range(0, 1000))
+                {
+                    BattleSceneMain.CreateBuffItem(transform.position, Quaternion.identity);
+                }
             }
+            
 
             if (m_CollisionAction != null)
                 m_CollisionAction.SetCollisionActive(false);
@@ -216,6 +220,8 @@ public class Zombie : MovingObject
     {
         if (!gameObject.activeSelf) return;
         if (m_zombieBehavior == null) return;
+        if (PlayerManager.Instance.m_Player.m_Stat.isDead)
+            this.HitDamage(this.m_Stat.MaxHP);
 
         m_zombieBehavior.Tick();
     }

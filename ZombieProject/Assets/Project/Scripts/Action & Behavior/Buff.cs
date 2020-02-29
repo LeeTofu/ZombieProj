@@ -220,7 +220,7 @@ public class Poison : Buff
     public Poison(STAT _stat) : base(_stat)
     {
         m_BuffType = BUFF_TYPE.POISON;
-        m_Text = "독";
+        m_Text = "맹독";
         m_ImageName = "Ach123";
         m_Color = new Color(1f, 0.2f, 1f);
         m_ColorType = COLOR_TYPE.PURPLE;

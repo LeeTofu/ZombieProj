@@ -20,7 +20,10 @@ public class ItemObject : MonoBehaviour
 
     Coroutine m_ItemFireCoroutine;
 
+    DrawRange m_DrawRange;
+
     public Item m_Item { private set; get; }
+    LineRenderer m_LineRenderer;
 
     private void Awake()
     {
@@ -40,6 +43,8 @@ public class ItemObject : MonoBehaviour
             m_audio = gameObject.AddComponent<AudioSource>();
 
         m_audio.volume = 1.0f;
+
+        m_LineRenderer = gameObject.AddComponent<LineRenderer>();
 
     }
 
@@ -80,6 +85,8 @@ public class ItemObject : MonoBehaviour
             m_DicUpdateCount[UPGRADE_TYPE.RANGE] = count;
         }
         m_CurrentStat.m_Range += _rangePlus;
+
+        PlayerManager.Instance.UpdateWeaponRange();
     }
 
     public void UpgradeAttack(float _attackPlus)

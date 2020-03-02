@@ -49,17 +49,17 @@ public class RespawnManager : Singleton<RespawnManager>
                             CurHP = 100 + i * 5,
                             Range = 1.5f,
                             AttackSpeed = 3f,
-                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            MoveSpeed = Random.Range(0.65f, 0.75f),
                             alertRange = 100.0f,
                             isKnockBack = false,
-                        }); ;
+                        });
                         break;
                     case OBJECT_TYPE.RANGE_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 12.0f + i,
-                            MaxHP = 80 + i * 5,
-                            CurHP = 80 + i * 5,
+                            Attack = 10.0f + i,
+                            MaxHP = 80 + i * 4,
+                            CurHP = 80 + i * 4,
                             Range = 8.0f,
                             AttackSpeed = 1f,
                             MoveSpeed = Random.Range(0.55f, 0.75f),
@@ -83,11 +83,11 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.BOMB_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 25.0f + i * 3,
-                            MaxHP = 30 + i * 5,
-                            CurHP = 30 + i * 5,
+                            Attack = 25.0f + i * 2,
+                            MaxHP = 30 + i * 3,
+                            CurHP = 30 + i * 3,
                             Range = 1.5f,
-                            MoveSpeed = Random.Range(0.25f, 0.45f),
+                            MoveSpeed = Random.Range(0.75f, 0.85f),
                             alertRange = 100.0f,
                             isKnockBack = false,
                         });

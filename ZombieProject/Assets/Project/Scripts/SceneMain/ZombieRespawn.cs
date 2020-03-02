@@ -36,6 +36,8 @@ public class ZombieRespawn : MonoBehaviour
 
     public OBJECT_TYPE[] m_RespawnArray;
 
+    List<MovingObject> m_ListRespawnZombie = new List<MovingObject>();
+
     public int CurRespawnCount
     {
         get => m_CurRespawnCount;
@@ -117,7 +119,6 @@ public class ZombieRespawn : MonoBehaviour
                 if (!zombie.m_NavAgent.enabled)
                     zombie.m_NavAgent.enabled = true;
             }
-            
 
             RespawnManager.Instance.m_CurZombieCount++;
             m_CurRespawnCount++;

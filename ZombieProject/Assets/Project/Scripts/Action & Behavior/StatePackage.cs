@@ -97,8 +97,10 @@ public class MovingAttackState : PlayerState
         if(PlayerManager.Instance.m_TargetingZombie == null)
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
 
-        if (PlayerManager.Instance.m_CurrentEquipedItemObject)
-            m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        PlayerManager.Instance.UpdateWeaponRange();
+
+        //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
+        //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.4f; //* 1.0f;
     }
@@ -260,8 +262,10 @@ public class WalkState : PlayerState
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
-        if(PlayerManager.Instance.m_CurrentEquipedItemObject)
-            m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        PlayerManager.Instance.UpdateWeaponRange();
+
+        //if(PlayerManager.Instance.m_CurrentEquipedItemObject)
+        //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
     }
     public override void End()
     {
@@ -350,8 +354,10 @@ public class InjuredWalkState : PlayerState
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
-        if (PlayerManager.Instance.m_CurrentEquipedItemObject)
-            m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        PlayerManager.Instance.UpdateWeaponRange();
+
+        ////if (PlayerManager.Instance.m_CurrentEquipedItemObject)
+        ////    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
     }
     public override void AddAction()

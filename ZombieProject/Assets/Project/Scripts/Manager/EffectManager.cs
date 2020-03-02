@@ -33,6 +33,8 @@ public enum PARTICLE_TYPE
 
     HIT_EFFECT, // 근접 공격 이펙트
 
+    SLAM,
+
     NONE
 }
 
@@ -95,6 +97,9 @@ public class EffectManager : Singleton<EffectManager>
 
         m_EffectFactory.Initialize(m_UIPrefabPath,("Prefabs/Effect&Particle/EffectModel/HitEffect"), (int)PARTICLE_TYPE.HIT_EFFECT);
         m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.HIT_EFFECT, 15);
+
+        m_EffectFactory.Initialize(m_UIPrefabPath, ("Prefabs/Effect&Particle/EffectModel/Slam"), (int)PARTICLE_TYPE.SLAM);
+        m_EffectFactory.CreateObjectPool((int)PARTICLE_TYPE.SLAM, 10);
 
         return true;
     }

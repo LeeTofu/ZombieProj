@@ -27,7 +27,7 @@ public class DrawRange : MonoBehaviour
 
     }
 
-    public void SetRangeCircle(float _range)
+    public void SetRangeCircle(float _range, Vector3 _pos)
     {
         m_Range = _range;
         Theta = 0f;
@@ -35,9 +35,9 @@ public class DrawRange : MonoBehaviour
         for (int i = 0; i < Size; i++)
         {
             Theta += (2.0f * Mathf.PI * ThetaScale);
-            float x = transform.position.x + m_Range * Mathf.Cos(Theta);
-            float y = transform.position.z + m_Range * Mathf.Sin(Theta);
-            m_LineRenderer.SetPosition(i, new Vector3(x, transform.position.y, y));
+            float x = _pos.x + m_Range * Mathf.Cos(Theta);
+            float y = _pos.z + m_Range * Mathf.Sin(Theta);
+            m_LineRenderer.SetPosition(i, new Vector3(x, _pos.y, y));
         }
     }
 

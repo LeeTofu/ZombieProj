@@ -36,7 +36,7 @@ public class DeBuffArea : MovingObject
             Invoke("TimePushToMemoty", m_Time);
         }
 
-         DrawCircle(3.0f);
+         DrawCircle(3.0f , transform.position);
     }
 
     void TimePushToMemoty()

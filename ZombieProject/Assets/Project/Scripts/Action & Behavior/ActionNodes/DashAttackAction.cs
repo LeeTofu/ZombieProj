@@ -44,6 +44,8 @@ public class DashZombieAttackAction : ActionNode
             t = 0f;
             m_Character.m_Animator.CrossFade("Idle1", 0.1f);
 
+            (m_Character as Zombie).PlayAttackSound();
+
             m_Character.m_zombieState = ZOMBIE_STATE.ATTACK;
             return NODE_STATE.RUNNING;
         }

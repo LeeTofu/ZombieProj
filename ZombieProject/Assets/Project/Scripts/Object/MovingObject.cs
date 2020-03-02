@@ -589,11 +589,11 @@ public abstract class MovingObject : MonoBehaviour
         m_BuffRimLight.SetStandard();
     }
 
-    public void DrawCircle(float _range)
+    public void DrawCircle(float _range, Vector3 _pos)
     {
 
         if(m_DrawRender)
-            m_DrawRender.SetRangeCircle(_range);
+            m_DrawRender.SetRangeCircle(_range, _pos);
     }
 
 

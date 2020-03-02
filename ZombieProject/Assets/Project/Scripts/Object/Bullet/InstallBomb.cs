@@ -48,7 +48,7 @@ public class InstallBomb : Bullet
             m_PointLight.SetActive(m_PointLight.activeSelf == true ? false : true);
 
             if (m_Stat != null)
-                DrawCircle(m_Stat.Range);
+                DrawCircle(m_Stat.Range, transform.position);
 
             m_Time = 0.0f;
         }

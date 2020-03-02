@@ -214,8 +214,10 @@ public class PlayerManager : Singleton<PlayerManager>
 
         m_PlayerStateContoller = (m_Player as PlayerObject).m_StateController;
 
-        if(m_CurrentEquipedItemObject != null)
-            m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        UpdateWeaponRange();
+
+        //if(m_CurrentEquipedItemObject != null)
+        //    m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
         return m_Player;
     }
@@ -253,11 +255,19 @@ public class PlayerManager : Singleton<PlayerManager>
         if(slot != null)
             slot.Init(m_Player, m_CurrentEquipedItemObject.m_Item);
 
-        if (m_CurrentEquipedItemObject != null)
-            m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        UpdateWeaponRange();
 
         BattleUI.SetUpgradeItem(m_CurrentEquipedItemObject);
         //(UIManager.Instance.m_CurrentUI as BattleUI).UpdateWeapnStatUI(m_CurrentEquipedItemObject);
+    }
+
+    public void UpdateWeaponRange()
+    {
+        if (m_CurrentEquipedItemObject == null) return;
+        if (m_Player == null) return;
+
+        m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position);
+
     }
 
     public override bool Initialize()

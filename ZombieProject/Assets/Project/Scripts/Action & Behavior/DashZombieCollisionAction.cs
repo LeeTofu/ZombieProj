@@ -15,12 +15,16 @@ public class DashZombieCollisionAction : CollisionAction
     {
         if ((_object.tag == "Wall" || _object.tag == "Bullet") && !m_Character.m_Stat.isStunned && m_Character.m_zombieState == ZOMBIE_STATE.ATTACK)
         {
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.SLAM, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 0.4f);
             m_Character.m_Stat.isStunned = true;
             m_Character.m_NavAgent.isStopped = true;
+
+
         }
 
         if((_object.tag == "Player"))
         {
+            EffectManager.Instance.PlayEffect(PARTICLE_TYPE.SLAM, transform.position, Quaternion.identity, Vector3.one * 1.2f, true, 0.4f);
             PlayerManager.Instance.AttackToPlayer(m_Character.m_Stat.Attack, true);
         }
 

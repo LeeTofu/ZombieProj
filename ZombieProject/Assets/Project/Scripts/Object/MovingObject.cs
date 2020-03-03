@@ -442,14 +442,9 @@ public abstract class MovingObject : MonoBehaviour
 
     public void AllDeleteBuff()
     {
-        if ((m_BuffRimLight != null && m_BuffRimLight.m_Coroutine != null) || m_Stat.isDead)
-            StopCoroutine(m_BuffRimLight.m_Coroutine);
-
         for (int i = 0; i< m_ListBuff.Count; i++)
         {
             m_ListBuff[i].BuffExitAction();
-            if (m_ListBuff[i].BuffCoroutine != null)
-                StopCoroutine(m_ListBuff[i].BuffCoroutine);
             //DeleteBuff(m_ListBuff[i]);
         }
 

@@ -65,9 +65,7 @@ public class LoginManager : Singleton<LoginManager>
     public void LoginToGoogle()
     {
 
-
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-     .Build();
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
 
         PlayGamesPlatform.InitializeInstance(config);
 

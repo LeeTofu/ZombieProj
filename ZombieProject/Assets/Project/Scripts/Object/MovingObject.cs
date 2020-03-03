@@ -598,10 +598,14 @@ public abstract class MovingObject : MonoBehaviour
 
     public void DrawCirclurSector(float _range, Vector3 _pos, float _angle)
     {
-
         if (m_DrawRender)
-            m_DrawRender.RenderCircleSector(_range, _pos, -transform.eulerAngles.y, 35.0f);
+            m_DrawRender.RenderCircleSector(_range, _pos, -transform.eulerAngles.y, _angle);
     }
 
+    public void CoroutineDrawCirclurSector(float _range, Vector3 _pos, float _angle)
+    {
+        if (m_DrawRender)
+            m_DrawRender.StartRenderCircleSector(_range, _pos, -transform.eulerAngles.y, _angle);
+    }
 
 }

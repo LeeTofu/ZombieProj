@@ -33,7 +33,7 @@ public class IdleState : PlayerState
     }
     public override void Update()
     {
-
+        PlayerManager.Instance.UpdateWeaponRange();
     }
     public override void End()
     {
@@ -307,7 +307,7 @@ public class InjuredIdleState : PlayerState
     }
     public override void Update()
     {
-
+        PlayerManager.Instance.UpdateWeaponRange();
     }
     public override void AddAction()
     {

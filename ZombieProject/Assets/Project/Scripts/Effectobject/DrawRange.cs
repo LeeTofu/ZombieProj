@@ -12,6 +12,8 @@ public class DrawRange : MonoBehaviour
 
     private float m_Range;
 
+    Coroutine m_RenderCoroutine;
+
     void Awake()
     {
         m_LineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -21,10 +23,8 @@ public class DrawRange : MonoBehaviour
             m_LineRenderer = gameObject.AddComponent<LineRenderer>();
         }
 
-       
-
-        m_CircleSize = 18;
-        m_CircularSectorSize = 12;
+        m_CircleSize = 15;
+        m_CircularSectorSize = 15;
         m_LineRenderer.positionCount = m_CircularSectorSize;
 
         m_DegInterval = 360.0f / m_CircleSize;
@@ -33,6 +33,44 @@ public class DrawRange : MonoBehaviour
         m_LineRenderer.endWidth = 0.1f;
 
     }
+
+    public void StartRenderCircle(float _range, Vector3 _pos)
+    {
+        if (m_RenderCoroutine != null)
+            StopCoroutine(m_RenderCoroutine);
+
+        m_RenderCoroutine = StartCoroutine(RenderCirlce_C(_range, _pos));
+    }
+
+    public void StartRenderCircleSector(float _range, Vector3 _pos, float _startAngle, float _angle)
+    {
+        if (m_RenderCoroutine != null)
+            StopCoroutine(m_RenderCoroutine);
+
+       // m_RenderCoroutine = StartCoroutine(RenderCirlceSector_C(_range, _pos, _startAngle, _angle));
+    }
+
+    IEnumerator RenderCirlce_C(float _range, Vector3 _pos)
+    {
+        m_Range = _range;
+
+        float Deg = 0;
+
+        for (int i = 0; i < m_CircleSize; i++)
+        {
+            Deg += m_DegInterval;
+
+            float x = _pos.x + m_Range * Mathf.Cos(Mathf.Deg2Rad * Deg);
+            float y = _pos.z + m_Range * Mathf.Sin(Mathf.Deg2Rad * Deg);
+
+            m_LineRenderer.SetPosition(i, new Vector3(x, _pos.y, y));
+
+            yield return null;
+        }
+    }
+
+ 
+
 
     public void RenderCircle(float _range, Vector3 _pos)
     {

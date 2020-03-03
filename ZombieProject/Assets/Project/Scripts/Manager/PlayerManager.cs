@@ -274,7 +274,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject == null) return;
         if (m_Player == null) return;
 
-        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 90);
+        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 180.0f);
 
     }
 
@@ -310,10 +310,12 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (m_Player == null) return false;
 
+        float dot = Mathf.Cos(Mathf.Deg2Rad * (180.0f * 0.5f));
+
         Vector3 HitForward = _zombiePos - m_Player.transform.position;
         HitForward = HitForward.normalized;
 
-        if (Vector3.Dot(HitForward, m_Player.transform.forward) > 0.1f)
+        if (Vector3.Dot(HitForward, m_Player.transform.forward) > dot)
         {
             return true;
         }

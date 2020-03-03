@@ -303,7 +303,8 @@ public abstract class MovingObject : MonoBehaviour
             Debug.LogError(gameObject.name + " Factory 없습니다.");
             return;
         }
-
+        if (m_BuffRimLight != null)
+            m_BuffRimLight.SetStandard();
         m_TargetingObject = null;
         gameObject.SetActive(false);
         m_Factory.PushObjectToPooling(this, m_TypeKey);
@@ -587,8 +588,6 @@ public abstract class MovingObject : MonoBehaviour
             yield return null;
 
         }
-
-        m_BuffRimLight.SetStandard();
     }
 
     public void DrawCircle(float _range, Vector3 _pos)

@@ -583,7 +583,7 @@ public abstract class MovingObject : MonoBehaviour
         while(DissolveAmount <= 1.0f)
         {
             m_BuffRimLight.SetDissolveAmount(DissolveAmount);
-            DissolveAmount += Time.deltaTime  * 1.0f;
+            DissolveAmount += Time.deltaTime  * 0.5f;
             yield return null;
 
         }
@@ -593,11 +593,16 @@ public abstract class MovingObject : MonoBehaviour
 
     public void DrawCircle(float _range, Vector3 _pos)
     {
-
         if(m_DrawRender)
-            m_DrawRender.SetRangeCircle(_range, _pos);
+            m_DrawRender.RenderCircle(_range, _pos);
     }
 
+    public void DrawCirclurSector(float _range, Vector3 _pos, float _angle)
+    {
+
+        if (m_DrawRender)
+            m_DrawRender.RenderCircleSector(_range, _pos, -transform.eulerAngles.y, 35.0f);
+    }
 
 
 }

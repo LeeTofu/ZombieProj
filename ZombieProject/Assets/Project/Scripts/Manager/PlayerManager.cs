@@ -67,6 +67,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
     int m_WallLayerMask;
 
+    GameObject m_FixedFireTransform;
+
     public int CurrentMoney
     {
         get => m_CurrentMoney;
@@ -216,6 +218,12 @@ public class PlayerManager : Singleton<PlayerManager>
 
         UpdateWeaponRange();
 
+        if (m_FixedFireTransform == null)
+        {
+            m_FixedFireTransform = new GameObject("FixedFirePos");
+        }
+
+
         //if(m_CurrentEquipedItemObject != null)
         //    m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
@@ -266,7 +274,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject == null) return;
         if (m_Player == null) return;
 
-        m_Player.DrawCircle(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position);
+        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 90);
 
     }
 

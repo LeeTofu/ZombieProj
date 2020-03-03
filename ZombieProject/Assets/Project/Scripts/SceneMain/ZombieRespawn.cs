@@ -65,7 +65,7 @@ public class ZombieRespawn : MonoBehaviour
     {
         int NormalZombieRespawn = Mathf.Max(250, 1000 - ((_phase - 1) * 25));
 
-        if(Random.Range(1000,1000) < NormalZombieRespawn)
+        if(Random.Range(0,1000) < NormalZombieRespawn)
         {
             return OBJECT_TYPE.ZOMBIE;
         }

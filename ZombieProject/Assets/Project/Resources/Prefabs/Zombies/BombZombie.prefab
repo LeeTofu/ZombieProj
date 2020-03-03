@@ -33,7 +33,7 @@ Transform:
   m_LocalPosition: {x: -22.258823, y: -30.574814, z: -0.3388369}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children:
-  - {fileID: 7563717838213336538}
+  - {fileID: 2816506353061042409}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -69,7 +69,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.35
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -456,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537378233b6c7144296d0da9a322749a, type: 3}
---- !u!224 &7563717838213336538 stripped
+--- !u!224 &2816506353061042409 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5756027860496700730, guid: 537378233b6c7144296d0da9a322749a,
     type: 3}

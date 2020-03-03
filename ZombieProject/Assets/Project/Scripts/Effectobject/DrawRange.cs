@@ -89,8 +89,6 @@ public class DrawRange : MonoBehaviour
         }
     }
 
-
-
     public void RenderCircleSector(float _range, Vector3 _pos, float _startAngle, float _angle)
     {
         m_Range = _range;

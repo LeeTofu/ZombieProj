@@ -113,6 +113,8 @@ public class RespawnManager : Singleton<RespawnManager>
 
         AllStopRespawnZombie();
         AllDeleteRespawnZombie();
+
+        (UIManager.Instance.m_CurrentUI as BattleUI).PlayInfoMessage(" ");
     }
 
     private void Update()

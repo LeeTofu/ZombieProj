@@ -285,7 +285,7 @@ public class PlayerManager : Singleton<PlayerManager>
 #if UNITY_EDITOR
         m_MaxClearWave = 25;
 #elif UNITY_ANDROID
-        m_MaxClearWave = 25;
+        m_MaxClearWave = 1;
 #endif
 
         if (m_PlayerFactory == null)

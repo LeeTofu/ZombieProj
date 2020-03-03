@@ -274,7 +274,7 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject == null) return;
         if (m_Player == null) return;
 
-        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 180.0f);
+        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 48.0f);
 
     }
 

@@ -23,8 +23,8 @@ public class DrawRange : MonoBehaviour
             m_LineRenderer = gameObject.AddComponent<LineRenderer>();
         }
 
-        m_CircleSize = 15;
-        m_CircularSectorSize = 15;
+        m_CircleSize = 14;
+        m_CircularSectorSize = 14;
         m_LineRenderer.positionCount = m_CircularSectorSize;
 
         m_DegInterval = 360.0f / m_CircleSize;
@@ -95,7 +95,7 @@ public class DrawRange : MonoBehaviour
     {
         m_Range = _range;
 
-        float Deg = _startAngle + (_angle ) * 2.0f;
+        float Deg = _startAngle + (_angle ) * 1.5f;
 
         m_LineRenderer.SetPosition(0, _pos);
 

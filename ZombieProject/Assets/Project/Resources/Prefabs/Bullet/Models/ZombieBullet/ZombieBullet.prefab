@@ -98,6 +98,30 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.0072696977
       objectReference: {fileID: 0}
+    - target: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19820798, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 118716, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10878318, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e84120dab5fa4342b13417a3ff8964c, type: 3}
 --- !u!4 &3959194875399859675 stripped

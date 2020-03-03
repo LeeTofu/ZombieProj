@@ -583,7 +583,7 @@ public abstract class MovingObject : MonoBehaviour
         while(DissolveAmount <= 1.0f)
         {
             m_BuffRimLight.SetDissolveAmount(DissolveAmount);
-            DissolveAmount += Time.deltaTime * 10.0f;
+            DissolveAmount += Time.deltaTime  * 1.0f;
             yield return null;
 
         }

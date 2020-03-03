@@ -102,7 +102,7 @@ public class MovingAttackState : PlayerState
         //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
-        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.4f; //* 1.0f;
+        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f; //* 1.0f;
     }
     public override void End()
     {

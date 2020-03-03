@@ -29,15 +29,20 @@ public class LoginManager : Singleton<LoginManager>
 
     public override bool Initialize()
     {
-
+       
         m_isAuther = false;
         return true;
     }
 
+    private void Start()
+    {
+        m_FireBaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+    }
+
     public void LoginToFireBase(string _mail, string _password)
     {
-        FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.CreateUserWithEmailAndPasswordAsync(_mail, _password).ContinueWith(task => {
+
+        m_FireBaseAuth.CreateUserWithEmailAndPasswordAsync(_mail, _password).ContinueWith(task => {
             if (task.IsCanceled)
             {
                 Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
@@ -61,25 +66,34 @@ public class LoginManager : Singleton<LoginManager>
     {
 
 
-        //  if (!GameMaster.Instance.m_isFireBaseAsnc) return;
-        // m_FireBaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        //    PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestIdToken().Build();
-        PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder().RequestIdToken().Build());
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+     .Build();
+
+        PlayGamesPlatform.InitializeInstance(config);
+
         PlayGamesPlatform.DebugLogEnabled = true;
+
         PlayGamesPlatform.Activate();
 
-        Social.localUser.Authenticate((success, errorMessage) =>
+        if (!Social.localUser.authenticated)
         {
-            if (success == false)
+            PlayGamesPlatform.Instance.Authenticate((bool success) =>
             {
-                Debug.LogError("Fail 실패낫!! 뎃챠!!");
-                Debug.LogError("Google : " + errorMessage);
-                return;
-            }
+                if (success)
+                {
+                    Debug.Log("로그인 성공");
+                    m_isAuther = true;
 
-            Debug.Log("로그인 성공");
-            m_isAuther = true;
-        });
+                    SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+                }
+                else
+                {
+                    Debug.LogError("Fail 실패낫!! 뎃챠!!");
+                    Debug.LogError("Google : ");
+                }
+            });
+        }
+
     }
 
     private void Update()

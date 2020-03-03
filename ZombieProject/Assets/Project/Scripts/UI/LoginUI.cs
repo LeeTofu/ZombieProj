@@ -27,17 +27,18 @@ public class LoginUI : BaseUI
 
     public void PressStartButton()
     {
-        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        //  SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
 #if UNITY_EDITOR
-        //SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
 #else
-       // LoginManager.Instance.LoginToGoogle();
+        LoginManager.Instance.LoginToGoogle();
+        //JoinToTheFireBase();
 #endif
     }
 
     public void JoinToTheFireBase()
     {
-       LoginManager.Instance.LoginToFireBase(m_IDInput.text, m_PWInput.text);
+       LoginManager.Instance.LoginToFireBase("qnpfrehdtk32s@gmail.com", "tlgja-312!");
     }
 
 

@@ -26,7 +26,7 @@ public class LoginManager : Singleton<LoginManager>
     // 인증되었는가?
     public bool m_isAuther { private set; get; }
     public Firebase.Auth.FirebaseAuth m_FireBaseAuth;
-
+    string m_authCode;
     public override bool Initialize()
     {
        
@@ -82,6 +82,8 @@ public class LoginManager : Singleton<LoginManager>
                     Debug.Log("로그인 성공");
                     m_isAuther = true;
 
+                    m_authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
+
                     SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
                 }
                 else
@@ -93,6 +95,31 @@ public class LoginManager : Singleton<LoginManager>
         }
 
     }
+
+    private void test()
+    {
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        Firebase.Auth.Credential credential =
+            Firebase.Auth.PlayGamesAuthProvider.GetCredential(m_authCode);
+        auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Firebase.Auth.FirebaseUser newUser = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                newUser.DisplayName, newUser.UserId);
+        });
+
+    }
+
 
     private void Update()
     {

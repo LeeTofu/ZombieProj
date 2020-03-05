@@ -161,7 +161,7 @@ public class InputContoller : UIDragSubject
 
         if (MoveControllerDir.sqrMagnitude > 0.0f)
         {
-            Camera cam = UIManager.Instance.m_UICamera;
+            //Camera cam = UIManager.Instance.m_UICamera;
            // MoveControllerDir = cam.transform.InverseTransformVector(new Vector3(MoveControllerDir.x, 0, MoveControllerDir.y));
 
        //     float length = GetCurrentMouseDragLength();
@@ -175,7 +175,7 @@ public class InputContoller : UIDragSubject
             m_DragDirectionVector = new Vector3(MoveControllerDir.y, 0.0f, -MoveControllerDir.x).normalized;
            
             // 벽에 막혀 슬라이딩 벡터를 만들어야 하나 함수.
-           if( !CheckWallSliding(m_Character.transform.forward))
+           if( !CheckWallSliding(Vector3.forward))
             {
                 m_MoveVector = m_DragDirectionVector;
             }

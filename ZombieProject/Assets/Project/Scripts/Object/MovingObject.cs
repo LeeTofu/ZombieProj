@@ -341,9 +341,11 @@ public abstract class MovingObject : MonoBehaviour
     public bool CheckForwardWall(Vector3 _forward, out RaycastHit _hit, out Vector3 _center)
     {
         _center = this.transform.position + this.transform.TransformDirection(m_CapsuleCollider.center);
-        Ray ray = new Ray(_center, this.transform.TransformDirection(Vector3.forward));
+        Ray ray = new Ray(_center, this.transform.TransformDirection(_forward));
 
         Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+        //Debug.DrawRay(ray.origin, transform.forward * 2, Color.blue);
+        //Debug.DrawRay(ray.origin, transform.right * 2, Color.cyan);
 
         if (Physics.Raycast(ray, out _hit, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
         {

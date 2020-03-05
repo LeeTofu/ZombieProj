@@ -92,6 +92,19 @@ public class MovingAttackState : PlayerState
             m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
         }
     }
+    public bool MovingCheckWall(out RaycastHit _hit, out Vector3 _center)
+    {
+        _center = m_PlayerObject.transform.position + m_PlayerObject.transform.TransformDirection(m_PlayerObject.m_CapsuleCollider.center);
+        Ray ray = new Ray(_center, BattleUI.m_InputController.m_MoveVector);
+        if (Physics.Raycast(ray, out _hit, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public override void Update()
     {
         CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
@@ -105,8 +118,28 @@ public class MovingAttackState : PlayerState
 
         //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
+        if (PlayerManager.Instance.m_TargetingZombie == null)
+            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f; //* 1.0f;
+        else
+        {
+            BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
+            RaycastHit hit;
+            Vector3 center;
+            if (MovingCheckWall(out hit, out center))
+            {
+                Vector3 directionToHit = hit.point - center;
 
-        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f; //* 1.0f;
+                Vector3 ProjectionResult = Vector3.Project(directionToHit, hit.normal);
+                Vector3 dir = (directionToHit - ProjectionResult);
+
+                dir.y = 0;
+                m_PlayerObject.transform.position += dir * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f;
+            }
+            else
+            {
+                m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f;
+            }
+        }
     }
     public override void End()
     {

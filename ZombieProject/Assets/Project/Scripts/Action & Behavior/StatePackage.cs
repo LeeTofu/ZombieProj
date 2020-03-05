@@ -34,6 +34,10 @@ public class IdleState : PlayerState
     public override void Update()
     {
         PlayerManager.Instance.UpdateWeaponRange();
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
     }
     public override void End()
     {
@@ -263,7 +267,10 @@ public class WalkState : PlayerState
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
         PlayerManager.Instance.UpdateWeaponRange();
-
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        }
         //if(PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
     }
@@ -308,6 +315,10 @@ public class InjuredIdleState : PlayerState
     public override void Update()
     {
         PlayerManager.Instance.UpdateWeaponRange();
+        if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
     }
     public override void AddAction()
     {
@@ -362,11 +373,32 @@ public class InjuredWalkState : PlayerState
     }
     public override void AddAction()
     {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
+            {
+                if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+                }
+            }
+        });
+
         BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+            {
+                if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+                }
+                else
+                {
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+                }
+            }
         });
 
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,

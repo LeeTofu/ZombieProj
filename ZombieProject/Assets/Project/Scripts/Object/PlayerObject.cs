@@ -95,6 +95,8 @@ public class PlayerObject : MovingObject
 
         m_HpBarUI.Initialzie(this);
 
+        m_CapsuleCollider = this.transform.GetComponentInChildren<CapsuleCollider>();
+
         return;
     }
 

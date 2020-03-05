@@ -269,6 +269,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected Coroutine m_DeadCoroutine;
 
+    public CapsuleCollider m_CapsuleCollider;
+
     public DrawRange m_DrawRender { get; set; }
 
     public virtual void SetStat(STAT _stat)
@@ -338,7 +340,7 @@ public abstract class MovingObject : MonoBehaviour
     // 내 앞에 벽이 있나? 
     public bool CheckForwardWall(Vector3 _forward, out RaycastHit _hit, out Vector3 _center)
     {
-        _center = this.transform.position + this.transform.TransformDirection(this.transform.GetComponentInChildren<CapsuleCollider>().center);
+        _center = this.transform.position + this.transform.TransformDirection(m_CapsuleCollider.center);
         Ray ray = new Ray(_center, this.transform.TransformDirection(Vector3.forward));
 
         Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);

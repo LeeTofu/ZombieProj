@@ -122,7 +122,6 @@ public class MovingAttackState : PlayerState
             m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f; //* 1.0f;
         else
         {
-            BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
             RaycastHit hit;
             Vector3 center;
             if (MovingCheckWall(out hit, out center))

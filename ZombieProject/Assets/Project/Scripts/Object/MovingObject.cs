@@ -347,7 +347,7 @@ public abstract class MovingObject : MonoBehaviour
         //Debug.DrawRay(ray.origin, transform.forward * 2, Color.blue);
         //Debug.DrawRay(ray.origin, transform.right * 2, Color.cyan);
 
-        if (Physics.Raycast(ray, out _hit, 1.0f, 1 << LayerMask.NameToLayer("Wall")))
+        if (Physics.Raycast(ray, out _hit, 1.0f, (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("WallOnlyPlayer"))))
         {
             return true;
         }

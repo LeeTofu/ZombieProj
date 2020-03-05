@@ -50,9 +50,10 @@
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					fixed4 col = i.color * tex2D(_MainTex, i.texcoord);
-					
-					return col;
+					float4 col = i.color * tex2D(_MainTex, i.texcoord);
+					col.w = 2.3f * col.w;
+					fixed4 ret = col;
+					return ret;
 				}
 				ENDCG
 			}

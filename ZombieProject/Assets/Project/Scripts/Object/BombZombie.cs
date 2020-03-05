@@ -11,7 +11,7 @@ public class BombZombie : Zombie
         base.DeadActionCallback();
         if (SceneMaster.Instance.m_CurrentScene == GAME_SCENE.IN_GAME)
         {
-            PlayerManager.Instance.SplashAttackToPlayer(transform.position, 5.0f, m_Stat.Attack, true, 5);
+            PlayerManager.Instance.SplashAttackToPlayer(transform.position, 3.0f, m_Stat.Attack, true, 5);
             BattleSceneMain.CreateFireArea_Zombie(transform.position + Vector3.up * 0.2f, transform.rotation);
 
             EffectManager.Instance.PlayEffect(

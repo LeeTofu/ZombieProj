@@ -63,7 +63,7 @@ public class ZombieRespawn : MonoBehaviour
     // 리스폰할 좀비 타입 고르기.
     OBJECT_TYPE SelectZombieType(int _phase)
     {
-        int NormalZombieRespawn = Mathf.Max(250, 1000 - ((_phase - 1) * 25));
+        int NormalZombieRespawn = Mathf.Max(250, 1000 - ((_phase - 1) * 40));
 
         if(Random.Range(0,1000) < NormalZombieRespawn)
         {

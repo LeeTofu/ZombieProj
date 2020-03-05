@@ -200,7 +200,7 @@ public class NpcShopButton : UIPressSubject
                 m_UpgLevel++;
                 break;
             case SHOP_SORT.RANGEUP:
-                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, 0.5f);
+                PlayerManager.Instance.CurrentEquipedWeaponUpgrade(UPGRADE_TYPE.RANGE, 0.35f);
                 m_UpgLevel = m_CurrentUpgradedItem.GetUpgradeCount(UPGRADE_TYPE.RANGE);
 
                 break;

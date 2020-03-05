@@ -29,10 +29,11 @@ public class LoginUI : BaseUI
     {
         //  SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
 #if UNITY_EDITOR
-        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        JoinToTheFireBase();
+       // SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
 #else
         LoginManager.Instance.LoginToGoogle();
-        //JoinToTheFireBase();
+        
 #endif
     }
 

@@ -33,7 +33,7 @@ Transform:
   m_LocalPosition: {x: -22.258823, y: -30.574814, z: -0.3388369}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children:
-  - {fileID: 2816506353061042409}
+  - {fileID: 7563717838213336538}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_HpBarUI: {fileID: 0}
   m_BuffRimLight: {fileID: 0}
   m_StartMoney: 10
-  m_StepMoney: 1
+  m_StepMoney: 0
   m_AttackAudioSource:
   - {fileID: 8300000, guid: c5e72c14120434b7d8c3248afc4851b6, type: 3}
   - {fileID: 8300000, guid: 2e0680160a6414c50821ce2b3586bedf, type: 3}
@@ -226,7 +226,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 118b38df64aa147568f2e291e18e1713, type: 3}
   - {fileID: 8300000, guid: 7795e8b6c77494ac6beedc8fb493a1b6, type: 3}
   - {fileID: 8300000, guid: 840ba502ba2cf48688fa3eed24c5ffd7, type: 3}
-  m_ItemDropPercentage: 100
+  m_ItemDropPercentage: 40
 --- !u!1001 &2816506353061042400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537378233b6c7144296d0da9a322749a, type: 3}
---- !u!224 &2816506353061042409 stripped
+--- !u!224 &7563717838213336538 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5756027860496700730, guid: 537378233b6c7144296d0da9a322749a,
     type: 3}

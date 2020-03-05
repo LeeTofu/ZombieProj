@@ -161,9 +161,6 @@ public class ItemObject : MonoBehaviour
 
     }
 
-
-
-
     private void ItemAction(Vector3 _dir)
     {
         PlaySound();

@@ -160,7 +160,7 @@ public class RespawnManager : Singleton<RespawnManager>
     // 이번 웨이브에서 생성할 좀비의 수를 리턴합니다/.
     int SelectRespawnZombieCount(int _phase)
     {
-        int zombieRespawnCount = (int)(_phase * 0.2f);
+        int zombieRespawnCount = (int)(_phase * 0.3f);
         zombieRespawnCount = Mathf.Clamp(zombieRespawnCount, 1, 4);
 
         return zombieRespawnCount;
@@ -267,7 +267,9 @@ public class RespawnManager : Singleton<RespawnManager>
     IEnumerator WaveChange_C(float _changeTime)
     {
         float time = 0.0f;
-        
+
+        PlayerManager.Instance.HealPlayer((int)(PlayerManager.Instance.m_Player.m_Stat.MaxHP * 0.15f));
+
         while (time < _changeTime)
         {
             BattleUI ui = (UIManager.Instance.m_CurrentUI as BattleUI);
@@ -281,8 +283,6 @@ public class RespawnManager : Singleton<RespawnManager>
             yield return new WaitForSeconds(1.0f);
 
             (UIManager.Instance.m_CurrentUI as BattleUI).ShowShopUI(true);
-            PlayerManager.Instance.HealPlayer((int)(PlayerManager.Instance.m_Player.m_Stat.MaxHP * 0.15f));
-
             time += 1.0f;
         }
 

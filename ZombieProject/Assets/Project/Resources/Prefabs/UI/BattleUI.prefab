@@ -10600,6 +10600,16 @@ PrefabInstance:
       propertyPath: m_StackCountText
       value: 
       objectReference: {fileID: 6132323882153162064}
+    - target: {fileID: 6425730428552012676, guid: b373fa89bc8f3a943a7d932163d762f0,
+        type: 3}
+      propertyPath: m_StartCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425730428552012676, guid: b373fa89bc8f3a943a7d932163d762f0,
+        type: 3}
+      propertyPath: m_PlusCost
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6337239564338060168, guid: b373fa89bc8f3a943a7d932163d762f0,
         type: 3}
       propertyPath: m_StackCountText

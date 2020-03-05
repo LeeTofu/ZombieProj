@@ -60,7 +60,7 @@
 		<Range>30</Range>
 		<isAccumulate>false</isAccumulate>
 		<AttackSpeed>0.5</AttackSpeed>
-    <BulletSpeed>45</BulletSpeed>
+    <BulletSpeed>55</BulletSpeed>
     <BulletString>TestBullet</BulletString>
     <isHaveCoolTime>true</isHaveCoolTime>
     <isKnockBack>true</isKnockBack>

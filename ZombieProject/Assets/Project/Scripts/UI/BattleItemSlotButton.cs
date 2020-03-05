@@ -56,7 +56,7 @@ public class BattleItemSlotButton : UIPressSubject
             m_ItemButtonController.Initialized(_item.m_ItemStat);
         else
         {
-            m_ItemButtonController.Initialized(5.0f, true, 0.0f);
+            m_ItemButtonController.Initialized(4.0f, true, 0.0f);
         }
 
         if (m_isInitialize == false)

@@ -32,6 +32,9 @@ public class BattleUI : BaseUI
     TMPro.TextMeshProUGUI m_InfoText;
 
     [SerializeField]
+    TMPro.TextMeshProUGUI m_PlayerText;
+
+    [SerializeField]
     WeaponStatUI m_WeaponStatUI;
 
     [SerializeField]
@@ -225,6 +228,10 @@ public class BattleUI : BaseUI
         ShowShopUI(false);
 
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
+
+#if !UNITY_EDITOR
+        m_PlayerText.text = LoginManager.Instance.GetUserData().userName;
+#endif
 
         for (int i = 0; i < buttons.Length; i++)
         {

@@ -24,24 +24,26 @@ public class USER_DATA
 public class LoginManager : Singleton<LoginManager>
 {
     // 인증되었는가?
-    public bool m_isAuther { private set; get; }
+    public bool m_isAllAutherSuccess { private set; get; }
+    public bool m_isGoogleAuther { private set; get; }
     public Firebase.Auth.FirebaseAuth m_FireBaseAuth;
     string m_authCode;
+
     public override bool Initialize()
     {
-       
-        m_isAuther = false;
+        m_isAllAutherSuccess = false;
+        m_isGoogleAuther = false;
         return true;
     }
 
     private void Start()
     {
-        m_FireBaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        
     }
 
-    public void LoginToFireBase(string _mail, string _password)
+    public void CreateFireBaseID(string _mail, string _password)
     {
-
+       
         m_FireBaseAuth.CreateUserWithEmailAndPasswordAsync(_mail, _password).ContinueWith(task => {
             if (task.IsCanceled)
             {
@@ -62,46 +64,21 @@ public class LoginManager : Singleton<LoginManager>
     }
 
 
-    public void LoginToGoogle()
+    IEnumerator LoginWithGoogleToFireBase()
     {
+        Debug.Log("구르 토큰으로 FireBase 에 접근중");
 
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
+        m_FireBaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
-        PlayGamesPlatform.InitializeInstance(config);
+        while (string.IsNullOrEmpty(((PlayGamesLocalUser)Social.localUser).GetIdToken()) || !Social.localUser.authenticated)
+            yield return null;
 
-        PlayGamesPlatform.DebugLogEnabled = true;
+        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+        Debug.Log(string.Format("\nToken:{0}", idToken));
 
-        PlayGamesPlatform.Activate();
+        Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
 
-        if (!Social.localUser.authenticated)
-        {
-            PlayGamesPlatform.Instance.Authenticate((bool success) =>
-            {
-                if (success)
-                {
-                    Debug.Log("로그인 성공");
-                    m_isAuther = true;
-
-                    m_authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
-
-                    SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
-                }
-                else
-                {
-                    Debug.LogError("Fail 실패낫!! 뎃챠!!");
-                    Debug.LogError("Google : ");
-                }
-            });
-        }
-
-    }
-
-    private void test()
-    {
-        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        Firebase.Auth.Credential credential =
-            Firebase.Auth.PlayGamesAuthProvider.GetCredential(m_authCode);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
+        m_FireBaseAuth.SignInWithCredentialAsync(credential).ContinueWith(task => {
             if (task.IsCanceled)
             {
                 Debug.LogError("SignInWithCredentialAsync was canceled.");
@@ -116,97 +93,71 @@ public class LoginManager : Singleton<LoginManager>
             Firebase.Auth.FirebaseUser newUser = task.Result;
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 newUser.DisplayName, newUser.UserId);
+
+            m_isAllAutherSuccess = true;
         });
-
     }
-
 
     private void Update()
     {
-        if (m_isAuther == false) return;
-        if (System.String.IsNullOrEmpty(((PlayGamesLocalUser)Social.localUser).GetIdToken())) return;
-
-        Debug.Log("여기까지는 실행온");
-
-        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
-        string accessToken = null;
-
-        FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        Debug.Log("토큰 : " + idToken);
-
-
-        Credential credential = GoogleAuthProvider.GetCredential(idToken, accessToken);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInWithCredentialAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                newUser.DisplayName, newUser.UserId);
-        });
-
-        Debug.Log("d으효!!");
-
-        m_isAuther = false;
-    }
-
-    IEnumerator Login_C()
-    {
-        while (System.String.IsNullOrEmpty(((PlayGamesLocalUser)Social.localUser).GetIdToken()))
+        if(m_isGoogleAuther == true)
         {
-            Debug.Log("ㅇ");
-            yield return null;
+            StartCoroutine(LoginWithGoogleToFireBase());
+            m_isGoogleAuther = false;
         }
 
-        Debug.Log("여기까지는 실행온");
+        if(m_isAllAutherSuccess)
+        {
+            Debug.Log("파이버베이스 등록 후 씬 이동");
 
-        string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
-        string accessToken = null;
+            SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+            m_isAllAutherSuccess = false;
+        }
 
-        FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-        Debug.Log("토큰 : " + idToken);
-
-
-        Credential credential = GoogleAuthProvider.GetCredential(idToken, accessToken);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInWithCredentialAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                newUser.DisplayName, newUser.UserId);
-        });
-
-        Debug.Log("d으효!!");
     }
+
+    
+
+
+    public void LoginToGoogle()
+    {
+
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestIdToken().Build();
+
+        PlayGamesPlatform.InitializeInstance(config);
+
+        PlayGamesPlatform.DebugLogEnabled = true;
+
+        PlayGamesPlatform.Activate();
+
+        if (!Social.localUser.authenticated)
+        {
+            PlayGamesPlatform.Instance.Authenticate((bool success, string message) =>
+            {
+                if (success)
+                {
+                    Debug.Log("로그인 성공");
+                    m_isGoogleAuther = true;
+                    m_authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
+                }
+                else
+                {
+                    Debug.LogError("Fail 실패낫!! 뎃챠!!");
+                    Debug.LogError("Google : " + message);
+                }
+            });
+        }
+    }
+
 
     public USER_DATA GetUserData()
     {
         if (m_FireBaseAuth == null) return null;
-        if (m_isAuther == false) return null;
 
         Firebase.Auth.FirebaseUser user = m_FireBaseAuth.CurrentUser;
         if (user != null)
         {
-            string name = user.DisplayName;
+            string name = Social.localUser.userName;
             string email = user.Email;
             System.Uri photo_url = user.PhotoUrl;
 

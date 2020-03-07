@@ -92,10 +92,25 @@ public class MovingAttackState : PlayerState
             m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
         }
     }
+
+    Vector3 TargetingZombieOffset()
+    {
+        Vector3 dir = (PlayerManager.Instance.m_TargetingZombie.transform.position - m_PlayerObject.transform.position);
+        dir.y = 0.0f;
+        dir = dir.normalized * 4.0f;
+
+        return dir;
+    }
+
+
+
     public override void Update()
     {
-        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
-
+        if(!PlayerManager.Instance.m_TargetingZombie)
+            CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+        else
+            CameraManager.Instance.AddOffsetVector(TargetingZombieOffset());
+            
         BattleUI.m_InputController.CalculateMoveVector();
 
         if(PlayerManager.Instance.m_TargetingZombie == null)
@@ -106,11 +121,11 @@ public class MovingAttackState : PlayerState
         //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
         if (PlayerManager.Instance.m_TargetingZombie == null)
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f; //* 1.0f;
+            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.6f; //* 1.0f;
         else
         {
             BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.7f;
+            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.6f;
         }
     }
     public override void End()

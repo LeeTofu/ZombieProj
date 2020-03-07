@@ -2489,7 +2489,7 @@ GameObject:
   - component: {fileID: 739615686076684708}
   - component: {fileID: 4185092074943548089}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3989,7 +3989,7 @@ GameObject:
   - component: {fileID: 4970898994350391975}
   - component: {fileID: 6542557018047282702}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4302,7 +4302,7 @@ GameObject:
   - component: {fileID: 6049830145293425704}
   - component: {fileID: 5061741949087902386}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: Attackspeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5304,7 +5304,7 @@ GameObject:
   - component: {fileID: 5763820795385686407}
   - component: {fileID: 6882352600271295296}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: StackCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6975,7 +6975,7 @@ GameObject:
   - component: {fileID: 3390174417137319981}
   - component: {fileID: 7442809105875040351}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: CoolTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

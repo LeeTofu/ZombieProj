@@ -109,7 +109,8 @@ public class BattleItemSlotButton : UIPressSubject
         if (!InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
         if (PlayerManager.Instance.m_Player == null) return false;
         if (PlayerManager.Instance.m_Player.m_Stat.isDead) return false;
-        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_currentBulletCount <= 0) return false;
+        if (m_Item == null) return false;
+        if (m_Item.m_Count <= 0) return false;
         if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK 
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.USE_QUICK
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP) return false;

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2687382320770100427}
   - component: {fileID: 7421117701084635844}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ZombieBulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_NavAgent: {fileID: 0}
   m_HpBarUI: {fileID: 0}
   m_BuffRimLight: {fileID: 0}
+  m_CapsuleCollider: {fileID: 0}
   m_TrailEffect: {fileID: 0}
   m_TrailRenderer: {fileID: 0}
   m_PointLight: {fileID: 0}

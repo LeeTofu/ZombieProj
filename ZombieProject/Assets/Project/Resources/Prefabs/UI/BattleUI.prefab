@@ -2714,6 +2714,7 @@ MonoBehaviour:
   m_CountDown: {fileID: 1433724212905685244}
   m_MoneyText: {fileID: 4203165325113888633}
   m_InfoText: {fileID: 861104379184862142}
+  m_PlayerText: {fileID: 4307643228633020041}
   m_WeaponStatUI: {fileID: 4958684414466074745}
   m_NPCButtonObject: {fileID: 3596539059759645745}
   m_ShopButtons:

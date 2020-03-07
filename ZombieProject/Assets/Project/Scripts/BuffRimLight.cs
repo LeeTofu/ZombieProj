@@ -19,7 +19,7 @@ public class BuffRimLight : MonoBehaviour
     private Shader m_Standard;
     private Shader m_Rim;
     private Shader m_Dissolve;
-    private int m_BitMask;
+    private COLOR_TYPE m_SetColor;
     private MovingObject m_MovingObject;
     public IEnumerator m_Coroutine;
 
@@ -33,7 +33,7 @@ public class BuffRimLight : MonoBehaviour
     {
         m_Material = _Go.GetComponentInChildren<SkinnedMeshRenderer>().material;
         m_Standard = m_Material.shader;
-        m_BitMask = 0;
+        m_SetColor = COLOR_TYPE.NONE;
         m_Coroutine = ColorCoroutine();
     }
 
@@ -69,18 +69,17 @@ public class BuffRimLight : MonoBehaviour
     {
         m_Material.SetFloat("_DissolveEmission", _Amount);
     }
-    public int GetColorMask()
+    public COLOR_TYPE GetColorType()
     {
-        return m_BitMask;
+        return m_SetColor;
     }
     public void SetColorMask(COLOR_TYPE _ColorType)
     {
-        m_BitMask += (int)_ColorType;
+        m_SetColor = _ColorType;
     }
     public bool IsSetColor(COLOR_TYPE _ColorType)
     {
-        int check = m_BitMask & (int)_ColorType;
-        if (check != 0)
+        if (m_SetColor.Equals(_ColorType))
             return true;
         return false;
     }
@@ -94,9 +93,14 @@ public class BuffRimLight : MonoBehaviour
         {
             for(int i=0; i<m_MovingObject.GetListBuff().Count; i++)
             {
-                SetColor(m_MovingObject.GetListBuff()[i].m_Color);
-                yield return new WaitForSeconds(0.1f);
+                if(!IsSetColor(m_MovingObject.GetListBuff()[i].m_ColorType))
+                {
+                    SetColor(m_MovingObject.GetListBuff()[i].m_Color);
+                    SetColorMask(m_MovingObject.GetListBuff()[i].m_ColorType);
+                    yield return new WaitForSeconds(0.5f);
+                }
             }
+            yield return null;
         }
     }
 }

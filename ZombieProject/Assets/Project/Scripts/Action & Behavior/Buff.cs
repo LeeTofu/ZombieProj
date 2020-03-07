@@ -53,15 +53,13 @@ public abstract class Buff : STAT
 
     protected abstract void ExitBuffEffect();
 
-    protected void SetRimLight(MovingObject _object, Color _color)
+    protected void SetRimLight(MovingObject _object)
     {
         m_MovingObject = _object;
         if (m_MovingObject.m_BuffRimLight != null)
         {
             m_MovingObject.m_BuffRimLight.SetMovingObject(_object);
             m_MovingObject.m_BuffRimLight.SetRimLight();
-            m_MovingObject.m_BuffRimLight.SetColor(_color);
-            m_MovingObject.m_BuffRimLight.SetColorMask(m_ColorType);
         }
     }
 
@@ -135,7 +133,7 @@ public class Adrenaline : Buff
         if (_object == null) return;
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.ADRENALIN, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 0.6f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, m_Color);
+        SetRimLight(_object);
     }
 
     protected override void ExitBuffEffect()
@@ -187,7 +185,7 @@ public class Blessing : Buff
 
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.HEAL, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, m_Color);
+        SetRimLight(_object);
     }
 
     protected override void ExitBuffEffect()
@@ -234,7 +232,7 @@ public class Poison : Buff
         m_CharacterStat.MoveSpeed *= MoveSpeed;
 
 
-        SetRimLight(_object, m_Color);
+        SetRimLight(_object);
     }
 
     protected override void BuffAction()
@@ -282,7 +280,7 @@ public class Fire : Buff
 
         m_EffectObject = EffectManager.Instance.AttachEffect(PARTICLE_TYPE.FIRE, _object, Vector3.up * 1.0f, Quaternion.identity, Vector3.one * 2.0f, true, m_DurationTime - 0.2f);
 
-        SetRimLight(_object, m_Color);
+        SetRimLight(_object);
     }
 
     protected override void BuffAction()

@@ -109,8 +109,6 @@ public class BattleItemSlotButton : UIPressSubject
         if (!InvenManager.Instance.isEquipedItemSlot(m_slotType)) return false;
         if (PlayerManager.Instance.m_Player == null) return false;
         if (PlayerManager.Instance.m_Player.m_Stat.isDead) return false;
-        if (m_Item == null) return false;
-        if (m_Item.m_Count <= 0) return false;
         if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK 
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.USE_QUICK
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP) return false;
@@ -184,6 +182,7 @@ public class BattleItemSlotButton : UIPressSubject
                     PlayerManager.Instance.ChangeWeapon();
                     break;
                 default:
+                    if (m_Item == null) return;
                     if (m_Item.m_Count <= 0) return;
 
                     PlayerManager.Instance.PlayerUseItem(m_slotType);
@@ -200,6 +199,9 @@ public class BattleItemSlotButton : UIPressSubject
             switch (m_slotType)
             {
                 case ITEM_SLOT_SORT.MAIN:
+                    if (m_Item == null) return;
+                    if (m_Item.m_Count <= 0) return;
+
                     PlayerManager.Instance.PlayerAttack();
                     SpendItemStackCount();
                     break;

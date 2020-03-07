@@ -4,19 +4,23 @@ using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using Firebase.Auth;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 //using Firebase;
 //using Firebase.Database;
 //using Firebase.Unity.Editor;
 
+
+[System.Serializable]
 public class USER_DATA
 {
-    public string userName;
-    public string e_Mail;
+    public string UserName;
+    public int MaxWave;
 
-    public USER_DATA(string Name, string EMail)
+    public USER_DATA(string _name, int _wave)
     {
-        this.userName = Name;
-        this.e_Mail = EMail;
+        this.UserName = _name;
+        this.MaxWave = _wave;
     }
 }
 
@@ -28,6 +32,8 @@ public class LoginManager : Singleton<LoginManager>
     public bool m_isGoogleAuther { private set; get; }
     public Firebase.Auth.FirebaseAuth m_FireBaseAuth;
     string m_authCode;
+
+    public string m_UserFireBaseID;
 
     public override bool Initialize()
     {
@@ -66,7 +72,7 @@ public class LoginManager : Singleton<LoginManager>
 
     IEnumerator LoginWithGoogleToFireBase()
     {
-        Debug.Log("구르 토큰으로 FireBase 에 접근중");
+        Debug.Log("구글 토큰으로 FireBase 에 접근중");
 
         m_FireBaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
@@ -94,6 +100,8 @@ public class LoginManager : Singleton<LoginManager>
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 newUser.DisplayName, newUser.UserId);
 
+            m_UserFireBaseID = newUser.UserId;
+
             m_isAllAutherSuccess = true;
         });
     }
@@ -108,16 +116,12 @@ public class LoginManager : Singleton<LoginManager>
 
         if(m_isAllAutherSuccess)
         {
-            Debug.Log("파이버베이스 등록 후 씬 이동");
-
+            Debug.Log("파이어베이스에 등록 후 씬 이동");
             SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
             m_isAllAutherSuccess = false;
         }
 
     }
-
-    
-
 
     public void LoginToGoogle()
     {
@@ -136,13 +140,13 @@ public class LoginManager : Singleton<LoginManager>
             {
                 if (success)
                 {
-                    Debug.Log("로그인 성공");
+                    Debug.Log("구글 로그인 성공");
                     m_isGoogleAuther = true;
                     m_authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
                 }
                 else
                 {
-                    Debug.LogError("Fail 실패낫!! 뎃챠!!");
+                    Debug.LogError("구글 로그인 Fail");
                     Debug.LogError("Google : " + message);
                 }
             });
@@ -161,7 +165,7 @@ public class LoginManager : Singleton<LoginManager>
             string email = user.Email;
             System.Uri photo_url = user.PhotoUrl;
 
-            USER_DATA userdata = new USER_DATA(name, email);
+            USER_DATA userdata = new USER_DATA(name, 1);
 
             return userdata;
         }

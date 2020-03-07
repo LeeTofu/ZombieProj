@@ -88,6 +88,8 @@ public class GameMaster : Singleton<GameMaster>
         BuffManager.Instance.CreateManager();
         RespawnManager.Instance.CreateManager();
 
+        DBManager.Instance.CreateManager();
+
         return true;
     }
     public override void DestroyManager()

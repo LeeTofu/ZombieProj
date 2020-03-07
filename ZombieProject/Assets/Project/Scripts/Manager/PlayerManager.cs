@@ -60,7 +60,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     StateController m_PlayerStateContoller;
 
-    public int m_MaxClearWave { private set; get; }
+    public int m_MaxClearWave { set; get; }
 
     Ray m_HitRay = new Ray();
     RaycastHit m_RayCastr = new RaycastHit();
@@ -87,9 +87,12 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void ClearWave()
     {
-        if (m_MaxClearWave > RespawnManager.Instance.m_CurWave)
+        if (m_MaxClearWave < RespawnManager.Instance.m_CurWave)
         {
             m_MaxClearWave = RespawnManager.Instance.m_CurWave;
+#if !UNITY_EDITOR
+            DBManager.Instance.UpdateUserClearWaveToFireBase(m_MaxClearWave);
+#endif
         }
     }
 
@@ -284,8 +287,6 @@ public class PlayerManager : Singleton<PlayerManager>
 
 #if UNITY_EDITOR
         m_MaxClearWave = 25;
-#elif UNITY_ANDROID
-        m_MaxClearWave = 1;
 #endif
 
         if (m_PlayerFactory == null)

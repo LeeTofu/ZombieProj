@@ -230,7 +230,7 @@ public class BattleUI : BaseUI
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
 
 #if !UNITY_EDITOR
-        m_PlayerText.text = LoginManager.Instance.GetUserData().userName;
+        m_PlayerText.text = LoginManager.Instance.GetUserData().UserName;
 #endif
 
         for (int i = 0; i < buttons.Length; i++)

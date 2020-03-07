@@ -176,7 +176,6 @@ public class InventoryUI: BaseUI
         if (m_SelectedSlot.m_Item == null) return;
         if (!m_SelectedSlot.m_CanUse) return;
 
-
         MAIN_ITEM_SORT sort = InvenManager.Instance.ConvertSortToMainSort(m_SelectedSlot.m_Item.m_ItemStat.m_Sort);
 
         if (sort != MAIN_ITEM_SORT.EQUIPMENT) return;

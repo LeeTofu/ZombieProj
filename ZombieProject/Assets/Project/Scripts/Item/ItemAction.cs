@@ -194,7 +194,6 @@ public class SlotController : MonoBehaviour
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP)
             return false;
 
-
         if(m_isHaveCoolTime)
             m_CurrentCoolTime = m_CurrentMaxCoolTime;
 

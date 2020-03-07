@@ -16,6 +16,9 @@ public class ZombiePathFindCondition : DecoratorNode
         {
             MovingObject mobject = GetAttackObject();
 
+            if (!m_Character.m_NavAgent.enabled)
+                m_Character.m_NavAgent.enabled = true;
+
             m_Character.m_NavAgent.destination = mobject.transform.position;
             m_Character.m_NavAgent.isStopped = false;
 

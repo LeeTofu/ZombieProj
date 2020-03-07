@@ -159,8 +159,7 @@ public class Zombie : MovingObject
 
             if (m_NavAgent != null)
             {
-                m_NavAgent.enabled = true;
-
+                m_NavAgent.enabled = false;
             }
         }
     }

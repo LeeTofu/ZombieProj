@@ -458,7 +458,8 @@ public abstract class MovingObject : MonoBehaviour
             m_ListDeBuff[i].BuffExitAction();
             //DeleteDeBuff(m_ListDeBuff[i]);
         }
-        m_BuffRimLight.SetStandard();
+        if(m_BuffRimLight!=null)
+            m_BuffRimLight.SetStandard();
         m_ListBuff.Clear();
         m_ListDeBuff.Clear();
 

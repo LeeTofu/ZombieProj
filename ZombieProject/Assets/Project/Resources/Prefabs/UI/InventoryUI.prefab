@@ -1913,7 +1913,7 @@ GameObject:
   - component: {fileID: 3915772495934651601}
   - component: {fileID: 1204979575047217476}
   - component: {fileID: 497062499881850060}
-  - component: {fileID: 989463787112799155}
+  - component: {fileID: 5145883621848374711}
   m_Layer: 5
   m_Name: EquipmentStatUI
   m_TagString: Untagged
@@ -1985,7 +1985,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &989463787112799155
+--- !u!114 &5145883621848374711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6281,7 +6281,7 @@ MonoBehaviour:
   - {fileID: 7542897308858161767}
   - {fileID: 2807200777103207336}
   - {fileID: 5286109071859734671}
-  m_ItemInfoUI: {fileID: 989463787112799155}
+  m_ItemInfoUI: {fileID: 0}
   PlayerLevel: {fileID: 316838055171730887}
   PlayerName: {fileID: 6637306276115670375}
 --- !u!1 &5479862091431494339

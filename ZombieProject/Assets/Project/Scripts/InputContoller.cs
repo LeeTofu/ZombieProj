@@ -118,7 +118,17 @@ public class InputContoller : UIDragSubject
     {
         return -(m_CurMousePosition - m_InputControllerPosition);
     }
+    private Vector3 CalculateSliding(RaycastHit hitCast, Vector3 characterCenter)
+    {
+        Vector3 directionToHit = hitCast.point - characterCenter;
 
+        Vector3 ProjectionResult = Vector3.Project(directionToHit, hitCast.normal);
+        Vector3 dir = (directionToHit - ProjectionResult);
+
+        dir.y = 0;
+
+        return dir;
+    }
     // 벽 슬라이딩 만드는 함수.
     public bool CheckWallSliding(Vector3 _forward)
     {
@@ -129,17 +139,14 @@ public class InputContoller : UIDragSubject
 
         if (m_Character.CheckForwardWall(_forward, out hitCast, out characterCenter))
         {
-          //  Debug.DrawRay(hitCast.point, hitCast.normal, Color.white);
-
-            Vector3 directionToHit = hitCast.point - characterCenter;
-
-            Vector3 ProjectionResult = Vector3.Project(directionToHit, hitCast.normal);
-            Vector3 dir = (directionToHit - ProjectionResult);
-
-            dir.y = 0;
-          //  Debug.DrawRay(hitCast.point, dir, Color.yellow);
-
+            Vector3 dir = CalculateSliding(hitCast, characterCenter);
             m_MoveVector = dir;
+            if (m_Character.CheckForwardWall(dir, out hitCast, out characterCenter))
+            {
+                dir = CalculateSliding(hitCast, characterCenter);
+                if (Vector3.SqrMagnitude(dir) < 0.001f)
+                    m_MoveVector = Vector3.zero;
+            }
             return true;
         }
         else
@@ -175,7 +182,7 @@ public class InputContoller : UIDragSubject
             m_DragDirectionVector = new Vector3(MoveControllerDir.y, 0.0f, -MoveControllerDir.x).normalized;
            
             // 벽에 막혀 슬라이딩 벡터를 만들어야 하나 함수.
-           if( !CheckWallSliding(Vector3.forward))
+           if( !CheckWallSliding(m_Character.transform.TransformDirection(Vector3.forward)))
             {
                 m_MoveVector = m_DragDirectionVector;
             }

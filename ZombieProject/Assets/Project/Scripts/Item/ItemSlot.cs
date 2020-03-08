@@ -86,7 +86,7 @@ public class ItemSlot : MonoBehaviour
                 m_ItemName.text = m_Item.m_ItemStat.m_ItemName;
 
            
-            if (m_Item.m_ItemStat.m_Lv > PlayerManager.Instance.m_MaxClearWave)
+            if (m_Item.m_ItemStat.m_Lv >= PlayerManager.Instance.m_MaxClearWave)
             {
                 m_CanUse = false;
 

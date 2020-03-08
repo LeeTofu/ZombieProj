@@ -188,7 +188,6 @@ public class RespawnManager : Singleton<RespawnManager>
     // 게임 처음 시작시 실행되는 함수.
     public void GameStartWave()
     {
-        
 #if UNITY_EDITOR
         StartCoroutine(WaveChange_C(15.0f));
 #elif UNITY_ANDROID

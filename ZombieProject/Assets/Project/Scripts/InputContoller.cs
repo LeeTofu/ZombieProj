@@ -156,7 +156,7 @@ public class InputContoller : UIDragSubject
     }
 
     // 여기서 무브 벡터 만들음.
-    public void CalculateMoveVector()
+    public void CalculateMoveVector(Vector3 _forward)
     {
         if (m_Character == null) return;
 #if !UNITY_EDITOR
@@ -182,7 +182,7 @@ public class InputContoller : UIDragSubject
             m_DragDirectionVector = new Vector3(MoveControllerDir.y, 0.0f, -MoveControllerDir.x).normalized;
            
             // 벽에 막혀 슬라이딩 벡터를 만들어야 하나 함수.
-           if( !CheckWallSliding(m_Character.transform.TransformDirection(Vector3.forward)))
+           if( !CheckWallSliding(_forward))
             {
                 m_MoveVector = m_DragDirectionVector;
             }

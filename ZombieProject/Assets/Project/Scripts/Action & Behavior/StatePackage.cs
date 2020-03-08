@@ -125,10 +125,9 @@ public class MovingAttackState : PlayerState
 
     public override void Update()
     {
+        BattleUI.m_InputController.CalculateMoveVector(BattleUI.m_InputController.m_DragDirectionVector);
 
-        BattleUI.m_InputController.CalculateMoveVector();
-
-        if(PlayerManager.Instance.m_TargetingZombie == null)
+        if (PlayerManager.Instance.m_TargetingZombie == null)
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
 
         ZombieTargeting();
@@ -137,13 +136,10 @@ public class MovingAttackState : PlayerState
 
         //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
-        if (PlayerManager.Instance.m_TargetingZombie == null)
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f; //* 1.0f;
-        else
-        {
+        if (PlayerManager.Instance.m_TargetingZombie != null)
             BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f;
-        }
+
+        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f;
     }
     public override void End()
     {
@@ -301,7 +297,7 @@ public class WalkState : PlayerState
     {
         CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
-        BattleUI.m_InputController.CalculateMoveVector();
+        BattleUI.m_InputController.CalculateMoveVector(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
@@ -402,7 +398,7 @@ public class InjuredWalkState : PlayerState
     {
         CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
 
-        BattleUI.m_InputController.CalculateMoveVector();
+        BattleUI.m_InputController.CalculateMoveVector(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 

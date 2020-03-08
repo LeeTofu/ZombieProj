@@ -102,30 +102,47 @@ public class MovingAttackState : PlayerState
         return dir;
     }
 
+    void ZombieTargeting()
+    {
+        if (!PlayerManager.Instance.m_TargetingZombie)
+        {
+            CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+            m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 0.5f);
+        }
+        else
+        {
+            Vector3 forwardDir = TargetingZombieOffset();
+            CameraManager.Instance.AddOffsetVector(forwardDir);
 
+            float d = Vector3.Dot(forwardDir, BattleUI.m_InputController.m_DragDirectionVector);
+
+            if (d <= 0.0f)
+            {
+                m_PlayerObject.m_Animator.SetFloat("WalkSpeed", -0.5f);
+            }
+        }
+    }
 
     public override void Update()
     {
-        if(!PlayerManager.Instance.m_TargetingZombie)
-            CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
-        else
-            CameraManager.Instance.AddOffsetVector(TargetingZombieOffset());
-            
+
         BattleUI.m_InputController.CalculateMoveVector();
 
         if(PlayerManager.Instance.m_TargetingZombie == null)
             m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+
+        ZombieTargeting();
 
         PlayerManager.Instance.UpdateWeaponRange();
 
         //if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
         if (PlayerManager.Instance.m_TargetingZombie == null)
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.6f; //* 1.0f;
+            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f; //* 1.0f;
         else
         {
             BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
-            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.6f;
+            m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f;
         }
     }
     public override void End()
@@ -276,6 +293,8 @@ public class WalkState : PlayerState
         {
             m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, i);
         }
+
+        m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 1.0f);
     }
 
     public override void Update()
@@ -372,6 +391,8 @@ public class InjuredWalkState : PlayerState
     {
         for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
             m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
+
+        m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 1.0f);
     }
     public override void End()
     {

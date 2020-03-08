@@ -174,22 +174,10 @@ public class MovingAttackState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-
-                if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
-                {
-                    if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-                    {
-                        m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, 0);
-                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
-                    }
-                    else
-                    {
-                        m_PlayerObject.m_Animator.CrossFade("Walking", 0.3f, 0);
-                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
-                    }
-                }
-            
-
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.MOVING_ATTACK)
+            {
+                m_StateContoller.ReStart();
+            }
         });
     }
 }
@@ -256,22 +244,10 @@ public class AttackState : PlayerState
         BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
         () =>
         {
-
-                if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
-                {
-                    if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-                    {
-                        m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, 0);
-                        m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, 1);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-                            m_PlayerObject.m_Animator.CrossFade("Attack", 0.3f, i);
-                    }
-                }
-            
-           
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.ATTACK)
+            {
+                m_StateContoller.ReStart();
+            }
         });
     }
 }

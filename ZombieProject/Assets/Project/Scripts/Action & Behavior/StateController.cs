@@ -99,6 +99,21 @@ public class StateController : MonoBehaviour
         }
     }
 
+    public void ReStart()
+    {
+        if (m_CurrentState != null)
+            m_CurrentState.End();
+
+        PlayerState state = null;
+
+        if (m_StateTable.TryGetValue(m_eCurrentState, out state))
+        {
+            m_CurrentState = state;
+            m_CurrentState.Start();
+            m_eCurrentState = m_eCurrentState;
+        }
+    }
+
     private void Update()
     {
         if(m_CurrentState != null)

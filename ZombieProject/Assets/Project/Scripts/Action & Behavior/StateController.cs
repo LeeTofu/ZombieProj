@@ -15,6 +15,9 @@ public enum E_PLAYABLE_STATE
     DEATH,
     USE_QUICK,
     PICK_UP,
+    DAGGERIDLE,
+    DAGGERATTACK,
+    DAGGERWALKING,
     NONE
 }
 
@@ -48,7 +51,9 @@ public class StateController : MonoBehaviour
         InsertState(E_PLAYABLE_STATE.DEATH, new DeathState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.USE_QUICK, new UseQuickState(m_Character, this)) ;
         InsertState(E_PLAYABLE_STATE.PICK_UP, new PickUpState(m_Character, this));
-
+        InsertState(E_PLAYABLE_STATE.DAGGERIDLE, new DaggerState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.DAGGERATTACK, new DaggerAttackState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.DAGGERWALKING, new DaggerWalkingState(m_Character, this));
     }
 
     // 인 게임에서 만들어진 후 초기화 임. Initialize과 헷갈 ㄴㄴ

@@ -40,6 +40,7 @@ public class ItemInfoUI : MonoBehaviour
             case ITEM_SORT.SNIPER:
             case ITEM_SORT.RIFLE:
             case ITEM_SORT.MACHINE_GUN:
+            case ITEM_SORT.DAGGER:
                 m_ItemAttack.text = _slot.m_Item.m_ItemStat.m_AttackPoint.ToString();
                 m_ItemArmor.text = _slot.m_Item.m_ItemStat.m_ArmorPoint.ToString();
                 m_ItemAttackSpeed.text = _slot.m_Item.m_ItemStat.m_AttackSpeed.ToString() + "초";

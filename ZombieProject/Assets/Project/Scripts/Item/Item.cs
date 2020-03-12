@@ -25,6 +25,7 @@ public enum ITEM_SORT
     LAUNCHER,// Equipment
     SHOT_GUN,// Equipment
     ARMOR, // Equipment
+    DAGGER,
 
     BUFF,// Quick
     HEALTH_PACK, // Quick
@@ -128,6 +129,8 @@ public class Item
 
     public void spendItem()
     {
+        if (m_ItemStat.m_Sort == ITEM_SORT.DAGGER) return;
+
         m_Count -= 1;
 
         if(m_Count < 0)
@@ -138,11 +141,13 @@ public class Item
 
     public void plusItem(short _accum)
     {
+        if (m_ItemStat.m_Sort == ITEM_SORT.DAGGER) return;
         m_Count += _accum;
     }
 
     public void FullChargeItemCount(short _count)
     {
+        if (m_ItemStat.m_Sort == ITEM_SORT.DAGGER) return;
         m_Count = _count;
     }
 

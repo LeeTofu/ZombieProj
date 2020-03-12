@@ -38,6 +38,10 @@ public class IdleState : PlayerState
         {
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         }
+        else if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        }
     }
     public override void End()
     {
@@ -656,5 +660,169 @@ public class PickUpState : PlayerState
 
     public override void AddAction()
     {
+    }
+}
+
+public class DaggerState : PlayerState
+{
+    public DaggerState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    public override void Start()
+    {
+        CameraManager.Instance.ResetOffsetPosition();
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("DaggerIdle", 0.3f, i);
+        }
+    }
+
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+        PlayerManager.Instance.UpdateWeaponRange();
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
+    }
+
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_ENTER,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERIDLE)
+             m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERWALKING);
+        });
+
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERIDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERWALKING);
+        });
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERIDLE)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+        });
+    }
+}
+
+public class DaggerAttackState : PlayerState
+{
+    public DaggerAttackState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    private bool m_IsHit = false;
+    public override void Start()
+    {
+        m_IsHit = false;
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("DaggerAttack", 0.3f, i);
+        }
+    }
+    Vector3 TargetingZombieOffset()
+    {
+        Vector3 dir = (PlayerManager.Instance.m_TargetingZombie.transform.position - m_PlayerObject.transform.position);
+        dir.y = 0.0f;
+        dir = dir.normalized * 4.0f;
+
+        return dir;
+    }
+
+    void ZombieTargeting()
+    {
+        if (!PlayerManager.Instance.m_TargetingZombie)
+        {
+            CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+            m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 0.5f);
+        }
+        else
+        {
+            Vector3 forwardDir = TargetingZombieOffset();
+            CameraManager.Instance.AddOffsetVector(forwardDir);
+
+            float d = Vector3.Dot(forwardDir, BattleUI.m_InputController.m_DragDirectionVector);
+
+            if (d <= 0.0f)
+            {
+                m_PlayerObject.m_Animator.SetFloat("WalkSpeed", -0.5f);
+            }
+        }
+    }
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+        ZombieTargeting();
+        while (!m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DaggerAttack"))
+        {
+            return;
+        }
+        while (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            if (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.47f && !m_IsHit && (PlayerManager.Instance.m_TargetingZombie != null))
+            {
+                m_IsHit = true;
+                PlayerManager.Instance.m_TargetingZombie.HitDamage(PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_AttackPoint);
+            }
+            return;
+        }
+
+        m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+    }
+
+    public override void AddAction()
+    {
+    }
+}
+public class DaggerWalkingState : PlayerState
+{
+    public DaggerWalkingState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+        {
+            m_PlayerObject.m_Animator.CrossFade("DaggerWalking", 0.3f, i);
+        }
+    }
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+
+        BattleUI.m_InputController.CalculateMoveVector(BattleUI.m_InputController.m_DragDirectionVector);
+        m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
+
+        PlayerManager.Instance.UpdateWeaponRange();
+    }
+
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERWALKING)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        });
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERWALKING)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+        });
     }
 }

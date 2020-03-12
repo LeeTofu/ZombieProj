@@ -35,6 +35,11 @@ public class ItemObject : MonoBehaviour
                 m_FireTransform = tr;
                 return;
             }
+            else if(tr.name == "Knife_01(Clone)")
+            {
+                m_FireTransform = tr;
+                return;
+            }
         }
 
         m_audio = GetComponent<AudioSource>();

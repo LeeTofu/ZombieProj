@@ -156,6 +156,7 @@ public class ItemManager : Singleton<ItemManager>
             case ITEM_SORT.LAUNCHER:
                 return ITEM_EVENT_TYPE.FIRE_BULLET;
             case ITEM_SORT.MELEE:
+            case ITEM_SORT.DAGGER:
                 return ITEM_EVENT_TYPE.MELEE;
             case ITEM_SORT.SHOT_GUN:
                 return ITEM_EVENT_TYPE.SHOT_GUN;

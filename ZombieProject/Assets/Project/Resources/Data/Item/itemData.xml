@@ -253,4 +253,27 @@
     <Level>10</Level>
     <Info>적을 관통하며 긴 사거리를 가진 총기입니다. 적중시 적을 넉백합니다.</Info>
   </text>
+  <text>
+    <ItemID>777</ItemID>
+    <ItemName>단검</ItemName>
+    <IconName>Weapon_icon_00</IconName>
+    <ModelName>Knife_01</ModelName>
+    <ItemSort>DAGGER</ItemSort>
+    <HP>0</HP>
+    <Attack>100</Attack>
+    <Armor>0</Armor>
+    <MovePoint>2</MovePoint>
+    <HPRegenerate>0</HPRegenerate>
+    <Range>2</Range>
+    <isAccumulate>false</isAccumulate>
+    <AttackSpeed>1.5</AttackSpeed>
+    <BulletSpeed>0</BulletSpeed>
+    <BulletString>TestBullet</BulletString>
+    <isHaveCoolTime>false</isHaveCoolTime>
+    <isKnockBack>true</isKnockBack>
+    <CoolTime>0</CoolTime>
+    <Count>1</Count>
+    <Level>1</Level>
+    <Info>근거리 공격이 가능합니다.</Info>
+  </text>
 </Root>

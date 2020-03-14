@@ -84,13 +84,6 @@ public class BattleItemSlotButton : UIPressSubject
         if (m_ItemButtonController == null) return;
 
         UpdateCoolDown();
-
-        if (m_slotType == ITEM_SLOT_SORT.SECOND)
-        {
-            if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DAGGERATTACK ||
-            PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.ATTACK ||
-            PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.MOVING_ATTACK) return;
-        }
         UpdateAttackSpeed();
 
         OnPressed();

@@ -136,6 +136,34 @@ public class ItemSlot : MonoBehaviour
 
     }
 
+    public void UpdateItemSlotInfo()
+    {
+        if (m_Item == null) return;
+        
+        if (m_Item.m_ItemStat.m_Lv >= PlayerManager.Instance.m_MaxClearWave)
+        {
+            m_CanUse = false;
+
+            if (m_NotUsedImage != null)
+                m_NotUsedImage.gameObject.SetActive(true);
+            if (m_WaveInfo != null)
+            {
+                m_WaveInfo.gameObject.SetActive(true);
+                m_WaveInfo.text = "Wave '" + m_Item.m_ItemStat.m_Lv.ToString() + "' 이상 \n 클리어";
+            }
+        }
+        else
+        {
+            m_CanUse = true;
+
+            if (m_NotUsedImage != null)
+                m_NotUsedImage.gameObject.SetActive(false);
+
+            if (m_WaveInfo != null)
+                m_WaveInfo.gameObject.SetActive(false);
+        }
+    }
+
    
 
     public void ClickSelectItem()

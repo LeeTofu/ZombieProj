@@ -27,6 +27,9 @@ public class InventoryUI: BaseUI
     [SerializeField]
     TextMeshProUGUI PlayerName;
 
+    [SerializeField]
+    TextMeshProUGUI m_MaxClearWaveText;
+
     ITEM_SLOT_SORT m_CurrentQuickItemEquipSlot = ITEM_SLOT_SORT.THIRD;
 
     public ItemSlot m_SelectedSlot { private set; get; }
@@ -36,8 +39,9 @@ public class InventoryUI: BaseUI
         m_RectSize.x = m_ScrollRect.GetComponent<RectTransform>().rect.width;
         m_RectSize.y = m_ScrollRect.GetComponent<RectTransform>().rect.height;
 
-        m_ItemInfoUI = GetComponentInChildren<ItemInfoUI>();
-        m_ItemInfoUI.gameObject.SetActive(false);
+        if(m_ItemInfoUI != null)
+            m_ItemInfoUI.gameObject.SetActive(false);
+
         Debug.Log("Shop  UI 불러옴");
     }
 
@@ -59,6 +63,13 @@ public class InventoryUI: BaseUI
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.THIRD, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.THIRD - 1)]);
         SetEuqipmentItemSlot(ITEM_SLOT_SORT.FOURTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FOURTH - 1)]);
   //B      SetEuqipmentItemSlot(ITEM_SLOT_SORT.FIFTH, m_ItemEquipmentSlot[((int)ITEM_SLOT_SORT.FIFTH - 1)]);
+    }
+
+    public void UpdateWaveClearText(int _clear)
+    {
+        if (m_MaxClearWaveText == null) return;
+
+        m_MaxClearWaveText.text = "최대 클리어한 Wave : " + _clear.ToString();
     }
 
     public bool SelectItem(ItemSlot _slot)
@@ -249,13 +260,17 @@ public class InventoryUI: BaseUI
             m_SecondEquipButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.green;
         }
 
-        m_ItemInfoUI.gameObject.SetActive(true);
-        m_ItemInfoUI.Initialize(_slot);
+        if (m_ItemInfoUI != null)
+        {
+            m_ItemInfoUI.gameObject.SetActive(true);
+            m_ItemInfoUI.Initialize(_slot);
+        }
     }
 
     public void CloseItemInfoUI()
     {
-        m_ItemInfoUI.gameObject.SetActive(false);
+        if (m_ItemInfoUI != null)
+            m_ItemInfoUI.gameObject.SetActive(false);
        // m_ItemInfoUI.Initialize(null);
     }
 

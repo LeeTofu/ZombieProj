@@ -8,6 +8,17 @@ public class InventorySceneMain : SceneMain
     //public ItemSlot m_SelectedSlot { get; private set; }
     public override bool InitializeScene()
     {
+
+#if !UNITY_EDITOR
+        DBManager.Instance.GetMaxClearWaveFromDB();
+#endif
+        InvenManager.Instance.UpdateInventorySlot();
+
+        InventoryUI invenUI = (UIManager.Instance.GetUIObject(GAME_SCENE.INVENTORY)).GetComponent<InventoryUI>();
+
+        if(invenUI != null)
+            invenUI.UpdateWaveClearText(PlayerManager.Instance.m_MaxClearWave);
+
         return true;
     }
     public override bool DeleteScene()

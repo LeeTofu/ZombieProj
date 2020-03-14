@@ -99,6 +99,28 @@ public class InvenManager : Singleton<InvenManager>
         LoadItemInvenFromXML();
         return true;
     }
+
+    public void UpdateInventorySlot()
+    {
+        for (
+           MAIN_ITEM_SORT e = MAIN_ITEM_SORT.EQUIPMENT;
+           e < MAIN_ITEM_SORT.END;
+           e++)
+        {
+            for (int r = 0; r < MAX_INVEN_ROW; r++)
+            {
+                for (int c = 0; c < MAX_INVEN_COL; c++)
+                {
+                    ItemSlot slot = m_ItemInventorySlot[e][r * MAX_INVEN_COL + c];
+
+                    if (slot.m_Item == null) continue;
+
+                    slot.UpdateItemSlotInfo();
+                }
+            }
+        }
+    }
+
     public override void DestroyManager()
     {
     }

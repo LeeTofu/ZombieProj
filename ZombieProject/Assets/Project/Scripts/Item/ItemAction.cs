@@ -191,7 +191,10 @@ public class SlotController : MonoBehaviour
         if (!CheckCanActionPlay()) return false;
         if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DRINK 
             || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.USE_QUICK
-            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP)
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.PICK_UP
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DAGGERATTACK
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.ATTACK
+            || PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.MOVING_ATTACK)
             return false;
 
         if(m_isHaveCoolTime)

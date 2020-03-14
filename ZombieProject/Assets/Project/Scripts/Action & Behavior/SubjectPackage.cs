@@ -87,6 +87,11 @@ public abstract class BaseSubject : MonoBehaviour
         }
         
     }
+
+    public BUTTON_ACTION GetCurrentButtonAction()
+    {
+        return m_CurrentButtonAction;
+    }
 }
 
 // UI 버튼 누르면 실행하는 이벤트 실행 시킬 때

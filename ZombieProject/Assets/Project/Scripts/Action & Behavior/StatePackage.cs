@@ -144,6 +144,11 @@ public class MovingAttackState : PlayerState
             BattleUI.m_InputController.CheckWallSliding(BattleUI.m_InputController.m_MoveVector);
 
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed * 0.5f;
+
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        }
     }
     public override void End()
     {
@@ -213,7 +218,10 @@ public class AttackState : PlayerState
     }
     public override void Update()
     {
-
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        }
     }
     public override void End()
     {
@@ -285,6 +293,10 @@ public class WalkState : PlayerState
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
         {
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        }
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
         }
         //if(PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
@@ -837,23 +849,40 @@ public class DaggerAttackState : PlayerState
         {
             return;
         }
-        while (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
         {
             if (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.47f && !m_IsHit && (PlayerManager.Instance.m_TargetingZombie != null))
             {
                 m_IsHit = true;
-                EnemyManager.Instance.DaggerAttackZombies(m_Firetransform,m_Range,m_Damage,false, m_Forward);
+                EnemyManager.Instance.DaggerAttackZombies(m_Firetransform, m_Range, m_Damage, false, m_Forward);
             }
             return;
         }
-        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
-        else
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        if(BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).GetCurrentButtonAction() == BUTTON_ACTION.PRESS_RELEASE ||
+            BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).GetCurrentButtonAction() == BUTTON_ACTION.NONE ||
+            BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).GetCurrentButtonAction() == BUTTON_ACTION.END)
+        {
+            if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            {
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+            }
+            else
+            {
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+            }
+        }
     }
 
     public override void AddAction()
     {
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERATTACK)
+            {
+                m_StateContoller.ReStart();
+            }
+        });
     }
 }
 public class DaggerWalkingState : PlayerState

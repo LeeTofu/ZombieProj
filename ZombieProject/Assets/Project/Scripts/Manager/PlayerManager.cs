@@ -128,17 +128,17 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (m_CurrentEquipedItemObject != null)
         {
-            Destroy(m_CurrentEquipedItemObject);
+            Destroy(m_CurrentEquipedItemObject.gameObject);
             m_CurrentEquipedItemObject = null;
         }
         if (m_MainEquipedItemObject != null)
         {
-            Destroy(m_MainEquipedItemObject);
+            Destroy(m_MainEquipedItemObject.gameObject);
             m_MainEquipedItemObject = null;
         }
         if (m_SecondEquipedItemObject != null)
         {
-            Destroy(m_SecondEquipedItemObject);
+            Destroy(m_SecondEquipedItemObject.gameObject);
             m_SecondEquipedItemObject = null;
         }
 
@@ -147,8 +147,10 @@ public class PlayerManager : Singleton<PlayerManager>
         m_MainItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.MAIN);
         m_SecondaryItem = InvenManager.Instance.GetEquipedItemSlot(ITEM_SLOT_SORT.SECOND);
 
-        m_MainEquipedItemObject = ItemManager.Instance.CreateItemObject(m_MainItem);
-        m_SecondEquipedItemObject = ItemManager.Instance.CreateItemObject(m_SecondaryItem);
+        if(m_MainEquipedItemObject == null)
+            m_MainEquipedItemObject = ItemManager.Instance.CreateItemObject(m_MainItem);
+        if (m_SecondEquipedItemObject == null)
+            m_SecondEquipedItemObject = ItemManager.Instance.CreateItemObject(m_SecondaryItem);
 
         m_CurrentEquipedItemObject = m_MainEquipedItemObject == null ? m_SecondEquipedItemObject : m_MainEquipedItemObject;
 
@@ -537,6 +539,22 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public override void DestroyManager()
     {
+        if (m_CurrentEquipedItemObject != null)
+        {
+            Destroy(m_CurrentEquipedItemObject.gameObject);
+            m_CurrentEquipedItemObject = null;
+        }
+        if (m_MainEquipedItemObject != null)
+        {
+            Destroy(m_MainEquipedItemObject.gameObject);
+            m_MainEquipedItemObject = null;
+        }
+        if (m_SecondEquipedItemObject != null)
+        {
+            Destroy(m_SecondEquipedItemObject.gameObject);
+            m_SecondEquipedItemObject = null;
+        }
+
         foreach (MovingObject obj in m_PlayerFactory.m_ListAllMovingObject)
         {
             obj.pushToMemory();
@@ -545,21 +563,7 @@ public class PlayerManager : Singleton<PlayerManager>
         PushEffectToPool();
         m_Player = null;
 
-        if (m_CurrentEquipedItemObject != null)
-        {
-            Destroy(m_CurrentEquipedItemObject);
-            m_CurrentEquipedItemObject = null;
-        }
-        if (m_MainEquipedItemObject != null)
-        {
-            Destroy(m_MainEquipedItemObject);
-            m_MainEquipedItemObject = null;
-        }
-        if (m_SecondEquipedItemObject != null)
-        {
-            Destroy(m_SecondEquipedItemObject);
-            m_SecondEquipedItemObject = null;
-        }
+ 
 
 
         CurrentMoney = 0;

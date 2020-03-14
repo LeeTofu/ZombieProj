@@ -11,6 +11,9 @@ public class BattleUI : BaseUI
     static DeadPanel m_DeathPanel;
 
     [SerializeField]
+    static DeadPanel m_VictoryPanel;
+
+    [SerializeField]
     RawImage m_DamagedImage;
 
     [SerializeField]
@@ -40,7 +43,6 @@ public class BattleUI : BaseUI
     [SerializeField]
     GameObject m_NPCButtonObject;
 
-
     [SerializeField]
     NpcShopButton[] m_ShopButtons;
 
@@ -59,6 +61,7 @@ public class BattleUI : BaseUI
     {
         m_InputController = GetComponentInChildren<InputContoller>();
         m_DeathPanel = transform.Find("DeathPanel").GetComponent<DeadPanel>();
+        m_VictoryPanel = transform.Find("VictoryPanel").GetComponent<DeadPanel>();
 
         m_HpImage = transform.Find("HPBar").GetChild(0).GetComponent<Image>();
         m_ListBuff = transform.Find("BuffQ/BuffList").GetComponentsInChildren<BuffUI>();
@@ -108,6 +111,7 @@ public class BattleUI : BaseUI
         Debug.Log("Battle UI 불러옴");
         m_DamagedImage.gameObject.SetActive(false);
         m_DeathPanel.gameObject.SetActive(false);
+        m_VictoryPanel.gameObject.SetActive(false);
         StartCoroutine(CountDown_C());
         m_WaringText.gameObject.SetActive(false);
     }
@@ -325,6 +329,12 @@ public class BattleUI : BaseUI
         m_DeathPanel.UpdateDead();
     }
 
+    public static void SetVictoryPanelActive(bool _is)
+    {
+        m_VictoryPanel.gameObject.SetActive(_is);
+        m_VictoryPanel.UpdateDead();
+    }
+
     public void ChangeWaveAction(int _wave)
     {
         PlayWaringText();
@@ -334,6 +344,7 @@ public class BattleUI : BaseUI
     public void EndWaveAction()
     {
         m_CountDown.text = "생 존";
+        SetVictoryPanelActive(true);
     }
 
     // 상단에 있는 노란색 글씨의 인포 메세지 셋팅

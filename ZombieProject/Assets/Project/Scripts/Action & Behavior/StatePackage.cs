@@ -374,6 +374,13 @@ public class InjuredIdleState : PlayerState
                     m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
             }
         });
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.SECOND).RegisterEvent(BUTTON_ACTION.PRESS_ENTER,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
+                m_StateContoller.ReStart();
+        });
     }
 }
 public class InjuredWalkState : PlayerState
@@ -455,6 +462,8 @@ public class InjuredWalkState : PlayerState
             {
                 if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
                     m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
+                else
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
             }
         });
     }

@@ -84,6 +84,13 @@ public class BattleItemSlotButton : UIPressSubject
         if (m_ItemButtonController == null) return;
 
         UpdateCoolDown();
+
+        if (m_slotType == ITEM_SLOT_SORT.SECOND)
+        {
+            if (PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.DAGGERATTACK ||
+            PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.ATTACK ||
+            PlayerManager.Instance.GetPlayerState() == E_PLAYABLE_STATE.MOVING_ATTACK) return;
+        }
         UpdateAttackSpeed();
 
         OnPressed();
@@ -183,7 +190,10 @@ public class BattleItemSlotButton : UIPressSubject
                 case ITEM_SLOT_SORT.MAIN:
                     break;
                 case ITEM_SLOT_SORT.SECOND:
-                    PlayerManager.Instance.ChangeWeapon();
+                    if(PlayerManager.Instance.GetPlayerState() != E_PLAYABLE_STATE.DAGGERATTACK ||
+                        PlayerManager.Instance.GetPlayerState() != E_PLAYABLE_STATE.ATTACK ||
+                        PlayerManager.Instance.GetPlayerState() != E_PLAYABLE_STATE.MOVING_ATTACK)
+                        PlayerManager.Instance.ChangeWeapon();
                     break;
                 default:
                     if (m_Item == null) return;

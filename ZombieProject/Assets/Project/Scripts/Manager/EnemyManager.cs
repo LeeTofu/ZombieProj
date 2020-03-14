@@ -94,6 +94,44 @@ public class EnemyManager : Singleton<EnemyManager>
         return target;
     }
 
+    public List<MovingObject> GetDaggerRangeZombies(Vector3 _pos, float _maxDistance, Vector3 _forward)
+    {
+        if (m_ZombieFactory == null) return null;
+
+        List<MovingObject> target = new List<MovingObject>();
+
+        foreach (MovingObject zombie in m_ZombieFactory.m_ListAllMovingObject)
+        {
+            if (zombie.m_Stat == null) continue;
+            if (zombie.m_Stat.isDead) continue;
+            if (!zombie.gameObject.activeSelf) continue;
+
+            float len = (zombie.transform.position - _pos).magnitude;
+            Vector3 direction = zombie.transform.position - _pos;
+
+            float dot = Vector3.Dot(direction.normalized, _forward);
+            float deRad = 40f * Mathf.Deg2Rad;
+            if((dot>=Mathf.Cos(deRad)) && len<=_maxDistance)
+            {
+                target.Add(zombie);
+            }
+        }
+
+        return target;
+    }
+    
+    public void DaggerAttackZombies(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, Vector3 _forward)
+    {
+        var zombies = GetDaggerRangeZombies(_pos, _rangeDistance, _forward);
+
+        if (zombies == null) return;
+
+        foreach (MovingObject zombie in zombies)
+        {
+            zombie.HitDamage(_damage, _canKnockBackDamage, 1.0f);
+        }
+    }
+
     public void SplashAttackToZombie(Vector3 _pos, float _rangeDistance, float _damage, bool _canKnockBackDamage, int _maxCount = 5)
     {
         var zombies = GetRangeZombies(_pos, _rangeDistance, _maxCount);

@@ -25,7 +25,7 @@ public class DrawRange : MonoBehaviour
 
         m_CircleSize = 14;
         m_CircularSectorSize = 14;
-        m_LineRenderer.positionCount = m_CircularSectorSize;
+        m_LineRenderer.positionCount = m_CircularSectorSize + 3;
 
         m_DegInterval = 360.0f / m_CircleSize;
 
@@ -78,7 +78,7 @@ public class DrawRange : MonoBehaviour
 
         float Deg = 0;
 
-        for (int i = 0; i < m_CircleSize; i++)
+        for (int i = 0; i <= m_CircleSize + 2; i++)
         {
             Deg += m_DegInterval;
 
@@ -93,22 +93,28 @@ public class DrawRange : MonoBehaviour
     {
         m_Range = _range;
 
-        float Deg = _startAngle + (_angle ) * 1.5f;
+        //float Deg = _startAngle + (_angle ) * 1.5f;
+
+        float Deg = _startAngle + 90f - _angle * 0.5f;
+
 
         m_LineRenderer.SetPosition(0, _pos);
 
-        for (int i = 1; i < m_CircularSectorSize; i++)
+        for (int i = 1; i <= m_CircularSectorSize + 1; i++)
         {
             float x = _pos.x + m_Range * Mathf.Cos( Mathf.Deg2Rad * Deg);
             float y = _pos.z + m_Range * Mathf.Sin(Mathf.Deg2Rad * Deg);
-            
+
             m_LineRenderer.SetPosition(i, new Vector3(x, _pos.y, y));
+
+            //Deg += (_angle / m_CircularSectorSize);
 
             Deg += (_angle / m_CircularSectorSize);
 
         }
 
-        m_LineRenderer.SetPosition(m_CircularSectorSize - 1, _pos);
+        m_LineRenderer.SetPosition(m_CircularSectorSize + 2, _pos);
+
     }
 
 

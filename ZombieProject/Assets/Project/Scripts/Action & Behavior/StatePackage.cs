@@ -320,8 +320,16 @@ public class InjuredIdleState : PlayerState
     public override void Start()
     {
         CameraManager.Instance.ResetOffsetPosition();
-        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-            m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f ,i);
+        if(PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+                m_PlayerObject.m_Animator.CrossFade("DaggerInjured", 0.3f, i);
+        }
+        else
+        {
+            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+                m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, i);
+        }
     }
     public override void End()
     {
@@ -332,7 +340,10 @@ public class InjuredIdleState : PlayerState
         PlayerManager.Instance.UpdateWeaponRange();
         if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         }
     }
     public override void AddAction()
@@ -356,7 +367,12 @@ public class InjuredIdleState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
+            {
+                if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+                else
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
+            }
         });
     }
 }
@@ -365,8 +381,16 @@ public class InjuredWalkState : PlayerState
     public InjuredWalkState(MovingObject playerObject, StateController _stateController) : base(playerObject, _stateController) { }
     public override void Start()
     {
-        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-            m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+                m_PlayerObject.m_Animator.CrossFade("DaggerInjuredWalking", 0.3f, i);
+        }
+        else
+        {
+            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+                m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
+        }
 
         m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 1.0f);
     }
@@ -397,7 +421,10 @@ public class InjuredWalkState : PlayerState
             {
                 if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
                 {
-                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+                    if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERWALKING);
+                    else
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
                 }
             }
         });
@@ -409,7 +436,10 @@ public class InjuredWalkState : PlayerState
             {
                 if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
                 {
-                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+                    if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+                    else
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
                 }
                 else
                 {
@@ -422,7 +452,10 @@ public class InjuredWalkState : PlayerState
         () =>
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
+            {
+                if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.MOVING_ATTACK);
+            }
         });
     }
 }
@@ -471,7 +504,12 @@ public class KnockBackState : PlayerState
             yield return null;
         }
         if (_movingObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
         else
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
 
@@ -519,7 +557,12 @@ public class DrinkState : PlayerState
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
     }
     public override void AddAction()
     {
@@ -605,8 +648,12 @@ public class UseQuickState : PlayerState
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
-
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
     }
 
     public override void AddAction()
@@ -654,7 +701,12 @@ public class PickUpState : PlayerState
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
         else
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
 
     }
 
@@ -687,6 +739,8 @@ public class DaggerState : PlayerState
         {
             m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         }
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
     }
 
     public override void AddAction()
@@ -718,9 +772,17 @@ public class DaggerAttackState : PlayerState
     public DaggerAttackState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
 
     private bool m_IsHit = false;
+    private Vector3 m_Forward;
+    private Vector3 m_Firetransform;
+    private float m_Damage;
+    private float m_Range;
     public override void Start()
     {
         m_IsHit = false;
+        m_Firetransform = m_PlayerObject.transform.position;
+        m_Damage = PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_AttackPoint;
+        m_Range = PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Range;
+        m_Forward = m_PlayerObject.transform.forward.normalized;
         for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
         {
             m_PlayerObject.m_Animator.CrossFade("DaggerAttack", 0.3f, i);
@@ -771,12 +833,14 @@ public class DaggerAttackState : PlayerState
             if (m_PlayerObject.m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.47f && !m_IsHit && (PlayerManager.Instance.m_TargetingZombie != null))
             {
                 m_IsHit = true;
-                PlayerManager.Instance.m_TargetingZombie.HitDamage(PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_AttackPoint);
+                EnemyManager.Instance.DaggerAttackZombies(m_Firetransform,m_Range,m_Damage,false, m_Forward);
             }
             return;
         }
-
-        m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
     }
 
     public override void AddAction()
@@ -807,6 +871,10 @@ public class DaggerWalkingState : PlayerState
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
         PlayerManager.Instance.UpdateWeaponRange();
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        }
     }
 
     public override void AddAction()

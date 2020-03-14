@@ -279,8 +279,10 @@ public class PlayerManager : Singleton<PlayerManager>
         if (m_CurrentEquipedItemObject == null) return;
         if (m_Player == null) return;
 
-        m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 48.0f);
-
+        if(m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+            m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_CurrentEquipedItemObject.m_FireTransform.position, 48.0f);
+        else
+            m_Player.DrawCirclurSector(m_CurrentEquipedItemObject.m_CurrentStat.m_Range, m_Player.transform.position, 80.0f);
     }
 
     public override bool Initialize()

@@ -264,7 +264,7 @@
     <Armor>0</Armor>
     <MovePoint>2</MovePoint>
     <HPRegenerate>0</HPRegenerate>
-    <Range>2</Range>
+    <Range>3</Range>
     <isAccumulate>false</isAccumulate>
     <AttackSpeed>1.5</AttackSpeed>
     <BulletSpeed>0</BulletSpeed>

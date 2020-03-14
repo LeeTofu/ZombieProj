@@ -80,4 +80,12 @@
     <SlotSort>NONE</SlotSort>
     <CurrentEXP>0</CurrentEXP>
   </text>
+  <text>
+    <uniqueID>7666</uniqueID>
+    <ItemID>777</ItemID>
+    <isEquiped>false</isEquiped>
+    <Level>1</Level>
+    <SlotSort>NONE</SlotSort>
+    <CurrentEXP>0</CurrentEXP>
+  </text>
 </Root>

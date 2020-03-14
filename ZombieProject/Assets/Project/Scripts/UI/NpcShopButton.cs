@@ -119,6 +119,12 @@ public class NpcShopButton : UIPressSubject
             return false;
         }
 
+        if (m_slotType == SHOP_SORT.RANGEUP && m_CurrentUpgradedItem.m_CurrentStat.m_Sort == ITEM_SORT.DAGGER)
+            return false;
+
+        if (m_slotType == SHOP_SORT.ATTACKSPEEDUP && m_CurrentUpgradedItem.m_CurrentStat.m_Sort == ITEM_SORT.DAGGER)
+            return false;
+
         return true;
     }
 
@@ -185,6 +191,7 @@ public class NpcShopButton : UIPressSubject
         if (!m_CanUpgrade) return;
         if (PlayerManager.Instance.m_CurrentEquipedItemObject == null) return;
         if (m_CurrentUpgradedItem == null) return;
+        if (m_slotType == SHOP_SORT.AMMO && m_CurrentUpgradedItem.m_CurrentStat.m_Sort == ITEM_SORT.DAGGER) return;
 
         PlayerManager.Instance.CurrentMoney -= m_StartCost + m_PlusCost * m_UpgLevel;
         SoundManager.Instance.OneShotPlay(UI_SOUND.CASH_REGISTER);

@@ -108,18 +108,18 @@ public class LoginManager : Singleton<LoginManager>
 
     private void Update()
     {
-        if(m_isGoogleAuther == true)
-        {
-            StartCoroutine(LoginWithGoogleToFireBase());
-            m_isGoogleAuther = false;
-        }
+        //if(m_isGoogleAuther == true)
+        //{
+        //    StartCoroutine(LoginWithGoogleToFireBase());
+        //    m_isGoogleAuther = false;
+        //}
 
-        if(m_isAllAutherSuccess)
-        {
-            Debug.Log("파이어베이스에 등록 후 씬 이동");
-            SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
-            m_isAllAutherSuccess = false;
-        }
+        //if(m_isAllAutherSuccess)
+        //{
+        //    Debug.Log("파이어베이스에 등록 후 씬 이동");
+        //    SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
+        //    m_isAllAutherSuccess = false;
+        //}
 
     }
 

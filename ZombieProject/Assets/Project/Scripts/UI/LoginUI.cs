@@ -27,14 +27,7 @@ public class LoginUI : BaseUI
 
     public void PressStartButton()
     {
-
-#if UNITY_EDITOR
-         SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
-#else
-      //  JoinToTheFireBase();
-        LoginManager.Instance.LoginToGoogle();
-        
-#endif
+        SceneMaster.Instance.LoadScene(GAME_SCENE.MAIN);
     }
 
 

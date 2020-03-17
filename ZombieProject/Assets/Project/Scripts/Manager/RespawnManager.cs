@@ -44,12 +44,12 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 10.0f + i,
+                            Attack = 12.0f + i * 1.5f,
                             MaxHP = 100 + i * 5,
                             CurHP = 100 + i * 5,
                             Range = 1.5f,
                             AttackSpeed = 3f,
-                            MoveSpeed = Random.Range(0.65f, 0.75f),
+                            MoveSpeed = Random.Range(0.7f, 0.85f),
                             alertRange = 100.0f,
                             isKnockBack = false,
                         });
@@ -57,7 +57,7 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.RANGE_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 10.0f + i,
+                            Attack = 12.0f + i * 1.5f,
                             MaxHP = 80 + i * 4,
                             CurHP = 80 + i * 4,
                             Range = 8.0f,
@@ -70,12 +70,12 @@ public class RespawnManager : Singleton<RespawnManager>
                     case OBJECT_TYPE.DASH_ZOMBIE:
                         dic.Add(type, new STAT
                         {
-                            Attack = 10.0f + i,
-                            MaxHP = 100 + i * 5,
-                            CurHP = 100 + i * 5,
+                            Attack = 15.0f + i * 1.5f,
+                            MaxHP = 110 + i * 5,
+                            CurHP = 110 + i * 5,
                             Range = 8.0f,
                             AttackSpeed = 3f,
-                            MoveSpeed = Random.Range(0.55f, 0.75f),
+                            MoveSpeed = Random.Range(0.7f, 0.85f),
                             alertRange = 100.0f,
                             isKnockBack = false,
                         });
@@ -84,10 +84,10 @@ public class RespawnManager : Singleton<RespawnManager>
                         dic.Add(type, new STAT
                         {
                             Attack = 25.0f + i * 2,
-                            MaxHP = 30 + i * 3,
-                            CurHP = 30 + i * 3,
+                            MaxHP = 35 + i * 3,
+                            CurHP = 35 + i * 3,
                             Range = 1.5f,
-                            MoveSpeed = Random.Range(0.75f, 0.85f),
+                            MoveSpeed = Random.Range(0.85f, 0.95f),
                             alertRange = 100.0f,
                             isKnockBack = false,
                         });

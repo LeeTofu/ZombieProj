@@ -102,7 +102,8 @@ public class BattleUI : BaseUI
             yield return null;
         }
 
-        m_CurHPText.text = PlayerManager.Instance.m_Player.m_Stat.CurHP.ToString() + "/" + PlayerManager.Instance.m_Player.m_Stat.MaxHP.ToString();
+        m_CurHPText.text = ((int)(PlayerManager.Instance.m_Player.m_Stat.CurHP)).ToString() + 
+            "/" + ((int)(PlayerManager.Instance.m_Player.m_Stat.MaxHP)).ToString();
         
     }
 
@@ -232,10 +233,6 @@ public class BattleUI : BaseUI
         ShowShopUI(false);
 
         BattleItemSlotButton[] buttons = GetComponentsInChildren<BattleItemSlotButton>();
-
-#if !UNITY_EDITOR
-        m_PlayerText.text = LoginManager.Instance.GetUserData().UserName;
-#endif
 
         for (int i = 0; i < buttons.Length; i++)
         {

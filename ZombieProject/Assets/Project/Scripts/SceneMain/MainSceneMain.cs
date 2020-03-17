@@ -14,9 +14,8 @@ public class MainSceneMain : SceneMain
 
     public override bool InitializeScene()
     {
-#if !UNITY_EDITOR
-        DBManager.Instance.OnFirstReadDataRead();
-#endif
+
+   //    DBManager.Instance.GetMaxClearWaveFromDB();
         //   InvenManager.Instance.LoadItemInvenFromXML();
         return true;
     }

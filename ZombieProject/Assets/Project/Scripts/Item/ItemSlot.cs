@@ -140,7 +140,7 @@ public class ItemSlot : MonoBehaviour
     {
         if (m_Item == null) return;
         
-        if (m_Item.m_ItemStat.m_Lv >= PlayerManager.Instance.m_MaxClearWave)
+        if (m_Item.m_ItemStat.m_Lv > PlayerManager.Instance.m_MaxClearWave)
         {
             m_CanUse = false;
 

@@ -91,7 +91,7 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             m_MaxClearWave = RespawnManager.Instance.m_CurWave;
 #if !UNITY_EDITOR
-            DBManager.Instance.UpdateUserClearWaveToFireBase(m_MaxClearWave);
+         //   DBManager.Instance.UpdateUserClearWaveToFireBase(m_MaxClearWave);
 #endif
         }
     }
@@ -289,9 +289,7 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         LoadPlayerInfo();
 
-#if UNITY_EDITOR
         m_MaxClearWave = 25;
-#endif
 
         if (m_PlayerFactory == null)
         {

@@ -18,6 +18,8 @@ public enum E_PLAYABLE_STATE
     DAGGERIDLE,
     DAGGERATTACK,
     DAGGERWALKING,
+    DAGGERINJURED,
+    DAGGERINJUREDWALK,
     NONE
 }
 
@@ -54,6 +56,8 @@ public class StateController : MonoBehaviour
         InsertState(E_PLAYABLE_STATE.DAGGERIDLE, new DaggerState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.DAGGERATTACK, new DaggerAttackState(m_Character, this));
         InsertState(E_PLAYABLE_STATE.DAGGERWALKING, new DaggerWalkingState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.DAGGERINJURED, new DaggerInjuredState(m_Character, this));
+        InsertState(E_PLAYABLE_STATE.DAGGERINJUREDWALK, new DaggerInjuredWalkState(m_Character, this));
     }
 
     // 인 게임에서 만들어진 후 초기화 임. Initialize과 헷갈 ㄴㄴ

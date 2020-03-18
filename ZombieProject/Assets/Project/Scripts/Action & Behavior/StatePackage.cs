@@ -292,11 +292,14 @@ public class WalkState : PlayerState
         PlayerManager.Instance.UpdateWeaponRange();
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJUREDWALK);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
         }
         if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERWALKING);
         }
         //if(PlayerManager.Instance.m_CurrentEquipedItemObject)
         //    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
@@ -332,16 +335,8 @@ public class InjuredIdleState : PlayerState
     public override void Start()
     {
         CameraManager.Instance.ResetOffsetPosition();
-        if(PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
-        {
-            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-                m_PlayerObject.m_Animator.CrossFade("DaggerInjured", 0.3f, i);
-        }
-        else
-        {
-            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-                m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, i);
-        }
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("InjuredIdle", 0.3f, i);
     }
     public override void End()
     {
@@ -356,6 +351,10 @@ public class InjuredIdleState : PlayerState
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
             else
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+        }
+        if(PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
         }
     }
     public override void AddAction()
@@ -386,13 +385,6 @@ public class InjuredIdleState : PlayerState
                     m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
             }
         });
-
-        BattleUI.GetItemSlot(ITEM_SLOT_SORT.SECOND).RegisterEvent(BUTTON_ACTION.PRESS_ENTER,
-        () =>
-        {
-            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_IDLE)
-                m_StateContoller.ReStart();
-        });
     }
 }
 public class InjuredWalkState : PlayerState
@@ -400,16 +392,8 @@ public class InjuredWalkState : PlayerState
     public InjuredWalkState(MovingObject playerObject, StateController _stateController) : base(playerObject, _stateController) { }
     public override void Start()
     {
-        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
-        {
-            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-                m_PlayerObject.m_Animator.CrossFade("DaggerInjuredWalking", 0.3f, i);
-        }
-        else
-        {
-            for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
-                m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
-        }
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("InjuredWalking", 0.3f, i);
 
         m_PlayerObject.m_Animator.SetFloat("WalkSpeed", 1.0f);
     }
@@ -426,7 +410,10 @@ public class InjuredWalkState : PlayerState
         m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
 
         PlayerManager.Instance.UpdateWeaponRange();
-
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJUREDWALK);
+        }
         ////if (PlayerManager.Instance.m_CurrentEquipedItemObject)
         ////    m_PlayerObject.DrawCircle(PlayerManager.Instance.m_CurrentEquipedItemObject.m_CurrentStat.m_Range);
 
@@ -453,16 +440,19 @@ public class InjuredWalkState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.INJURED_WALKING)
             {
-                if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+                if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+                {
+                    if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+                    else
+                        m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+                }
+                else
                 {
                     if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
                         m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
                     else
                         m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
-                }
-                else
-                {
-                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
                 }
             }
         });
@@ -524,15 +514,20 @@ public class KnockBackState : PlayerState
         {
             yield return null;
         }
-        if (_movingObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
+        else
         {
             if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
             else
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
         }
-        else
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
 
     }
 }
@@ -576,7 +571,12 @@ public class DrinkState : PlayerState
         }
 
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
         else
         {
             if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
@@ -667,7 +667,12 @@ public class UseQuickState : PlayerState
         }
 
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
         else
         {
             if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
@@ -720,7 +725,12 @@ public class PickUpState : PlayerState
         }
 
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
         else
         {
             if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
@@ -758,10 +768,14 @@ public class DaggerState : PlayerState
         PlayerManager.Instance.UpdateWeaponRange();
         if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+            if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+
         }
-        if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        else if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
     }
 
     public override void AddAction()
@@ -864,11 +878,11 @@ public class DaggerAttackState : PlayerState
         {
             if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
             {
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
             }
             else
             {
-                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
             }
         }
     }
@@ -911,7 +925,14 @@ public class DaggerWalkingState : PlayerState
         PlayerManager.Instance.UpdateWeaponRange();
         if (m_PlayerObject.m_Stat.CurHP <= MovingObject.m_InjuredHP)
         {
-            m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJUREDWALK);
+        }
+        if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+        {
+            m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
         }
     }
 
@@ -929,6 +950,125 @@ public class DaggerWalkingState : PlayerState
         {
             if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERWALKING)
                 m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+        });
+    }
+}
+public class DaggerInjuredState : PlayerState
+{
+    public DaggerInjuredState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    public override void Start()
+    {
+        CameraManager.Instance.ResetOffsetPosition();
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("DaggerInjured", 0.3f, i);
+    }
+
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+        PlayerManager.Instance.UpdateWeaponRange();
+        if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.IDLE);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERIDLE);
+        }
+        else
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_IDLE);
+        }
+
+    }
+
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_ENTER,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERINJURED)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJUREDWALK);
+        });
+
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERINJURED)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJUREDWALK);
+        });
+
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERINJURED)
+            {
+                if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort == ITEM_SORT.DAGGER)
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+                else
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.ATTACK);
+            }
+        });
+    }
+}
+public class DaggerInjuredWalkState : PlayerState
+{
+    public DaggerInjuredWalkState(MovingObject playerObject, StateController _stateContoller) : base(playerObject, _stateContoller) { }
+
+    public override void Start()
+    {
+        for (int i = 0; i < m_PlayerObject.m_Animator.layerCount; i++)
+            m_PlayerObject.m_Animator.CrossFade("DaggerInjuredWalking", 0.3f, i);
+    }
+
+    public override void End()
+    {
+    }
+
+    public override void Update()
+    {
+        CameraManager.Instance.AddOffsetVector(BattleUI.m_InputController.m_DragDirectionVector * 4.0f);
+
+        BattleUI.m_InputController.CalculateMoveVector(BattleUI.m_InputController.m_DragDirectionVector);
+        m_PlayerObject.transform.rotation = Quaternion.LookRotation(BattleUI.m_InputController.m_DragDirectionVector);
+        m_PlayerObject.transform.position += BattleUI.m_InputController.m_MoveVector * Time.deltaTime * m_PlayerObject.m_Stat.MoveSpeed; //* 1.0f;
+
+        PlayerManager.Instance.UpdateWeaponRange();
+        if (m_PlayerObject.m_Stat.CurHP > MovingObject.m_InjuredHP)
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.WALKING);
+            else
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERWALKING);
+        }
+        else
+        {
+            if (PlayerManager.Instance.m_CurrentEquipedItemObject.m_Item.m_ItemStat.m_Sort != ITEM_SORT.DAGGER)
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.INJURED_WALKING);
+        }
+    }
+
+    public override void AddAction()
+    {
+        BattleUI.m_InputController.RegisterEvent(BUTTON_ACTION.DRAG_EXIT,
+            () =>
+            {
+                if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERINJUREDWALK)
+                    m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERINJURED);
+            });
+
+        BattleUI.GetItemSlot(ITEM_SLOT_SORT.MAIN).RegisterEvent(BUTTON_ACTION.PRESS_DOWN,
+        () =>
+        {
+            if (m_StateContoller.m_eCurrentState == E_PLAYABLE_STATE.DAGGERINJUREDWALK)
+            {
+                m_StateContoller.ChangeState(E_PLAYABLE_STATE.DAGGERATTACK);
+            }
         });
     }
 }
